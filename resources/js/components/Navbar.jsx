@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeMenu, setActiveMenu] = useState('home');
+  const [activeMenu, setActiveMenu] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -37,11 +37,12 @@ export default function Navbar() {
           
           {/* LOGO SISI KIRI */}
           <a href="/" className="flex items-center group shrink-0 lg:mr-6">
-            <div 
-              style={{ backgroundColor: '#0f2b5c', color: '#ffc107' }}
-              className="w-8 h-8 rounded-md flex items-center justify-center font-black text-lg shadow-sm group-hover:scale-105 transition-transform"
-            >
-              S
+            <div className="h-9 md:h-10 flex items-center">
+              <img 
+                src="/images/logo-spi.png" 
+                alt="Logo PT. Servistama Pro Indonesia" 
+                className="h-full w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              />
             </div>
           </a>
 
@@ -51,24 +52,17 @@ export default function Navbar() {
             {/* Home */}
             <a 
               href="/" 
-              onClick={() => handleMenuClick('home')}
-              className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 hover:text-[#ffc107] ${
-                activeMenu === 'home' 
-                  ? 'border-[#ffc107] text-[#0f2b5c]' 
-                  : 'border-transparent text-[#0f2b5c]'
-              }`}
+              className="px-2.5 py-1.5 transition-all duration-200 border-b-2 border-transparent hover:text-[#ffc107]"
             >
               Home
             </a>
 
-            {/* About Us Dropdown (Termasuk Why Choose Us & Sustainability) */}
+            {/* About Us Dropdown */}
             <div className="relative">
               <button 
                 onClick={() => handleMenuClick('about')} 
                 className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 flex items-center gap-1 focus:outline-none hover:text-[#ffc107] ${
-                  activeMenu === 'about' 
-                    ? 'border-[#ffc107] text-[#0f2b5c]' 
-                    : 'border-transparent text-[#0f2b5c]'
+                  activeMenu === 'about' ? 'border-[#ffc107] text-[#0f2b5c]' : 'border-transparent text-[#0f2b5c]'
                 }`}
               >
                 <span>About Us</span>
@@ -76,16 +70,13 @@ export default function Navbar() {
               </button>
 
               {activeMenu === 'about' && (
-                <div className="absolute top-full left-0 w-[420px] bg-white border border-slate-200 rounded-2xl shadow-xl p-6 mt-3 z-50">
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-xs font-bold text-[#0f2b5c]">
-                    <a href="/about" className="hover:text-[#ffc107] transition py-1">Company Profile</a>
+                <div className="absolute top-full left-0 w-[300px] bg-white border border-slate-200 rounded-2xl shadow-xl p-5 mt-3 z-50">
+                  <div className="flex flex-col space-y-2 text-xs font-bold text-[#0f2b5c]">
+                    <a href="/about" className="hover:text-[#ffc107] transition py-1">Company Profile (Index)</a>
+                    <a href="/about/vision-mission" className="hover:text-[#ffc107] transition py-1">Vision & Mission</a>
+                    <a href="/about/management" className="hover:text-[#ffc107] transition py-1">Management Team</a>
                     <a href="/why-choose-us" className="hover:text-[#ffc107] text-amber-600 transition py-1">Why Choose Us</a>
-                    <a href="/about#vision-mission" className="hover:text-[#ffc107] transition py-1">Vision & Mission</a>
                     <a href="/sustainability" className="hover:text-[#ffc107] text-emerald-600 transition py-1">Sustainability (ESG/HSE)</a>
-                    <a href="/about#core-values" className="hover:text-[#ffc107] transition py-1">Core Values</a>
-                    <a href="/about#milestones" className="hover:text-[#ffc107] transition py-1">Company Milestones</a>
-                    <a href="/about#management-team" className="hover:text-[#ffc107] transition py-1">Management Team</a>
-                    <a href="/about#governance" className="hover:text-[#ffc107] transition py-1">Corporate Governance</a>
                   </div>
                 </div>
               )}
@@ -96,9 +87,7 @@ export default function Navbar() {
               <button 
                 onClick={() => handleMenuClick('products')} 
                 className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 flex items-center gap-1 focus:outline-none hover:text-[#ffc107] ${
-                  activeMenu === 'products' 
-                    ? 'border-[#ffc107] text-[#0f2b5c]' 
-                    : 'border-transparent text-[#0f2b5c]'
+                  activeMenu === 'products' ? 'border-[#ffc107] text-[#0f2b5c]' : 'border-transparent text-[#0f2b5c]'
                 }`}
               >
                 <span>Products</span>
@@ -106,15 +95,11 @@ export default function Navbar() {
               </button>
 
               {activeMenu === 'products' && (
-                <div className="absolute top-full left-0 w-[360px] bg-white border border-slate-200 rounded-2xl shadow-xl p-6 mt-3 z-50">
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-xs font-bold text-[#0f2b5c]">
-                    <a href="/products?category=excavator" className="hover:text-[#ffc107] transition py-1">Excavator</a>
-                    <a href="/products?category=wheel-loader" className="hover:text-[#ffc107] transition py-1">Wheel Loader</a>
-                    <a href="/products?category=motor-grader" className="hover:text-[#ffc107] transition py-1">Motor Grader</a>
-                    <a href="/products?category=crane" className="hover:text-[#ffc107] transition py-1">Crane</a>
-                    <a href="/products?category=dump-truck" className="hover:text-[#ffc107] transition py-1">Dump Truck</a>
-                    <a href="/products?category=mining" className="hover:text-[#ffc107] transition py-1">Mining Equipment</a>
-                    <a href="/products?category=road" className="hover:text-[#ffc107] transition py-1">Road Equipment</a>
+                <div className="absolute top-full left-0 w-[240px] bg-white border border-slate-200 rounded-2xl shadow-xl p-5 mt-3 z-50">
+                  <div className="flex flex-col space-y-2 text-xs font-bold text-[#0f2b5c]">
+                    <a href="/products" className="hover:text-[#ffc107] transition py-1">All Products</a>
+                    <a href="/products/excavator" className="hover:text-[#ffc107] transition py-1">Excavator</a>
+                    <a href="/products/crane" className="hover:text-[#ffc107] transition py-1">Crane</a>
                   </div>
                 </div>
               )}
@@ -125,9 +110,7 @@ export default function Navbar() {
               <button 
                 onClick={() => handleMenuClick('services')} 
                 className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 flex items-center gap-1 focus:outline-none hover:text-[#ffc107] ${
-                  activeMenu === 'services' 
-                    ? 'border-[#ffc107] text-[#0f2b5c]' 
-                    : 'border-transparent text-[#0f2b5c]'
+                  activeMenu === 'services' ? 'border-[#ffc107] text-[#0f2b5c]' : 'border-transparent text-[#0f2b5c]'
                 }`}
               >
                 <span>Services</span>
@@ -135,90 +118,52 @@ export default function Navbar() {
               </button>
 
               {activeMenu === 'services' && (
-                <div className="absolute top-full left-0 w-[380px] bg-white border border-slate-200 rounded-2xl shadow-xl p-6 mt-3 z-50">
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-xs font-bold text-[#0f2b5c]">
-                    <a href="/services#preventive-maint" className="hover:text-[#ffc107] transition py-1">Preventive Maintenance</a>
-                    <a href="/services#corrective-maint" className="hover:text-[#ffc107] transition py-1">Corrective Maintenance</a>
-                    <a href="/services#breakdown-service" className="hover:text-[#ffc107] transition py-1">Breakdown Service</a>
-                    <a href="/services#overhaul-rebuild" className="hover:text-[#ffc107] transition py-1">Overhaul & Rebuild</a>
-                    <a href="/services#oil-analysis" className="hover:text-[#ffc107] transition py-1">Oil & Diagnostic Test</a>
-                    <a href="/services#annual-contract" className="hover:text-[#ffc107] transition py-1">Annual Maintenance Contract</a>
+                <div className="absolute top-full left-0 w-[240px] bg-white border border-slate-200 rounded-2xl shadow-xl p-5 mt-3 z-50">
+                  <div className="flex flex-col space-y-2 text-xs font-bold text-[#0f2b5c]">
+                    <a href="/services" className="hover:text-[#ffc107] transition py-1">All Services</a>
+                    <a href="/services/maintenance" className="hover:text-[#ffc107] transition py-1">Maintenance Support</a>
                   </div>
                 </div>
               )}
             </div>
 
             {/* Spare Parts */}
-            <a 
-              href="/spare-parts" 
-              onClick={() => handleMenuClick('parts')}
-              className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 hover:text-[#ffc107] ${
-                activeMenu === 'parts' 
-                  ? 'border-[#ffc107] text-[#0f2b5c]' 
-                  : 'border-transparent text-[#0f2b5c]'
-              }`}
-            >
+            <a href="/spare-parts" className="px-2.5 py-1.5 transition-all duration-200 border-b-2 border-transparent hover:text-[#ffc107]">
               Spare Parts
             </a>
 
             {/* Knowledge */}
-            <a 
-              href="/knowledge" 
-              onClick={() => handleMenuClick('knowledge')}
-              className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 hover:text-[#ffc107] ${
-                activeMenu === 'knowledge' 
-                  ? 'border-[#ffc107] text-[#0f2b5c]' 
-                  : 'border-transparent text-[#0f2b5c]'
-              }`}
-            >
+            <a href="/knowledge" className="px-2.5 py-1.5 transition-all duration-200 border-b-2 border-transparent hover:text-[#ffc107]">
               Knowledge
             </a>
 
             {/* Media */}
-            <a 
-              href="/media-gallery" 
-              onClick={() => handleMenuClick('media')}
-              className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 hover:text-[#ffc107] ${
-                activeMenu === 'media' 
-                  ? 'border-[#ffc107] text-[#0f2b5c]' 
-                  : 'border-transparent text-[#0f2b5c]'
-              }`}
-            >
+            <a href="/media-gallery" className="px-2.5 py-1.5 transition-all duration-200 border-b-2 border-transparent hover:text-[#ffc107]">
               Media
             </a>
 
             {/* Career */}
-            <a 
-              href="/career" 
-              onClick={() => handleMenuClick('career')}
-              className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 hover:text-[#ffc107] ${
-                activeMenu === 'career' 
-                  ? 'border-[#ffc107] text-[#0f2b5c]' 
-                  : 'border-transparent text-[#0f2b5c]'
-              }`}
-            >
+            <a href="/career" className="px-2.5 py-1.5 transition-all duration-200 border-b-2 border-transparent hover:text-[#ffc107]">
               Career
             </a>
 
             {/* Contact */}
-            <a 
-              href="/contact-us" 
-              onClick={() => handleMenuClick('contact')}
-              className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 hover:text-[#ffc107] ${
-                activeMenu === 'contact' 
-                  ? 'border-[#ffc107] text-[#0f2b5c]' 
-                  : 'border-transparent text-[#0f2b5c]'
-              }`}
-            >
+            <a href="/contact-us" className="px-2.5 py-1.5 transition-all duration-200 border-b-2 border-transparent hover:text-[#ffc107]">
               Contact
             </a>
           </nav>
 
-          {/* BAHASA & UTILITIES */}
-          <div className="hidden lg:flex items-center space-x-2 text-xs font-extrabold text-[#0f2b5c] shrink-0">
-            <span className="hover:text-[#ffc107] cursor-pointer transition">ID</span>
+          {/* BENDERA / PEMILIH BAHASA (MENGGUNAKAN GAMBAR BENDERA SVG) */}
+          <div className="hidden lg:flex items-center space-x-2.5 text-sm shrink-0">
+            <button className="flex items-center gap-1.5 hover:opacity-80 transition cursor-pointer" title="Bahasa Indonesia">
+              <img src="https://flagcdn.com/id.svg" alt="Indonesia" className="w-5 h-3.5 object-cover rounded-xs shadow-xs" />
+              <span className="text-xs font-bold text-[#0f2b5c]">ID</span>
+            </button>
             <span className="text-slate-300 font-normal">|</span>
-            <span style={{ color: '#ffc107' }} className="cursor-pointer">EN</span>
+            <button className="flex items-center gap-1.5 hover:opacity-80 transition cursor-pointer opacity-60 hover:opacity-100" title="English">
+              <img src="https://flagcdn.com/gb.svg" alt="English" className="w-5 h-3.5 object-cover rounded-xs shadow-xs" />
+              <span className="text-xs font-bold text-slate-500">EN</span>
+            </button>
           </div>
 
           {/* MOBILE TOGGLE BUTTON */}
@@ -236,8 +181,10 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="lg:hidden bg-white text-[#0f2b5c] border-b border-slate-200 shadow-xl p-6 font-bold text-sm max-h-[85vh] overflow-y-auto">
           <div className="flex flex-col space-y-3">
-            <a href="/" style={{ color: '#ffc107' }} className="py-2 border-b border-slate-100">Home</a>
-            <a href="/about" className="py-2 border-b border-slate-100">About Us</a>
+            <a href="/" className="py-2 border-b border-slate-100">Home</a>
+            <a href="/about" className="py-2 border-b border-slate-100">About Us (Profile)</a>
+            <a href="/about/vision-mission" className="py-2 border-b border-slate-100 pl-4 text-xs">└ Vision & Mission</a>
+            <a href="/about/management" className="py-2 border-b border-slate-100 pl-4 text-xs">└ Management</a>
             <a href="/why-choose-us" className="py-2 border-b border-slate-100">Why Choose Us</a>
             <a href="/products" className="py-2 border-b border-slate-100">Products & Equipment</a>
             <a href="/services" className="py-2 border-b border-slate-100">Services</a>
@@ -247,6 +194,17 @@ export default function Navbar() {
             <a href="/sustainability" className="py-2 border-b border-slate-100">Sustainability (ESG & HSE)</a>
             <a href="/career" className="py-2 border-b border-slate-100">Career</a>
             <a href="/contact-us" className="py-2">Contact Us</a>
+
+            {/* Pilihan Bahasa Versi Mobile */}
+            <div className="pt-4 border-t border-slate-200 flex items-center gap-4">
+              <span className="text-xs text-slate-400">Bahasa:</span>
+              <button className="flex items-center gap-1 text-xs font-bold text-[#0f2b5c]">
+                <img src="https://flagcdn.com/id.svg" alt="ID" className="w-4 h-3 object-cover rounded-xs" /> ID
+              </button>
+              <button className="flex items-center gap-1 text-xs font-bold text-slate-400">
+                <img src="https://flagcdn.com/gb.svg" alt="EN" className="w-4 h-3 object-cover rounded-xs" /> EN
+              </button>
+            </div>
           </div>
         </div>
       )}
