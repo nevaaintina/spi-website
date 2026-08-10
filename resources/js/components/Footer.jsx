@@ -7,13 +7,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           
           <div className="lg:col-span-2">
+            {/* LOGO FOOTER */}
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-8 h-8 bg-amber-500 rounded flex items-center justify-center font-black text-slate-950 text-xl shadow-sm">
-                S
+              <div className="h-10 md:h-12 flex items-center">
+                <img 
+                  src="/images/logo-spi.png" 
+                  alt="Logo PT. Servistama Pro Indonesia" 
+                  className="h-full w-auto object-contain" 
+                />
               </div>
-              <span className="font-black text-lg text-slate-900 tracking-wider">
-                PT. SERVISTAMA PRO INDONESIA
-              </span>
             </div>
             <p className="text-slate-500 text-xs leading-relaxed mb-4 max-w-sm">
               Authorized Dealer Service & Warranty Heavy Equipment - XCMG Brand. Penyedia Digital Service Platform terintegrasi untuk alat berat pertambangan dan konstruksi.

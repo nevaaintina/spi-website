@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, useRef } from "react";
+=======
+import React from "react";
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import VisionMission from "./VisionMission";
 import Management from "./Management";
 
+<<<<<<< HEAD
 function CounterNumber({ value }) {
   const [count, setCount] = useState(0);
   const elementRef = useRef(null);
@@ -55,6 +60,10 @@ function CounterNumber({ value }) {
 
 /* ------------------------------------------------------------------ */
 /* Inline SVG Icons                                                    */
+=======
+/* ------------------------------------------------------------------ */
+/* Inline SVG Icons                                                   */
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
 /* ------------------------------------------------------------------ */
 
 const IconAward = (props) => (
@@ -180,6 +189,7 @@ const IconTrend = (props) => (
   </svg>
 );
 
+<<<<<<< HEAD
 const IconTarget2 = (props) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
     <circle cx="12" cy="12" r="9" />
@@ -223,6 +233,8 @@ const IconScale = (props) => (
   </svg>
 );
 
+=======
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
 const IconPlay = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
     <path d="M8 5.5v13l11-6.5-11-6.5Z" />
@@ -236,7 +248,11 @@ const IconArrow = (props) => (
 );
 
 /* ------------------------------------------------------------------ */
+<<<<<<< HEAD
 /* Static content data                                                 */
+=======
+/* Static content data                                                */
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
 /* ------------------------------------------------------------------ */
 
 const heroHighlights = [
@@ -297,7 +313,11 @@ const orgChart = [
   { title: "Engineering", icon: IconGear },
   { title: "Workshop", icon: IconBuilding },
   { title: "Marketing", icon: IconTrend },
+<<<<<<< HEAD
   { title: "Finance", icon: IconScale },
+=======
+  { title: "Finance", icon: IconShieldSafety },
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
   { title: "HR & GA", icon: IconUsers },
   { title: "IT Department", icon: IconFocus },
 ];
@@ -305,16 +325,24 @@ const orgChart = [
 const cultureItems = [
   { icon: IconShieldSafety, title: "Safety First", desc: "Safety is our top priority" },
   { icon: IconTrend, title: "Continuous Improvement", desc: "We always strive to be better" },
+<<<<<<< HEAD
   { icon: IconTarget2, title: "Customer Focus", desc: "Customer success is our mission" },
   { icon: IconBulb, title: "Innovation", desc: "We encourage new ideas and solutions" },
   { icon: IconRespect, title: "Respect", desc: "We value every individual" },
   { icon: IconCollab, title: "Collaboration", desc: "We achieve more together" },
+=======
+  { icon: IconAward, title: "Customer Focus", desc: "Customer success is our mission" },
+  { icon: IconBulb, title: "Innovation", desc: "We encourage new ideas and solutions" },
+  { icon: IconUsers, title: "Respect", desc: "We value every individual" },
+  { icon: IconProject, title: "Collaboration", desc: "We achieve more together" },
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
 ];
 
 const governancePrinciples = [
   { icon: IconEye, title: "Transparency", desc: "We conduct business with openness and honesty" },
   { icon: IconCheckBadge, title: "Accountability", desc: "We take responsibility for every decision and action" },
   { icon: IconShieldSafety, title: "Responsibility", desc: "We are responsible to stakeholders and the environment" },
+<<<<<<< HEAD
   { icon: IconScale, title: "Fairness", desc: "We treat everyone fairly and equally" },
 ];
 
@@ -326,6 +354,18 @@ export default function Index() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   return (
     <>
+=======
+  { icon: IconAward, title: "Fairness", desc: "We treat everyone fairly and equally" },
+];
+
+/* ------------------------------------------------------------------ */
+/* Page                                                               */
+/* ------------------------------------------------------------------ */
+
+export default function Index() {
+  return (
+    <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-[#ffc107] selection:text-[#0f2b5c]">
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
       <Navbar />
 
       {/* ============================== HERO ============================== */}
@@ -333,6 +373,7 @@ export default function Index() {
         className="relative flex min-h-[750px] w-full items-center overflow-hidden md:min-h-[820px]"
         style={{
           backgroundImage:
+<<<<<<< HEAD
             "linear-gradient(180deg, rgba(11,18,32,0.75) 0%, rgba(15,43,92,0.55) 50%, rgba(11,18,32,0.85) 100%), url('https://www.total-erp.com/wp-content/uploads/2024/05/dump-truck-tambang.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center 40%",
@@ -341,6 +382,14 @@ export default function Index() {
       >
         
         <div className="mx-auto flex w-full max-w-7xl flex-col justify-between px-4 py-16 sm:px-6 lg:px-8">
+=======
+            "linear-gradient(105deg, rgba(11,18,32,0.92) 0%, rgba(15,43,92,0.82) 45%, rgba(15,43,92,0.45) 100%), url('https://placehold.co/1920x1000/0B1220/0B1220?text=+')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-4 py-24 sm:px-6 lg:grid-cols-2 lg:px-8">
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
           {/* Left column */}
           <div className="flex flex-col justify-center">
             <span className="mb-4 inline-block w-fit text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
@@ -373,6 +422,7 @@ export default function Index() {
             </div>
           </div>
 
+<<<<<<< HEAD
          {/* --- HIGHLIGHTS TURUN KE BAWAH & MEMBENTANG DARI KIRI KE KANAN --- */}
 <div className="mt-14 w-full border-t border-white/15 pt-8">
   <div className="flex w-full items-start justify-between gap-4">
@@ -420,13 +470,59 @@ export default function Index() {
 </div>
 
 </section>
+=======
+          {/* Right column - glass card */}
+          <div className="flex items-center justify-center lg:justify-end">
+            <div className="w-full max-w-sm rounded-2xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur-md">
+              <ul className="space-y-5">
+                {heroHighlights.map((item, i) => {
+                  const Icon = item.icon;
+                  return (
+                    <li key={i} className="flex items-start gap-3.5">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#FFC107]">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <div>
+                        <p className="text-sm font-bold text-white">{item.title}</p>
+                        <p className="text-xs text-white/65">{item.desc}</p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Floating vertical button */}
+        <a
+          href="#request-service"
+          className="absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 items-center gap-2 rounded-l-md bg-[#FFC107] px-3 py-4 text-xs font-bold uppercase tracking-widest text-[#0B1220] shadow-lg transition-all duration-300 hover:px-4 md:flex"
+          style={{ writingMode: "vertical-rl" }}
+        >
+          Request Service
+        </a>
+
+        {/* Scroll down indicator */}
+        <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-white/70">
+          <IconMouse className="h-6 w-6 animate-bounce" />
+          <span className="text-[10px] font-semibold uppercase tracking-widest">
+            Scroll Down
+          </span>
+        </div>
+      </section>
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
 
       {/* ============================== WHO WE ARE ============================== */}
       <section className="bg-white py-16 md:py-20">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-14 lg:px-8">
           <div className="relative">
             <img
+<<<<<<< HEAD
               src="https://protect.cermati.com/wp-content/uploads/2024/07/shutterstock_646064452-1.jpg"
+=======
+              src="https://placehold.co/700x560/0F2B5C/FFFFFF?text=SPI+Engineer"
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
               alt="SPI Engineer"
               className="w-full rounded-2xl object-cover shadow-xl"
             />
@@ -453,7 +549,11 @@ export default function Index() {
                   <div key={i}>
                     <Icon className="h-6 w-6 text-[#FFC107]" />
                     <p className="mt-2 text-xl font-extrabold text-[#0F2B5C] sm:text-2xl">
+<<<<<<< HEAD
                       <CounterNumber value={s.value} />
+=======
+                      {s.value}
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
                     </p>
                     <p className="text-xs text-[#64748B]">{s.label}</p>
                   </div>
@@ -464,6 +564,7 @@ export default function Index() {
         </div>
       </section>
 
+<<<<<<< HEAD
     {/* ============================== COMPANY PROFILE ============================== */}
       <section id="company-profile" className="bg-[#0F2B5C] py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -507,6 +608,38 @@ export default function Index() {
       </section>
 
    {/* ============================== COMPANY HISTORY ============================== */}
+=======
+      {/* ============================== COMPANY PROFILE ============================== */}
+      <section id="company-profile" className="bg-[#F8FAFC] py-16 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl bg-[#0F2B5C] p-7 shadow-xl md:p-10">
+            <span className="mb-6 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
+              Company Profile
+            </span>
+            <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+              {companyProfile.map((row, i) => {
+                const Icon = row.icon;
+                return (
+                  <div key={i} className="flex items-start gap-3.5 border-b border-white/10 pb-4">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#FFC107]">
+                      <Icon className="h-4.5 w-4.5" />
+                    </span>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
+                        {row.label}
+                      </p>
+                      <p className="mt-0.5 text-sm font-semibold text-white">{row.value}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================== COMPANY HISTORY ============================== */}
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
       <section className="bg-white py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="mb-8 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
@@ -514,6 +647,7 @@ export default function Index() {
           </span>
 
           <div className="relative">
+<<<<<<< HEAD
             {/* Garis Penghubung Horizontal */}
             <div className="absolute left-0 right-0 top-6 hidden h-0.5 bg-[#E2E8F0] sm:block" />
 
@@ -539,6 +673,40 @@ export default function Index() {
                   </p>
                 </div>
               ))}
+=======
+            <div className="absolute left-0 right-0 top-6 hidden h-0.5 bg-[#E2E8F0] sm:block" />
+            <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
+              {historyTimeline.map((item, i) => {
+                const isLast = i === historyTimeline.length - 1;
+                return (
+                  <div key={i} className="group relative flex flex-col items-center text-center">
+                    <div
+                      className={`z-10 flex h-12 w-12 items-center justify-center rounded-full border-4 transition-all duration-300 group-hover:scale-110 ${
+                        isLast
+                          ? "border-[#FFC107] bg-[#FFC107] text-[#0B1220]"
+                          : "border-[#0F2B5C] bg-white text-[#0F2B5C]"
+                      }`}
+                    >
+                      <img
+                        src={`https://placehold.co/48x48/${isLast ? "FFC107" : "0F2B5C"}/${
+                          isLast ? "0B1220" : "FFFFFF"
+                        }?text=${item.year.slice(2)}`}
+                        alt={item.year}
+                        className="h-full w-full rounded-full object-cover"
+                      />
+                    </div>
+                    <p
+                      className={`mt-3 text-sm font-extrabold ${
+                        isLast ? "text-[#FFC107]" : "text-[#0F2B5C]"
+                      }`}
+                    >
+                      {item.year}
+                    </p>
+                    <p className="mt-1 max-w-[110px] text-xs text-[#64748B]">{item.title}</p>
+                  </div>
+                );
+              })}
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
             </div>
           </div>
         </div>
@@ -548,6 +716,7 @@ export default function Index() {
       <VisionMission />
 
       {/* ============================== COMPANY STATISTICS ============================== */}
+<<<<<<< HEAD
 <section
   className="relative overflow-hidden bg-[#0B1220] py-16 md:py-20"
   style={{
@@ -580,6 +749,37 @@ export default function Index() {
     </div>
   </div>
 </section>
+=======
+      <section
+        className="relative overflow-hidden bg-[#0B1220] py-16 md:py-20"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(11,18,32,0.95), rgba(15,43,92,0.85)), url('https://placehold.co/1920x600/0B1220/0B1220?text=+')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <span className="mb-8 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
+            Company Statistics
+          </span>
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+            {companyStats.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <div key={i} className="text-center sm:text-left">
+                  <Icon className="mx-auto h-7 w-7 text-[#FFC107] sm:mx-0" />
+                  <p className="mt-3 text-3xl font-extrabold text-white md:text-4xl">
+                    {s.value}
+                  </p>
+                  <p className="mt-1 text-xs text-white/60">{s.label}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
 
       {/* ===================== MILESTONE / ORG STRUCTURE / MANAGEMENT ===================== */}
       <section className="bg-white py-16 md:py-20">
@@ -648,10 +848,16 @@ export default function Index() {
         </div>
       </section>
 
+<<<<<<< HEAD
     {/* ============================== COMPANY CULTURE + GOVERNANCE ============================== */}
       <section className="bg-[#F8FAFC] py-16 md:py-20">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           
+=======
+      {/* ============================== COMPANY CULTURE + GOVERNANCE ============================== */}
+      <section className="bg-[#F8FAFC] py-16 md:py-20">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
           {/* Culture */}
           <div>
             <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
@@ -663,17 +869,27 @@ export default function Index() {
                 return (
                   <div
                     key={i}
+<<<<<<< HEAD
                     className="group flex flex-col items-center rounded-xl border border-[#E2E8F0] bg-white p-4 text-center shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-xl"
                   >
                     <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0F2B5C]/5 text-[#0F2B5C] transition-colors duration-300 group-hover:bg-[#FFC107]">
+=======
+                    className="group flex flex-col items-center rounded-xl border border-[#E2E8F0] bg-white p-4 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                  >
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0F2B5C]/5 text-[#0F2B5C] transition-colors duration-300 group-hover:bg-[#FFC107]/20">
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
                       <Icon className="h-5 w-5" />
                     </span>
                     <p className="mt-2.5 text-xs font-bold leading-tight text-[#0F2B5C]">
                       {c.title}
                     </p>
+<<<<<<< HEAD
                     <p className="mt-1 text-[10px] leading-snug text-[#64748B]">
                       {c.desc}
                     </p>
+=======
+                    <p className="mt-1 text-[10px] leading-snug text-[#64748B]">{c.desc}</p>
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
                   </div>
                 );
               })}
@@ -685,9 +901,13 @@ export default function Index() {
             <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
               Corporate Governance
             </span>
+<<<<<<< HEAD
             
             {/* Kartu Utama Governance (Ditambahkan Efek Hover Timbul & Border Emas) */}
             <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-xl md:p-7">
+=======
+            <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm md:p-7">
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
               <p className="mb-6 text-sm leading-relaxed text-[#64748B]">
                 We are committed to implementing Good Corporate Governance (GCG)
                 principles in every aspect of our business.
@@ -696,6 +916,7 @@ export default function Index() {
                 {governancePrinciples.map((g, i) => {
                   const Icon = g.icon;
                   return (
+<<<<<<< HEAD
                     <div 
                       key={i} 
                       className="group flex items-start gap-3 rounded-xl p-2 transition-all duration-300 hover:bg-[#F8FAFC]"
@@ -710,6 +931,15 @@ export default function Index() {
                         <p className="mt-0.5 text-xs leading-snug text-[#64748B]">
                           {g.desc}
                         </p>
+=======
+                    <div key={i} className="flex items-start gap-3">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#0F2B5C]">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <div>
+                        <p className="text-sm font-bold text-[#0F2B5C]">{g.title}</p>
+                        <p className="mt-0.5 text-xs leading-snug text-[#64748B]">{g.desc}</p>
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
                       </div>
                     </div>
                   );
@@ -717,6 +947,7 @@ export default function Index() {
               </div>
             </div>
           </div>
+<<<<<<< HEAD
 
         </div>
       </section>
@@ -724,11 +955,23 @@ export default function Index() {
      {/* ============================== CTA BANNER ============================== */}
       <section className="grid grid-cols-1 md:grid-cols-2">
         {/* Left - dark image with play & Youtube Cover */}
+=======
+        </div>
+      </section>
+
+      {/* ============================== CTA BANNER ============================== */}
+      <section className="grid grid-cols-1 md:grid-cols-2">
+        {/* Left - dark image with play */}
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
         <div
           className="relative flex min-h-[280px] items-center overflow-hidden px-8 py-14 sm:px-12"
           style={{
             backgroundImage:
+<<<<<<< HEAD
               "linear-gradient(to bottom, rgba(11,18,32,0.70), rgba(11,18,32,0.85)), url('https://img.youtube.com/vi/qIVMKITIV7o/maxresdefault.jpg')",
+=======
+              "linear-gradient(to bottom, rgba(11,18,32,0.75), rgba(11,18,32,0.9)), url('https://placehold.co/960x480/0B1220/0B1220?text=+')",
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -740,6 +983,7 @@ export default function Index() {
             <p className="mt-3 text-sm font-semibold text-[#FFC107]">
               Menjadi fondasi menuju Smart Mining Service Ecosystem.
             </p>
+<<<<<<< HEAD
 
             {/* Tombol Play untuk Membuka Pop-Up Video */}
             <button
@@ -747,6 +991,12 @@ export default function Index() {
               onClick={() => setIsVideoOpen(true)}
               aria-label="Play company video"
               className="mt-6 flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/70 bg-[#0B1220]/40 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-white hover:text-[#0B1220]"
+=======
+            <button
+              type="button"
+              aria-label="Play company video"
+              className="mt-6 flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/70 text-white transition-all duration-300 hover:scale-110 hover:bg-white hover:text-[#0B1220]"
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
             >
               <IconPlay className="ml-1 h-5 w-5" />
             </button>
@@ -790,6 +1040,7 @@ export default function Index() {
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* ============================== MODAL POP-UP VIDEO ============================== */}
       {isVideoOpen && (
         <div 
@@ -822,5 +1073,9 @@ export default function Index() {
         </div>
       )}
     </> 
+=======
+      <Footer />
+    </div>
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
   );
 }

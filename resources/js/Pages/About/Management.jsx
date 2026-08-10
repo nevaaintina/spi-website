@@ -1,4 +1,9 @@
 import React from "react";
+<<<<<<< HEAD
+=======
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
 
 const IconLinkedIn = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -10,31 +15,48 @@ const team = [
   {
     name: "Dedi Wardhana",
     role: "President Director",
+<<<<<<< HEAD
     photo: "https://shanibacreative.com/wp-content/uploads/2020/06/membuat-foto-profil-yang-bagus.jpg",
+=======
+    photo: "https://placehold.co/400x400/0F2B5C/FFFFFF?text=DW",
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
     linkedin: "https://linkedin.com/in/dedi-wardhana",
   },
   {
     name: "Suryadi Kurniawan",
     role: "Operations Director",
+<<<<<<< HEAD
     photo: "https://cdn0-production-images-kly.akamaized.net/2vb-eEK-hKGo8Sndn0hbUQBn974=/1200x675/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/4831450/original/049199300_1715675263-shutterstock_2291046343.jpg",
+=======
+    photo: "https://placehold.co/400x400/0F2B5C/FFFFFF?text=SK",
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
     linkedin: "https://linkedin.com/in/suryadi-kurniawan",
   },
   {
     name: "Andi Wibowo",
     role: "Engineering Manager",
+<<<<<<< HEAD
     photo: "https://imgsrv2.voi.id/ucMV5xxMHmo3zf8YgVYCUgeACm4ec4__Iszf-DWeNYE/auto/1200/675/sm/1/bG9jYWw6Ly8vcHVibGlzaGVycy8zMjMyMDcvMjAyMzEwMjUxMjMzLW1haW4uY3JvcHBlZF8xNjk4MjQ0Mzc2LmpwZw.jpg",
+=======
+    photo: "https://placehold.co/400x400/0F2B5C/FFFFFF?text=AW",
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
     linkedin: "https://linkedin.com/in/andi-wibowo",
   },
   {
     name: "Riza Maulana",
     role: "Marketing Manager",
+<<<<<<< HEAD
     photo: "https://headshots-inc.com/wp-content/uploads/2020/11/Professional-Headshot-Poses-Blog-Post.jpg",
+=======
+    photo: "https://placehold.co/400x400/0F2B5C/FFFFFF?text=RM",
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
     linkedin: "https://linkedin.com/in/riza-maulana",
   },
 ];
 
 export default function Management() {
   return (
+<<<<<<< HEAD
     <div>
       <p className="mb-5 text-xs font-bold uppercase tracking-wider text-[#FFC107]">
         Management Team
@@ -75,6 +97,64 @@ export default function Management() {
           </div>
         ))}
       </div>
+=======
+    <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-[#ffc107] selection:text-[#0f2b5c]">
+      {/* 1. NAVBAR */}
+      <Navbar />
+
+      {/* 2. MAIN CONTENT (Menggunakan desain asli Anda dengan tambahan wrapper section agar pas dipandang) */}
+      <main className="pt-32 pb-24 px-6 md:px-12 max-w-4xl mx-auto">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-black text-[#0F2B5C]">Executive Leadership</h1>
+          <p className="text-xs text-slate-500 mt-2">Get to know the brilliant minds driving our vision forward.</p>
+        </div>
+
+        <div>
+          <p className="mb-5 text-xs font-bold uppercase tracking-wider text-[#FFC107]">
+            Management Team
+          </p>
+
+          <div className="grid grid-cols-2 gap-4">
+            {team.map((person, i) => (
+              <div
+                key={i}
+                className="group overflow-hidden rounded-xl border border-[#E2E8F0] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
+              >
+                <div className="relative aspect-square w-full overflow-hidden bg-[#F8FAFC]">
+                  <img
+                    src={person.photo}
+                    alt={person.name}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                </div>
+
+                <div className="flex items-center justify-between px-3 py-3">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-bold text-[#0F2B5C]">
+                      {person.name}
+                    </p>
+                    <p className="truncate text-xs text-[#64748B]">{person.role}</p>
+                  </div>
+                  <a
+                    href={person.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`LinkedIn ${person.name}`}
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0F2B5C]/5 text-[#0F2B5C] transition-all duration-300 hover:bg-[#0F2B5C] hover:text-white hover:scale-110"
+                  >
+                    <IconLinkedIn className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+
+      {/* 3. FOOTER */}
+      <Footer />
+>>>>>>> 00ecde6a822762c57e06981f682e2e509c1eaef2
     </div>
   );
 }
