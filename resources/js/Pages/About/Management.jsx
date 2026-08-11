@@ -12,25 +12,25 @@ const team = [
   {
     name: "Dedi Wardhana",
     role: "President Director",
-    photo: "https://placehold.co/400x400/0F2B5C/FFFFFF?text=DW",
+    photo: "https://shanibacreative.com/wp-content/uploads/2020/06/membuat-foto-profil-yang-bagus.jpg",
     linkedin: "https://linkedin.com/in/dedi-wardhana",
   },
   {
     name: "Suryadi Kurniawan",
     role: "Operations Director",
-    photo: "https://placehold.co/400x400/0F2B5C/FFFFFF?text=SK",
+    photo: "https://cdn0-production-images-kly.akamaized.net/2vb-eEK-hKGo8Sndn0hbUQBn974=/1200x675/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/4831450/original/049199300_1715675263-shutterstock_2291046343.jpg",
     linkedin: "https://linkedin.com/in/suryadi-kurniawan",
   },
   {
     name: "Andi Wibowo",
     role: "Engineering Manager",
-    photo: "https://placehold.co/400x400/0F2B5C/FFFFFF?text=AW",
+    photo: "https://imgsrv2.voi.id/ucMV5xxMHmo3zf8YgVYCUgeACm4ec4__Iszf-DWeNYE/auto/1200/675/sm/1/bG9jYWw6Ly8vcHVibGlzaGVycy8zMjMyMDcvMjAyMzEwMjUxMjMzLW1haW4uY3JvcHBlZF8xNjk4MjQ0Mzc2LmpwZw.jpg",
     linkedin: "https://linkedin.com/in/andi-wibowo",
   },
   {
     name: "Riza Maulana",
     role: "Marketing Manager",
-    photo: "https://placehold.co/400x400/0F2B5C/FFFFFF?text=RM",
+    photo: "https://headshots-inc.com/wp-content/uploads/2020/11/Professional-Headshot-Poses-Blog-Post.jpg",
     linkedin: "https://linkedin.com/in/riza-maulana",
   },
 ];
@@ -41,7 +41,7 @@ export default function Management() {
       {/* 1. NAVBAR */}
       <Navbar />
 
-      {/* 2. MAIN CONTENT (Menggunakan desain asli Anda dengan tambahan wrapper section agar pas dipandang) */}
+      {/* 2. MAIN CONTENT */}
       <main className="pt-32 pb-24 px-6 md:px-12 max-w-4xl mx-auto">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-black text-[#0F2B5C]">Executive Leadership</h1>

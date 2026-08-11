@@ -1,8 +1,57 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import VisionMission from "./VisionMission";
 import Management from "./Management";
+
+function CounterNumber({ value }) {
+  const [count, setCount] = useState(0);
+  const elementRef = useRef(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  const numericTarget = parseInt(value.replace(/[^0-9]/g, ""), 10) || 0;
+  const suffix = value.replace(/[0-9]/g, "");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+
+          let start = 0;
+          const duration = 2000;
+          const steps = 60;
+          const increment = numericTarget / steps;
+          const stepTime = duration / steps;
+
+          const timer = setInterval(() => {
+            start += increment;
+            if (start >= numericTarget) {
+              setCount(numericTarget);
+              clearInterval(timer);
+            } else {
+              setCount(Math.floor(start));
+            }
+          }, stepTime);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [numericTarget, hasAnimated]);
+
+  return (
+    <span ref={elementRef}>
+      {count}
+      {suffix}
+    </span>
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /* Inline SVG Icons                                                   */
@@ -131,6 +180,49 @@ const IconTrend = (props) => (
   </svg>
 );
 
+const IconTarget2 = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
+    <circle cx="12" cy="12" r="9" />
+    <circle cx="12" cy="12" r="5" />
+    <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+const IconBulb = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
+    <path d="M9 18h6M10 21h4M8 14a4.8 4.8 0 1 1 8 0c-.8 1-1.6 1.8-1.8 3H9.8c-.2-1.2-1-2-1.8-3Z" />
+  </svg>
+);
+
+const IconRespect = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
+    <circle cx="9" cy="8" r="3" />
+    <path d="M3.5 19c.5-3.3 2.7-5 5.5-5s5 1.7 5.5 5" />
+    <path d="m15 8.5 1.8 1.8L20.5 6.6" />
+  </svg>
+);
+
+const IconCollab = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
+    <circle cx="8" cy="8.5" r="2.6" />
+    <circle cx="16" cy="8.5" r="2.6" />
+    <path d="M3 19c.5-3 2.4-4.7 5-4.7S12.5 16 13 19M11 19c.5-3 2.4-4.7 5-4.7S21 16 21.5 19" />
+  </svg>
+);
+
+const IconEye = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
+    <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+    <circle cx="12" cy="12" r="2.8" />
+  </svg>
+);
+
+const IconScale = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
+    <path d="M12 3v18M6 7h12M6 7 3.5 13a2.5 2.5 0 0 0 5 0L6 7ZM18 7l-2.5 6a2.5 2.5 0 0 0 5 0L18 7Z" />
+  </svg>
+);
+
 const IconPlay = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
     <path d="M8 5.5v13l11-6.5-11-6.5Z" />
@@ -205,7 +297,7 @@ const orgChart = [
   { title: "Engineering", icon: IconGear },
   { title: "Workshop", icon: IconBuilding },
   { title: "Marketing", icon: IconTrend },
-  { title: "Finance", icon: IconShieldSafety },
+  { title: "Finance", icon: IconScale },
   { title: "HR & GA", icon: IconUsers },
   { title: "IT Department", icon: IconFocus },
 ];
@@ -213,17 +305,17 @@ const orgChart = [
 const cultureItems = [
   { icon: IconShieldSafety, title: "Safety First", desc: "Safety is our top priority" },
   { icon: IconTrend, title: "Continuous Improvement", desc: "We always strive to be better" },
-  { icon: IconAward, title: "Customer Focus", desc: "Customer success is our mission" },
+  { icon: IconTarget2, title: "Customer Focus", desc: "Customer success is our mission" },
   { icon: IconBulb, title: "Innovation", desc: "We encourage new ideas and solutions" },
-  { icon: IconUsers, title: "Respect", desc: "We value every individual" },
-  { icon: IconProject, title: "Collaboration", desc: "We achieve more together" },
+  { icon: IconRespect, title: "Respect", desc: "We value every individual" },
+  { icon: IconCollab, title: "Collaboration", desc: "We achieve more together" },
 ];
 
 const governancePrinciples = [
   { icon: IconEye, title: "Transparency", desc: "We conduct business with openness and honesty" },
   { icon: IconCheckBadge, title: "Accountability", desc: "We take responsibility for every decision and action" },
   { icon: IconShieldSafety, title: "Responsibility", desc: "We are responsible to stakeholders and the environment" },
-  { icon: IconAward, title: "Fairness", desc: "We treat everyone fairly and equally" },
+  { icon: IconScale, title: "Fairness", desc: "We treat everyone fairly and equally" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -231,6 +323,8 @@ const governancePrinciples = [
 /* ------------------------------------------------------------------ */
 
 export default function Index() {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-[#ffc107] selection:text-[#0f2b5c]">
       <Navbar />
@@ -240,12 +334,13 @@ export default function Index() {
         className="relative flex min-h-[750px] w-full items-center overflow-hidden md:min-h-[820px]"
         style={{
           backgroundImage:
-            "linear-gradient(105deg, rgba(11,18,32,0.92) 0%, rgba(15,43,92,0.82) 45%, rgba(15,43,92,0.45) 100%), url('https://placehold.co/1920x1000/0B1220/0B1220?text=+')",
+            "linear-gradient(180deg, rgba(11,18,32,0.75) 0%, rgba(15,43,92,0.55) 50%, rgba(11,18,32,0.85) 100%), url('https://www.total-erp.com/wp-content/uploads/2024/05/dump-truck-tambang.jpg')",
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "center 40%",
+          backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-4 py-24 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <div className="mx-auto flex w-full max-w-7xl flex-col justify-between px-4 py-16 sm:px-6 lg:px-8">
           {/* Left column */}
           <div className="flex flex-col justify-center">
             <span className="mb-4 inline-block w-fit text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
@@ -278,25 +373,30 @@ export default function Index() {
             </div>
           </div>
 
-          {/* Right column - glass card */}
-          <div className="flex items-center justify-center lg:justify-end">
-            <div className="w-full max-w-sm rounded-2xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur-md">
-              <ul className="space-y-5">
-                {heroHighlights.map((item, i) => {
-                  const Icon = item.icon;
-                  return (
-                    <li key={i} className="flex items-start gap-3.5">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#FFC107]">
-                        <Icon className="h-5 w-5" />
-                      </span>
-                      <div>
-                        <p className="text-sm font-bold text-white">{item.title}</p>
-                        <p className="text-xs text-white/65">{item.desc}</p>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+          {/* --- HIGHLIGHTS TURUN KE BAWAH & MEMBENTANG DARI KIRI KE KANAN --- */}
+          <div className="mt-14 w-full border-t border-white/15 pt-8">
+            <div className="flex w-full items-start justify-between gap-4">
+              {heroHighlights.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <div key={i} className="flex flex-1 flex-col items-start gap-2">
+                    {/* Box Ikon Kuning */}
+                    <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#FFB800] bg-[#FFB800]/10 text-[#FFB800] shadow-sm">
+                      <Icon className="h-5 w-5 stroke-[2]" />
+                    </div>
+
+                    {/* Teks Judul & Deskripsi */}
+                    <div>
+                      <p className="text-[11px] font-extrabold uppercase tracking-wider text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                        {item.title}
+                      </p>
+                      <p className="mt-0.5 text-[10px] leading-tight text-slate-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -324,7 +424,7 @@ export default function Index() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-14 lg:px-8">
           <div className="relative">
             <img
-              src="https://placehold.co/700x560/0F2B5C/FFFFFF?text=SPI+Engineer"
+              src="https://protect.cermati.com/wp-content/uploads/2024/07/shutterstock_646064452-1.jpg"
               alt="SPI Engineer"
               className="w-full rounded-2xl object-cover shadow-xl"
             />
@@ -351,7 +451,7 @@ export default function Index() {
                   <div key={i}>
                     <Icon className="h-6 w-6 text-[#FFC107]" />
                     <p className="mt-2 text-xl font-extrabold text-[#0F2B5C] sm:text-2xl">
-                      {s.value}
+                      <CounterNumber value={s.value} />
                     </p>
                     <p className="text-xs text-[#64748B]">{s.label}</p>
                   </div>
@@ -363,31 +463,44 @@ export default function Index() {
       </section>
 
       {/* ============================== COMPANY PROFILE ============================== */}
-      <section id="company-profile" className="bg-[#F8FAFC] py-16 md:py-20">
+      <section id="company-profile" className="bg-[#0F2B5C] py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl bg-[#0F2B5C] p-7 shadow-xl md:p-10">
-            <span className="mb-6 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
+          
+          {/* Header Title */}
+          <div className="mb-8">
+            <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
               Company Profile
             </span>
-            <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-              {companyProfile.map((row, i) => {
-                const Icon = row.icon;
-                return (
-                  <div key={i} className="flex items-start gap-3.5 border-b border-white/10 pb-4">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#FFC107]">
-                      <Icon className="h-4.5 w-4.5" />
-                    </span>
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wide text-white/50">
-                        {row.label}
-                      </p>
-                      <p className="mt-0.5 text-sm font-semibold text-white">{row.value}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
           </div>
+
+          {/* Grid Horisontal (Menyamping): 3 Kolom di Layar Besar */}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {companyProfile.map((row, i) => {
+              const Icon = row.icon;
+              return (
+                <div
+                  key={i}
+                  className="group flex items-center gap-4 rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-2xl"
+                >
+                  {/* Icon Box */}
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#0F2B5C]/5 text-[#0F2B5C] transition-all duration-300 group-hover:bg-[#FFC107] group-hover:text-[#0F2B5C]">
+                    <Icon className="h-6 w-6" />
+                  </div>
+
+                  {/* Text Label & Value */}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] transition-colors group-hover:text-[#0F2B5C]">
+                      {row.label}
+                    </p>
+                    <p className="mt-0.5 text-sm font-bold text-[#0F2B5C]">
+                      {row.value}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
         </div>
       </section>
 
@@ -399,38 +512,31 @@ export default function Index() {
           </span>
 
           <div className="relative">
+            {/* Garis Penghubung Horizontal */}
             <div className="absolute left-0 right-0 top-6 hidden h-0.5 bg-[#E2E8F0] sm:block" />
+
             <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
-              {historyTimeline.map((item, i) => {
-                const isLast = i === historyTimeline.length - 1;
-                return (
-                  <div key={i} className="group relative flex flex-col items-center text-center">
-                    <div
-                      className={`z-10 flex h-12 w-12 items-center justify-center rounded-full border-4 transition-all duration-300 group-hover:scale-110 ${
-                        isLast
-                          ? "border-[#FFC107] bg-[#FFC107] text-[#0B1220]"
-                          : "border-[#0F2B5C] bg-white text-[#0F2B5C]"
-                      }`}
-                    >
-                      <img
-                        src={`https://placehold.co/48x48/${isLast ? "FFC107" : "0F2B5C"}/${
-                          isLast ? "0B1220" : "FFFFFF"
-                        }?text=${item.year.slice(2)}`}
-                        alt={item.year}
-                        className="h-full w-full rounded-full object-cover"
-                      />
-                    </div>
-                    <p
-                      className={`mt-3 text-sm font-extrabold ${
-                        isLast ? "text-[#FFC107]" : "text-[#0F2B5C]"
-                      }`}
-                    >
-                      {item.year}
-                    </p>
-                    <p className="mt-1 max-w-[110px] text-xs text-[#64748B]">{item.title}</p>
+              {historyTimeline.map((item, i) => (
+                <div key={i} className="group relative flex cursor-pointer flex-col items-center text-center">
+                  
+                  {/* Lingkaran Tahun (Default Biru -> Hover Kuning) */}
+                  <div
+                    className="z-10 flex h-12 w-12 items-center justify-center rounded-full bg-[#0F2B5C] text-xs font-extrabold text-white shadow-md transition-all duration-300 group-hover:scale-110 group-hover:bg-[#FFC107] group-hover:text-[#0B1220] group-hover:shadow-lg group-hover:shadow-[#FFC107]/40"
+                  >
+                    {item.year ? item.year.toString().slice(-2) : ""}
                   </div>
-                );
-              })}
+
+                  {/* Teks Tahun (Default Biru -> Hover Kuning) */}
+                  <p className="mt-3 text-sm font-extrabold text-[#0F2B5C] transition-colors duration-300 group-hover:text-[#FFC107]">
+                    {item.year}
+                  </p>
+
+                  {/* Deskripsi */}
+                  <p className="mt-1 max-w-[110px] text-xs text-[#64748B] transition-colors duration-300 group-hover:text-[#0F2B5C]">
+                    {item.title}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -459,9 +565,12 @@ export default function Index() {
               return (
                 <div key={i} className="text-center sm:text-left">
                   <Icon className="mx-auto h-7 w-7 text-[#FFC107] sm:mx-0" />
+                  
+                  {/* Panggil CounterNumber di sini */}
                   <p className="mt-3 text-3xl font-extrabold text-white md:text-4xl">
-                    {s.value}
+                    <CounterNumber value={s.value} />
                   </p>
+                  
                   <p className="mt-1 text-xs text-white/60">{s.label}</p>
                 </div>
               );
@@ -540,6 +649,7 @@ export default function Index() {
       {/* ============================== COMPANY CULTURE + GOVERNANCE ============================== */}
       <section className="bg-[#F8FAFC] py-16 md:py-20">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+          
           {/* Culture */}
           <div>
             <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
@@ -551,15 +661,17 @@ export default function Index() {
                 return (
                   <div
                     key={i}
-                    className="group flex flex-col items-center rounded-xl border border-[#E2E8F0] bg-white p-4 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                    className="group flex flex-col items-center rounded-xl border border-[#E2E8F0] bg-white p-4 text-center shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-xl"
                   >
-                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0F2B5C]/5 text-[#0F2B5C] transition-colors duration-300 group-hover:bg-[#FFC107]/20">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0F2B5C]/5 text-[#0F2B5C] transition-colors duration-300 group-hover:bg-[#FFC107]">
                       <Icon className="h-5 w-5" />
                     </span>
                     <p className="mt-2.5 text-xs font-bold leading-tight text-[#0F2B5C]">
                       {c.title}
                     </p>
-                    <p className="mt-1 text-[10px] leading-snug text-[#64748B]">{c.desc}</p>
+                    <p className="mt-1 text-[10px] leading-snug text-[#64748B]">
+                      {c.desc}
+                    </p>
                   </div>
                 );
               })}
@@ -571,7 +683,9 @@ export default function Index() {
             <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
               Corporate Governance
             </span>
-            <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm md:p-7">
+            
+            {/* Kartu Utama Governance (Ditambahkan Efek Hover Timbul & Border Emas) */}
+            <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-xl md:p-7">
               <p className="mb-6 text-sm leading-relaxed text-[#64748B]">
                 We are committed to implementing Good Corporate Governance (GCG)
                 principles in every aspect of our business.
@@ -580,13 +694,20 @@ export default function Index() {
                 {governancePrinciples.map((g, i) => {
                   const Icon = g.icon;
                   return (
-                    <div key={i} className="flex items-start gap-3">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#0F2B5C]">
+                    <div 
+                      key={i} 
+                      className="group flex items-start gap-3 rounded-xl p-2 transition-all duration-300 hover:bg-[#F8FAFC]"
+                    >
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#0F2B5C] transition-all duration-300 group-hover:bg-[#FFC107] group-hover:scale-105">
                         <Icon className="h-5 w-5" />
                       </span>
                       <div>
-                        <p className="text-sm font-bold text-[#0F2B5C]">{g.title}</p>
-                        <p className="mt-0.5 text-xs leading-snug text-[#64748B]">{g.desc}</p>
+                        <p className="text-sm font-bold text-[#0F2B5C]">
+                          {g.title}
+                        </p>
+                        <p className="mt-0.5 text-xs leading-snug text-[#64748B]">
+                          {g.desc}
+                        </p>
                       </div>
                     </div>
                   );
@@ -594,17 +715,18 @@ export default function Index() {
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
       {/* ============================== CTA BANNER ============================== */}
       <section className="grid grid-cols-1 md:grid-cols-2">
-        {/* Left - dark image with play */}
+        {/* Left - dark image with play & Youtube Cover */}
         <div
           className="relative flex min-h-[280px] items-center overflow-hidden px-8 py-14 sm:px-12"
           style={{
             backgroundImage:
-              "linear-gradient(to bottom, rgba(11,18,32,0.75), rgba(11,18,32,0.9)), url('https://placehold.co/960x480/0B1220/0B1220?text=+')",
+              "linear-gradient(to bottom, rgba(11,18,32,0.70), rgba(11,18,32,0.85)), url('https://img.youtube.com/vi/qIVMKITIV7o/maxresdefault.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -616,10 +738,13 @@ export default function Index() {
             <p className="mt-3 text-sm font-semibold text-[#FFC107]">
               Menjadi fondasi menuju Smart Mining Service Ecosystem.
             </p>
+
+            {/* Tombol Play untuk Membuka Pop-Up Video */}
             <button
               type="button"
+              onClick={() => setIsVideoOpen(true)}
               aria-label="Play company video"
-              className="mt-6 flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/70 text-white transition-all duration-300 hover:scale-110 hover:bg-white hover:text-[#0B1220]"
+              className="mt-6 flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/70 bg-[#0B1220]/40 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-white hover:text-[#0B1220]"
             >
               <IconPlay className="ml-1 h-5 w-5" />
             </button>
@@ -662,6 +787,38 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      {/* ============================== MODAL POP-UP VIDEO ============================== */}
+      {isVideoOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          onClick={() => setIsVideoOpen(false)}
+        >
+          <div 
+            className="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-black shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Tombol Close (X) */}
+            <button
+              onClick={() => setIsVideoOpen(false)}
+              className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white hover:bg-white hover:text-black transition-all"
+            >
+              ✕
+            </button>
+
+            {/* Pemutar Video YouTube Embed */}
+            <div className="relative aspect-video w-full">
+              <iframe
+                className="h-full w-full"
+                src="https://www.youtube.com/embed/qIVMKITIV7o?autoplay=1"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
