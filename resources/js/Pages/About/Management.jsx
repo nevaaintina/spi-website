@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "@/Components/Navbar";
-import Footer from "@/Components/Footer";
 
 const IconLinkedIn = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -41,13 +40,8 @@ export default function Management() {
       {/* 1. NAVBAR */}
       <Navbar />
 
-      {/* 2. MAIN CONTENT */}
-      <main className="pt-32 pb-24 px-6 md:px-12 max-w-4xl mx-auto">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-black text-[#0F2B5C]">Executive Leadership</h1>
-          <p className="text-xs text-slate-500 mt-2">Get to know the brilliant minds driving our vision forward.</p>
-        </div>
-
+      {/* 2. MAIN CONTENT - pt-0 agar posisi Management Team langsung naik sejajar */}
+      <main className="pt-0 pb-24 px-6 md:px-12 max-w-4xl mx-auto">
         <div>
           <p className="mb-5 text-xs font-bold uppercase tracking-wider text-[#FFC107]">
             Management Team
@@ -90,9 +84,6 @@ export default function Management() {
           </div>
         </div>
       </main>
-
-      {/* 3. FOOTER */}
-      <Footer />
     </div>
   );
 }
