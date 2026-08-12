@@ -70,17 +70,37 @@ export default function Navbar() {
           {/* MENU UTAMA */}
           <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2 font-bold text-xs md:text-sm text-[#0f2b5c]">
             
-            {/* Home */}
-            <a 
-              href="/" 
-              className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 hover:text-[#ffc107] ${
-                isActive('/') ? 'border-[#ffc107] text-[#ffc107]' : 'border-transparent text-[#0f2b5c]'
-              }`}
-            >
-              Home
-            </a>
+            {/* Home dengan Dropdown Sections (2 Kolom, Tanpa Call to Action) */}
+            <div className="relative">
+              <button 
+                onClick={() => handleMenuClick('home')} 
+                className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 flex items-center gap-1 focus:outline-none hover:text-[#ffc107] ${
+                  activeMenu === 'home' || isActive('/') ? 'border-[#ffc107] text-[#ffc107]' : 'border-transparent text-[#0f2b5c]'
+                }`}
+              >
+                <span>Home</span>
+                <span className="text-[10px]">▼</span>
+              </button>
 
-            {/* About Us Dropdown (Semi-transparan) */}
+              {activeMenu === 'home' && (
+                <div className="absolute top-full left-0 w-[420px] bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 mt-3 z-50">
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-xs font-bold text-[#0f2b5c]">
+                    <a href="/" className="hover:text-[#ffc107] transition py-1 col-span-2 border-b border-slate-100 font-black">Top of Home</a>
+                    <a href="/#about" className="hover:text-[#ffc107] transition py-1">• Company Introduction</a>
+                    <a href="/#statistics" className="hover:text-[#ffc107] transition py-1">• Company Statistics</a>
+                    <a href="/#strength" className="hover:text-[#ffc107] transition py-1">• Company Strength</a>
+                    <a href="/#services" className="hover:text-[#ffc107] transition py-1">• Featured Services</a>
+                    <a href="/#testimonials" className="hover:text-[#ffc107] transition py-1">• Customer Testimonials</a>
+                    <a href="/#projects" className="hover:text-[#ffc107] transition py-1">• Project Gallery</a>
+                    <a href="/#news" className="hover:text-[#ffc107] transition py-1">• Latest News</a>
+                    <a href="/#contact" className="hover:text-[#ffc107] transition py-1">• Contact Information</a>
+                    <a href="/#operational-area" className="hover:text-[#ffc107] transition py-1 col-span-2 text-amber-600 font-black">└ Branch Office</a>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* About Us Dropdown (2 Kolom) */}
             <div className="relative">
               <button 
                 onClick={() => handleMenuClick('about')} 
@@ -93,19 +113,20 @@ export default function Navbar() {
               </button>
 
               {activeMenu === 'about' && (
-                <div className="absolute top-full left-0 w-[300px] bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 mt-3 z-50">
-                  <div className="flex flex-col space-y-2 text-xs font-bold text-[#0f2b5c]">
-                    <a href="/about" className="hover:text-[#ffc107] transition py-1">Company Profile</a>
-                    <a href="/about/vision-mission" className="hover:text-[#ffc107] transition py-1">Vision & Mission</a>
-                    <a href="/about/management" className="hover:text-[#ffc107] transition py-1">Management Team</a>
-                    <a href="/why-choose-us" className="hover:text-[#ffc107] text-amber-600 transition py-1">Why Choose Us</a>
-                    <a href="/sustainability" className="hover:text-[#ffc107] text-emerald-600 transition py-1">Sustainability (ESG/HSE)</a>
+                <div className="absolute top-full left-0 w-[380px] bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 mt-3 z-50">
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs font-bold text-[#0f2b5c]">
+                    <a href="/about" className="hover:text-[#ffc107] transition py-1 col-span-2 border-b border-slate-100 font-black">Company Profile Overview</a>
+                    <a href="/about" className="hover:text-[#ffc107] transition py-1">• Company Profile</a>
+                    <a href="/about/vision-mission" className="hover:text-[#ffc107] transition py-1">• Vision & Mission</a>
+                    <a href="/about/management" className="hover:text-[#ffc107] transition py-1">• Management Team</a>
+                    <a href="/why-choose-us" className="hover:text-[#ffc107] text-amber-600 transition py-1">• Why Choose Us</a>
+                    <a href="/sustainability" className="hover:text-[#ffc107] text-emerald-600 transition py-1 col-span-2">• Sustainability (ESG/HSE)</a>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Products Dropdown (Diperbarui dengan daftar produk baru & Semi-transparan) */}
+            {/* Products Dropdown (2 Kolom) */}
             <div className="relative">
               <button 
                 onClick={() => handleMenuClick('products')} 
@@ -118,22 +139,22 @@ export default function Navbar() {
               </button>
 
               {activeMenu === 'products' && (
-                <div className="absolute top-full left-0 w-[240px] bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 mt-3 z-50">
-                  <div className="flex flex-col space-y-2 text-xs font-bold text-[#0f2b5c]">
-                    <a href="/products" className="hover:text-[#ffc107] transition pb-1 border-b border-slate-100 font-black">All Products</a>
-                    <a href="/products/excavator" className="hover:text-[#ffc107] transition py-1">Excavator</a>
-                    <a href="/products/wheel-loader" className="hover:text-[#ffc107] transition py-1">Wheel Loader</a>
-                    <a href="/products/motor-grader" className="hover:text-[#ffc107] transition py-1">Motor Grader</a>
-                    <a href="/products/crane" className="hover:text-[#ffc107] transition py-1">Crane</a>
-                    <a href="/products/dump-truck" className="hover:text-[#ffc107] transition py-1">Dump Truck</a>
-                    <a href="/products/mining-equipment" className="hover:text-[#ffc107] transition py-1">Mining Equipment</a>
-                    <a href="/products/road" className="hover:text-[#ffc107] transition py-1">Road</a>
+                <div className="absolute top-full left-0 w-[380px] bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 mt-3 z-50">
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs font-bold text-[#0f2b5c]">
+                    <a href="/products" className="hover:text-[#ffc107] transition pb-1 col-span-2 border-b border-slate-100 font-black">All Products</a>
+                    <a href="/products/excavator" className="hover:text-[#ffc107] transition py-1">• Excavator</a>
+                    <a href="/products/wheel-loader" className="hover:text-[#ffc107] transition py-1">• Wheel Loader</a>
+                    <a href="/products/motor-grader" className="hover:text-[#ffc107] transition py-1">• Motor Grader</a>
+                    <a href="/products/crane" className="hover:text-[#ffc107] transition py-1">• Crane</a>
+                    <a href="/products/dump-truck" className="hover:text-[#ffc107] transition py-1">• Dump Truck</a>
+                    <a href="/products/mining-equipment" className="hover:text-[#ffc107] transition py-1">• Mining Equipment</a>
+                    <a href="/products/road" className="hover:text-[#ffc107] transition py-1 col-span-2">• Road Equipment</a>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Services Dropdown (Hanya menampilkan Sub-bab utama & Semi-transparan) */}
+            {/* Services Dropdown (2 Kolom) */}
             <div className="relative">
               <button 
                 onClick={() => handleMenuClick('services')} 
@@ -146,28 +167,23 @@ export default function Navbar() {
               </button>
 
               {activeMenu === 'services' && (
-                <div className="absolute top-full left-0 w-[350px] bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 mt-3 z-50 max-h-[75vh] overflow-y-auto">
-                  <div className="flex flex-col space-y-2.5 text-xs text-[#0f2b5c] font-bold">
-                    <a href="/services" className="hover:text-[#ffc107] transition pb-2 border-b border-slate-100 font-black">All Services Overview</a>
-                    
-                    <a href="/services/maintenance-repair" className="hover:text-[#ffc107] transition py-1.5 px-2 rounded-lg hover:bg-slate-100/60">
-                      Maintenance & Repair (Perawatan & Perbaikan)
+                <div className="absolute top-full left-0 w-[440px] bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 mt-3 z-50">
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-xs text-[#0f2b5c] font-bold">
+                    <a href="/services" className="hover:text-[#ffc107] transition pb-2 col-span-2 border-b border-slate-100 font-black">All Services Overview</a>
+                    <a href="/services/maintenance-repair" className="hover:text-[#ffc107] transition py-1 rounded-lg">
+                      • Maintenance & Repair
                     </a>
-                    
-                    <a href="/services/installation-commissioning" className="hover:text-[#ffc107] transition py-1.5 px-2 rounded-lg hover:bg-slate-100/60">
-                      Installation & Commissioning (Pemasangan & Pengujian)
+                    <a href="/services/installation-commissioning" className="hover:text-[#ffc107] transition py-1 rounded-lg">
+                      • Installation & Commissioning
                     </a>
-
-                    <a href="/services/overhaul-rebuild" className="hover:text-[#ffc107] transition py-1.5 px-2 rounded-lg hover:bg-slate-100/60">
-                      Overhaul & Rebuild (Restorasi Total)
+                    <a href="/services/overhaul-rebuild" className="hover:text-[#ffc107] transition py-1 rounded-lg">
+                      • Overhaul & Rebuild
                     </a>
-
-                    <a href="/services/inspection-testing" className="hover:text-[#ffc107] transition py-1.5 px-2 rounded-lg hover:bg-slate-100/60">
-                      Inspection & Testing (Inspeksi & Pengujian Teknis)
+                    <a href="/services/inspection-testing" className="hover:text-[#ffc107] transition py-1 rounded-lg">
+                      • Inspection & Testing
                     </a>
-
-                    <a href="/services/contract-consulting" className="hover:text-[#ffc107] transition py-1.5 px-2 rounded-lg hover:bg-slate-100/60">
-                      Contract & Consulting (Kontrak & Konsultasi)
+                    <a href="/services/contract-consulting" className="hover:text-[#ffc107] transition py-1 rounded-lg col-span-2">
+                      • Contract & Consulting
                     </a>
                   </div>
                 </div>
@@ -254,6 +270,16 @@ export default function Navbar() {
         <div className="lg:hidden bg-white/95 backdrop-blur-md text-[#0f2b5c] border-b border-slate-200 shadow-xl p-6 font-bold text-sm max-h-[85vh] overflow-y-auto">
           <div className="flex flex-col space-y-3">
             <a href="/" className="py-2 border-b border-slate-100">Home</a>
+            <a href="/#about" className="py-2 border-b border-slate-100 pl-4 text-xs font-normal">└ Company Introduction</a>
+            <a href="/#statistics" className="py-2 border-b border-slate-100 pl-4 text-xs font-normal">└ Company Statistics</a>
+            <a href="/#strength" className="py-2 border-b border-slate-100 pl-4 text-xs font-normal">└ Company Strength</a>
+            <a href="/#services" className="py-2 border-b border-slate-100 pl-4 text-xs font-normal">└ Featured Services</a>
+            <a href="/#testimonials" className="py-2 border-b border-slate-100 pl-4 text-xs font-normal">└ Customer Testimonials</a>
+            <a href="/#projects" className="py-2 border-b border-slate-100 pl-4 text-xs font-normal">└ Project Gallery</a>
+            <a href="/#news" className="py-2 border-b border-slate-100 pl-4 text-xs font-normal">└ Latest News</a>
+            <a href="/#contact" className="py-2 border-b border-slate-100 pl-4 text-xs font-normal">└ Contact Information</a>
+            <a href="/#operational-area" className="py-2 border-b border-slate-100 pl-4 text-xs font-normal text-amber-600">└ Branch Office</a>
+
             <a href="/about" className="py-2 border-b border-slate-100">About Us (Profile)</a>
             <a href="/about/vision-mission" className="py-2 border-b border-slate-100 pl-4 text-xs">└ Vision & Mission</a>
             <a href="/about/management" className="py-2 border-b border-slate-100 pl-4 text-xs">└ Management</a>
