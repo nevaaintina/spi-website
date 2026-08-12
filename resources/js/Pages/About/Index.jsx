@@ -564,6 +564,7 @@ const milestones = [
 ];
 
 const orgChart = [
+<<<<<<< HEAD
   {
     title: "Engineering",
     icon: IconGear,
@@ -648,11 +649,42 @@ const governancePrinciples = [
 
 /* ------------------------------------------------------------------ */
 /* Page                                                               */
+=======
+  { title: "Engineering", icon: IconGear },
+  { title: "Workshop", icon: IconBuilding },
+  { title: "Marketing", icon: IconTrend },
+  { title: "Finance", icon: IconScale },
+  { title: "HR & GA", icon: IconUsers },
+  { title: "IT Department", icon: IconFocus },
+];
+
+const cultureItems = [
+  { icon: IconShieldSafety, title: "Safety First", desc: "Safety is our top priority" },
+  { icon: IconTrend, title: "Continuous Improvement", desc: "We always strive to be better" },
+  { icon: IconTarget2, title: "Customer Focus", desc: "Customer success is our mission" },
+  { icon: IconBulb, title: "Innovation", desc: "We encourage new ideas and solutions" },
+  { icon: IconRespect, title: "Respect", desc: "We value every individual" },
+  { icon: IconCollab, title: "Collaboration", desc: "We achieve more together" },
+];
+
+const governancePrinciples = [
+  { icon: IconEye, title: "Transparency", desc: "We conduct business with openness and honesty" },
+  { icon: IconCheckBadge, title: "Accountability", desc: "We take responsibility for every decision and action" },
+  { icon: IconShieldSafety, title: "Responsibility", desc: "We are responsible to stakeholders and the environment" },
+  { icon: IconScale, title: "Fairness", desc: "We treat everyone fairly and equally" },
+];
+
+/* ------------------------------------------------------------------ */
+/* Page                                                                 */
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
 /* ------------------------------------------------------------------ */
 
 export default function Index() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
   return (
     <>
       <Navbar />
@@ -706,6 +738,7 @@ export default function Index() {
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* Highlights */}
           <div className="mt-14 w-full border-t border-white/15 pt-8">
             <div className="flex w-full items-start justify-between gap-4">
@@ -755,6 +788,55 @@ export default function Index() {
           </span>
         </div>
       </section>
+=======
+         {/* --- HIGHLIGHTS TURUN KE BAWAH & MEMBENTANG DARI KIRI KE KANAN --- */}
+<div className="mt-14 w-full border-t border-white/15 pt-8">
+  <div className="flex w-full items-start justify-between gap-4">
+    {heroHighlights.map((item, i) => {
+      const Icon = item.icon;
+      return (
+        <div key={i} className="flex flex-1 flex-col items-start gap-2">
+          {/* Box Ikon Kuning */}
+          <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#FFB800] bg-[#FFB800]/10 text-[#FFB800] shadow-sm">
+            <Icon className="h-5 w-5 stroke-[2]" />
+          </div>
+
+          {/* Teks Judul & Deskripsi */}
+          <div>
+            <p className="text-[11px] font-extrabold uppercase tracking-wider text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+              {item.title}
+            </p>
+            <p className="mt-0.5 text-[10px] leading-tight text-slate-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+              {item.desc}
+            </p>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
+        </div>
+
+
+{/* Floating vertical button */}
+<a
+  href="#request-service"
+  className="absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 items-center gap-2 rounded-l-md bg-[#FFC107] px-3 py-4 text-xs font-bold uppercase tracking-widest text-[#0B1220] shadow-lg transition-all duration-300 hover:px-4 md:flex"
+  style={{ writingMode: "vertical-rl" }}
+>
+  Request Service
+</a>
+
+{/* Scroll down indicator */}
+<div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-white/70">
+  <IconMouse className="h-6 w-6 animate-bounce" />
+  <span className="text-[10px] font-semibold uppercase tracking-widest">
+    Scroll Down
+  </span>
+</div>
+
+</section>
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
 
       {/* ============================== WHO WE ARE ============================== */}
       <section className="bg-white py-16 md:py-20">
@@ -805,36 +887,62 @@ export default function Index() {
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* ============================== COMPANY PROFILE ============================== */}
       <section
         id="company-profile"
         className="bg-[#0F2B5C] py-16 md:py-20"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+=======
+    {/* ============================== COMPANY PROFILE ============================== */}
+      <section id="company-profile" className="bg-[#0F2B5C] py-16 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          
+          {/* Header Title */}
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
           <div className="mb-8">
             <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
               Company Profile
             </span>
           </div>
 
+<<<<<<< HEAD
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {companyProfile.map((row, i) => {
               const Icon = row.icon;
 
+=======
+          {/* Grid Horisontal (Menyamping): 3 Kolom di Layar Besar */}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {companyProfile.map((row, i) => {
+              const Icon = row.icon;
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
               return (
                 <div
                   key={i}
                   className="group flex items-center gap-4 rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-2xl"
                 >
+<<<<<<< HEAD
+=======
+                  {/* Icon Box */}
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#0F2B5C]/5 text-[#0F2B5C] transition-all duration-300 group-hover:bg-[#FFC107] group-hover:text-[#0F2B5C]">
                     <Icon className="h-6 w-6" />
                   </div>
 
+<<<<<<< HEAD
+=======
+                  {/* Text Label & Value */}
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
                   <div className="min-w-0 flex-1">
                     <p className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] transition-colors group-hover:text-[#0F2B5C]">
                       {row.label}
                     </p>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
                     <p className="mt-0.5 text-sm font-bold text-[#0F2B5C]">
                       {row.value}
                     </p>
@@ -843,10 +951,18 @@ export default function Index() {
               );
             })}
           </div>
+<<<<<<< HEAD
         </div>
       </section>
 
       {/* ============================== COMPANY HISTORY ============================== */}
+=======
+
+        </div>
+      </section>
+
+   {/* ============================== COMPANY HISTORY ============================== */}
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
       <section className="bg-white py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="mb-8 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
@@ -854,6 +970,10 @@ export default function Index() {
           </span>
 
           <div className="relative">
+<<<<<<< HEAD
+=======
+            {/* Garis Penghubung Horizontal */}
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
             <div className="absolute left-0 right-0 top-6 hidden h-0.5 bg-[#E2E8F0] sm:block" />
 
             <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
@@ -884,6 +1004,7 @@ export default function Index() {
       <VisionMission />
 
       {/* ============================== COMPANY STATISTICS ============================== */}
+<<<<<<< HEAD
       <section
         className="relative overflow-hidden bg-[#0B1220] py-16 md:py-20"
         style={{
@@ -919,6 +1040,40 @@ export default function Index() {
           </div>
         </div>
       </section>
+=======
+<section
+  className="relative overflow-hidden bg-[#0B1220] py-16 md:py-20"
+  style={{
+    backgroundImage:
+      "linear-gradient(to right, rgba(11,18,32,0.95), rgba(15,43,92,0.85)), url('https://placehold.co/1920x600/0B1220/0B1220?text=+')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <span className="mb-8 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
+      Company Statistics
+    </span>
+    <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+      {companyStats.map((s, i) => {
+        const Icon = s.icon;
+        return (
+          <div key={i} className="text-center sm:text-left">
+            <Icon className="mx-auto h-7 w-7 text-[#FFC107] sm:mx-0" />
+            
+            {/* Panggil CounterNumber di sini */}
+            <p className="mt-3 text-3xl font-extrabold text-white md:text-4xl">
+              <CounterNumber value={s.value} />
+            </p>
+            
+            <p className="mt-1 text-xs text-white/60">{s.label}</p>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
 
       {/* ===================== MILESTONE / ORG STRUCTURE / MANAGEMENT ===================== */}
       <section className="bg-white py-16 md:py-20">
@@ -1009,12 +1164,20 @@ export default function Index() {
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* ============================== COMPANY CULTURE + GOVERNANCE ============================== */}
       <section className="bg-[#F8FAFC] py-16 md:py-20">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+=======
+  {/* ============================== COMPANY CULTURE + GOVERNANCE ============================== */}
+      {/* Menggunakan -mt-32 md:-mt-40 dan pt-0 agar menempel sempurna tanpa ruang kosong */}
+      <section className="bg-[#F8FAFC] -mt-32 md:-mt-40 pt-0 pb-12">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-start gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+          
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
           {/* Culture */}
           <div>
-            <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
+            <span className="mb-4 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
               Company Culture
             </span>
 
@@ -1034,7 +1197,10 @@ export default function Index() {
                     <p className="mt-2.5 text-xs font-bold leading-tight text-[#0F2B5C]">
                       {c.title}
                     </p>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
                     <p className="mt-1 text-[10px] leading-snug text-[#64748B]">
                       {c.desc}
                     </p>
@@ -1046,10 +1212,14 @@ export default function Index() {
 
           {/* Governance */}
           <div>
-            <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
+            <span className="mb-4 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
               Corporate Governance
             </span>
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
             <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-xl md:p-7">
               <p className="mb-6 text-sm leading-relaxed text-[#64748B]">
                 We are committed to implementing Good Corporate Governance
@@ -1061,11 +1231,19 @@ export default function Index() {
                   const Icon = g.icon;
 
                   return (
+<<<<<<< HEAD
                     <div
                       key={i}
                       className="group flex items-start gap-3 rounded-xl p-2 transition-all duration-300 hover:bg-[#F8FAFC]"
                     >
                       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#0F2B5C] transition-all duration-300 group-hover:scale-105 group-hover:bg-[#FFC107]">
+=======
+                    <div 
+                      key={i} 
+                      className="group flex items-start gap-3 rounded-xl p-2 transition-all duration-300 hover:bg-[#F8FAFC]"
+                    >
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#0F2B5C] transition-all duration-300 group-hover:bg-[#FFC107] group-hover:scale-105">
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
                         <Icon className="h-5 w-5" />
                       </span>
 
@@ -1084,11 +1262,20 @@ export default function Index() {
               </div>
             </div>
           </div>
+<<<<<<< HEAD
         </div>
       </section>
 
       {/* ============================== CTA BANNER ============================== */}
       <section className="grid grid-cols-1 md:grid-cols-2">
+=======
+
+        </div>
+      </section>
+
+    {/* ============================== CTA BANNER ============================== */}
+      <section className="mt-0 grid grid-cols-1 md:grid-cols-2">
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
         {/* Left - dark image with play & Youtube Cover */}
         <div
           className="relative flex min-h-[280px] items-center overflow-hidden px-8 py-14 sm:px-12"
@@ -1108,6 +1295,10 @@ export default function Index() {
               Menjadi fondasi menuju Smart Mining Service Ecosystem.
             </p>
 
+<<<<<<< HEAD
+=======
+            {/* Tombol Play untuk Membuka Pop-Up Video */}
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
             <button
               type="button"
               onClick={() => setIsVideoOpen(true)}
@@ -1190,8 +1381,13 @@ export default function Index() {
           </div>
         </div>
       )}
+<<<<<<< HEAD
 
       <Footer />
     </>
+=======
+      <Footer />  
+    </> 
+>>>>>>> 1093209413a61a42d61cbb0f4b67f37f427e4c41
   );
 }
