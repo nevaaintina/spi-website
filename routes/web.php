@@ -85,3 +85,8 @@ Route::get('/career', function () {
 Route::get('/contact-us', function () {
     return Inertia::render('Contact');
 })->name('contact');
+
+// untuk detail/lamaran kerja
+Route::get('/career/apply/{id}', function ($id) {
+    return Inertia::render('CareerApply', ['id' => $id]);
+})->name('career.apply');

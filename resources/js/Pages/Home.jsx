@@ -70,17 +70,49 @@ export default function Home() {
 ========================================================= */}
 <section
   id="home"
-  className="relative w-full min-h-[780px] lg:min-h-[820px] bg-white overflow-hidden"
+  className="
+    relative
+    w-full
+    min-h-[1050px]
+    sm:min-h-[1000px]
+    lg:min-h-[820px]
+    bg-white
+    overflow-hidden
+  "
 >
   {/* =======================================================
       BACKGROUND DECORATION
   ======================================================== */}
 
   {/* Soft gradient putih ke transparan */}
-  <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-transparent z-0 pointer-events-none" />
+  <div
+    className="
+      absolute
+      inset-0
+      bg-gradient-to-r
+      from-white
+      via-white/95
+      to-transparent
+      z-0
+      pointer-events-none
+    "
+  />
 
   {/* Dot Pattern */}
-  <div className="absolute top-28 left-[35%] hidden lg:grid grid-cols-6 gap-3 opacity-30 z-10 pointer-events-none">
+  <div
+    className="
+      absolute
+      top-28
+      left-[35%]
+      hidden
+      lg:grid
+      grid-cols-6
+      gap-3
+      opacity-30
+      z-10
+      pointer-events-none
+    "
+  >
     {[...Array(30)].map((_, i) => (
       <span
         key={i}
@@ -90,67 +122,215 @@ export default function Home() {
   </div>
 
   {/* Decorative Curved Lines kiri bawah */}
-  <div className="absolute -left-20 bottom-[-100px] w-[400px] h-[400px] rounded-full border border-slate-200 opacity-60 pointer-events-none" />
+  <div
+    className="
+      absolute
+      -left-20
+      bottom-[-100px]
+      w-[400px]
+      h-[400px]
+      rounded-full
+      border
+      border-slate-200
+      opacity-60
+      pointer-events-none
+    "
+  />
 
-  <div className="absolute -left-10 bottom-[-60px] w-[330px] h-[330px] rounded-full border border-slate-200 opacity-50 pointer-events-none" />
+  <div
+    className="
+      absolute
+      -left-10
+      bottom-[-60px]
+      w-[330px]
+      h-[330px]
+      rounded-full
+      border
+      border-slate-200
+      opacity-50
+      pointer-events-none
+    "
+  />
 
-  <div className="absolute left-10 bottom-[-20px] w-[250px] h-[250px] rounded-full border border-slate-200 opacity-40 pointer-events-none" />
+  <div
+    className="
+      absolute
+      left-10
+      bottom-[-20px]
+      w-[250px]
+      h-[250px]
+      rounded-full
+      border
+      border-slate-200
+      opacity-40
+      pointer-events-none
+    "
+  />
 
   {/* =======================================================
       MAIN HERO CONTENT
   ======================================================== */}
 
-  <div className="relative z-20 max-w-[1600px] mx-auto min-h-[780px] lg:min-h-[820px]">
+  <div
+    className="
+      relative
+      z-20
+      max-w-[1600px]
+      mx-auto
+      min-h-[1050px]
+      sm:min-h-[1000px]
+      lg:min-h-[820px]
+    "
+  >
 
     {/* =====================================================
         FOTO PERTAMBANGAN
     ====================================================== */}
 
-    <div className="absolute top-0 right-0 w-full lg:w-[68%] h-[580px] lg:h-[700px] overflow-hidden">
+    <div
+      className="
+        absolute
+        top-0
+        right-0
+        w-full
+        lg:w-[68%]
+        h-[480px]
+        sm:h-[560px]
+        lg:h-[700px]
+        overflow-hidden
+      "
+    >
 
       {/* Foto */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="
+          absolute
+          inset-0
+          bg-cover
+          bg-center
+          bg-no-repeat
+        "
         style={{
           backgroundImage: "url('/images/hero-mining.png')",
         }}
       />
 
       {/* Fade putih dari kiri */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/65 to-transparent" />
+      <div
+        className="
+          absolute
+          inset-0
+          bg-gradient-to-r
+          from-white
+          via-white/65
+          to-transparent
+        "
+      />
 
       {/* Fade putih bagian bawah */}
-      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-white via-white/30 to-transparent" />
+      <div
+        className="
+          absolute
+          inset-x-0
+          bottom-0
+          h-48
+          bg-gradient-to-t
+          from-white
+          via-white/30
+          to-transparent
+        "
+      />
     </div>
+
 
     {/* =====================================================
         TEXT CONTENT
     ====================================================== */}
 
-    <div className="relative z-30 w-full lg:w-[53%] px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 pt-28 lg:pt-32">
+    <div
+      className="
+        relative
+        z-30
+        w-full
+        lg:w-[53%]
+        px-6
+        sm:px-10
+        md:px-16
+        lg:px-20
+        xl:px-24
+        pt-24
+        sm:pt-28
+        lg:pt-32
+      "
+    >
 
       {/* Company Label */}
-      <div className="flex items-center gap-3 mb-7">
+      <div
+        className="
+          flex
+          items-center
+          gap-3
+          mb-6
+          sm:mb-7
+        "
+      >
+        <span
+          className="
+            w-8
+            sm:w-10
+            h-[3px]
+            bg-[#ffc107]
+            rounded-full
+            shrink-0
+          "
+        />
 
-        <span className="w-10 h-[3px] bg-[#ffc107] rounded-full"></span>
-
-        <span className="text-[11px] sm:text-xs font-extrabold tracking-[0.18em] text-[#0f2b5c] uppercase">
+        <span
+          className="
+            text-[10px]
+            sm:text-xs
+            font-extrabold
+            tracking-[0.14em]
+            sm:tracking-[0.18em]
+            text-[#0f2b5c]
+            uppercase
+          "
+        >
           PT. SERVISTAMA PRO INDONESIA
         </span>
-
       </div>
+
 
       {/* =================================================
           HEADLINE
       ================================================= */}
 
-      <h1 className="font-extrabold text-[#0f2b5c] leading-[1.02] tracking-[-0.035em] text-4xl sm:text-5xl md:text-6xl lg:text-[60px] xl:text-[68px] max-w-[720px]">
+      <h1
+        className="
+          font-extrabold
+          text-[#0f2b5c]
+          leading-[1.02]
+          tracking-[-0.035em]
+          text-4xl
+          sm:text-5xl
+          md:text-6xl
+          lg:text-[60px]
+          xl:text-[68px]
+          max-w-[720px]
+        "
+      >
 
         <span className="block">
           DENGAN KONSEP
         </span>
 
-        <span className="block text-[#ffc107] mt-1">
+        <span
+          className="
+            block
+            text-[#ffc107]
+            mt-1
+          "
+        >
           BRIGHT FUTURE
         </span>
 
@@ -160,41 +340,90 @@ export default function Home() {
 
       </h1>
 
+
       {/* Yellow underline */}
-      <div className="flex items-center gap-2 mt-7 mb-5">
+      <div
+        className="
+          flex
+          items-center
+          gap-2
+          mt-6
+          sm:mt-7
+          mb-5
+        "
+      >
+        <span
+          className="
+            w-10
+            sm:w-14
+            h-[3px]
+            bg-[#ffc107]
+            rounded-full
+          "
+        />
 
-        <span className="w-14 h-[3px] bg-[#ffc107] rounded-full"></span>
-
-        <span className="w-2 h-2 rounded-full bg-[#ffc107]"></span>
-
+        <span
+          className="
+            w-2
+            h-2
+            rounded-full
+            bg-[#ffc107]
+          "
+        />
       </div>
 
+
       {/* Description */}
-      <p className="text-slate-600 text-sm sm:text-base leading-7 max-w-[540px]">
+      <p
+        className="
+          text-slate-600
+          text-sm
+          sm:text-base
+          leading-6
+          sm:leading-7
+          max-w-[540px]
+        "
+      >
         Kami berkomitmen menghadirkan layanan konstruksi terbaik
         dengan teknologi modern, peralatan berkualitas, dan sumber
         daya profesional untuk mendukung keberhasilan setiap proyek Anda.
       </p>
 
+
       {/* =================================================
           CTA BUTTON
       ================================================= */}
 
-      <div className="mt-8">
-
+      <div
+        className="
+          mt-7
+          sm:mt-8
+          w-full
+          sm:w-auto
+        "
+      >
         <a
           href="#services"
           className="
+            group
             inline-flex
+            w-full
+            sm:w-auto
             items-center
-            gap-4
-            px-7
-            py-3.5
+            justify-center
+            gap-3
+            sm:gap-4
+            px-6
+            sm:px-7
+            py-3
+            sm:py-3.5
             rounded-xl
             bg-[#0f2b5c]
             text-white
-            text-sm
+            text-xs
+            sm:text-sm
             font-bold
+            tracking-wide
             shadow-lg
             shadow-[#0f2b5c]/20
             transition-all
@@ -202,18 +431,30 @@ export default function Home() {
             hover:bg-[#ffc107]
             hover:text-[#0f2b5c]
             hover:-translate-y-1
+            active:translate-y-0
           "
         >
-          <span>LIHAT LAYANAN</span>
+          <span>
+            LIHAT LAYANAN
+          </span>
 
-          <span className="text-xl leading-none transition-transform duration-300 group-hover:translate-x-1">
+          <span
+            className="
+              text-lg
+              sm:text-xl
+              leading-none
+              transition-transform
+              duration-300
+              group-hover:translate-x-1
+            "
+          >
             →
           </span>
         </a>
-
       </div>
 
     </div>
+
 
     {/* =====================================================
         FLOATING INFORMATION CARDS
@@ -223,13 +464,16 @@ export default function Home() {
       className="
         absolute
         z-40
-        left-5
-        right-5
+        left-4
+        right-4
+        sm:left-6
+        sm:right-6
         lg:left-10
         lg:right-10
         xl:left-16
         xl:right-16
-        bottom-8
+        bottom-6
+        lg:bottom-8
       "
     >
 
@@ -267,10 +511,15 @@ export default function Home() {
           "
         >
 
-          {/* Decorative yellow corner */}
-          <div className="absolute right-0 bottom-0 w-12 h-12 bg-[#ffc107] rounded-tl-[40px] opacity-90" />
-
-          <div className="relative z-10 flex items-start gap-4">
+          <div
+            className="
+              relative
+              z-10
+              flex
+              items-start
+              gap-4
+            "
+          >
 
             {/* Icon */}
             <div
@@ -308,17 +557,45 @@ export default function Home() {
             {/* Text */}
             <div className="pt-1">
 
-              <div className="text-2xl font-black text-[#0f2b5c] leading-none">
+              <div
+                className="
+                  text-2xl
+                  font-black
+                  text-[#0f2b5c]
+                  leading-none
+                "
+              >
                 200+
               </div>
 
-              <h3 className="mt-1 text-sm font-extrabold text-[#0f2b5c]">
+              <h3
+                className="
+                  mt-1
+                  text-sm
+                  font-extrabold
+                  text-[#0f2b5c]
+                "
+              >
                 Tenaga Ahli
               </h3>
 
-              <div className="w-7 h-[2px] bg-[#ffc107] my-2"></div>
+              <div
+                className="
+                  w-7
+                  h-[2px]
+                  bg-[#ffc107]
+                  my-2
+                "
+              />
 
-              <p className="text-[10px] leading-4 text-slate-500 max-w-[150px]">
+              <p
+                className="
+                  text-[10px]
+                  leading-4
+                  text-slate-500
+                  max-w-[150px]
+                "
+              >
                 Berpengalaman dan kompeten di bidangnya.
               </p>
 
@@ -352,10 +629,17 @@ export default function Home() {
           "
         >
 
-          <div className="absolute right-0 top-0 w-12 h-12 bg-[#0f2b5c] rounded-bl-[40px] opacity-95" />
+          <div
+            className="
+              relative
+              z-10
+              flex
+              items-start
+              gap-4
+            "
+          >
 
-          <div className="relative z-10 flex items-start gap-4">
-
+            {/* Icon */}
             <div
               className="
                 w-14
@@ -388,19 +672,48 @@ export default function Home() {
               </svg>
             </div>
 
+            {/* Text */}
             <div className="pt-1">
 
-              <div className="text-2xl font-black text-[#0f2b5c] leading-none">
+              <div
+                className="
+                  text-2xl
+                  font-black
+                  text-[#0f2b5c]
+                  leading-none
+                "
+              >
                 24/7
               </div>
 
-              <h3 className="mt-1 text-sm font-extrabold text-[#0f2b5c]">
+              <h3
+                className="
+                  mt-1
+                  text-sm
+                  font-extrabold
+                  text-[#0f2b5c]
+                "
+              >
                 Layanan Responsif
               </h3>
 
-              <div className="w-7 h-[2px] bg-[#ffc107] my-2"></div>
+              <div
+                className="
+                  w-7
+                  h-[2px]
+                  bg-[#ffc107]
+                  my-2
+                "
+              />
 
-              <p className="text-[10px] leading-4 text-slate-500 max-w-[150px]">
+              <p
+                className="
+                  text-[10px]
+                  leading-4
+                  text-slate-500
+                  max-w-[150px]
+                "
+              >
                 Siap mendukung kebutuhan Anda kapan saja.
               </p>
 
@@ -434,10 +747,17 @@ export default function Home() {
           "
         >
 
-          <div className="absolute right-0 bottom-0 w-12 h-12 bg-[#ffc107] rounded-tl-[40px]" />
+          <div
+            className="
+              relative
+              z-10
+              flex
+              items-start
+              gap-4
+            "
+          >
 
-          <div className="relative z-10 flex items-start gap-4">
-
+            {/* Icon */}
             <div
               className="
                 w-14
@@ -470,19 +790,48 @@ export default function Home() {
               </svg>
             </div>
 
+            {/* Text */}
             <div className="pt-1">
 
-              <div className="text-2xl font-black text-[#0f2b5c] leading-none">
+              <div
+                className="
+                  text-2xl
+                  font-black
+                  text-[#0f2b5c]
+                  leading-none
+                "
+              >
                 100%
               </div>
 
-              <h3 className="mt-1 text-sm font-extrabold text-[#0f2b5c]">
+              <h3
+                className="
+                  mt-1
+                  text-sm
+                  font-extrabold
+                  text-[#0f2b5c]
+                "
+              >
                 Kualitas Terjamin
               </h3>
 
-              <div className="w-7 h-[2px] bg-[#ffc107] my-2"></div>
+              <div
+                className="
+                  w-7
+                  h-[2px]
+                  bg-[#ffc107]
+                  my-2
+                "
+              />
 
-              <p className="text-[10px] leading-4 text-slate-500 max-w-[150px]">
+              <p
+                className="
+                  text-[10px]
+                  leading-4
+                  text-slate-500
+                  max-w-[150px]
+                "
+              >
                 Standar layanan terbaik untuk setiap proyek.
               </p>
 
@@ -516,10 +865,17 @@ export default function Home() {
           "
         >
 
-          <div className="absolute right-0 top-0 w-12 h-12 bg-[#0f2b5c] rounded-bl-[40px]" />
+          <div
+            className="
+              relative
+              z-10
+              flex
+              items-start
+              gap-4
+            "
+          >
 
-          <div className="relative z-10 flex items-start gap-4">
-
+            {/* Icon */}
             <div
               className="
                 w-14
@@ -559,19 +915,48 @@ export default function Home() {
               </svg>
             </div>
 
+            {/* Text */}
             <div className="pt-1">
 
-              <div className="text-lg font-black text-[#0f2b5c] leading-tight">
+              <div
+                className="
+                  text-lg
+                  font-black
+                  text-[#0f2b5c]
+                  leading-tight
+                "
+              >
                 NASIONAL
               </div>
 
-              <h3 className="mt-1 text-sm font-extrabold text-[#0f2b5c]">
+              <h3
+                className="
+                  mt-1
+                  text-sm
+                  font-extrabold
+                  text-[#0f2b5c]
+                "
+              >
                 Jangkauan Nasional
               </h3>
 
-              <div className="w-7 h-[2px] bg-[#ffc107] my-2"></div>
+              <div
+                className="
+                  w-7
+                  h-[2px]
+                  bg-[#ffc107]
+                  my-2
+                "
+              />
 
-              <p className="text-[10px] leading-4 text-slate-500 max-w-[150px]">
+              <p
+                className="
+                  text-[10px]
+                  leading-4
+                  text-slate-500
+                  max-w-[150px]
+                "
+              >
                 Dukungan layanan di seluruh Indonesia.
               </p>
 
@@ -587,11 +972,8 @@ export default function Home() {
 
   </div>
 
-  {/* =======================================================
-      BOTTOM YELLOW ACCENT
-  ======================================================== */}
 
-  <div className="absolute bottom-0 left-0 right-0 h-2 bg-[#ffc107] z-50"></div>
+  
 
 </section>
 
@@ -681,7 +1063,7 @@ export default function Home() {
                 <div 
                   className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                   style={{
-                    backgroundImage: `url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=80')`
+                    backgroundImage: `url('/images/layanan.png')`
                   }}
                 ></div>
               </div>
@@ -710,83 +1092,88 @@ export default function Home() {
 
           </div>
 
-          {/* GRID 4 KARTU LAYANAN */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            {/* Card 1: Suku Cadang */}
-            <div className="p-7 bg-white border border-slate-200/90 rounded-3xl shadow-sm transition-all duration-300 hover:border-2 hover:border-[#ffc107] hover:shadow-xl hover:-translate-y-1.5 flex flex-col justify-between group">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-slate-100 text-[#0f2b5c] group-hover:bg-[#ffc107] group-hover:text-[#0f2b5c] flex items-center justify-center text-xl mb-5 transition-colors duration-300">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  </svg>
-                </div>
-                <h3 className="font-bold text-lg text-[#0f2b5c] mb-2">Suku Cadang</h3>
-                <p className="text-slate-500 text-xs leading-relaxed">
-                  Suku cadang original XCMG dengan kualitas terjamin dan bergaransi.
-                </p>
-              </div>
-              <a href="/spare-parts" className="text-xs font-bold text-slate-700 hover:text-[#ffc107] transition flex items-center gap-1 mt-6 group-hover:translate-x-1">
-                Selengkapnya <span>→</span>
-              </a>
-            </div>
+          {/* GRID 3 KARTU LAYANAN - JELAS DI AWAL, REVEAL DETAIL SAAT HOVER */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+  
+  {/* Card 1: Suku Cadang */}
+  <div className="relative p-8 bg-white border border-slate-200 rounded-3xl shadow-sm transition-all duration-500 hover:shadow-2xl flex flex-col justify-end group overflow-hidden h-[340px]">
+    
+    {/* FOTO JELAS (SELALU MUNCUL DI BACKGROUND) */}
+    <div 
+      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+      style={{ backgroundImage: `url('/images/layanan-suku cadang.jpg')` }}
+    />
+    
+    {/* OVERLAY: TIPIS SAAT NORMAL, GELAP (NAVY) SAAT DISENTUH */}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:bg-[#0f2b5c]/90 transition-colors duration-500" />
 
-            {/* Card 2: Layanan Purna Jual */}
-            <div className="p-7 bg-white border border-slate-200/90 rounded-3xl shadow-sm transition-all duration-300 hover:border-2 hover:border-[#ffc107] hover:shadow-xl hover:-translate-y-2 flex flex-col justify-between group">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-slate-100 text-[#0f2b5c] group-hover:bg-[#ffc107] group-hover:text-[#0f2b5c] flex items-center justify-center text-xl mb-5 transition-colors duration-300">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-                  </svg>
-                </div>
-                <h3 className="font-bold text-lg text-[#0f2b5c] mb-2">Layanan Purna Jual</h3>
-                <p className="text-slate-500 text-xs leading-relaxed">
-                  Perawatan dan perbaikan alat berat oleh teknisi berpengalaman.
-                </p>
-              </div>
-              <a href="/services" className="text-xs font-bold text-slate-700 hover:text-[#ffc107] transition flex items-center gap-1 mt-6 group-hover:translate-x-1">
-                Selengkapnya <span>→</span>
-              </a>
-            </div>
+    {/* JUDUL (POSISI DI BAWAH SAAT NORMAL, NAIK / BERUBAH SAAT HOVER) */}
+    <div className="relative z-10 transition-all duration-500 transform group-hover:-translate-y-2 text-center">
+      <h3 className="font-black text-xl text-white drop-shadow-md mb-1">
+        Suku Cadang
+      </h3>
 
-            {/* Card 3: Pelatihan Operator */}
-            <div className="p-7 bg-white border border-slate-200/90 rounded-3xl shadow-sm transition-all duration-300 hover:border-2 hover:border-[#ffc107] hover:shadow-xl hover:-translate-y-2 flex flex-col justify-between group">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-slate-100 text-[#0f2b5c] group-hover:bg-[#ffc107] group-hover:text-[#0f2b5c] flex items-center justify-center text-xl mb-5 transition-colors duration-300">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M12 14l9-5-9-5-9 5 9 5z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                  </svg>
-                </div>
-                <h3 className="font-bold text-lg text-[#0f2b5c] mb-2">Pelatihan Operator</h3>
-                <p className="text-slate-500 text-xs leading-relaxed">
-                  Program pelatihan untuk operator alat berat secara profesional.
-                </p>
-              </div>
-              <a href="/services" className="text-xs font-bold text-slate-700 hover:text-[#ffc107] transition flex items-center gap-1 mt-6 group-hover:translate-x-1">
-                Selengkapnya <span>→</span>
-              </a>
-            </div>
+      {/* DETAIL (MUNCUL SAAT HOVER) */}
+      <div className="opacity-0 group-hover:opacity-100 transition-all duration-500 max-h-0 group-hover:max-h-40 overflow-hidden">
+        <p className="text-slate-200 text-xs leading-relaxed mb-3 mt-1">
+          Suku cadang original XCMG dengan kualitas terjamin dan bergaransi.
+        </p>
+        <a href="/spare-parts" className="text-xs font-bold text-[#ffc107] hover:underline inline-flex items-center gap-1">
+          Selengkapnya <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
 
-            {/* Card 4: Kemitraan */}
-            <div className="p-7 bg-white border border-slate-200/90 rounded-3xl shadow-sm transition-all duration-300 hover:border-2 hover:border-[#ffc107] hover:shadow-xl hover:-translate-y-2 flex flex-col justify-between group">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-slate-100 text-[#0f2b5c] group-hover:bg-[#ffc107] group-hover:text-[#0f2b5c] flex items-center justify-center text-xl mb-5 transition-colors duration-300">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <h3 className="font-bold text-lg text-[#0f2b5c] mb-2">Kemitraan</h3>
-                <p className="text-slate-500 text-xs leading-relaxed">
-                  Bersinergi bersama mitra untuk pertumbuhan berkelanjutan.
-                </p>
-              </div>
-              <a href="/about" className="text-xs font-bold text-slate-700 hover:text-[#ffc107] transition flex items-center gap-1 mt-6 group-hover:translate-x-1">
-                Selengkapnya <span>→</span>
-              </a>
-            </div>
+  {/* Card 2: Layanan Purna Jual */}
+  <div className="relative p-8 bg-white border border-slate-200 rounded-3xl shadow-sm transition-all duration-500 hover:shadow-2xl flex flex-col justify-end group overflow-hidden h-[340px]">
+    <div 
+      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+      style={{ backgroundImage: `url('/images/layanan-purna jual.jpg')` }}
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:bg-[#0f2b5c]/90 transition-colors duration-500" />
 
-          </div>
+    <div className="relative z-10 transition-all duration-500 transform group-hover:-translate-y-2 text-center">
+      <h3 className="font-black text-xl text-white drop-shadow-md mb-1">
+        Layanan Purna Jual
+      </h3>
+
+      <div className="opacity-0 group-hover:opacity-100 transition-all duration-500 max-h-0 group-hover:max-h-40 overflow-hidden">
+        <p className="text-slate-200 text-xs leading-relaxed mb-3 mt-1">
+          Perawatan dan perbaikan alat berat oleh teknisi berpengalaman.
+        </p>
+        <a href="/services" className="text-xs font-bold text-[#ffc107] hover:underline inline-flex items-center gap-1">
+          Selengkapnya <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {/* Card 3: Kemitraan */}
+  <div className="relative p-8 bg-white border border-slate-200 rounded-3xl shadow-sm transition-all duration-500 hover:shadow-2xl flex flex-col justify-end group overflow-hidden h-[340px]">
+    <div 
+      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+      style={{ backgroundImage: `url('/images/layanan-kemitraan.jpg')` }}
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:bg-[#0f2b5c]/90 transition-colors duration-500" />
+
+    <div className="relative z-10 transition-all duration-500 transform group-hover:-translate-y-2 text-center">
+      <h3 className="font-black text-xl text-white drop-shadow-md mb-1">
+        Kemitraan
+      </h3>
+
+      <div className="opacity-0 group-hover:opacity-100 transition-all duration-500 max-h-0 group-hover:max-h-40 overflow-hidden">
+        <p className="text-slate-200 text-xs leading-relaxed mb-3 mt-1">
+          Bersinergi bersama mitra untuk pertumbuhan berkelanjutan.
+        </p>
+        <a href="/about" className="text-xs font-bold text-[#ffc107] hover:underline inline-flex items-center gap-1">
+          Selengkapnya <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
 
           {/* Tombol Lihat Semua Layanan */}
           <div className="text-center mt-12">
@@ -858,167 +1245,81 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= 4. SECTION COMPANY STATISTICS (DENGAN HIGHLIGHT MIRING ELEGAN) ================= */}
-      <section id="statistics" className="relative w-full bg-white text-slate-800 py-24 overflow-hidden border-b border-slate-200">
-        
-        {/* AKSEN LINGKARAN WAVY KUNING & ABU-ABU DI KIRI ATAS */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full border-[18px] border-amber-300/40 pointer-events-none z-0"></div>
-        <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full border-[12px] border-slate-200/50 pointer-events-none z-0"></div>
+      {/* ================= 4. SECTION COMPANY STATISTICS ================= */}
+<section id="statistics" className="relative w-full bg-[#0f2b5c] text-white py-24 overflow-hidden">
+  
+  {/* BACKGROUND FOTO DENGAN OPACITY YANG TINGGI */}
+  <div 
+    className="absolute inset-0 bg-cover bg-center opacity-80 pointer-events-none"
+    style={{ backgroundImage: `url('/images/statistik.jpg')` }}
+  ></div>
 
-        {/* DOTTED PATTERN ABU-ABU DI KANAN ATAS */}
-        <div className="absolute top-12 right-12 z-0 hidden lg:grid grid-cols-6 gap-2.5 opacity-25 pointer-events-none">
-          {[...Array(36)].map((_, i) => (
-            <div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-500"></div>
-          ))}
+  
+
+  {/* DOTTED PATTERN PUTIH DI KANAN ATAS */}
+  <div className="absolute top-12 right-12 z-0 hidden lg:grid grid-cols-6 gap-2.5 opacity-20 pointer-events-none">
+    {[...Array(36)].map((_, i) => (
+      <div key={i} className="w-1.5 h-1.5 rounded-full bg-white"></div>
+    ))}
+  </div>
+
+  <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16 relative z-10">
+    
+    {/* HEADER SECTION STATISTICS */}
+    <div className="text-center max-w-3xl mx-auto mb-16">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+        Rekam Jejak &{' '}
+        <span className="relative inline-block mx-1">
+          <span className="absolute inset-0 bg-gradient-to-r from-[#ffc107] via-amber-400 to-[#ffc107] -skew-x-6 -rotate-1 rounded-2xl shadow-sm shadow-amber-500/20"></span>
+          <span className="relative text-[#0f2b5c] px-4 py-0.5 z-10 font-black">
+            Statistik
+          </span>
+        </span> <br />
+        Perusahaan
+      </h2>
+
+      <p className="text-white text-xs md:text-sm mt-4 font-normal leading-relaxed max-w-2xl mx-auto">
+        Komitmen kami dalam memberikan layanan terbaik bagi sektor pertambangan dan konstruksi di seluruh Indonesia.
+      </p>
+    </div>
+
+    {/* GRID 4 CIRCULAR STATISTIC CARDS (TRANSPARAN BIRU) */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
+      
+      {[
+        { target: 10, label: "Tahun Pengalaman", desc: "Melayani kebutuhan alat berat di berbagai proyek nasional.", icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z", suffix: "+" },
+        { target: 500, label: "Unit Terawat", desc: "Alat berat yang ditangani dengan standar garansi prima jual.", icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z", suffix: "+" },
+        { target: 200, label: "Mekanik Bersertifikat", desc: "Teknisi profesional siap diterjunkan langsung ke jobsite.", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 0-1.042-.133-2.052-.382-3.016z", suffix: "+" },
+        { target: 99, label: "Kepuasan Pelanggan", desc: "Tingkat kepuasan atas ketepatan penanganan dan dukungan teknis.", icon: "M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z", suffix: "%" },
+      ].map((item, idx) => (
+        <div key={idx} className="flex flex-col items-center text-center pt-6 lg:pt-0 lg:px-4 group">
+          <div className="relative w-48 h-48 rounded-full border-4 border-white/10 border-t-[#ffc107] border-r-[#ffc107] p-2 flex flex-col items-center justify-center bg-[#0f2b5c]/40 backdrop-blur-sm shadow-lg group-hover:scale-105 transition-transform duration-300">
+            <div className="w-11 h-11 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center font-bold mb-1 shadow-sm border-2 border-white/20">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} /></svg>
+            </div>
+            <div className="text-3xl font-black text-white leading-none mb-1">
+              <AnimatedCounter targetNumber={item.target} suffix={item.suffix} />
+            </div>
+            <div className="text-xs font-bold text-[#ffc107]">{item.label}</div>
+          </div>
+          <p className="text-white text-[11px] leading-relaxed mt-4 max-w-[200px]">{item.desc}</p>
         </div>
+      ))}
+    </div>
 
-        {/* AKSEN GELOMBANG NAVY DI KANAN BAWAH */}
-        <div className="absolute -bottom-28 -right-28 w-96 h-96 rounded-full bg-[#0f2b5c] pointer-events-none z-0"></div>
-        <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full border-[16px] border-[#ffc107] pointer-events-none z-0"></div>
-
-        <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16 relative z-10">
-          
-          {/* HEADER SECTION STATISTICS */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            
-            {/* Badge Pill Simple Clean Latar Polos */}
-            <div className="mb-4 inline-block">
-              <span className="text-xs font-bold text-[#0f2b5c] border border-slate-300/80 px-4 py-1.5 rounded-full flex items-center gap-2 bg-slate-50/50 shadow-2xs">
-                <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-                Pencapaian Kami
-              </span>
-            </div>
-
-            {/* Judul Utama dengan Block Highlight Kuning Miring Elegan */}
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0f2b5c] tracking-tight leading-tight">
-              Rekam Jejak &{' '}
-              <span className="relative inline-block mx-1">
-                <span className="absolute inset-0 bg-gradient-to-r from-[#ffc107] via-amber-400 to-[#ffc107] -skew-x-6 -rotate-1 rounded-2xl shadow-sm shadow-amber-500/20"></span>
-                <span className="relative text-[#0f2b5c] px-4 py-0.5 z-10">
-                  Statistik
-                </span>
-              </span> <br />
-              Perusahaan
-            </h2>
-
-            <p className="text-slate-600 text-xs md:text-sm mt-4 font-normal leading-relaxed max-w-2xl mx-auto">
-              Komitmen kami dalam memberikan layanan terbaik bagi sektor pertambangan dan konstruksi di seluruh Indonesia.
-            </p>
+    {/* THREE BOTTOM PILL HIGHLIGHTS (BIRU TRANSPARAN) */}
+    <div className="flex flex-wrap justify-center items-center gap-4">
+      {["Terpercaya & Profesional", "Layanan Cepat & Tepat", "Mitra Jangka Panjang"].map((text, i) => (
+        <div key={i} className="px-5 py-2.5 bg-[#0f2b5c]/50 backdrop-blur-md border border-white/20 rounded-full flex items-center gap-2.5 shadow-sm transition-transform duration-300 hover:scale-105">
+          <div className="w-6 h-6 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center shrink-0">
+             <div className="w-2 h-2 rounded-full bg-[#0f2b5c]"></div>
           </div>
-
-          {/* GRID 4 CIRCULAR STATISTIC CARDS (ANIMATED COUNTER) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 divide-y lg:divide-y-0 lg:divide-x divide-slate-200/80">
-            
-            {/* Card Stat 1: 10+ Tahun Pengalaman */}
-            <div className="flex flex-col items-center text-center pt-6 lg:pt-0 lg:px-4 group">
-              <div className="relative w-48 h-48 rounded-full border-4 border-[#ffc107]/20 border-t-[#ffc107] border-r-[#ffc107] p-2 flex flex-col items-center justify-center bg-white shadow-md group-hover:scale-105 transition-transform duration-300">
-                <div className="w-11 h-11 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center font-bold mb-1 shadow-sm border-2 border-white">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <div className="text-3xl font-black text-[#0f2b5c] leading-none mb-1">
-                  <AnimatedCounter targetNumber={10} suffix="+" />
-                </div>
-                <div className="text-xs font-bold text-[#0f2b5c]">Tahun Pengalaman</div>
-              </div>
-              <p className="text-slate-500 text-[11px] leading-relaxed mt-4 max-w-[200px]">
-                Melayani kebutuhan alat berat di berbagai proyek nasional.
-              </p>
-            </div>
-
-            {/* Card Stat 2: 500+ Unit Terawat */}
-            <div className="flex flex-col items-center text-center pt-6 lg:pt-0 lg:px-4 group">
-              <div className="relative w-48 h-48 rounded-full border-4 border-[#ffc107]/20 border-t-[#ffc107] border-r-[#ffc107] p-2 flex flex-col items-center justify-center bg-white shadow-md group-hover:scale-105 transition-transform duration-300">
-                <div className="w-11 h-11 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center font-bold mb-1 shadow-sm border-2 border-white">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  </svg>
-                </div>
-                <div className="text-3xl font-black text-[#0f2b5c] leading-none mb-1">
-                  <AnimatedCounter targetNumber={500} suffix="+" />
-                </div>
-                <div className="text-xs font-bold text-[#0f2b5c]">Unit Terawat</div>
-              </div>
-              <p className="text-slate-500 text-[11px] leading-relaxed mt-4 max-w-[200px]">
-                Alat berat yang ditangani dengan standar garansi prima jual.
-              </p>
-            </div>
-
-            {/* Card Stat 3: 200+ Mekanik Bersertifikat */}
-            <div className="flex flex-col items-center text-center pt-6 lg:pt-0 lg:px-4 group">
-              <div className="relative w-48 h-48 rounded-full border-4 border-[#ffc107]/20 border-t-[#ffc107] border-r-[#ffc107] p-2 flex flex-col items-center justify-center bg-white shadow-md group-hover:scale-105 transition-transform duration-300">
-                <div className="w-11 h-11 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center font-bold mb-1 shadow-sm border-2 border-white">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <div className="text-3xl font-black text-[#0f2b5c] leading-none mb-1">
-                  <AnimatedCounter targetNumber={200} suffix="+" />
-                </div>
-                <div className="text-xs font-bold text-[#0f2b5c]">Mekanik Bersertifikat</div>
-              </div>
-              <p className="text-slate-500 text-[11px] leading-relaxed mt-4 max-w-[200px]">
-                Teknisi profesional siap diterjunkan langsung ke jobsite.
-              </p>
-            </div>
-
-            {/* Card Stat 4: 99% Kepuasan Pelanggan */}
-            <div className="flex flex-col items-center text-center pt-6 lg:pt-0 lg:px-4 group">
-              <div className="relative w-48 h-48 rounded-full border-4 border-[#ffc107]/20 border-t-[#ffc107] border-r-[#ffc107] p-2 flex flex-col items-center justify-center bg-white shadow-md group-hover:scale-105 transition-transform duration-300">
-                <div className="w-11 h-11 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center font-bold mb-1 shadow-sm border-2 border-white">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                  </svg>
-                </div>
-                <div className="text-3xl font-black text-[#0f2b5c] leading-none mb-1">
-                  <AnimatedCounter targetNumber={99} suffix="%" />
-                </div>
-                <div className="text-xs font-bold text-[#0f2b5c]">Kepuasan Pelanggan</div>
-              </div>
-              <p className="text-slate-500 text-[11px] leading-relaxed mt-4 max-w-[200px]">
-                Tingkat kepuasan atas ketepatan penanganan dan dukungan teknis.
-              </p>
-            </div>
-
-          </div>
-
-          {/* THREE BOTTOM PILL HIGHLIGHTS (VEKTOR IKON CLEAN & PRO) */}
-          <div className="flex flex-wrap justify-center items-center gap-4">
-            
-            <div className="px-5 py-2.5 bg-amber-50/80 border border-amber-200/80 rounded-full flex items-center gap-2.5 shadow-xs transition-transform duration-300 hover:scale-105">
-              <div className="w-6 h-6 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center shrink-0">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <span className="text-xs font-bold text-[#0f2b5c]">Terpercaya & Profesional</span>
-            </div>
-
-            <div className="px-5 py-2.5 bg-amber-50/80 border border-amber-200/80 rounded-full flex items-center gap-2.5 shadow-xs transition-transform duration-300 hover:scale-105">
-              <div className="w-6 h-6 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center shrink-0">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <span className="text-xs font-bold text-[#0f2b5c]">Layanan Cepat & Tepat</span>
-            </div>
-
-            <div className="px-5 py-2.5 bg-amber-50/80 border border-amber-200/80 rounded-full flex items-center gap-2.5 shadow-xs transition-transform duration-300 hover:scale-105">
-              <div className="w-6 h-6 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center shrink-0">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-              <span className="text-xs font-bold text-[#0f2b5c]">Mitra Jangka Panjang</span>
-            </div>
-
-          </div>
-
+          <span className="text-xs font-bold text-white">{text}</span>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* ================= 5. SECTION COMPANY STRENGTH ================= */}
       <section id="strength" className="relative w-full bg-[#f8fafc]/80 py-24 overflow-hidden border-b border-slate-200">
@@ -1169,16 +1470,12 @@ export default function Home() {
               <div 
                 className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                 style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=80')`,
+                  backgroundImage: `url('/images/strength.jpg')`,
                   clipPath: window.innerWidth >= 1024 ? 'polygon(0 0, 100% 0, 85% 100%, 0 100%)' : 'none'
                 }}
               ></div>
 
-              {/* Garis Aksen Kuning Pemotong Di Sepanjang Foto */}
-              <div 
-                className="absolute inset-0 bg-[#ffc107] z-10 hidden lg:block"
-                style={{ clipPath: 'polygon(85% 0, 87% 0, 72% 100%, 70% 100%)' }}
-              ></div>
+              
 
               {/* CARD SAFETY FIRST (FILL FULL BAWAH FOTO - PERSIS FOTO ACUAN) */}
               <div className="absolute bottom-0 left-0 right-0 lg:right-[15%] z-20 bg-[#0f2b5c] text-white p-5 border-b-4 border-[#ffc107] flex items-center gap-4">
@@ -1269,8 +1566,8 @@ export default function Home() {
         
         {/* SILUET WATERMARK FOTO MEMBENTANG FULL 1 SECTION */}
         <div 
-          className="absolute inset-0 w-full h-full bg-cover bg-right-top opacity-10 pointer-events-none z-0"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1600&q=80')` }}
+          className="absolute inset-0 w-full h-full bg-cover bg-right-top opacity-70 pointer-events-none z-0"
+          style={{ backgroundImage: `url('/images/services.png')` }}
         ></div>
 
         {/* DOTTED PATTERN ABU-ABU HALUS */}
@@ -2688,7 +2985,7 @@ export default function Home() {
         id="contact"
         className="relative w-full py-24 overflow-hidden border-b border-slate-200 bg-cover bg-center"
         style={{
-          backgroundImage: "linear-gradient(to bottom, rgba(15,43,92,0.92), rgba(11,18,32,0.95)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80')"
+          backgroundImage: "linear-gradient(to bottom, rgba(15,43,92,0.10), rgba(11,18,32,0.95)), url('/images/kontak.jpg')"
         }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16 relative z-10">
