@@ -302,6 +302,7 @@ export default function SpareParts() {
 
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [keyword, setKeyword] = useState("");
+  const [showAll, setShowAll] = useState(false);
 
   /* =======================================================
      FILTER
@@ -424,14 +425,14 @@ PT. SERVISTAMA PRO INDONESIA
           }}
         />
 
-        {/* DARK OVERLAY */}
-        <div className="absolute inset-0 bg-[#071b38]/75" />
+        {/* DARK OVERLAY - DITIPISKAN AGAR FOTO SANGAT JELAS */}
+        <div className="absolute inset-0 bg-[#071b38]/35" />
 
         {/* LEFT GRADIENT */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#071b38] via-[#071b38]/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#071b38]/70 via-[#071b38]/30 to-transparent" />
 
         {/* BOTTOM GRADIENT */}
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#071b38]/90 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#071b38]/60 to-transparent" />
 
         {/* DECORATIVE DOTS */}
         <div className="absolute top-32 right-[38%] hidden lg:grid grid-cols-6 gap-2 opacity-25 pointer-events-none">
@@ -462,7 +463,7 @@ PT. SERVISTAMA PRO INDONESIA
             </div>
 
             {/* HEADING */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[66px] leading-[1.05] tracking-tight font-medium text-white">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[66px] leading-[1.05] tracking-tight font-medium text-white drop-shadow-md">
               Suku Cadang
               <br />
               <span className="text-[#ffc107]">
@@ -473,7 +474,7 @@ PT. SERVISTAMA PRO INDONESIA
             <div className="mt-7 w-16 h-[3px] bg-[#ffc107]" />
 
             {/* DESCRIPTION */}
-            <p className="mt-7 text-sm md:text-base leading-7 text-slate-200 max-w-2xl font-normal">
+            <p className="mt-7 text-sm md:text-base leading-7 text-slate-100 max-w-2xl font-normal drop-shadow">
               Temukan berbagai komponen dan suku cadang original
               untuk menjaga performa, keandalan, dan produktivitas
               alat berat Anda.
@@ -501,24 +502,24 @@ PT. SERVISTAMA PRO INDONESIA
             </div>
 
             {/* HERO INFO */}
-            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4 text-[11px] text-slate-200">
+            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4 text-[11px] text-slate-100">
 
               <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-[#ffc107]/15 text-[#ffc107] flex items-center justify-center">
+                <span className="w-5 h-5 rounded-full bg-[#ffc107]/20 text-[#ffc107] flex items-center justify-center">
                   <CheckIcon />
                 </span>
                 Original XCMG Parts
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-[#ffc107]/15 text-[#ffc107] flex items-center justify-center">
+                <span className="w-5 h-5 rounded-full bg-[#ffc107]/20 text-[#ffc107] flex items-center justify-center">
                   <CheckIcon />
                 </span>
                 Technical Support
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-[#ffc107]/15 text-[#ffc107] flex items-center justify-center">
+                <span className="w-5 h-5 rounded-full bg-[#ffc107]/20 text-[#ffc107] flex items-center justify-center">
                   <CheckIcon />
                 </span>
                 Genuine Components
@@ -530,8 +531,7 @@ PT. SERVISTAMA PRO INDONESIA
 
         </div>
 
-        {/* BOTTOM LINE */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-[#ffc107] z-20" />
+        
 
       </section>
 
@@ -1448,7 +1448,7 @@ PT. SERVISTAMA PRO INDONESIA
                 <span>→</span>
               </a>
 
-              {/* WHATSAPP SUPPORT (TANPA EMBEL-EMBEL EMOTICON WARNA BIRU) */}
+              {/* WHATSAPP SUPPORT */}
               <a
                 href="https://wa.me/6281122233344"
                 target="_blank"

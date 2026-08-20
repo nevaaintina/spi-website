@@ -203,14 +203,15 @@ export default function Contact() {
         <div className="absolute right-0 top-0 bottom-0 w-full lg:w-[56%] overflow-hidden pointer-events-none">
 
           <img
-            src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1800&q=85"
+            src="/images/contact.jpg"
             alt="Heavy Equipment"
             className="w-full h-full object-cover object-center scale-105 transition-transform duration-1000"
           />
 
-          <div className="absolute inset-0 bg-[#071b38]/30" />
+          <div className="absolute inset-0 bg-[#071b38]/15" />
 
-          <div className="absolute inset-0 bg-gradient-to-r from-[#071b38] via-[#071b38]/70 to-transparent" />
+          {/* GRADIENT KANAN DIBUAT LEBIH TRANSPARAN AGAR FOTO JELAS */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#071b38] via-[#071b38]/40 to-transparent" />
         </div>
 
         {/* HERO CONTENT */}
@@ -299,15 +300,12 @@ export default function Contact() {
             </div>
           </div>
         </SoftReveal>
-
-        {/* Yellow Line */}
-        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#ffc107] z-30" />
       </section>
 
 
-      {/* =========================================================
+      {/* =====================================================
           CONTACT INFO CARDS
-      ========================================================= */}
+      ===================================================== */}
       <section className="relative z-30 -mt-10 md:-mt-14 mb-12">
 
         <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16">
@@ -345,7 +343,7 @@ export default function Contact() {
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.04 11.04 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.04 11.04 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a2 2 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                       />
                     </svg>
 
@@ -617,9 +615,9 @@ export default function Contact() {
       </section>
 
 
-      {/* =========================================================
+      {/* =====================================================
           CONTACT FORM + LOCATION
-      ========================================================= */}
+      ===================================================== */}
       <section className="pb-20 pt-2 md:pt-4 bg-[#f7f9fc]">
 
         <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16">

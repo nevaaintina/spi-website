@@ -3,7 +3,7 @@ import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 
 /* =========================================================
-   PRODUCT DATA (KOMATSU EXACT STYLE)
+    PRODUCT DATA (KOMATSU EXACT STYLE)
 ========================================================= */
 const productList = [
   {
@@ -72,7 +72,7 @@ const productList = [
 ];
 
 /* =========================================================
-   CATEGORY DATA
+    CATEGORY DATA
 ========================================================= */
 const categories = [
   {
@@ -142,7 +142,7 @@ const categories = [
 ];
 
 /* =========================================================
-   STAT ICONS
+    STAT ICONS
 ========================================================= */
 function PeopleIcon() {
   return (
@@ -182,7 +182,7 @@ function LocationIcon() {
 }
 
 /* =========================================================
-   MAIN COMPONENT
+    MAIN COMPONENT
 ========================================================= */
 export default function ProductIndex() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -231,15 +231,28 @@ export default function ProductIndex() {
                 Temukan berbagai lini produk berkualitas tinggi untuk mendukung efisiensi dan produktivitas proyek konstruksi serta pertambangan Anda.
               </p>
 
-              <div className="mt-7">
+              {/* Action Buttons: Lihat Produk & Download Katalog */}
+              <div className="mt-8 flex flex-wrap items-center gap-4">
                 <a
                   href="#products"
-                  className="inline-flex items-center gap-4 bg-[#0f2b5c] hover:bg-[#183b76] text-white px-7 py-4 rounded-xl text-sm font-extrabold shadow-lg shadow-[#0f2b5c]/20 transition-all duration-300 hover:-translate-y-1"
+                  className="inline-flex items-center gap-4 bg-[#0f2b5c] hover:bg-[#183b76] text-white px-7 py-4 rounded-xl text-sm font-bold shadow-lg shadow-[#0f2b5c]/20 transition-all duration-300 hover:-translate-y-1"
                 >
                   LIHAT PRODUK
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14m-5-5l5 5-5 5" />
                   </svg>
+                </a>
+
+                <a
+                  href="/files/katalog-xcmg.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-white hover:bg-slate-50 text-[#0f2b5c] border border-slate-200 px-7 py-4 rounded-xl text-sm font-bold shadow-sm transition-all duration-300 hover:-translate-y-1"
+                >
+                  <svg className="w-5 h-5 text-[#f9aa00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  DOWNLOAD KATALOG (PDF)
                 </a>
               </div>
             </div>
@@ -249,7 +262,7 @@ export default function ProductIndex() {
             <div
               className="absolute inset-0 bg-cover bg-center lg:bg-[center_right]"
               style={{
-                backgroundImage: "url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1800&q=90')",
+                backgroundImage: "url('/images/internship.png')",
               }}
             />
             <div
@@ -314,7 +327,7 @@ export default function ProductIndex() {
       </section>
 
       {/* =====================================================
-          PRODUCT SECTION (EXACT KOMATSU STYLE: WHITE CARD, HOVER NAVY + SLIDE UP TEXT)
+          PRODUCT SECTION
       ===================================================== */}
       <section id="products" className="relative bg-white py-16 lg:py-20">
         <div className="relative max-w-[1380px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-20">
@@ -359,7 +372,7 @@ export default function ProductIndex() {
             })}
           </div>
 
-          {/* PRODUCT GRID - KOMATSU STYLE EXACT */}
+          {/* PRODUCT GRID */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
               <a
@@ -367,7 +380,6 @@ export default function ProductIndex() {
                 href={`/products/${product.slug}`}
                 className="group relative bg-[#fcfcfc] border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:bg-[#0b2348] transition-all duration-500 flex flex-col justify-between h-[340px] p-6 text-center"
               >
-                {/* DEFAULT STATE: CLEAN WHITE CARD WITH CENTERED IMAGE & NAME AT BOTTOM */}
                 <div className="my-auto flex flex-col items-center justify-center transition-all duration-500 group-hover:-translate-y-8">
                   <div className="relative w-full h-48 flex items-center justify-center mb-4">
                     <img
@@ -381,7 +393,6 @@ export default function ProductIndex() {
                   </h3>
                 </div>
 
-                {/* HOVER REVEAL: SLIDE UP BLUE/NAVY BOX WITH NAME, DESCRIPTION, AND "LIHAT PRODUK" REDIRECTING TO SHOW */}
                 <div className="absolute inset-x-0 bottom-0 p-6 bg-[#0b2348] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out flex flex-col items-center justify-end text-center z-20">
                   <h3 className="text-base font-normal text-white tracking-wide mb-2">
                     {product.name}
@@ -397,7 +408,6 @@ export default function ProductIndex() {
             ))}
           </div>
 
-          {/* EMPTY STATE */}
           {filteredProducts.length === 0 && (
             <div className="py-16 text-center">
               <h3 className="text-base font-bold text-[#0f2b5c]">Produk tidak ditemukan</h3>

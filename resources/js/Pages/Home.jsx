@@ -59,6 +59,8 @@ function AnimatedCounter({ targetNumber, suffix = "" }) {
 }
 
 export default function Home() {
+  const [showAll, setShowAll] = useState(false);
+
   return (
     <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-[#ffc107] selection:text-[#0f2b5c] overflow-x-hidden">
       
@@ -230,7 +232,7 @@ export default function Home() {
       {/* Fade putih bagian bawah */}
       <div
         className="
-          absolute
+          absolute  
           inset-x-0
           bottom-0
           h-48
@@ -972,9 +974,6 @@ export default function Home() {
 
   </div>
 
-
-  
-
 </section>
 
       {/* ================= 3. COMPANY INTRODUCTION & SERVICES ================= */}
@@ -1562,18 +1561,21 @@ export default function Home() {
       </section>
 
       {/* ================= 6. SECTION FEATURED SERVICES ================= */}
-      <section id="services" className="relative w-full py-24 overflow-hidden border-b border-slate-200 bg-slate-50">
+      <section id="services" className="relative w-full py-24 overflow-hidden border-b border-slate-800 bg-[#0f2b5c]">
         
-        {/* SILUET WATERMARK FOTO MEMBENTANG FULL 1 SECTION */}
-        <div 
-          className="absolute inset-0 w-full h-full bg-cover bg-right-top opacity-70 pointer-events-none z-0"
-          style={{ backgroundImage: `url('/images/services.png')` }}
+        {/* SILUET WATERMARK FOTO DENGAN OPACITY TINGGI AGAR SANGAT JELAS */}
+        <div
+          className="absolute inset-0 w-full h-full bg-cover bg-right-top opacity-120 pointer-events-none z-0"
+          style={{ backgroundImage: `url('/images/services.jpg')` }}
         ></div>
 
-        {/* DOTTED PATTERN ABU-ABU HALUS */}
+        {/* OVERLAY BIRU SANGAT TIPIS (TIDAK TERLALU PEKAT) */}
+        <div className="absolute inset-0 bg-[#0f2b5c]/50 pointer-events-none z-0"></div>
+
+        {/* DOTTED PATTERN PUTIH HALUS */}
         <div className="absolute top-12 left-10 z-0 hidden lg:grid grid-cols-6 gap-2.5 opacity-20 pointer-events-none">
           {[...Array(30)].map((_, i) => (
-            <div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-500"></div>
+            <div key={i} className="w-1.5 h-1.5 rounded-full bg-white"></div>
           ))}
         </div>
 
@@ -1590,186 +1592,164 @@ export default function Home() {
               <span className="w-8 h-[2px] bg-[#ffc107]"></span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0f2b5c] tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
               Featured <span className="text-[#ffc107]">Services</span>
             </h2>
 
             {/* Strip Garis Kuning Bawah Title */}
             <div className="w-12 h-1 bg-[#ffc107] mx-auto my-4 rounded-full"></div>
 
-            <p className="text-slate-600 text-xs md:text-sm font-normal leading-relaxed max-w-xl mx-auto">
+            <p className="text-slate-200 text-xs md:text-sm font-normal leading-relaxed max-w-xl mx-auto">
               Kami menyediakan berbagai layanan unggulan untuk mendukung kebutuhan proyek pertambangan dan konstruksi Anda.
             </p>
           </div>
 
-          {/* GRID 5 KARTU LAYANAN DENGAN FOTO HEADER DI KELIMA KARTU & OVERLAY IKON HEKSAGON */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-16">
-            
-            {/* Card 1: Suku Cadang Original */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden flex flex-col justify-between group">
-              <div>
-                <div className="relative h-36 overflow-hidden">
-                  <div 
-                    className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-                    style={{ backgroundImage: `url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80')` }}
-                  ></div>
-                </div>
+          {/* GRID 4 KARTU LAYANAN - POSISI TENGAH */}
+<div className="flex flex-wrap justify-center gap-5 mb-16">
 
-                <div className="p-5 pt-7 text-center relative">
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-11 h-11 bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shadow-lg z-30 border border-slate-700 transition-transform duration-300 group-hover:rotate-12" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}>
-                    <svg className="w-5 h-5 text-[#ffc107]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                    </svg>
-                  </div>
+  {/* Card 1: Suku Cadang Original */}
+  <div className="w-full sm:w-[calc(50%-10px)] lg:w-[220px] bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden flex flex-col justify-between group">
+    
+    <div>
+      <div className="relative h-36 overflow-hidden">
+        <div 
+          className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+          style={{ 
+            backgroundImage: `url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80')` 
+          }}
+        />
+      </div>
 
-                  <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-2.5">Suku Cadang Original</h3>
-                  <p className="text-slate-500 text-[10px] leading-relaxed mb-4">
-                    Menyediakan suku cadang original XCMG dengan kualitas terjamin dan performa terbaik.
-                  </p>
-                </div>
-              </div>
+      <div className="p-5 pt-7 text-center relative">
+        <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-2.5">
+          Suku Cadang Original
+        </h3>
 
-              <div className="p-5 pt-0 text-center">
-                <a href="/spare-parts" className="text-[11px] font-bold text-slate-700 hover:text-[#ffc107] transition inline-flex items-center gap-1 group-hover:translate-x-1">
-                  <span>Learn More</span>
-                  <span>→</span>
-                </a>
-              </div>
-            </div>
+        <p className="text-slate-500 text-[10px] leading-relaxed mb-4">
+          Menyediakan suku cadang original XCMG dengan kualitas terjamin dan performa terbaik.
+        </p>
+      </div>
+    </div>
 
-            {/* Card 2: Layanan Purna Jual */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden flex flex-col justify-between group">
-              <div>
-                <div className="relative h-36 overflow-hidden">
-                  <div 
-                    className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-                    style={{ backgroundImage: `url('https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80')` }}
-                  ></div>
-                </div>
+    <div className="p-5 pt-0 text-center">
+      <a
+        href="/spare-parts"
+        className="text-[11px] font-bold text-slate-700 hover:text-[#ffc107] transition"
+      >
+        Learn More
+      </a>
+    </div>
+  </div>
 
-                <div className="p-5 pt-7 text-center relative">
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-11 h-11 bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shadow-lg z-30 border border-slate-700 transition-transform duration-300 group-hover:rotate-12" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}>
-                    <svg className="w-5 h-5 text-[#ffc107]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    </svg>
-                  </div>
 
-                  <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-2.5">Layanan Purna Jual</h3>
-                  <p className="text-slate-500 text-[10px] leading-relaxed mb-4">
-                    Perawatan dan perbaikan alat berat oleh teknisi berpengalaman menggunakan standar XCMG.
-                  </p>
-                </div>
-              </div>
+  {/* Card 2: Layanan Purna Jual */}
+  <div className="w-full sm:w-[calc(50%-10px)] lg:w-[220px] bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden flex flex-col justify-between group">
+    
+    <div>
+      <div className="relative h-36 overflow-hidden">
+        <div 
+          className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+          style={{ 
+            backgroundImage: `url('https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80')` 
+          }}
+        />
+      </div>
 
-              <div className="p-5 pt-0 text-center">
-                <a href="/services" className="text-[11px] font-bold text-slate-700 hover:text-[#ffc107] transition inline-flex items-center gap-1 group-hover:translate-x-1">
-                  <span>Learn More</span>
-                  <span>→</span>
-                </a>
-              </div>
-            </div>
+      <div className="p-5 text-center">
+        <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-2.5">
+          Layanan Purna Jual
+        </h3>
 
-            {/* Card 3: Pelatihan Operator */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden flex flex-col justify-between group">
-              <div>
-                <div className="relative h-36 overflow-hidden">
-                  <div 
-                    className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-                    style={{ backgroundImage: `url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80')` }}
-                  ></div>
-                </div>
+        <p className="text-slate-500 text-[10px] leading-relaxed mb-4">
+          Perawatan dan perbaikan alat berat oleh teknisi berpengalaman menggunakan standar XCMG.
+        </p>
+      </div>
+    </div>
 
-                <div className="p-5 pt-7 text-center relative">
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-11 h-11 bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shadow-lg z-30 border border-slate-700 transition-transform duration-300 group-hover:rotate-12" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}>
-                    <svg className="w-5 h-5 text-[#ffc107]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                    </svg>
-                  </div>
+    <div className="p-5 pt-0 text-center">
+      <a
+        href="/services"
+        className="text-[11px] font-bold text-slate-700 hover:text-[#ffc107] transition"
+      >
+        Learn More
+      </a>
+    </div>
+  </div>
 
-                  <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-2.5">Pelatihan Operator</h3>
-                  <p className="text-slate-500 text-[10px] leading-relaxed mb-4">
-                    Program pelatihan operator alat berat untuk meningkatkan kompetensi dan keselamatan kerja.
-                  </p>
-                </div>
-              </div>
 
-              <div className="p-5 pt-0 text-center">
-                <a href="/services" className="text-[11px] font-bold text-slate-700 hover:text-[#ffc107] transition inline-flex items-center gap-1 group-hover:translate-x-1">
-                  <span>Learn More</span>
-                  <span>→</span>
-                </a>
-              </div>
-            </div>
+  {/* Card 3: Layanan On-Site */}
+  <div className="w-full sm:w-[calc(50%-10px)] lg:w-[220px] bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden flex flex-col justify-between group">
+    
+    <div>
+      <div className="relative h-36 overflow-hidden">
+        <div 
+          className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+          style={{ 
+            backgroundImage: `url('https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=600&q=80')` 
+          }}
+        />
+      </div>
 
-            {/* Card 4: Layanan On-Site */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden flex flex-col justify-between group">
-              <div>
-                <div className="relative h-36 overflow-hidden">
-                  <div 
-                    className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-                    style={{ backgroundImage: `url('https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=600&q=80')` }}
-                  ></div>
-                </div>
+      <div className="p-5 text-center">
+        <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-2.5">
+          Layanan On-Site
+        </h3>
 
-                <div className="p-5 pt-7 text-center relative">
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-11 h-11 bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shadow-lg z-30 border border-slate-700 transition-transform duration-300 group-hover:rotate-12" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}>
-                    <svg className="w-5 h-5 text-[#ffc107]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m3 0h1m-4-5l1-3m1 3l1-3m-4 3h6" />
-                    </svg>
-                  </div>
+        <p className="text-slate-500 text-[10px] leading-relaxed mb-4">
+          Tim service siap membantu langsung di lokasi proyek untuk memastikan operasional optimal.
+        </p>
+      </div>
+    </div>
 
-                  <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-2.5">Layanan On-Site</h3>
-                  <p className="text-slate-500 text-[10px] leading-relaxed mb-4">
-                    Tim service siap membantu langsung di lokasi proyek untuk memastikan operasional optimal.
-                  </p>
-                </div>
-              </div>
+    <div className="p-5 pt-0 text-center">
+      <a
+        href="/services"
+        className="text-[11px] font-bold text-slate-700 hover:text-[#ffc107] transition"
+      >
+        Learn More
+      </a>
+    </div>
+  </div>
 
-              <div className="p-5 pt-0 text-center">
-                <a href="/services" className="text-[11px] font-bold text-slate-700 hover:text-[#ffc107] transition inline-flex items-center gap-1 group-hover:translate-x-1">
-                  <span>Learn More</span>
-                  <span>→</span>
-                </a>
-              </div>
-            </div>
 
-            {/* Card 5: Solusi Terintegrasi */}
-            <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden flex flex-col justify-between group">
-              <div>
-                <div className="relative h-36 overflow-hidden">
-                  <div 
-                    className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-                    style={{ backgroundImage: `url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80')` }}
-                  ></div>
-                </div>
+  {/* Card 4: Solusi Terintegrasi */}
+  <div className="w-full sm:w-[calc(50%-10px)] lg:w-[220px] bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden flex flex-col justify-between group">
+    
+    <div>
+      <div className="relative h-36 overflow-hidden">
+        <div 
+          className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+          style={{ 
+            backgroundImage: `url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80')` 
+          }}
+        />
+      </div>
 
-                <div className="p-5 pt-7 text-center relative">
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-11 h-11 bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shadow-lg z-30 border border-slate-700 transition-transform duration-300 group-hover:rotate-12" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}>
-                    <svg className="w-5 h-5 text-[#ffc107]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                  </div>
+      <div className="p-5 text-center">
+        <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-2.5">
+          Solusi Terintegrasi
+        </h3>
 
-                  <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-2.5">Solusi Terintegrasi</h3>
-                  <p className="text-slate-500 text-[10px] leading-relaxed mb-4">
-                    Solusi menyeluruh mulai dari konsultasi, penyediaan unit, hingga after-sales support.
-                  </p>
-                </div>
-              </div>
+        <p className="text-slate-500 text-[10px] leading-relaxed mb-4">
+          Solusi menyeluruh mulai dari konsultasi, penyediaan unit, hingga after-sales support.
+        </p>
+      </div>
+    </div>
 
-              <div className="p-5 pt-0 text-center">
-                <a href="/services" className="text-[11px] font-bold text-slate-700 hover:text-[#ffc107] transition inline-flex items-center gap-1 group-hover:translate-x-1">
-                  <span>Learn More</span>
-                  <span>→</span>
-                </a>
-              </div>
-            </div>
+    <div className="p-5 pt-0 text-center">
+      <a
+        href="/services"
+        className="text-[11px] font-bold text-slate-700 hover:text-[#ffc107] transition"
+      >
+        Learn More
+      </a>
+    </div>
+  </div>
 
-          </div>
+</div>
 
           {/* BOTTOM BANNER "BUTUH LAYANAN LEBIH LANJUT?" TRANSPARAN ELEGAN */}
-          <div id="cta" className="bg-[#0f2b5c]/85 backdrop-blur-md border border-slate-700/60 text-white rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-6 transition-transform duration-300 hover:scale-[1.01]">
+          <div id="cta" className="bg-[#0f2b5c]/75 backdrop-blur-md border border-slate-700/60 text-white rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-6 transition-transform duration-300 hover:scale-[1.01]">
             
             {/* Background Wave Lines */}
             <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -1795,7 +1775,7 @@ export default function Home() {
             </div>
 
             {/* SISI TENGAH: TEKS DESKRIPSI */}
-            <div className="relative z-10 text-slate-300 text-xs md:text-sm max-w-md text-center lg:text-left">
+            <div className="relative z-10 text-slate-200 text-xs md:text-sm max-w-md text-center lg:text-left">
               Tim kami siap membantu Anda menemukan solusi terbaik sesuai kebutuhan proyek Anda.
             </div>
 
@@ -2019,7 +1999,7 @@ export default function Home() {
                             fill="currentColor"
                             viewBox="0 0 24 24"
                         >
-                            <path d="M7.17 6.17A7.98 7.98 0 004 12v5a3 3 0 003 3h3a3 3 0 003-3v-5a3 3 0 00-3-3H8.83A4.98 4.98 0 0113 4V2a6.98 6.98 0 00-5.83 4.17zM17.17 6.17A7.98 7.98 0 0014 12v5a3 3 0 003 3h3a3 3 0 003-3v-5a3 3 0 00-3-3h-1.17A4.98 4.98 0 0021 4V2a6.98 6.98 0 00-3.83 4.17z" />
+                            <path d="M7.17 6.17A7.98 7.98 0 004 12v5a3 3 0 003 3h3a3 3 0 003-3v-5a3 3 0 00-3-3H8.83A4.98 4.98 0 0021 4V2a6.98 6.98 0 00-3.83 4.17z" />
                         </svg>
                     </div>
 
@@ -2401,354 +2381,181 @@ export default function Home() {
     </div>
 
 </section>
+
       {/* ================= 7. SECTION PROJECT GALLERY ================= */}
-      <section id="projects" className="relative w-full bg-white text-slate-800 py-24 overflow-hidden border-b border-slate-200">
+      <section id="projects" className="relative w-full text-slate-800 py-24 overflow-hidden border-b border-slate-200 bg-[#0f2b5c]">
         
-        {/* DOTTED PATTERN ABU-ABU DI LATAR BELAKANG */}
-        <div className="absolute top-12 left-10 z-0 hidden lg:grid grid-cols-6 gap-2.5 opacity-20 pointer-events-none">
-          {[...Array(30)].map((_, i) => (
-            <div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-500"></div>
-          ))}
-        </div>
-        <div className="absolute top-12 right-10 z-0 hidden lg:grid grid-cols-6 gap-2.5 opacity-20 pointer-events-none">
-          {[...Array(30)].map((_, i) => (
-            <div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-500"></div>
-          ))}
-        </div>
+        {/* BACKGROUND FOTO DENGAN OPACITY & OVERLAY BIRU */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-500 pointer-events-none"
+          style={{ backgroundImage: `url('/images/statistik.jpg')` }}
+        ></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0f2b5c]/80 via-[#0f2b5c]/70 to-[#0f2b5c]/80 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16 relative z-10">
           
           {/* HEADER SECTION PROJECT GALLERY */}
-          <div className="text-center max-w-3xl mx-auto mb-10">
+          <div className="text-center max-w-3xl mx-auto mb-14">
             
-            <div className="mb-3 inline-block">
-              <span className="text-[11px] font-bold text-slate-700 bg-slate-100 px-4 py-1.5 rounded-full border border-slate-200 uppercase tracking-widest">
-                PROJECT GALLERY
-              </span>
-            </div>
-
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0f2b5c] tracking-tight leading-tight">
-              Proyek <span className="text-[#ffc107]">yang Telah Kami Kerjakan</span>
+            {/* Judul dibuat lebih tipis (font-medium) */}
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+              Proyek yang Telah <span className="text-[#ffc107]">Kami Kerjakan</span>
             </h2>
 
-            <div className="w-12 h-1 bg-[#ffc107] mx-auto my-4 rounded-full"></div>
+            <div className="w-12 h-1 bg-[#ffc107] mx-auto my-6 rounded-full"></div>
 
-            <p className="text-slate-600 text-xs md:text-sm font-normal leading-relaxed max-w-xl mx-auto">
+            <p className="text-slate-200 text-xs md:text-sm font-normal leading-relaxed max-w-xl mx-auto">
               Berbagai proyek konstruksi dan pertambangan yang telah kami selesaikan dengan standar kualitas tinggi dan komitmen terbaik.
             </p>
           </div>
 
-          {/* CATEGORY FILTER TABS */}
-          <div className="flex flex-wrap justify-center items-center gap-2.5 mb-14">
-            <button className="px-5 py-2.5 bg-[#0f2b5c] text-white font-bold text-xs rounded-xl shadow-sm transition hover:bg-[#ffc107] hover:text-[#0f2b5c]">
-              Semua Proyek
-            </button>
-            <button className="px-5 py-2.5 bg-slate-100/80 hover:bg-[#0f2b5c] hover:text-white text-slate-700 font-bold text-xs rounded-xl transition">
-              Konstruksi
-            </button>
-            <button className="px-5 py-2.5 bg-slate-100/80 hover:bg-[#0f2b5c] hover:text-white text-slate-700 font-bold text-xs rounded-xl transition">
-              Pertambangan
-            </button>
-            <button className="px-5 py-2.5 bg-slate-100/80 hover:bg-[#0f2b5c] hover:text-white text-slate-700 font-bold text-xs rounded-xl transition">
-              Infrastruktur
-            </button>
-            <button className="px-5 py-2.5 bg-slate-100/80 hover:bg-[#0f2b5c] hover:text-white text-slate-700 font-bold text-xs rounded-xl transition">
-              Maintenance
-            </button>
-          </div>
-
-          {/* GRID 6 KARTU PROYEK */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {/* GRID KARTU PROYEK (WARNA PUTIH, KOMPAK, TANPA LABEL DI KIRI ATAS) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             
             {/* Card Proyek 1 */}
-            <div className="bg-white rounded-3xl border border-slate-200/95 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group">
-              <div className="relative h-52 overflow-hidden">
-                <div 
-                  className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700"
-                  style={{ backgroundImage: `url('https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80')` }}
-                ></div>
-                <span className="absolute top-4 left-4 text-[10px] font-bold text-white bg-[#0f2b5c]/85 px-3 py-1 rounded-full backdrop-blur-xs">
-                  Konstruksi
-                </span>
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden group">
+              <div className="relative h-36 overflow-hidden">
+                <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80')` }}></div>
               </div>
-
-              <div className="p-6 flex items-center justify-between">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m3 0h1m-4-5l1-3m1 3l1-3m-4 3h6" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-1">Pembangunan Gedung Perkantoran</h3>
-                    <div className="flex items-center gap-3 text-[10px] text-slate-500">
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Jakarta, DKI Jakarta
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/><line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"/><line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"/><line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/></svg>
-                        2024
-                      </span>
-                    </div>
-                  </div>
+              <div className="p-3.5">
+                <h3 className="font-bold text-xs text-[#0f2b5c] mb-1.5 leading-snug">Pembangunan Gedung Perkantoran</h3>
+                <div className="flex items-center justify-between text-[10px] text-slate-500">
+                  <span>Jakarta, DKI Jakarta</span>
+                  <span>2024</span>
                 </div>
-
-                <button className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-[#ffc107] hover:bg-[#ffc107] hover:text-[#0f2b5c] transition-all duration-300 shrink-0 transform group-hover:translate-x-1">
-                  ›
-                </button>
               </div>
             </div>
 
             {/* Card Proyek 2 */}
-            <div className="bg-white rounded-3xl border border-slate-200/95 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group">
-              <div className="relative h-52 overflow-hidden">
-                <div 
-                  className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700"
-                  style={{ backgroundImage: `url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80')` }}
-                ></div>
-                <span className="absolute top-4 left-4 text-[10px] font-bold text-white bg-[#0f2b5c]/85 px-3 py-1 rounded-full backdrop-blur-xs">
-                  Pertambangan
-                </span>
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden group">
+              <div className="relative h-36 overflow-hidden">
+                <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80')` }}></div>
               </div>
-
-              <div className="p-6 flex items-center justify-between">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-1">Aktivitas Penambangan Batubara</h3>
-                    <div className="flex items-center gap-3 text-[10px] text-slate-500">
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Kalimantan Timur
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/><line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"/><line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"/><line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/></svg>
-                        2024
-                      </span>
-                    </div>
-                  </div>
+              <div className="p-3.5">
+                <h3 className="font-bold text-xs text-[#0f2b5c] mb-1.5 leading-snug">Aktivitas Penambangan Batubara</h3>
+                <div className="flex items-center justify-between text-[10px] text-slate-500">
+                  <span>Kalimantan Timur</span>
+                  <span>2024</span>
                 </div>
-
-                <button className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-[#ffc107] hover:bg-[#ffc107] hover:text-[#0f2b5c] transition-all duration-300 shrink-0 transform group-hover:translate-x-1">
-                  ›
-                </button>
               </div>
             </div>
 
             {/* Card Proyek 3 */}
-            <div className="bg-white rounded-3xl border border-slate-200/95 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group">
-              <div className="relative h-52 overflow-hidden">
-                <div 
-                  className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700"
-                  style={{ backgroundImage: `url('https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=800&q=80')` }}
-                ></div>
-                <span className="absolute top-4 left-4 text-[10px] font-bold text-white bg-[#0f2b5c]/85 px-3 py-1 rounded-full backdrop-blur-xs">
-                  Infrastruktur
-                </span>
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden group">
+              <div className="relative h-36 overflow-hidden">
+                <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=800&q=80')` }}></div>
               </div>
-
-              <div className="p-6 flex items-center justify-between">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-1">Pembangunan Jalan & Jembatan</h3>
-                    <div className="flex items-center gap-3 text-[10px] text-slate-500">
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Sulawesi Selatan
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/><line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"/><line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"/><line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/></svg>
-                        2023
-                      </span>
-                    </div>
-                  </div>
+              <div className="p-3.5">
+                <h3 className="font-bold text-xs text-[#0f2b5c] mb-1.5 leading-snug">Pembangunan Jalan & Jembatan</h3>
+                <div className="flex items-center justify-between text-[10px] text-slate-500">
+                  <span>Sulawesi Selatan</span>
+                  <span>2023</span>
                 </div>
-
-                <button className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-[#ffc107] hover:bg-[#ffc107] hover:text-[#0f2b5c] transition-all duration-300 shrink-0 transform group-hover:translate-x-1">
-                  ›
-                </button>
               </div>
             </div>
 
             {/* Card Proyek 4 */}
-            <div className="bg-white rounded-3xl border border-slate-200/95 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group">
-              <div className="relative h-52 overflow-hidden">
-                <div 
-                  className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700"
-                  style={{ backgroundImage: `url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80')` }}
-                ></div>
-                <span className="absolute top-4 left-4 text-[10px] font-bold text-white bg-[#0f2b5c]/85 px-3 py-1 rounded-full backdrop-blur-xs">
-                  Pertambangan
-                </span>
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden group">
+              <div className="relative h-36 overflow-hidden">
+                <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80')` }}></div>
               </div>
-
-              <div className="p-6 flex items-center justify-between">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2h0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-1">Pengelolaan Area Quarry</h3>
-                    <div className="flex items-center gap-3 text-[10px] text-slate-500">
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Bangka Belitung
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/><line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"/><line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"/><line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/></svg>
-                        2023
-                      </span>
-                    </div>
-                  </div>
+              <div className="p-3.5">
+                <h3 className="font-bold text-xs text-[#0f2b5c] mb-1.5 leading-snug">Pengelolaan Area Quarry</h3>
+                <div className="flex items-center justify-between text-[10px] text-slate-500">
+                  <span>Bangka Belitung</span>
+                  <span>2023</span>
                 </div>
-
-                <button className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-[#ffc107] hover:bg-[#ffc107] hover:text-[#0f2b5c] transition-all duration-300 shrink-0 transform group-hover:translate-x-1">
-                  ›
-                </button>
               </div>
             </div>
 
             {/* Card Proyek 5 */}
-            <div className="bg-white rounded-3xl border border-slate-200/95 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group">
-              <div className="relative h-52 overflow-hidden">
-                <div 
-                  className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700"
-                  style={{ backgroundImage: `url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80')` }}
-                ></div>
-                <span className="absolute top-4 left-4 text-[10px] font-bold text-white bg-[#0f2b5c]/85 px-3 py-1 rounded-full backdrop-blur-xs">
-                  Konstruksi
-                </span>
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden group">
+              <div className="relative h-36 overflow-hidden">
+                <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80')` }}></div>
               </div>
-
-              <div className="p-6 flex items-center justify-between">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m3 0h1m-4-5l1-3m1 3l1-3m-4 3h6" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-1">Pembangunan Pabrik Industri</h3>
-                    <div className="flex items-center gap-3 text-[10px] text-slate-500">
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Cilegon, Banten
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/><line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"/><line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"/><line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/></svg>
-                        2024
-                      </span>
-                    </div>
-                  </div>
+              <div className="p-3.5">
+                <h3 className="font-bold text-xs text-[#0f2b5c] mb-1.5 leading-snug">Pembangunan Pabrik Industri</h3>
+                <div className="flex items-center justify-between text-[10px] text-slate-500">
+                  <span>Cilegon, Banten</span>
+                  <span>2024</span>
                 </div>
-
-                <button className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-[#ffc107] hover:bg-[#ffc107] hover:text-[#0f2b5c] transition-all duration-300 shrink-0 transform group-hover:translate-x-1">
-                  ›
-                </button>
               </div>
             </div>
 
             {/* Card Proyek 6 */}
-            <div className="bg-white rounded-3xl border border-slate-200/95 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group">
-              <div className="relative h-52 overflow-hidden">
-                <div 
-                  className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700"
-                  style={{ backgroundImage: `url('https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80')` }}
-                ></div>
-                <span className="absolute top-4 left-4 text-[10px] font-bold text-white bg-[#0f2b5c]/85 px-3 py-1 rounded-full backdrop-blur-xs">
-                  Maintenance
-                </span>
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden group">
+              <div className="relative h-36 overflow-hidden">
+                <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80')` }}></div>
               </div>
+              <div className="p-3.5">
+                <h3 className="font-bold text-xs text-[#0f2b5c] mb-1.5 leading-snug">Perawatan Alat Berat</h3>
+                <div className="flex items-center justify-between text-[10px] text-slate-500">
+                  <span>Berbagai Lokasi</span>
+                  <span>2024</span>
+                </div>
+              </div>
+            </div>
 
-              <div className="p-6 flex items-center justify-between">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    </svg>
+            {/* KARTU TAMBAHAN (MUNCUL JIKA showAll TRUE) */}
+            {showAll && (
+              <>
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden group">
+                  <div className="relative h-36 overflow-hidden">
+                    <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80')` }}></div>
                   </div>
-                  <div>
-                    <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-1">Perawatan Alat Berat</h3>
-                    <div className="flex items-center gap-3 text-[10px] text-slate-500">
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Berbagai Lokasi
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/><line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"/><line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"/><line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/></svg>
-                        2024
-                      </span>
+                  <div className="p-3.5">
+                    <h3 className="font-bold text-xs text-[#0f2b5c] mb-1.5 leading-snug">Ekspansi Pelabuhan Logistik</h3>
+                    <div className="flex items-center justify-between text-[10px] text-slate-500">
+                      <span>Surabaya, Jawa Timur</span>
+                      <span>2023</span>
                     </div>
                   </div>
                 </div>
 
-                <button className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-[#ffc107] hover:bg-[#ffc107] hover:text-[#0f2b5c] transition-all duration-300 shrink-0 transform group-hover:translate-x-1">
-                  ›
-                </button>
-              </div>
-            </div>
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden group">
+                  <div className="relative h-36 overflow-hidden">
+                    <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80')` }}></div>
+                  </div>
+                  <div className="p-3.5">
+                    <h3 className="font-bold text-xs text-[#0f2b5c] mb-1.5 leading-snug">Overhaul Mesin Tambang</h3>
+                    <div className="flex items-center justify-between text-[10px] text-slate-500">
+                      <span>Balikpapan</span>
+                      <span>2024</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden group">
+                  <div className="relative h-36 overflow-hidden">
+                    <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80')` }}></div>
+                  </div>
+                  <div className="p-3.5">
+                    <h3 className="font-bold text-xs text-[#0f2b5c] mb-1.5 leading-snug">Konstruksi Gudang Logistik</h3>
+                    <div className="flex items-center justify-between text-[10px] text-slate-500">
+                      <span>Karawang, Jawa Barat</span>
+                      <span>2024</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
 
           </div>
 
-          {/* TOMBOL LIHAT SEMUA PROYEK */}
-          <div className="text-center mb-16">
-            <a 
-              href="/projects" 
-              className="inline-flex items-center gap-2 px-7 py-3 border-2 border-[#0f2b5c] text-[#0f2b5c] hover:bg-[#0f2b5c] hover:text-white font-bold text-xs rounded-full transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
+          {/* TOMBOL LIHAT SEMUA / TUTUP PROYEK */}
+          <div className="text-center">
+            <button 
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#ffc107] text-[#0f2b5c] hover:bg-amber-400 font-bold text-xs rounded-full transition-all duration-300 shadow-md transform hover:-translate-y-0.5 cursor-pointer"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"/>
-              </svg>
-              <span>Lihat Semua Proyek</span>
-              <span>→</span>
-            </a>
-          </div>
-
-          {/* BOTTOM BANNER "TERTARIK BEKERJA SAMA?" (BIRU TRANSPARAN ELEGANT) */}
-          <div className="bg-[#0f2b5c]/85 backdrop-blur-md border border-slate-700/60 text-white rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 transition-transform duration-300 hover:scale-[1.01]">
-            <div className="flex items-center gap-4 relative z-10 w-full md:w-auto">
-              <div className="w-14 h-14 rounded-2xl border border-slate-600/80 flex items-center justify-center shrink-0 text-[#ffc107] bg-slate-800/40 animate-pulse">
-                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-extrabold text-base md:text-lg text-white leading-tight mb-1">
-                  Tertarik Bekerja Sama?
-                </h3>
-                <p className="text-slate-300 text-xs md:text-sm">
-                  Kami siap mewujudkan proyek Anda dengan kualitas terbaik.
-                </p>
-              </div>
-            </div>
-
-            <div className="relative z-10 shrink-0">
-              <a 
-                href="https://wa.me/6281100000000" 
-                className="px-7 py-3.5 bg-[#ffc107] hover:bg-amber-400 text-[#0f2b5c] font-black text-xs rounded-xl transition duration-300 shadow-md flex items-center gap-2 transform hover:scale-105"
-              >
-                <span>Hubungi Kami</span>
-                <span>→</span>
-              </a>
-            </div>
+              <span>{showAll ? "Tutup Sebagian Proyek" : "Lihat Semua Proyek"}</span>
+            </button>
           </div>
 
         </div>
       </section>
 
-      {/* ================= 8. SECTION LATEST NEWS (BERITA TERBARU - PERSIS FOTO ACUAN) ================= */}
+      {/* ================= 8. SECTION LATEST NEWS ================= */}
       <section id="news" className="relative w-full bg-white text-slate-800 py-24 overflow-hidden border-b border-slate-200">
         
         {/* DOTTED PATTERN ABU-ABU DI KIRI ATAS & KANAN BAWAH */}
@@ -2787,29 +2594,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* CATEGORY FILTER TABS & LIHAT SEMUA BERITA LINK */}
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-16 border-b border-slate-200/80 pb-6">
-            <div className="flex flex-wrap justify-center items-center gap-2">
-              <button className="px-5 py-2 bg-[#0f2b5c] text-white font-bold text-xs rounded-xl shadow-sm transition">
-                Semua Berita
-              </button>
-              <button className="px-5 py-2 hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-xl transition">
-                Perusahaan
-              </button>
-              <button className="px-5 py-2 hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-xl transition">
-                Proyek
-              </button>
-              <button className="px-5 py-2 hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-xl transition">
-                Inovasi
-              </button>
-              <button className="px-5 py-2 hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-xl transition">
-                CSR
-              </button>
-              <button className="px-5 py-2 hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-xl transition">
-                Event
-              </button>
-            </div>
-
+          {/* BARIS KOSONG UNTUK KESEIMBANGAN LAYOUT (KATEGORI DIHAPUS) */}
+          <div className="flex justify-end mb-16 border-b border-slate-200/80 pb-6">
             <a href="/news" className="text-xs font-extrabold text-[#0f2b5c] hover:text-amber-600 transition flex items-center gap-1.5 shrink-0">
               <span>Lihat Semua Berita</span>
               <span>→</span>
@@ -2819,12 +2605,12 @@ export default function Home() {
           {/* MAIN NEWS GRID (2 KOLOM: FEATURED CARD BESAR DI KIRI & LIST TIMELINE DI KANAN) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            {/* SISI KIRI: FEATURED BIG NEWS CARD (DENGAN LATAR FOTO KONSTRUKSI & OVERLAY GELAP) */}
+            {/* SISI KIRI: FEATURED BIG NEWS CARD */}
             <div className="lg:col-span-7 relative rounded-3xl overflow-hidden shadow-xl min-h-[440px] md:min-h-[480px] flex flex-col justify-end p-8 md:p-10 group">
               {/* Background Image */}
               <div 
                 className="absolute inset-0 w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-700 z-0"
-                style={{ backgroundImage: `url('https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=1200&q=80')` }}
+                style={{ backgroundImage: `url('/images/karir.jpg')` }}
               ></div>
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/50 to-transparent z-10"></div>
@@ -2832,9 +2618,6 @@ export default function Home() {
               {/* Konten Teks di Atas Overlay */}
               <div className="relative z-20 text-white">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-[10px] font-bold bg-[#ffc107] text-[#0f2b5c] px-3 py-1 rounded-md uppercase tracking-wider">
-                    PERUSAHAAN
-                  </span>
                   <span className="text-xs text-slate-300 flex items-center gap-1">
                     <svg className="w-3.5 h-3.5 text-[#ffc107]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/><line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"/><line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"/><line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/></svg>
                     28 Mei 2024
@@ -2856,10 +2639,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* SISI KANAN: LIST BERITA TIMELINE (3 ARTIKEL) DENGAN FOTO ASLI & TANPA EMOJI */}
+            {/* SISI KANAN: LIST BERITA TIMELINE */}
             <div className="lg:col-span-5 flex flex-col justify-between space-y-6 relative">
               
-              {/* Garis Vertikal Timeline di Kiri List */}
               <div className="absolute left-10 top-6 bottom-6 w-[2px] bg-amber-300/40 hidden sm:block pointer-events-none"></div>
 
               {/* Berita 1 */}
@@ -2871,15 +2653,9 @@ export default function Home() {
                       alt="Proyek Tol" 
                       className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md"
                     />
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center font-bold text-[9px] shadow-xs border border-white">
-                      PRO
-                    </div>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[9px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 uppercase">
-                        PROYEK
-                      </span>
                       <span className="text-[10px] text-slate-400 flex items-center gap-1">
                         <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/><line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"/><line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"/><line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/></svg>
                         22 Mei 2024
@@ -2908,15 +2684,9 @@ export default function Home() {
                       alt="Inovasi Alat" 
                       className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md"
                     />
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center font-bold text-[9px] shadow-xs border border-white">
-                      INV
-                    </div>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[9px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-200 uppercase">
-                        INOVASI
-                      </span>
                       <span className="text-[10px] text-slate-400 flex items-center gap-1">
                         <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/><line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"/><line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"/><line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/></svg>
                         15 Mei 2024
@@ -2945,15 +2715,9 @@ export default function Home() {
                       alt="Kerja Sama" 
                       className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md"
                     />
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center font-bold text-[9px] shadow-xs border border-white">
-                      COR
-                    </div>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[9px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 uppercase">
-                        PERUSAHAAN
-                      </span>
                       <span className="text-[10px] text-slate-400 flex items-center gap-1">
                         <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"/><line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"/><line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"/><line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"/></svg>
                         10 Mei 2024
@@ -2980,134 +2744,120 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= 9. SECTION KONTAK & ALAMAT KAMI (DENGAN BACKGROUND FOTO) ================= */}
-      <section 
-        id="contact"
-        className="relative w-full py-24 overflow-hidden border-b border-slate-200 bg-cover bg-center"
-        style={{
-          backgroundImage: "linear-gradient(to bottom, rgba(15,43,92,0.10), rgba(11,18,32,0.95)), url('/images/kontak.jpg')"
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16 relative z-10">
-          
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <span className="w-8 h-[2px] bg-[#ffc107]"></span>
-              <span className="text-[11px] font-black tracking-widest text-[#ffc107] uppercase">
-                GET IN TOUCH
-              </span>
-              <span className="w-8 h-[2px] bg-[#ffc107]"></span>
-            </div>
+      {/* =========================================================
+    9. SECTION KONTAK & ALAMAT KAMI
+========================================================= */}
+<section 
+  id="contact"
+  className="relative w-full py-24 overflow-hidden border-b border-slate-200 bg-cover bg-center"
+  style={{
+    backgroundImage: "linear-gradient(to bottom, rgba(7,27,56,0.10), rgba(7,27,56,0.95)), url('/images/kontak.jpg')"
+  }}
+>
+  <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16 relative z-10">
+    
+    {/* HEADER SECTION */}
+    <div className="text-center max-w-3xl mx-auto mb-16">
+      <div className="flex items-center justify-center gap-3 mb-3">
+        <span className="w-8 h-[2px] bg-[#ffc107]"></span>
+        <span className="text-[11px] font-black tracking-widest text-[#ffc107] uppercase">
+          GET IN TOUCH
+        </span>
+        <span className="w-8 h-[2px] bg-[#ffc107]"></span>
+      </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
-              Kontak & <span className="text-[#ffc107]">Alamat Kami</span>
-            </h2>
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+        Kontak & <span className="text-[#ffc107]">Alamat Kami</span>
+      </h2>
 
-            <div className="w-12 h-1 bg-[#ffc107] mx-auto my-4 rounded-full"></div>
+      <div className="w-12 h-1 bg-[#ffc107] mx-auto my-6 rounded-full"></div>
 
-            <p className="text-slate-300 text-xs md:text-sm font-normal leading-relaxed max-w-xl mx-auto">
-              Kunjungi kantor pusat kami atau hubungi tim layanan pelanggan kami untuk informasi lebih lanjut mengenai produk dan layanan alat berat.
-            </p>
-          </div>
+      <p className="text-white text-xs md:text-sm font-normal leading-relaxed max-w-xl mx-auto">
+        Kunjungi kantor pusat kami atau hubungi tim layanan pelanggan kami untuk informasi lebih lanjut mengenai produk dan layanan alat berat.
+      </p>
+    </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            {/* Card 1: Alamat Kami */}
-            <div className="bg-white/95 backdrop-blur-md p-8 rounded-3xl border border-slate-200/90 shadow-xl flex flex-col justify-between transition-transform duration-300 hover:-translate-y-2">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center mb-6 shadow-sm">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <h3 className="font-extrabold text-base text-[#0f2b5c] mb-2">Alamat Kantor Pusat</h3>
-                <p className="text-slate-600 text-xs leading-relaxed">
-                  Foresta Business Loft 7, Unit 6-7<br />
-                  Jl. BSD Boulevard Utara, Lengkong Kulon, Kec. Pagedangan, Kabupaten Tangerang, Banten 15331
-                </p>
-              </div>
-              <div className="mt-8 pt-4 border-t border-slate-100">
-                <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="text-xs font-bold text-[#0f2b5c] hover:text-amber-600 transition inline-flex items-center gap-1">
-                  <span>Lihat di Google Maps</span>
-                  <span>→</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Card 2: Jam Operasional */}
-            <div className="bg-white/95 backdrop-blur-md p-8 rounded-3xl border border-slate-200/90 shadow-xl flex flex-col justify-between transition-transform duration-300 hover:-translate-y-2">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center mb-6 shadow-sm">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="font-extrabold text-base text-[#0f2b5c] mb-2">Jam Operasional</h3>
-                <div className="space-y-2 text-xs text-slate-600">
-                  <div className="flex justify-between border-b border-slate-100 pb-1.5">
-                    <span className="font-semibold text-slate-700">Senin - Jumat:</span>
-                    <span>08.00 - 17.00 WIB</span>
-                  </div>
-                  <div className="flex justify-between border-b border-slate-100 pb-1.5">
-                    <span className="font-semibold text-slate-700">Sabtu:</span>
-                    <span>08.00 - 14.00 WIB</span>
-                  </div>
-                  <div className="flex justify-between pb-1.5">
-                    <span className="font-semibold text-slate-700">Minggu / Libur:</span>
-                    <span className="text-amber-600 font-bold">Tutup (Layanan Darurat 24/7)</span>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-8 pt-4 border-t border-slate-100">
-                <span className="text-xs font-bold text-slate-400">Dukungan Teknisi Darurat 24 Jam</span>
-              </div>
-            </div>
-
-            {/* Card 3: Kontak Kami */}
-            <div className="bg-white/95 backdrop-blur-md p-8 rounded-3xl border border-slate-200/90 shadow-xl flex flex-col justify-between transition-transform duration-300 hover:-translate-y-2">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center mb-6 shadow-sm">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </div>
-                <h3 className="font-extrabold text-base text-[#0f2b5c] mb-2">Informasi Kontak</h3>
-                <div className="space-y-2 text-xs text-slate-600">
-                  <p><strong className="text-slate-700">Hotline / WhatsApp:</strong> +62 811-0000-0000</p>
-                  <p><strong className="text-slate-700">Email Resmi:</strong> info@servistamapro.co.id</p>
-                  <p><strong className="text-slate-700">Layanan Spare Parts:</strong> parts@servistamapro.co.id</p>
-                </div>
-              </div>
-              <div className="mt-8 pt-4 border-t border-slate-100">
-                <a href="/contact-us" className="text-xs font-bold text-[#0f2b5c] hover:text-amber-600 transition inline-flex items-center gap-1">
-                  <span>Formulir Kontak Online</span>
-                  <span>→</span>
-                </a>
-              </div>
-            </div>
-
-          </div>
-
+    {/* GRID 3 KARTU KONTAK MINIMALIS (TANPA IKON & KOMPAK) */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      
+      {/* Card 1: Alamat */}
+      <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-lg hover:shadow-xl transition-all duration-300">
+        <h3 className="font-extrabold text-sm text-[#0f2b5c] mb-3">Alamat Kantor Pusat</h3>
+        <p className="text-slate-600 text-[11px] leading-relaxed">
+          Foresta Business Loft 7, Unit 6-7<br />
+          Jl. BSD Boulevard Utara, Lengkong Kulon, Tangerang, Banten 15331
+        </p>
+        <div className="mt-5 pt-3 border-t border-slate-100">
+          <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="text-[11px] font-bold text-[#0f2b5c] hover:text-amber-600 transition inline-flex items-center gap-1">
+            Lihat Maps →
+          </a>
         </div>
-      </section>
+      </div>
+
+      {/* Card 2: Jam Operasional */}
+      <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-lg hover:shadow-xl transition-all duration-300">
+        <h3 className="font-extrabold text-sm text-[#0f2b5c] mb-3">Jam Operasional</h3>
+        <div className="space-y-2 text-[11px] text-slate-600">
+          <div className="flex justify-between">
+            <span className="font-semibold">Senin - Jumat:</span>
+            <span>08.00 - 17.00</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-semibold">Sabtu:</span>
+            <span>08.00 - 14.00</span>
+          </div>
+          <div className="flex justify-between text-amber-600 font-bold">
+            <span>Minggu:</span>
+            <span>Tutup</span>
+          </div>
+        </div>
+        <div className="mt-5 pt-3 border-t border-slate-100">
+          <span className="text-[10px] font-bold text-slate-400">Dukungan 24/7 Darurat</span>
+        </div>
+      </div>
+
+      {/* Card 3: Kontak */}
+      <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-lg hover:shadow-xl transition-all duration-300">
+        <h3 className="font-extrabold text-sm text-[#0f2b5c] mb-3">Informasi Kontak</h3>
+        <div className="space-y-1.5 text-[11px] text-slate-600">
+          <p>Hotline: <span className="font-medium text-[#0f2b5c]">+62 811-0000-0000</span></p>
+          <p>Email: <span className="font-medium text-[#0f2b5c]">info@servistamapro.co.id</span></p>
+          <p>Parts: <span className="font-medium text-[#0f2b5c]">parts@servistamapro.co.id</span></p>
+        </div>
+        <div className="mt-5 pt-3 border-t border-slate-100">
+          <a href="/contact-us" className="text-[11px] font-bold text-[#0f2b5c] hover:text-amber-600 transition inline-flex items-center gap-1">
+            Kirim Email →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       {/* =========================================================
-    10. SECTION BRANCH OFFICE (3D INDONESIA MAP + YELLOW CORPORATE ACCENT + LOCATION CALLOUTS)
+    10. SECTION BRANCH OFFICE (FOTO BACKGROUND DIPERJELAS)
 ========================================================= */}
       <section
         id="operational-area"
         className="relative w-full bg-white text-[#0b2348] overflow-hidden border-b border-slate-200"
       >
-        <div className="absolute top-0 right-0 w-[420px] h-[420px] rounded-full border border-[#ffc107]/10 translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[320px] h-[320px] rounded-full border border-[#ffc107]/10 -translate-x-1/2 translate-y-1/2 pointer-events-none" />
-        <div className="absolute top-[250px] left-1/2 -translate-x-1/2 w-[850px] h-[350px] bg-[#ffc107]/[0.035] blur-3xl rounded-full pointer-events-none" />
+        {/* BACKGROUND FOTO DIPERJELAS (OPACITY DINAIKKAN) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <img
+            src="/images/branch.png"
+            alt="Operational Area Background"
+            className="absolute inset-0 w-full h-full object-cover opacity-25"
+          />
+          {/* Overlay putih dibuat sedikit lebih transparan agar foto aslinya tampak lebih jelas dan kontras */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/75 to-white/85" />
+        </div>
 
         <div className="relative z-10 max-w-[1450px] mx-auto px-6 md:px-10 xl:px-14 py-20 md:py-24">
 
           {/* HEADER */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-10">
-            <div className="max-w-[680px]">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
+            <div className="max-w-[720px]">
               <div className="flex items-center gap-3 mb-4">
                 <span className="w-10 h-[2px] bg-[#ffc107]" />
                 <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.25em] text-[#b27b00]">
@@ -3128,255 +2878,175 @@ export default function Home() {
                 <span className="w-2 h-2 rounded-full bg-[#ffc107]" />
               </div>
 
-              <p className="mt-5 text-sm md:text-[15px] text-slate-500 leading-relaxed max-w-[600px]">
+              <p className="mt-5 text-sm md:text-[15px] text-slate-600 leading-relaxed max-w-[650px]">
                 Dengan pengalaman lebih dari 10 tahun, kami terus memperluas jaringan layanan, workshop, dan dukungan teknis ke berbagai wilayah strategis di Indonesia.
               </p>
             </div>
+          </div>
 
-            {/* NETWORK STATUS */}
-            <div className="flex items-center gap-3 self-start lg:self-end px-4 py-3 rounded-full bg-white border border-slate-200 shadow-sm">
-              <span className="relative flex w-3 h-3">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
-                <span className="relative inline-flex w-3 h-3 rounded-full bg-emerald-500" />
-              </span>
-              <div>
-                <p className="text-[9px] font-black uppercase tracking-[0.18em] text-slate-400">
-                  NETWORK STATUS
-                </p>
-                <p className="text-xs font-black text-[#0b2348] mt-0.5">
-                  Active Site Coverage
-                </p>
+          {/* AREA PETA TANPA KOTAK (FULL LEBAR DENGAN CALLOUT CARDS) */}
+          <div className="relative w-full min-h-[600px] md:min-h-[680px] lg:min-h-[730px] flex items-center justify-center my-6">
+
+            <div className="absolute w-[60%] max-w-[850px] h-[260px] rounded-[50%] bg-[#ffc107]/10 blur-[80px] pointer-events-none" />
+
+            {/* MAP WRAPPER */}
+            <div className="relative w-full max-w-[1200px] aspect-[2.5/1]">
+
+              {/* PETA INDONESIA */}
+{/* PETA INDONESIA (WARNA BIRU SPI #0b2348) */}
+<img 
+  src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Indonesia_Blankmap.svg" 
+  alt="Peta Indonesia" 
+  className="absolute inset-0 w-full h-full object-contain opacity-90 drop-shadow-[0_10px_25px_rgba(11,35,72,0.15)]"
+  style={{
+    filter: "brightness(0) saturate(100%) invert(11%) sepia(50%) saturate(1400%) hue-rotate(185deg) contrast(105%)"
+  }}
+/>
+              {/* LOCATION MARKERS */}
+              <div className="absolute left-[27%] top-[55%] z-30">
+                <span className="absolute -inset-3 rounded-full bg-red-500/20 animate-ping" />
+                <span className="absolute -inset-1 rounded-full bg-[#ffc107]/35" />
+                <span className="relative block w-4 h-4 rounded-full bg-[#d92323] border-[2px] border-white shadow-[0_3px_10px_rgba(217,35,35,0.5)]" />
               </div>
+
+              <div className="absolute left-[47%] top-[73%] z-30">
+                <span className="absolute -inset-3 rounded-full bg-red-500/20 animate-ping" />
+                <span className="absolute -inset-1 rounded-full bg-[#ffc107]/35" />
+                <span className="relative block w-5 h-5 rounded-full bg-[#d92323] border-[2px] border-white shadow-[0_3px_10px_rgba(217,35,35,0.5)]" />
+              </div>
+
+              <div className="absolute left-[57%] top-[36%] z-30">
+                <span className="absolute -inset-3 rounded-full bg-red-500/20 animate-ping" />
+                <span className="absolute -inset-1 rounded-full bg-[#ffc107]/35" />
+                <span className="relative block w-5 h-5 rounded-full bg-[#d92323] border-[2px] border-white shadow-[0_3px_10px_rgba(217,35,35,0.5)]" />
+              </div>
+
+              <div className="absolute left-[72%] top-[50%] z-30">
+                <span className="absolute -inset-3 rounded-full bg-red-500/20 animate-ping" />
+                <span className="absolute -inset-1 rounded-full bg-[#ffc107]/35" />
+                <span className="relative block w-5 h-5 rounded-full bg-[#d92323] border-[2px] border-white shadow-[0_3px_10px_rgba(217,35,35,0.5)]" />
+              </div>
+
+              <div className="absolute right-[8%] top-[58%] z-30">
+                <span className="absolute -inset-3 rounded-full bg-red-500/20 animate-ping" />
+                <span className="absolute -inset-1 rounded-full bg-[#ffc107]/35" />
+                <span className="relative block w-5 h-5 rounded-full bg-[#d92323] border-[2px] border-white shadow-[0_3px_10px_rgba(217,35,35,0.5)]" />
+              </div>
+
+              {/* CONNECTOR LINES */}
+              <svg className="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-visible" viewBox="0 0 100 40" preserveAspectRatio="none">
+                <defs>
+                  <marker id="arrowNavy" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#0b2348" /></marker>
+                  <marker id="arrowYellow" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#ffc107" /></marker>
+                </defs>
+                <path d="M27 22 L20 8 L10 8" fill="none" stroke="#ffc107" strokeWidth="0.30" strokeDasharray="0.8 0.55" vectorEffect="non-scaling-stroke" markerEnd="url(#arrowYellow)" />
+                <path d="M47 29 L47 37 L35 37" fill="none" stroke="#0b2348" strokeWidth="0.25" strokeDasharray="0.8 0.55" vectorEffect="non-scaling-stroke" markerEnd="url(#arrowNavy)" />
+                <path d="M57 14 L57 5 L69 5" fill="none" stroke="#ffc107" strokeWidth="0.30" strokeDasharray="0.8 0.55" vectorEffect="non-scaling-stroke" markerEnd="url(#arrowYellow)" />
+                <path d="M72 20 L80 13 L90 13" fill="none" stroke="#0b2348" strokeWidth="0.25" strokeDasharray="0.8 0.55" vectorEffect="non-scaling-stroke" markerEnd="url(#arrowNavy)" />
+                <path d="M92 23 L97 29" fill="none" stroke="#ffc107" strokeWidth="0.30" strokeDasharray="0.8 0.55" vectorEffect="non-scaling-stroke" markerEnd="url(#arrowYellow)" />
+              </svg>
+
+              {/* CALLOUT CARDS */}
+              <div className="absolute left-[0%] top-[-3%] z-40 hidden md:block w-[205px]">
+                <div className="relative bg-white text-[#0b2348] border border-slate-200 rounded-2xl p-4 shadow-xl hover:-translate-y-1 transition-all duration-300">
+                  <div className="absolute top-0 left-0 w-full h-[3px] bg-[#ffc107] rounded-t-2xl" />
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-7 h-7 rounded-lg bg-[#0b2348] text-[#ffc107] flex items-center justify-center text-[9px] font-black">01</span>
+                    <span className="text-[8px] font-black uppercase tracking-[0.15em] text-[#b27b00]">Service Point</span>
+                  </div>
+                  <h4 className="text-xs font-black text-[#0b2348]">Sumatera</h4>
+                  <p className="text-[9px] text-slate-500 leading-relaxed mt-1">Dukungan pemeliharaan dan teknisi untuk area operasional Sumatera.</p>
+                </div>
+              </div>
+
+              <div className="absolute left-[67%] top-[-7%] z-40 hidden md:block w-[220px]">
+                <div className="relative bg-white text-[#0b2348] border border-slate-200 rounded-2xl p-4 shadow-xl hover:-translate-y-1 transition-all duration-300">
+                  <div className="absolute top-0 left-0 w-full h-[3px] bg-[#ffc107] rounded-t-2xl" />
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-7 h-7 rounded-lg bg-[#0b2348] text-[#ffc107] flex items-center justify-center text-[9px] font-black">02</span>
+                    <span className="text-[8px] font-black uppercase tracking-[0.15em] text-[#b27b00]">Branch & Workshop</span>
+                  </div>
+                  <h4 className="text-xs font-black text-[#0b2348]">Kalimantan</h4>
+                  <p className="text-[9px] text-slate-500 leading-relaxed mt-1">Workshop, overhaul, spare parts, dan dukungan teknis untuk area tambang.</p>
+                </div>
+              </div>
+
+              <div className="absolute right-[-2%] top-[5%] z-40 hidden md:block w-[215px]">
+                <div className="relative bg-white text-[#0b2348] border border-slate-200 rounded-2xl p-4 shadow-xl hover:-translate-y-1 transition-all duration-300">
+                  <div className="absolute top-0 left-0 w-full h-[3px] bg-[#ffc107] rounded-t-2xl" />
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-7 h-7 rounded-lg bg-[#0b2348] text-[#ffc107] flex items-center justify-center text-[9px] font-black">03</span>
+                    <span className="text-[8px] font-black uppercase tracking-[0.15em] text-[#b27b00]">Service Coverage</span>
+                  </div>
+                  <h4 className="text-xs font-black text-[#0b2348]">Sulawesi</h4>
+                  <p className="text-[9px] text-slate-500 leading-relaxed mt-1">Layanan maintenance berkala dan diagnosis unit alat berat.</p>
+                </div>
+              </div>
+
+              <div className="absolute left-[31%] bottom-[-8%] z-40 hidden md:block w-[230px]">
+                <div className="relative bg-white text-[#0b2348] border border-slate-200 rounded-2xl p-4 shadow-xl hover:-translate-y-1 transition-all duration-300">
+                  <div className="absolute top-0 left-0 w-full h-[3px] bg-[#ffc107] rounded-t-2xl" />
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-7 h-7 rounded-lg bg-[#0b2348] text-[#ffc107] flex items-center justify-center text-[9px] font-black">04</span>
+                    <span className="text-[8px] font-black uppercase tracking-[0.15em] text-[#b27b00]">Head Office</span>
+                  </div>
+                  <h4 className="text-xs font-black text-[#0b2348]">Tangerang, Banten</h4>
+                  <p className="text-[9px] text-slate-500 leading-relaxed mt-1">Pusat koordinasi manajemen, sales, logistik, dan layanan nasional.</p>
+                </div>
+              </div>
+
+              <div className="absolute right-[-1%] bottom-[2%] z-40 hidden xl:block w-[175px]">
+                <div className="relative bg-white text-[#0b2348] border border-slate-200 rounded-xl p-3 shadow-xl">
+                  <div className="absolute top-0 left-0 w-full h-[2px] bg-[#ffc107] rounded-t-xl" />
+                  <div className="flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-md bg-[#0b2348] text-[#ffc107] flex items-center justify-center text-[8px] font-black">05</span>
+                    <div>
+                      <p className="text-[8px] font-black uppercase tracking-wider text-[#b27b00]">Engineer Coverage</p>
+                      <p className="text-[10px] font-black text-[#0b2348]">Papua & Timur</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
 
-          {/* MAP CONTAINER */}
-          <div className="relative w-full min-h-[650px] md:min-h-[720px] lg:min-h-[770px] overflow-hidden rounded-[32px] bg-[#fcfcfa] border border-slate-200 shadow-[0_20px_60px_rgba(11,35,72,0.07)]">
-
-            <div className="absolute inset-0 pointer-events-none opacity-[0.35]" style={{ backgroundImage: `linear-gradient(rgba(255,193,7,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,193,7,0.035) 1px, transparent 1px)`, backgroundSize: "45px 45px" }} />
-            <div className="absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 w-[720px] h-[280px] bg-[#ffc107]/[0.06] blur-[90px] rounded-full pointer-events-none" />
-
-            {/* MAP HEADER LABEL */}
-            <div className="absolute top-6 left-6 md:top-8 md:left-8 z-40">
-              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white border border-slate-200 shadow-sm">
-                <span className="relative flex w-2 h-2">
-                  <span className="absolute inset-0 rounded-full bg-[#ffc107] animate-ping opacity-70" />
-                  <span className="relative w-2 h-2 rounded-full bg-[#ffc107]" />
-                </span>
-                <span className="text-[9px] font-black uppercase tracking-[0.18em] text-[#0b2348]">
-                  Indonesia Operational Network
-                </span>
+          {/* MOBILE LOCATION LIST */}
+          <div className="mt-6 md:hidden">
+            <div className="bg-white text-[#0b2348] border border-slate-200 rounded-2xl p-4 shadow-lg">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-[9px] font-black uppercase tracking-[0.16em] text-[#b27b00]">Operational Coverage</p>
+                <span className="w-2 h-2 rounded-full bg-[#ffc107]" />
               </div>
-            </div>
-
-            {/* SMALL TOP RIGHT DECORATION */}
-            <div className="absolute top-7 right-7 md:top-9 md:right-9 z-30 hidden sm:flex items-center gap-2">
-              <span className="text-[8px] uppercase tracking-[0.18em] font-black text-slate-400">Nationwide Coverage</span>
-              <span className="w-8 h-[2px] bg-[#ffc107]" />
-            </div>
-
-            {/* MAP AREA */}
-            <div className="absolute inset-x-0 top-[90px] bottom-[125px] flex items-center justify-center">
-              <div className="absolute w-[72%] max-w-[1050px] h-[80px] bottom-[7%] rounded-[50%] bg-[#0b2348]/10 blur-3xl" />
-              <div className="absolute w-[60%] max-w-[850px] h-[260px] rounded-[50%] bg-[#ffc107]/10 blur-[70px]" />
-
-              {/* 3D MAP WRAPPER */}
-              <div className="relative w-[94%] max-w-[1150px] aspect-[2.5/1]">
-
-                {/* 3D EXTRUSION LAYERS */}
-                <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Indonesia_Blankmap.svg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-contain opacity-90 translate-x-[5px] translate-y-[25px] brightness-0 saturate-100 invert-[13%] sepia-[35%] saturate-[1450%] hue-rotate-[180deg] contrast-[110%]" />
-                <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Indonesia_Blankmap.svg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-contain opacity-95 translate-x-[4px] translate-y-[20px] brightness-0 saturate-100 invert-[51%] sepia-[90%] saturate-[950%] hue-rotate-[355deg] brightness-[91%] contrast-[105%]" />
-                <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Indonesia_Blankmap.svg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-contain opacity-95 translate-x-[2px] translate-y-[13px] brightness-0 saturate-100 invert-[68%] sepia-[91%] saturate-[1050%] hue-rotate-[355deg] brightness-[102%] contrast-[103%]" />
-                <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Indonesia_Blankmap.svg" alt="Peta Indonesia" className="absolute inset-0 w-full h-full object-contain brightness-0 saturate-100 invert-[94%] sepia-[27%] saturate-[850%] hue-rotate-[355deg] brightness-[104%] contrast-[103%] drop-shadow-[0_8px_10px_rgba(11,35,72,0.12)]" />
-                <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Indonesia_Blankmap.svg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-contain opacity-35 -translate-y-[2px] brightness-0 saturate-100 invert-[100%]" />
-
-                {/* LOCATION MARKERS */}
-                <div className="absolute left-[27%] top-[55%] z-30">
-                  <span className="absolute -inset-3 rounded-full bg-red-500/20 animate-ping" />
-                  <span className="absolute -inset-1 rounded-full bg-[#ffc107]/35" />
-                  <span className="relative block w-4 h-4 rounded-full bg-[#d92323] border-[2px] border-white shadow-[0_3px_10px_rgba(217,35,35,0.5)]" />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Head Office</p>
+                  <p className="text-[10px] font-black text-[#0b2348] mt-1">Tangerang</p>
                 </div>
-
-                <div className="absolute left-[47%] top-[73%] z-30">
-                  <span className="absolute -inset-3 rounded-full bg-red-500/20 animate-ping" />
-                  <span className="absolute -inset-1 rounded-full bg-[#ffc107]/35" />
-                  <span className="relative block w-5 h-5 rounded-full bg-[#d92323] border-[2px] border-white shadow-[0_3px_10px_rgba(217,35,35,0.5)]" />
+                <div>
+                  <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Branch</p>
+                  <p className="text-[10px] font-black text-[#0b2348] mt-1">Kalimantan</p>
                 </div>
-
-                <div className="absolute left-[57%] top-[36%] z-30">
-                  <span className="absolute -inset-3 rounded-full bg-red-500/20 animate-ping" />
-                  <span className="absolute -inset-1 rounded-full bg-[#ffc107]/35" />
-                  <span className="relative block w-5 h-5 rounded-full bg-[#d92323] border-[2px] border-white shadow-[0_3px_10px_rgba(217,35,35,0.5)]" />
+                <div>
+                  <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Service Point</p>
+                  <p className="text-[10px] font-black text-[#0b2348] mt-1">Sumatera</p>
                 </div>
-
-                <div className="absolute left-[72%] top-[50%] z-30">
-                  <span className="absolute -inset-3 rounded-full bg-red-500/20 animate-ping" />
-                  <span className="absolute -inset-1 rounded-full bg-[#ffc107]/35" />
-                  <span className="relative block w-5 h-5 rounded-full bg-[#d92323] border-[2px] border-white shadow-[0_3px_10px_rgba(217,35,35,0.5)]" />
-                </div>
-
-                <div className="absolute right-[8%] top-[58%] z-30">
-                  <span className="absolute -inset-3 rounded-full bg-red-500/20 animate-ping" />
-                  <span className="absolute -inset-1 rounded-full bg-[#ffc107]/35" />
-                  <span className="relative block w-5 h-5 rounded-full bg-[#d92323] border-[2px] border-white shadow-[0_3px_10px_rgba(217,35,35,0.5)]" />
-                </div>
-
-                {/* CONNECTOR LINES + ARROWS */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-visible" viewBox="0 0 100 40" preserveAspectRatio="none">
-                  <defs>
-                    <marker id="arrowNavy" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#0b2348" /></marker>
-                    <marker id="arrowYellow" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#ffc107" /></marker>
-                  </defs>
-                  <path d="M27 22 L20 8 L10 8" fill="none" stroke="#ffc107" strokeWidth="0.30" strokeDasharray="0.8 0.55" vectorEffect="non-scaling-stroke" markerEnd="url(#arrowYellow)" />
-                  <path d="M47 29 L47 37 L35 37" fill="none" stroke="#0b2348" strokeWidth="0.25" strokeDasharray="0.8 0.55" vectorEffect="non-scaling-stroke" markerEnd="url(#arrowNavy)" />
-                  <path d="M57 14 L57 5 L69 5" fill="none" stroke="#ffc107" strokeWidth="0.30" strokeDasharray="0.8 0.55" vectorEffect="non-scaling-stroke" markerEnd="url(#arrowYellow)" />
-                  <path d="M72 20 L80 13 L90 13" fill="none" stroke="#0b2348" strokeWidth="0.25" strokeDasharray="0.8 0.55" vectorEffect="non-scaling-stroke" markerEnd="url(#arrowNavy)" />
-                  <path d="M92 23 L97 29" fill="none" stroke="#ffc107" strokeWidth="0.30" strokeDasharray="0.8 0.55" vectorEffect="non-scaling-stroke" markerEnd="url(#arrowYellow)" />
-                </svg>
-
-                {/* CALLOUT CARDS */}
-                {/* SUMATERA CARD */}
-                <div className="absolute left-[0%] top-[-3%] z-40 hidden md:block w-[205px]">
-                  <div className="relative bg-white border border-slate-200 rounded-2xl p-4 shadow-[0_12px_30px_rgba(11,35,72,0.10)] hover:-translate-y-1 transition-all duration-300">
-                    <div className="absolute top-0 left-0 w-full h-[3px] bg-[#ffc107] rounded-t-2xl" />
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="w-7 h-7 rounded-lg bg-[#0b2348] text-[#ffc107] flex items-center justify-center text-[9px] font-black">01</span>
-                      <span className="text-[8px] font-black uppercase tracking-[0.15em] text-[#b27b00]">Service Point</span>
-                    </div>
-                    <h4 className="text-xs font-black text-[#0b2348]">Sumatera</h4>
-                    <p className="text-[9px] text-slate-500 leading-relaxed mt-1">Dukungan pemeliharaan dan teknisi untuk area operasional Sumatera.</p>
-                  </div>
-                </div>
-
-                {/* KALIMANTAN CARD */}
-                <div className="absolute left-[67%] top-[-7%] z-40 hidden md:block w-[220px]">
-                  <div className="relative bg-white border border-slate-200 rounded-2xl p-4 shadow-[0_12px_30px_rgba(11,35,72,0.10)] hover:-translate-y-1 transition-all duration-300">
-                    <div className="absolute top-0 left-0 w-full h-[3px] bg-[#ffc107] rounded-t-2xl" />
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="w-7 h-7 rounded-lg bg-[#0b2348] text-[#ffc107] flex items-center justify-center text-[9px] font-black">02</span>
-                      <span className="text-[8px] font-black uppercase tracking-[0.15em] text-[#b27b00]">Branch & Workshop</span>
-                    </div>
-                    <h4 className="text-xs font-black text-[#0b2348]">Kalimantan</h4>
-                    <p className="text-[9px] text-slate-500 leading-relaxed mt-1">Workshop, overhaul, spare parts, dan dukungan teknis untuk area tambang.</p>
-                  </div>
-                </div>
-
-                {/* SULAWESI CARD */}
-                <div className="absolute right-[-2%] top-[5%] z-40 hidden md:block w-[215px]">
-                  <div className="relative bg-white border border-slate-200 rounded-2xl p-4 shadow-[0_12px_30px_rgba(11,35,72,0.10)] hover:-translate-y-1 transition-all duration-300">
-                    <div className="absolute top-0 left-0 w-full h-[3px] bg-[#ffc107] rounded-t-2xl" />
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="w-7 h-7 rounded-lg bg-[#0b2348] text-[#ffc107] flex items-center justify-center text-[9px] font-black">03</span>
-                      <span className="text-[8px] font-black uppercase tracking-[0.15em] text-[#b27b00]">Service Coverage</span>
-                    </div>
-                    <h4 className="text-xs font-black text-[#0b2348]">Sulawesi</h4>
-                    <p className="text-[9px] text-slate-500 leading-relaxed mt-1">Layanan maintenance berkala dan diagnosis unit alat berat.</p>
-                  </div>
-                </div>
-
-                {/* JAWA / HEAD OFFICE CARD */}
-                <div className="absolute left-[31%] bottom-[-8%] z-40 hidden md:block w-[230px]">
-                  <div className="relative bg-white border border-slate-200 rounded-2xl p-4 shadow-[0_12px_30px_rgba(11,35,72,0.10)] hover:-translate-y-1 transition-all duration-300">
-                    <div className="absolute top-0 left-0 w-full h-[3px] bg-[#ffc107] rounded-t-2xl" />
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="w-7 h-7 rounded-lg bg-[#0b2348] text-[#ffc107] flex items-center justify-center text-[9px] font-black">04</span>
-                      <span className="text-[8px] font-black uppercase tracking-[0.15em] text-[#b27b00]">Head Office</span>
-                    </div>
-                    <h4 className="text-xs font-black text-[#0b2348]">Tangerang, Banten</h4>
-                    <p className="text-[9px] text-slate-500 leading-relaxed mt-1">Pusat koordinasi manajemen, sales, logistik, dan layanan nasional.</p>
-                  </div>
-                </div>
-
-                {/* PAPUA CARD */}
-                <div className="absolute right-[-1%] bottom-[2%] z-40 hidden xl:block w-[175px]">
-                  <div className="relative bg-white border border-slate-200 rounded-xl p-3 shadow-[0_10px_25px_rgba(11,35,72,0.08)]">
-                    <div className="absolute top-0 left-0 w-full h-[2px] bg-[#ffc107] rounded-t-xl" />
-                    <div className="flex items-center gap-2">
-                      <span className="w-6 h-6 rounded-md bg-[#0b2348] text-[#ffc107] flex items-center justify-center text-[8px] font-black">05</span>
-                      <div>
-                        <p className="text-[8px] font-black uppercase tracking-wider text-[#b27b00]">Engineer Coverage</p>
-                        <p className="text-[10px] font-black text-[#0b2348]">Papua & Timur</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            {/* MOBILE LOCATION LIST */}
-            <div className="absolute left-5 right-5 bottom-5 z-40 md:hidden">
-              <div className="bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-lg">
-                <div className="flex items-center justify-between mb-3">
-                  <p className="text-[9px] font-black uppercase tracking-[0.16em] text-[#b27b00]">Operational Coverage</p>
-                  <span className="w-2 h-2 rounded-full bg-[#ffc107]" />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Head Office</p>
-                    <p className="text-[10px] font-black text-[#0b2348] mt-1">Tangerang</p>
-                  </div>
-                  <div>
-                    <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Branch</p>
-                    <p className="text-[10px] font-black text-[#0b2348] mt-1">Kalimantan</p>
-                  </div>
-                  <div>
-                    <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Service Point</p>
-                    <p className="text-[10px] font-black text-[#0b2348] mt-1">Sumatera</p>
-                  </div>
-                  <div>
-                    <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Coverage</p>
-                    <p className="text-[10px] font-black text-[#0b2348] mt-1">Sulawesi & Timur</p>
-                  </div>
+                <div>
+                  <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">Coverage</p>
+                  <p className="text-[10px] font-black text-[#0b2348] mt-1">Sulawesi & Timur</p>
                 </div>
               </div>
             </div>
-
-            {/* BOTTOM INFORMATION BAR */}
-            <div className="absolute left-0 right-0 bottom-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-6 md:px-8 py-5">
-              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#fff7d6] text-[#b27b00] flex items-center justify-center text-sm font-black shrink-0">✓</div>
-                  <div>
-                    <p className="text-[9px] uppercase tracking-[0.16em] font-black text-slate-400">SERVICE NETWORK</p>
-                    <p className="text-xs md:text-sm font-black text-[#0b2348] mt-0.5">Dukungan teknisi untuk berbagai wilayah Indonesia</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-5 md:gap-8">
-                  <div>
-                    <p className="text-[8px] uppercase tracking-wider text-slate-400 font-bold">Coverage</p>
-                    <p className="text-sm font-black text-[#0b2348]">5+ Region</p>
-                  </div>
-                  <div className="w-px h-7 bg-slate-200 hidden sm:block" />
-                  <div>
-                    <p className="text-[8px] uppercase tracking-wider text-slate-400 font-bold">Support</p>
-                    <p className="text-sm font-black text-[#0b2348]">Nationwide</p>
-                  </div>
-                  <a href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0b2348] text-white text-[10px] font-black hover:bg-[#ffc107] hover:text-[#0b2348] transition-all duration-300 shadow-sm">
-                    Hubungi Kami <span className="text-sm">→</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-
           </div>
 
           {/* LEGEND */}
-          <div className="flex flex-wrap items-center justify-center gap-5 mt-7">
+          <div className="flex flex-wrap items-center justify-center gap-5 mt-10 text-slate-600">
             <div className="flex items-center gap-2">
               <span className="relative flex w-3 h-3">
                 <span className="absolute inset-0 rounded-full bg-red-500/25 animate-ping" />
                 <span className="relative w-3 h-3 rounded-full bg-[#d92323] shadow-[0_0_0_4px_rgba(217,35,35,0.10)]" />
               </span>
-              <span className="text-[9px] font-bold text-slate-500">Active Location</span>
-            </div>
-
-            <div className="w-px h-4 bg-slate-200" />
-
-            <div className="flex items-center gap-2">
-              <span className="w-5 h-3 rounded-xs bg-[#fff2b2] border border-[#ffc107]" />
-              <span className="text-[9px] font-bold text-slate-500">Operational Region</span>
+              <span className="text-[9px] font-bold">Active Location</span>
             </div>
 
             <div className="w-px h-4 bg-slate-200" />
@@ -3385,12 +3055,12 @@ export default function Home() {
               <span className="relative w-6 h-[2px] bg-[#ffc107]">
                 <span className="absolute right-[-3px] -top-[2px] w-0 h-0 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent border-l-[4px] border-l-[#ffc107]" />
               </span>
-              <span className="text-[9px] font-bold text-slate-500">Location Callout</span>
+              <span className="text-[9px] font-bold">Location Callout</span>
             </div>
 
             <div className="w-px h-4 bg-slate-200" />
 
-            <p className="text-[9px] text-slate-400">Wilayah coverage dapat berkembang mengikuti kebutuhan proyek.</p>
+            <p className="text-[9px] text-slate-500">Wilayah coverage dapat berkembang mengikuti kebutuhan proyek.</p>
           </div>
 
         </div>
@@ -3401,4 +3071,4 @@ export default function Home() {
 
     </div>
   );
-}
+} 
