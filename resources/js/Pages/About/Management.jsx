@@ -1,89 +1,87 @@
 import React from "react";
-import Navbar from "@/Components/Navbar";
 
-const IconLinkedIn = (props) => (
+const IconLinkedin = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.6h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.55 4.78 5.86V21h-4v-5.6c0-1.34-.02-3.07-1.9-3.07-1.9 0-2.2 1.44-2.2 2.97V21h-4V9Z" />
+    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
   </svg>
 );
 
-const team = [
-  {
-    name: "Dedi Wardhana",
-    role: "President Director",
-    photo: "https://shanibacreative.com/wp-content/uploads/2020/06/membuat-foto-profil-yang-bagus.jpg",
-    linkedin: "https://linkedin.com/in/dedi-wardhana",
-  },
-  {
-    name: "Suryadi Kurniawan",
-    role: "Operations Director",
-    photo: "https://cdn0-production-images-kly.akamaized.net/2vb-eEK-hKGo8Sndn0hbUQBn974=/1200x675/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/4831450/original/049199300_1715675263-shutterstock_2291046343.jpg",
-    linkedin: "https://linkedin.com/in/suryadi-kurniawan",
-  },
-  {
-    name: "Andi Wibowo",
-    role: "Engineering Manager",
-    photo: "https://imgsrv2.voi.id/ucMV5xxMHmo3zf8YgVYCUgeACm4ec4__Iszf-DWeNYE/auto/1200/675/sm/1/bG9jYWw6Ly8vcHVibGlzaGVycy8zMjMyMDcvMjAyMzEwMjUxMjMzLW1haW4uY3JvcHBlZF8xNjk4MjQ0Mzc2LmpwZw.jpg",
-    linkedin: "https://linkedin.com/in/andi-wibowo",
-  },
-  {
-    name: "Riza Maulana",
-    role: "Marketing Manager",
-    photo: "https://headshots-inc.com/wp-content/uploads/2020/11/Professional-Headshot-Poses-Blog-Post.jpg",
-    linkedin: "https://linkedin.com/in/riza-maulana",
-  },
-];
-
 export default function Management() {
+  const members = [
+    {
+      name: "Andi Wibowo",
+      title: "Engineering",
+      image: "/images/pa-adie.png",
+      linkedin: "#",
+      offset: "",
+      hoverClass: "hover:-translate-y-2",
+    },
+    {
+      name: "Dedi Warman",
+      title: "Commissioner / President Director",
+      image: "/images/pa-aji.png",
+      linkedin: "#",
+      offset: "sm:-translate-y-8",
+      hoverClass: "hover:sm:-translate-y-10",
+    },
+    {
+      name: "Riza Mahendra",
+      title: "Marketing",
+      image: "/images/pa-yuda.png",
+      linkedin: "#",
+      offset: "",
+      hoverClass: "hover:-translate-y-2",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-[#ffc107] selection:text-[#0f2b5c]">
-      {/* 1. NAVBAR */}
-      <Navbar />
+    <div className="w-full pt-8">
+      <span className="mb-6 block text-xs font-bold uppercase tracking-wider text-[#FFC107]">
+        MANAGEMENT TEAM
+      </span>
 
-      {/* 2. MAIN CONTENT - pt-0 agar posisi Management Team langsung naik sejajar */}
-      <main className="pt-0 pb-24 px-6 md:px-12 max-w-4xl mx-auto">
-        <div>
-          <p className="mb-5 text-xs font-bold uppercase tracking-wider text-[#FFC107]">
-            Management Team
-          </p>
+      {/* Grid 3 Kolom Full Width */}
+      <div className="grid grid-cols-1 items-end gap-6 sm:grid-cols-3 md:gap-8 lg:gap-10 w-full">
+        {members.map((member, idx) => (
+          <div
+            key={idx}
+            className={`group rounded-2xl border border-slate-200/80 bg-white p-3 shadow-md transition-all duration-300 hover:border-[#FFC107] hover:shadow-2xl hover:shadow-amber-500/10 ${member.offset} ${member.hoverClass}`}
+          >
+            {/* Frame Foto Disesuaikan Tinggi dan Posisinya */}
+            <div className="relative h-[380px] w-full overflow-hidden rounded-xl bg-slate-100">
+              <img
+                src={member.image}
+                alt={member.name}
+                className="h-full w-full object-cover object-[center_25%] transition-transform duration-500 group-hover:scale-105"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://via.placeholder.com/350x500?text=Photo";
+                }}
+              />
+            </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            {team.map((person, i) => (
-              <div
-                key={i}
-                className="group overflow-hidden rounded-xl border border-[#E2E8F0] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
-              >
-                <div className="relative aspect-square w-full overflow-hidden bg-[#F8FAFC]">
-                  <img
-                    src={person.photo}
-                    alt={person.name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                </div>
-
-                <div className="flex items-center justify-between px-3 py-3">
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-bold text-[#0F2B5C]">
-                      {person.name}
-                    </p>
-                    <p className="truncate text-xs text-[#64748B]">{person.role}</p>
-                  </div>
-                  <a
-                    href={person.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`LinkedIn ${person.name}`}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0F2B5C]/5 text-[#0F2B5C] transition-all duration-300 hover:bg-[#0F2B5C] hover:text-white hover:scale-110"
-                  >
-                    <IconLinkedIn className="h-4 w-4" />
-                  </a>
-                </div>
+            {/* Info Nama & Title */}
+            <div className="mt-3.5 flex items-center justify-between px-1 pb-1">
+              <div className="overflow-hidden pr-2">
+                <h4 className="truncate text-sm font-extrabold text-[#0F2B5C] transition-colors duration-300 group-hover:text-[#FFC107]">
+                  {member.name}
+                </h4>
+                <p className="truncate text-xs font-medium text-slate-500">
+                  {member.title}
+                </p>
               </div>
-            ))}
+
+              <a
+                href={member.linkedin}
+                className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400 transition-all duration-300 hover:scale-110 hover:bg-[#0077b5] hover:text-white"
+                title="LinkedIn Profile"
+              >
+                <IconLinkedin className="h-4 w-4" />
+              </a>
+            </div>
           </div>
-        </div>
-      </main>
+        ))}
+      </div>
     </div>
   );
 }

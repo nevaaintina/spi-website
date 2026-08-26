@@ -166,17 +166,83 @@ const IconBadgeCheck = (props) => (
    STATIC DATA
    ========================================================= */
 const categories = [
-    { id: 'maintenance-tips', label: 'Maintenance Tips', icon: IconWrench },
-    { id: 'heavy-equipment-knowledge', label: 'Heavy Equipment Knowledge', icon: IconExcavator },
-    { id: 'mining-technology', label: 'Mining Technology', icon: IconRadarTower },
-    { id: 'hydraulic-system', label: 'Hydraulic System', icon: IconDroplet },
-    { id: 'engine-maintenance', label: 'Engine Maintenance', icon: IconGear },
-    { id: 'lubrication-guide', label: 'Lubrication Guide', icon: IconOilCan },
-    { id: 'predictive-maintenance', label: 'Predictive Maintenance', icon: IconActivity },
-    { id: 'failure-analysis', label: 'Failure Analysis', icon: IconAlertTriangle },
-    { id: 'safety', label: 'Safety', icon: IconShield },
-    { id: 'operator-tips', label: 'Operator Tips', icon: IconHeadset },
-    { id: 'technical-bulletin', label: 'Technical Bulletin', icon: IconDocument },
+    { 
+        id: 'maintenance-tips', 
+        label: 'Maintenance Tips', 
+        icon: IconWrench,
+        desc: 'Tips & trik perawatan alat berat agar tetap optimal.',
+        bgColor: 'bg-amber-50',
+        textColor: 'text-amber-500',
+        borderColor: 'border-amber-200',
+        iconColor: 'text-amber-500',
+        arrowColor: 'border-amber-400'
+    },
+    { 
+        id: 'heavy-equipment-knowledge', 
+        label: 'Heavy Equipment Knowledge', 
+        icon: IconExcavator,
+        desc: 'Pengetahuan dasar hingga lanjutan tentang alat berat.',
+        bgColor: 'bg-blue-50',
+        textColor: 'text-blue-600',
+        borderColor: 'border-blue-200',
+        iconColor: 'text-blue-500',
+        arrowColor: 'border-blue-400'
+    },
+    { 
+        id: 'mining-technology', 
+        label: 'Mining Technology', 
+        icon: IconRadarTower,
+        desc: 'Teknologi pertambangan untuk meningkatkan produktivitas.',
+        bgColor: 'bg-purple-50',
+        textColor: 'text-purple-600',
+        borderColor: 'border-purple-200',
+        iconColor: 'text-purple-500',
+        arrowColor: 'border-purple-400'
+    },
+    { 
+        id: 'hydraulic-system', 
+        label: 'Hydraulic System', 
+        icon: IconDroplet,
+        desc: 'Pemahaman sistem hidrolik dan cara perawatannya.',
+        bgColor: 'bg-emerald-50',
+        textColor: 'text-emerald-700',
+        borderColor: 'border-emerald-200',
+        iconColor: 'text-emerald-500',
+        arrowColor: 'border-emerald-400'
+    },
+    { 
+        id: 'engine-maintenance', 
+        label: 'Engine Maintenance', 
+        icon: IconGear,
+        desc: 'Panduan perawatan mesin untuk performa maksimal.',
+        bgColor: 'bg-orange-50',
+        textColor: 'text-orange-600',
+        borderColor: 'border-orange-200',
+        iconColor: 'text-orange-500',
+        arrowColor: 'border-orange-400'
+    },
+    { 
+        id: 'lubrication-guide', 
+        label: 'Lubrication Guide', 
+        icon: IconOilCan,
+        desc: 'Panduan pelumasan yang tepat untuk umur komponen.',
+        bgColor: 'bg-yellow-50',
+        textColor: 'text-yellow-700',
+        borderColor: 'border-yellow-200',
+        iconColor: 'text-yellow-500',
+        arrowColor: 'border-yellow-400'
+    },
+    { 
+        id: 'predictive-maintenance', 
+        label: 'Predictive Maintenance', 
+        icon: IconActivity,
+        desc: 'Strategi maintenance berbasis data & teknologi.',
+        bgColor: 'bg-sky-50',
+        textColor: 'text-sky-600',
+        borderColor: 'border-sky-200',
+        iconColor: 'text-sky-500',
+        arrowColor: 'border-sky-400'
+    },
 ];
 
 const featuredArticle = {
@@ -273,108 +339,117 @@ export default function Index() {
     const [activeCategory, setActiveCategory] = useState('maintenance-tips');
     const [showMore, setShowMore] = useState(false);
 
-    return (
+    return (  
         <>
             <Head title="Knowledge Center - PT. Servistama Pro Indonesia" />
             <Navbar />
 
             <main>
-                {/* ================= HERO ================= */}
-                <section className="relative overflow-hidden bg-white">
-                    {/* Decorative engineering background */}
-                    <div className="pointer-events-none absolute inset-0 opacity-[0.35]" aria-hidden="true">
-                        <svg viewBox="0 0 1600 700" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
-                            <defs>
-                                <pattern id="gridPattern" width="36" height="36" patternUnits="userSpaceOnUse">
-                                    <path d="M36 0H0V36" fill="none" stroke="#0F2B5C" strokeWidth="0.5" />
-                                </pattern>
-                            </defs>
-                            <rect width="1600" height="700" fill="url(#gridPattern)" />
-                            {Array.from({ length: 10 }).map((_, i) => (
-                                <circle key={i} cx={140 + i * 150} cy={60 + (i % 3) * 20} r="2" fill="#0F2B5C" opacity="0.5" />
-                            ))}
-                        </svg>
+              {/* ================= HERO ================= */}
+<section className="relative flex min-h-[540px] lg:min-h-[600px] w-full items-center bg-white overflow-hidden pt-28 lg:pt-32">
+    {/* Gambar Utama (Diturunkan dengan mt-4 / lg:mt-6) */}
+    <div className="absolute inset-0 z-0 h-full w-full">
+        <img 
+            src="/images/XE2000.png" 
+            alt="Heavy Equipment Banner" 
+            className="mt-4 lg:mt-6 h-full w-full object-cover object-[100%_0%]"
+            style={{ imageRendering: 'high-quality' }}
+        />
+    </div>
+
+    {/* Konten Teks */}
+    <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 py-12 sm:px-10 lg:px-16">
+        <div className="max-w-xl">
+            <div className="mb-6 flex items-center gap-3">
+                <span className="text-xs font-bold tracking-[0.2em] text-[#FFC107]">KNOWLEDGE CENTER</span>
+                <span className="h-px w-10 bg-[#FFC107]" />
+            </div>
+
+            <h1 className="text-[2.5rem] font-extrabold leading-[1.08] tracking-tight text-[#0F2B5C] sm:text-5xl lg:text-[3.4rem]">
+                Engineering Knowledge.
+                <br />
+                Smarter Maintenance.
+            </h1>
+
+            <div className="mt-5 flex items-center gap-3">
+                <span className="h-px w-8 bg-[#FFC107]" />
+                <p className="text-sm font-semibold text-[#0F2B5C] sm:text-base">
+                    Pengetahuan Engineering. Maintenance Lebih Cerdas.
+                </p>
+            </div>
+
+            <p className="mt-6 max-w-lg text-base leading-relaxed text-slate-600">
+                Temukan wawasan teknis, panduan maintenance, serta solusi smart service yang dirancang untuk memaksimalkan uptime alat.
+            </p>
+
+            {/* Badges Statistik */}
+            <div className="mt-8 flex flex-wrap gap-4">
+                <div className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white/90 px-4 py-3 shadow-md backdrop-blur-sm">
+                    <IconDocument className="h-5 w-5 text-[#FFC107]" />
+                    <div>
+                        <p className="text-base font-extrabold text-[#0F2B5C]">500+</p>
+                        <p className="text-[11px] text-slate-500">Technical Articles</p>
                     </div>
+                </div>
 
-                   {/* XE2000 Excavator Image */}
-<div className="pointer-events-none absolute right-4 top-10 hidden w-[48%] max-w-[650px] lg:block xl:right-12">
-    <img 
-        src="/images/XE2000.png" 
-        alt="XCMG XE2000 Heavy Equipment" 
-        className="h-auto w-full object-contain drop-shadow-2xl"
-    />
-</div>
+                <div className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white/90 px-4 py-3 shadow-md backdrop-blur-sm">
+                    <IconShield className="h-5 w-5 text-[#FFC107]" />
+                    <div>
+                        <p className="text-base font-extrabold text-[#0F2B5C]">Expert</p>
+                        <p className="text-[11px] text-slate-500">Verified Content</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+                    {/* ================= CATEGORY NAVIGATION ================= */}
+<section className="relative bg-[#F1F5F9] py-16 border-y border-slate-200/80">
+    <div className="relative mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">
+        <div className="mb-10 text-center">
+            <span className="text-xs font-bold tracking-[0.2em] text-[#FFC107]">EXPLORE TOPICS</span>
+            <h2 className="mt-1 text-2xl font-black text-[#0F2B5C] sm:text-3xl">Popular Topics</h2>
+            <div className="mx-auto mt-2.5 h-1 w-12 rounded-full bg-[#FFC107]"></div>
+        </div>
 
-                    <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 gap-10 px-6 pb-16 pt-16 sm:px-10 md:pt-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-6 lg:px-16 lg:pb-24 lg:pt-24">
-                        {/* Hero left content */}
-                        <div className="max-w-2xl">
-                            <div className="mb-6 flex items-center gap-3">
-                                <span className="text-xs font-bold tracking-[0.2em] text-[#FFC107]">KNOWLEDGE CENTER</span>
-                                <span className="h-px w-10 bg-[#FFC107]" />
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 gap-4">
+            {categories.map((cat) => {
+                const Icon = cat.icon;
+
+                return (
+                    <button
+                        key={cat.id}
+                        onClick={() => setActiveCategory(cat.id)}
+                        className={`group relative flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl bg-white p-4 text-left border border-slate-200/80 shadow-lg shadow-slate-200/50 transition-all duration-300 hover:-translate-y-2 hover:border-[#FFC107] hover:shadow-2xl hover:shadow-amber-500/20 ${
+                            activeCategory === cat.id ? 'ring-2 ring-[#FFC107] border-[#FFC107]' : ''
+                        }`}
+                    >
+                        <div>
+                            {/* Box Icon Dynamic Color */}
+                            <div className={`mb-3 flex h-11 w-11 items-center justify-center rounded-xl ${cat.bgColor}`}>
+                                <Icon className={`h-5 w-5 ${cat.iconColor} stroke-[1.75]`} />
                             </div>
 
-                            <h1 className="text-[2.5rem] font-extrabold leading-[1.08] tracking-tight text-[#0F2B5C] sm:text-5xl lg:text-[3.4rem]">
-                                Engineering Knowledge.
-                                <br />
-                                Smarter Maintenance.
-                            </h1>
-
-                            <div className="mt-5 flex items-center gap-3">
-                                <span className="h-px w-8 bg-[#FFC107]" />
-                                <p className="text-sm font-semibold text-[#0F2B5C] sm:text-base">
-                                    Pengetahuan Engineering. Maintenance Lebih Cerdas.
-                                </p>
-                            </div>
-
-                            <p className="mt-6 max-w-xl text-base leading-relaxed text-[#64748B]">
-                                Temukan wawasan teknis, panduan maintenance, pengetahuan heavy equipment, serta solusi smart
-                                service yang dirancang untuk meningkatkan performa dan memaksimalkan uptime alat.
+                            {/* Judul & Deskripsi */}
+                            <h3 className="text-xs font-bold leading-snug text-slate-800 group-hover:text-[#0F2B5C]">
+                                {cat.label}
+                            </h3>
+                            <p className="mt-1.5 text-[10px] leading-relaxed text-slate-500 line-clamp-3">
+                                {cat.desc}
                             </p>
                         </div>
-                    </div>
 
-                    {/* ================= CATEGORY NAVIGATION ================= */}
-<div className="relative mx-auto max-w-[1440px] px-6 pb-6 sm:px-10 lg:px-16">
-    <div className="flex flex-wrap items-center gap-3">
-        {/* 6 Kategori Pertama (Selalu Tampil) */}
-        {categories.slice(0, 6).map((cat) => (
-            <CategoryPill
-                key={cat.id}
-                category={cat}
-                active={false}
-                onClick={() => setActiveCategory(cat.id)}
-            />
-        ))}
-
-        {/* Tombol Toggle di Samping Kanan 6 Kategori Pertama */}
-        <button
-            type="button"
-            onClick={() => setShowMore(!showMore)}
-            aria-label="Lihat kategori lainnya"
-            className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#0F2B5C] shadow-sm transition-all duration-300 hover:border-[#FFC107] hover:bg-[#FFC107]"
-        >
-            <IconChevronRight 
-                className={`h-4 w-4 transition-transform duration-300 ${
-                    showMore ? 'rotate-90 text-[#0F2B5C]' : ''
-                }`} 
-            />
-        </button>
-
-        {/* Kategori Sisa (Hanya Tampil Jika showMore === true) */}
-        {showMore && (
-            <div className="mt-2 flex w-full flex-wrap items-center gap-3 transition-all duration-300">
-                {categories.slice(6).map((cat) => (
-                    <CategoryPill
-                        key={cat.id}
-                        category={cat}
-                        active={false}
-                        onClick={() => setActiveCategory(cat.id)}
-                    />
-                ))}
-            </div>
-        )}
+                        {/* Panah Sesuai Warna Icon */}
+                        <div className="mt-4 flex justify-end">
+                            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-50 transition-colors group-hover:bg-[#FFC107]/20">
+                                <IconChevronRight className={`h-3.5 w-3.5 ${cat.iconColor} transition-transform duration-200 group-hover:translate-x-0.5`} />
+                            </span>
+                        </div>
+                    </button>
+                );
+            })}
+        </div>
     </div>
-</div>
 </section>
 
                 {/* ================= FEATURED ARTICLE ================= */}
@@ -504,8 +579,6 @@ export default function Index() {
                     </div>
                 </section>
             </main>
-
-            <Footer />
         </>
     );
 }

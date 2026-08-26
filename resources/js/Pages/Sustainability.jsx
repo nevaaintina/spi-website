@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 
 // TODO: Replace with official SPI ESG & HSE hero image.
-const heroImage = '/images/hero-hse.png';
+const heroImage = '/images/heo-hse.png';
 // TODO: Replace with official SPI ESG & HSE hero video (optional, falls back to heroImage).
 const heroVideo = '/videos/esg-hse-hero.mp4';
 
@@ -121,12 +121,8 @@ export default function Sustainability() {
         src={heroImage}
         alt="Heavy equipment mining operation"
         className="h-full w-full object-contain object-center scale-110"
-        style={{ filter: 'brightness(1.75) contrast(1.05)' }}
     />
 </div>
-
-<div className="absolute inset-0 bg-[#07111F]/30" />
-<div className="absolute inset-0 bg-radial from-black/60 via-black/20 to-transparent pointer-events-none" />
 
                 {/* DIGITAL DECORATION */}
                 <div
@@ -151,64 +147,75 @@ export default function Sustainability() {
                 </div>
 
                 {/* HERO CONTENT */}
-               <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pt-30 pb-2 text-center sm:px-8">
-                    
-                    {/* EYEBROW */}
-                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white sm:text-sm">
-                        The Future of Smart Heavy Equipment Service
-                    </p>
+<div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 items-center px-6 pt-28 pb-12 sm:px-10 lg:px-16">
+    <div className="max-w-xl text-left">
+        
+        {/* EYEBROW */}
+        <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#FFC107]">
+            The Future of Smart Heavy Equipment Service
+        </p>
 
-                    {/* ESG & HSE TITLE */}
-                    <h1 className="mt-2 font-black uppercase leading-none tracking-tight text-5xl sm:text-6xl md:text-7xl lg:text-7xl">
-                        <span className="bg-gradient-to-b from-[#8AE08F] to-[#65C96A] bg-clip-text text-transparent">ESG</span>{' '}
-                        <span className="text-white">&amp;</span>{' '}
-                        <span className="text-[#1683FF]">HSE</span>
-                    </h1>
+        {/* ESG & HSE TITLE */}
+        <h1 className="mt-3 text-4xl font-black uppercase leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.5rem]">
+            <span className="bg-gradient-to-r from-[#8AE08F] to-[#65C96A] bg-clip-text text-transparent">ESG</span>{' '}
+            <span className="text-white">&amp;</span>{' '}
+            <span className="text-[#1683FF]">HSE</span> Solutions,
+            <br />
+            <span className="text-white">Stronger Impact.</span>
+        </h1>
 
-                    {/* SUBTITLE */}
-                    <h2 className="mt-6 text-2xl font-bold leading-snug text-white md:text-3xl lg:text-4xl">
-                        Building a Safer, Smarter
-                        <br className="hidden sm:block" /> and More Sustainable Future
-                    </h2>
+        {/* SUBTITLE */}
+        <h2 className="mt-4 text-base font-bold leading-snug text-slate-100 sm:text-lg">
+            Building a Safer, Smarter, and More Sustainable Future
+        </h2>
 
-                    {/* DESCRIPTION */}
-                    <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/90 md:text-lg">
-                        We integrate Environmental responsibility, Social impact, Governance
-                        excellence, and Health &amp; Safety culture into every service we
-                        deliver.
-                    </p>
+        {/* DESCRIPTION */}
+        <p className="mt-2 text-xs leading-relaxed text-slate-300 sm:text-sm">
+            We integrate Environmental responsibility, Social impact, Governance excellence, and Health &amp; Safety culture into every service we deliver.
+        </p>
 
-                    {/* TAGLINE - subtle, below description */}
-                    <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.25em] text-white/50 sm:text-xs">
-                        Smart Service. Maximum Uptime. Trusted Performance.
-                    </p>
+        {/* TAGLINE */}  
+        <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#FFC107]/80">
+            Smart Service. Maximum Uptime. Trusted Performance.
+        </p>
 
-                    {/* PILLARS */}
-                    <div className="mt-10 grid w-full max-w-5xl grid-cols-2 gap-y-6 sm:gap-y-8 md:flex md:flex-row md:items-start md:justify-center md:gap-0">
-                        {pillars.map((pillar, index) => {
-                            const Icon = iconByType[pillar.type];
-                            const colorClass = pillarStyles[pillar.type];
-                            return (
-                                <div
-                                    key={pillar.type}
-                                    className={`group flex items-start gap-3 rounded-lg px-4 py-2 text-left transition-colors duration-300 hover:bg-white/5 md:flex-1 md:justify-center md:px-6 ${
-                                        index !== pillars.length - 1 ? 'md:border-r md:border-white/20' : ''
-                                    }`}
-                                >
-                                    <span className={`mt-0.5 flex-shrink-0 transition-transform duration-300 group-hover:scale-110 ${colorClass}`}>
-                                        <Icon />
-                                    </span>
-                                    <div>
-                                        <p className={`text-xs font-bold uppercase tracking-wide sm:text-sm ${colorClass}`}>
-                                            {pillar.title}
-                                        </p>
-                                        <p className="mt-0.5 text-xs text-white/80 sm:text-sm">{pillar.description}</p>
-                                    </div>
-                                </div>
-                            );
-                        })}
+        {/* PILLARS / FEATURES */}
+        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {pillars.map((pillar) => {
+                const Icon = iconByType[pillar.type];
+                const colorClass = pillarStyles[pillar.type];
+                return (
+                    <div key={pillar.type} className="flex flex-col items-start gap-1.5">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/10 backdrop-blur-md">
+                            <span className={colorClass}>
+                                <Icon className="h-5 w-5" />
+                            </span>
+                        </div>
+                        <p className={`mt-1 text-[11px] font-bold uppercase tracking-wide ${colorClass}`}>
+                            {pillar.title}
+                        </p>
+                        <p className="text-[10px] leading-tight text-slate-300 line-clamp-2">
+                            {pillar.description}
+                        </p> 
                     </div>
+                ); 
+            })}
+            </div>
+        </div>
+        
+        
 
+
+{/* SCROLL INDICATOR */}
+<div className="relative z-10 flex justify-center pb-8">
+    <a
+        href="#esg-content"
+        aria-label="Scroll down"
+        className="flex h-11 w-11 animate-bounce items-center justify-center rounded-full border border-white/40 bg-white/5 text-white backdrop-blur-md transition-colors duration-300 hover:border-[#1683FF] hover:text-[#1683FF]"
+    >
+        <ArrowDownIcon />
+    </a>
+</div>
                     {/* CTA */}
                     <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
                         <a
@@ -217,7 +224,7 @@ export default function Sustainability() {
                         >
                             Explore ESG &amp; HSE
                             <span className="transition-transform duration-300 ease-out group-hover:translate-x-1">
-                                <ArrowRightIcon />
+                                <ArrowRightIcon /> 
                             </span>
                         </a>
                         <a
