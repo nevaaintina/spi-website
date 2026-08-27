@@ -29,24 +29,28 @@ const customerRegions = [
         name: "PT Bukit Asam Tbk", 
         sector: "Coal Mining", 
         location: "Sumatra Selatan",
+        coordinates: [-3.7231, 103.7820],
         image: "https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&w=600&q=80"
       },
       { 
         name: "PT Semen Padang", 
         sector: "Manufacturing & Mining", 
         location: "Sumatra Barat",
+        coordinates: [-0.9520, 100.4682],
         image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80"
       },
       { 
         name: "PT Riau Andalan Pulp & Paper", 
         sector: "Forestry & Industry", 
         location: "Riau",
+        coordinates: [0.4239, 101.8542],
         image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80"
       },
       { 
         name: "PT Nuansabumi Kesuma", 
         sector: "Mining Contractor", 
         location: "Jambi",
+        coordinates: [-1.6101, 103.6131],
         image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80"
       },
     ],
@@ -147,6 +151,27 @@ const createCustomIcon = (region, isActive) => {
     iconSize: [120, 60],
     iconAnchor: [60, 52],
     popupAnchor: [0, -50],
+  });
+};
+
+const createClientIcon = (client, isActive) => {
+  const html = `
+    <div class="spi-client-marker ${isActive ? "spi-client-active" : ""}">
+      <div class="spi-client-badge">
+        <span class="spi-client-name">${client.name}</span>
+      </div>
+      <div class="spi-client-pin">
+        <div class="spi-client-dot"></div>
+      </div>
+    </div>
+  `;
+
+  return L.divIcon({
+    html: html,
+    className: "spi-leaflet-div-icon",
+    iconSize: [140, 50],
+    iconAnchor: [70, 45],
+    popupAnchor: [0, -40],
   });
 };
 
@@ -301,6 +326,46 @@ export default function OurCustomers() {
         .spi-map-tiles {
           filter: contrast(102%) brightness(98%);
         }
+
+        .spi-client-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.spi-client-badge {
+  background: #DC2626; /* Merah untuk membedakan dengan wilayah */
+  border: 2px solid #FFC107;
+  border-radius: 6px;
+  padding: 3px 8px;
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
+  white-space: nowrap;
+}
+
+.spi-client-name {
+  font-size: 10px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.spi-client-pin {
+  width: 10px;
+  height: 10px;
+  background: #FFC107;
+  border: 2px solid #DC2626;
+  border-radius: 50%;
+  margin-top: 2px;
+  box-shadow: 0 0 10px #FFC107;
+}
+
+.spi-client-active .spi-client-badge {
+  transform: scale(1.15);
+  background: #991B1B;
+  border-color: #FFFFFF;
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.8);
+}
       `}</style>
 
       {/* Header Section */}
