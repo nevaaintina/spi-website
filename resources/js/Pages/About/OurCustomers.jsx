@@ -29,24 +29,28 @@ const customerRegions = [
         name: "PT Bukit Asam Tbk", 
         sector: "Coal Mining", 
         location: "Sumatra Selatan",
+        coordinates: [-3.7231, 103.7820],
         image: "https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&w=600&q=80"
       },
       { 
         name: "PT Semen Padang", 
         sector: "Manufacturing & Mining", 
         location: "Sumatra Barat",
+        coordinates: [-0.9520, 100.4682],
         image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80"
       },
       { 
         name: "PT Riau Andalan Pulp & Paper", 
         sector: "Forestry & Industry", 
         location: "Riau",
+        coordinates: [0.4239, 101.8542],
         image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80"
       },
       { 
         name: "PT Nuansabumi Kesuma", 
         sector: "Mining Contractor", 
         location: "Jambi",
+        coordinates: [-1.6101, 103.6131],
         image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80"
       },
     ],
@@ -150,21 +154,55 @@ const createCustomIcon = (region, isActive) => {
   });
 };
 
+const createClientIcon = (client, isActive) => {
+  const html = `
+    <div class="spi-client-marker ${isActive ? "spi-client-active" : ""}">
+      <div class="spi-client-badge">
+        <span class="spi-client-name">${client.name}</span>
+      </div>
+      <div class="spi-client-pin">
+        <div class="spi-client-dot"></div>
+      </div>
+    </div>
+  `;
+
+  return L.divIcon({
+    html: html,
+    className: "spi-leaflet-div-icon",
+    iconSize: [140, 50],
+    iconAnchor: [70, 45],
+    popupAnchor: [0, -40],
+  });
+};
+
 export default function OurCustomers() {
   const [activeRegionId, setActiveRegionId] = useState("kalimantan");
+  const [selectedClient, setSelectedClient] = useState(null);
   const mapRef = useRef(null);
+
+  const handleClientClick = (client) => {
+  setSelectedClient(client);
+  if (mapRef.current) {
+    // FlyTo langsung ke titik presisi alamat PT dengan zoom level lebih dekat (zoom: 9)
+    mapRef.current.flyTo(client.coordinates, 9, {
+      duration: 1.8,
+      easeLinearity: 0.25,
+    });
+  }
+};
 
   const activeRegion = customerRegions.find((r) => r.id === activeRegionId) || customerRegions[1];
 
   // Handler Tombol Reset View Indonesia
   const handleResetView = () => {
-    setActiveRegionId("kalimantan");
-    if (mapRef.current) {
-      mapRef.current.flyTo(INDONESIA_CENTER, DEFAULT_ZOOM, {
-        duration: 1.5,
-      });
-    }
-  };
+  setActiveRegionId("kalimantan");
+  setSelectedClient(null); // 📍 PERBAIKAN: Mengosongkan PT terpilih agar marker merah PT Semen Padang langsung HILANG
+  if (mapRef.current) {
+    mapRef.current.flyTo(INDONESIA_CENTER, DEFAULT_ZOOM, {
+      duration: 1.5,
+    });
+  }
+};
 
   return (
     <section className="mt-16 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
@@ -301,6 +339,46 @@ export default function OurCustomers() {
         .spi-map-tiles {
           filter: contrast(102%) brightness(98%);
         }
+
+        .spi-client-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.spi-client-badge {
+  background: #DC2626; /* Merah untuk membedakan dengan wilayah */
+  border: 2px solid #FFC107;
+  border-radius: 6px;
+  padding: 3px 8px;
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
+  white-space: nowrap;
+}
+
+.spi-client-name {
+  font-size: 10px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.spi-client-pin {
+  width: 10px;
+  height: 10px;
+  background: #FFC107;
+  border: 2px solid #DC2626;
+  border-radius: 50%;
+  margin-top: 2px;
+  box-shadow: 0 0 10px #FFC107;
+}
+
+.spi-client-active .spi-client-badge {
+  transform: scale(1.15);
+  background: #991B1B;
+  border-color: #FFFFFF;
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.8);
+}
       `}</style>
 
       {/* Header Section */}
@@ -338,66 +416,96 @@ export default function OurCustomers() {
         </div>
 
         {/* Leaflet Map Implementation */}
-        <div className="h-[360px] w-full sm:h-[420px] md:h-[480px]">
-          <MapContainer
-            center={INDONESIA_CENTER}
-            zoom={DEFAULT_ZOOM}
-            scrollWheelZoom={true}
-            className="h-full w-full z-10"
-            ref={mapRef}
-            attributionControl={true}
-          >
-            <TileLayer
-              className="spi-map-tiles"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+<div className="h-[360px] w-full sm:h-[420px] md:h-[480px]">
+  <MapContainer
+    center={INDONESIA_CENTER}
+    zoom={DEFAULT_ZOOM}
+    scrollWheelZoom={true}
+    className="h-full w-full z-10"
+    ref={mapRef}
+    attributionControl={true}
+  >
+    <TileLayer
+      className="spi-map-tiles"
+      attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors'
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    />
 
-            {/* Controller untuk Animasi Smooth Camera Pan & Zoom */}
-            <MapViewController selectedRegion={activeRegion} />
+    {/* Controller untuk Animasi Smooth Camera Pan & Zoom */}
+    <MapViewController selectedRegion={activeRegion} />
 
-            {/* Mapping Markers per Region */}
-            {customerRegions.map((region) => {
-              const isActive = activeRegionId === region.id;
-              const customIcon = createCustomIcon(region, isActive);
+    {/* 1. Mapping Markers per Region */}
+    {customerRegions.map((region) => {
+      const isActive = activeRegionId === region.id;
+      const customIcon = createCustomIcon(region, isActive);
 
-              return (
-                <Marker
-                  key={region.id}
-                  position={region.coordinates}
-                  icon={customIcon}
-                  eventHandlers={{
-                    click: () => {
-                      setActiveRegionId(region.id);
-                    },
-                  }}
-                >
-                  <Popup offset={[0, -10]}>
-                    <div className="p-3">
-                      <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <h5 className="text-sm font-extrabold text-[#0F2B5C]">{region.name}</h5>
-                        <span className="rounded-full bg-[#FFC107]/20 px-2 py-0.5 text-[10px] font-bold text-[#0F2B5C]">
-                          {region.count}
-                        </span>
-                      </div>
-                      <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                        {region.description}
-                      </p>
-                      <button
-  onClick={() => setActiveRegionId(region.id)}
-  className="mt-3 w-full rounded-md bg-[#0F2B5C] py-1.5 text-center text-[11px] font-bold text-[#FFC107] hover:bg-[#153875] transition-colors"
->
-  Lihat Pelanggan ({region.count})
-</button>
-                    </div>
-                  </Popup>
-                </Marker>
-              );
-            })}
-          </MapContainer>
+      return (
+        <Marker
+          key={region.id}
+          position={region.coordinates}
+          icon={customIcon}
+          eventHandlers={{
+            click: () => {
+              setActiveRegionId(region.id);
+            },
+          }}
+        >
+          <Popup offset={[0, -10]}>
+            <div className="p-3">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                <h5 className="text-sm font-extrabold text-[#0F2B5C]">{region.name}</h5>
+                <span className="rounded-full bg-[#FFC107]/20 px-2 py-0.5 text-[10px] font-bold text-[#0F2B5C]">
+                  {region.count}
+                </span>
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-slate-600">
+                {region.description}
+              </p>
+              <button
+                onClick={() => setActiveRegionId(region.id)}
+                className="mt-3 w-full rounded-md bg-[#0F2B5C] py-1.5 text-center text-[11px] font-bold text-[#FFC107] hover:bg-[#153875] transition-colors"
+              >
+                Lihat Pelanggan ({region.count})
+              </button>
+            </div>
+          </Popup>
+        </Marker>
+      );
+    })}
+
+
+    {/* 2. Mapping Marker Khusus PT / Client */}
+{activeRegion.clients.map((client) => {
+  if (!client.coordinates) return null;
+
+  // 📍 HANYA TAMPILKAN JIKA ADA PT YANG SEDANG DIKLIK SECARA SPESIFIK
+  const isSelected = selectedClient?.name === client.name;
+  if (!isSelected) return null; // Jika PT ini tidak sedang diklik, JANGAN TAMPILKAN sama sekali!
+
+  const clientIcon = createClientIcon(client, true);
+
+  return (
+    <Marker
+      key={client.id || client.name}
+      position={client.coordinates}
+      icon={clientIcon}
+      eventHandlers={{
+        click: () => handleClientClick(client),
+      }}
+    >
+      <Popup offset={[0, -10]}>
+        <div className="p-3 text-center">
+          <h5 className="text-xs font-black text-[#0F2B5C]">{client.name}</h5>
+          <p className="mt-1 text-[11px] font-semibold text-[#D97706]">{client.sector}</p>
+          <p className="text-[10px] text-slate-500">📍 {client.location}</p>
         </div>
-      </div>
-
+      </Popup>
+    </Marker>
+  );
+})}
+  </MapContainer>
+</div>
+</div>
 
    {/* Region Selector Tabs (Full Width 5 Kolom Tanpa Layar Kosong) */}
       <div className="grid grid-cols-2 gap-2.5 border-b border-slate-200 pb-4 sm:grid-cols-3 lg:grid-cols-5">
@@ -440,12 +548,15 @@ export default function OurCustomers() {
           </span>
         </div>
 
-        {/* Customer Cards Grid (Tanpa Sektor & Selengkapnya) */}
+        {/* Customer Cards Grid (Dengan Trigger Klik ke Peta) */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {activeRegion.clients.map((client, idx) => (
             <div
-              key={idx}
-              className="group relative h-[280px] w-full cursor-pointer overflow-hidden rounded-2xl shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
+              key={client.id || idx}
+              onClick={() => handleClientClick(client)}
+              className={`group relative h-[280px] w-full cursor-pointer overflow-hidden rounded-2xl shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-xl ${
+                selectedClient?.name === client.name ? "ring-4 ring-[#FFC107]" : ""
+              }`}
             >
               {/* Gambar Background Utama */}
               <img
@@ -462,15 +573,12 @@ export default function OurCustomers() {
 
               {/* Kontainer Teks Interaktif */}
               <div className="absolute inset-0 flex flex-col justify-end p-5 text-white">
-                
-                {/* Nama Perusahaan */}
                 <div className="transform transition-all duration-500 group-hover:-translate-y-6">
                   <h5 className="text-lg font-extrabold leading-snug text-white drop-shadow-md">
                     {client.name}
                   </h5>
                 </div>
 
-                {/* Lokasi Wilayah Sahaja */}
                 <div className="absolute bottom-5 left-5 right-5 translate-y-6 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                   <p className="flex items-center gap-1.5 text-xs text-slate-200">
                     <svg className="h-3.5 w-3.5 text-[#FFC107]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -480,7 +588,6 @@ export default function OurCustomers() {
                     {client.location}
                   </p>
                 </div>
-
               </div>
             </div>
           ))}

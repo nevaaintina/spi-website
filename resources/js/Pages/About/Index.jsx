@@ -257,8 +257,8 @@ const whoWeAreStats = [
 
 const companyProfile = [
   { icon: IconBuilding, label: "Company Name", value: "PT Servistama Pro Indonesia" },
-  { icon: IconCalendar, label: "Established", value: "2010" },
-  { icon: IconIndustry, label: "Industry", value: "Heavy Equipment Services" },
+  { icon: IconCalendar, label: "Established", value: "2022" },
+  { icon: IconIndustry, label: "Industry", value: "Heavy Equipment Support & Services" },
   {
     icon: IconFocus,
     label: "Business Focus",
@@ -270,12 +270,11 @@ const companyProfile = [
 ];
 
 const historyTimeline = [
-  { year: "2010", title: "Company Founded" },
-  { year: "2013", title: "Service Expansion" },
-  { year: "2016", title: "Workshop Development" },
-  { year: "2019", title: "National Project" },
-  { year: "2022", title: "Authorized XCMG Partner" },
-  { year: "2026", title: "Smart Mining Ecosystem" },
+  { year: "2022", title: "Authorized XCMG Dealer Indonesia" },
+  { year: "2023", title: "FMC Launch & Jakarta Warehouses" },
+  { year: "2024", title: "XCMG Award & Regional Expansion" },
+  { year: "2025", title: "2 Balikpapan Warehouses & Integrated Asset Management System" },
+  { year: "2026", title: "Full New ERP System for Operational Efficiency & Integration" },
 ];
 
 const companyStats = [
@@ -362,17 +361,17 @@ export default function Index() {
       {/* ============================== HERO ============================== */}
       <section
         className="relative flex min-h-[750px] w-full items-center overflow-hidden md:min-h-[820px]"
-        style={{
+        style={{  
           backgroundImage:
-            "linear-gradient(180deg, rgba(11,18,32,0.75) 0%, rgba(15,43,92,0.55) 50%, rgba(11,18,32,0.85) 100%), url('https://www.total-erp.com/wp-content/uploads/2024/05/dump-truck-tambang.jpg')",
+            "linear-gradient(180deg, rgba(11,18,32,0.75) 0%, rgba(15,43,92,0.55) 50%, rgba(11,18,32,0.85) 100%), url('/images/about.png')",
           backgroundSize: "cover",
           backgroundPosition: "center 40%",
           backgroundRepeat: "no-repeat",
-        }}
+        }}  
       >
         
         <div className="mx-auto flex w-full max-w-7xl flex-col justify-between px-4 py-16 sm:px-6 lg:px-8">
-          {/* Left column */}
+          {/* Left column */}  
           <div className="flex flex-col justify-center">
             <span className="mb-4 inline-block w-fit text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
               About Us
@@ -384,16 +383,16 @@ export default function Index() {
               PT Servistama Pro Indonesia is committed to delivering reliable,
               innovative, and high-quality heavy equipment services to support
               Indonesia&apos;s industrial growth.
-            </p>
+            </p> 
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a
+              <a 
                 href="#company-profile"
                 className="group inline-flex items-center gap-2 rounded-md bg-[#FFC107] px-6 py-3 text-sm font-bold text-[#0B1220] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#e6ac00] hover:shadow-lg"
               >
                 Company Profile
                 <IconArrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </a>
+              </a> 
               <a
                 href="#services"
                 className="group inline-flex items-center gap-2 rounded-md border border-white/40 px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white/10"
@@ -495,9 +494,20 @@ export default function Index() {
         </div>
       </section>
 
-    {/* ============================== COMPANY PROFILE ============================== */}
-<section id="company-profile" className="bg-[#0F2B5C] pt-8 pb-16 md:pt-10 md:pb-20">
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  {/* ============================== COMPANY PROFILE ============================== */}
+<section id="company-profile" className="relative overflow-hidden pt-8 pb-16 md:pt-10 md:pb-20">
+  {/* Background Image & Overlay */}
+  <div className="absolute inset-0 z-0">
+    <img 
+      src="/images/statics.jpg" 
+      alt="Mining Heavy Equipment Background" 
+      className="h-full w-full object-cover"
+      style={{ objectPosition: 'center 45%' }}
+    />
+    <div className="absolute inset-0 bg-[#0F2B5C]/65"></div>
+  </div> {/* 📍 PENUTUP DIV BACKGROUND BARIS 501 */}
+
+  <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     
     {/* Header Title */}
     <div className="mb-4">
@@ -506,7 +516,7 @@ export default function Index() {
       </span>
     </div>
 
-    {/* Grid Horisontal (Menyamping): 3 Kolom di Layar Besar */}
+    {/* Grid Horisontal: 3 Kolom */}
     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {companyProfile.map((row, i) => {
         const Icon = row.icon;
@@ -548,7 +558,7 @@ export default function Index() {
       {/* Garis Penghubung Horizontal */}
       <div className="absolute left-0 right-0 top-6 hidden h-0.5 bg-[#E2E8F0] sm:block" />
 
-      <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
         {historyTimeline.map((item, i) => (
           <div key={i} className="group relative flex cursor-pointer flex-col items-center text-center">
             
@@ -714,7 +724,7 @@ export default function Index() {
   </section>
 
   {/* ============================== COMPANY CULTURE + GOVERNANCE ============================== */}
-  <section className="bg-[#F8FAFC] py-16 border-t border-slate-200">
+  <section className="bg-[#F8FAFC] pt-6 pb-12 border-t border-slate-200">
     <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
       
       {/* Culture */}
