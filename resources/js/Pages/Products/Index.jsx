@@ -3,71 +3,72 @@ import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 
 /* =========================================================
-    PRODUCT DATA (KOMATSU EXACT STYLE)
+    PRODUCT DATA (FIXED SLUGS & CATEGORIES)
 ========================================================= */
 const productList = [
   {
-    slug: "excavator-xe200",
-    name: "Ekskavator Hidrolik",
-    category: "Excavator",
-    image:
-      "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=85",
+    slug: "excavator-xe1250", // Perbaikan: tadinya excavator-xde1250
+    name: "Mining Excavator XE 1250",
+    categories: ["Excavator", "Mining Equipment"], // Perbaikan: tadinya Dump Truck
+    image: "/images/XE1250.png",
     description:
-      "Ekskavator yang mendukung sektor pembangunan, perhutanan, pertanian, dan pertambangan.",
+      "Ekskavator tambang bertenaga, efisien, dan bersistem keselamatan tinggi.",
   },
   {
-    slug: "wheel-loader-zl50",
-    name: "Dump Truck",
-    category: "Wheel Loader",
-    image:
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=85",
+    slug: "excavator-xe2000",
+    name: "Mining Excavator XE 2000",
+    categories: ["Excavator", "Mining Equipment"], // Perbaikan: tadinya Dump Truck
+    image: "/images/XE2000.png",
     description:
-      "Daya angkut besar, stabil, dan siap bekerja di berbagai medan operasional berat.",
+      "Ekskavator tambang tangguh dengan perawatan mudah dan efisien.",
   },
   {
-    slug: "motor-grader-gr135",
-    name: "Bulldozer",
-    category: "Motor Grader",
-    image:
-      "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=1200&q=85",
+    slug: "dump-truck-xde130",
+    name: "Mining Dump Truck XDE 130",
+    categories: ["Dump Truck", "Mining Equipment"], 
+    image: "/images/XDE130.png",
     description:
-      "Bulldozer yang tangguh di berbagai macam sektor pertambangan dan konstruksi.",
+      "Truk tambang efisien dengan sistem monitoring real-time.",
   },
   {
-    slug: "crane-xct25",
-    name: "Motor Grader",
-    category: "Crane",
-    image:
-      "https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=1200&q=85",
+    slug: "dump-truck-xda45",
+    name: "Articulated Dump Truck XDA 45",
+    categories: ["Dump Truck", "Mining Equipment"], 
+    image: "/images/XDA45.png",
     description:
-      "Solusi presisi tinggi untuk perataan tanah dengan performa optimal.",
+      "Dump truck articulated bertenaga untuk berbagai medan ekstrem.",
   },
   {
-    slug: "dump-truck-nbe",
-    name: "Dump Truck Mining",
-    category: "Dump Truck",
-    image:
-      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=85",
+    slug: "dump-truck-xga4251",
+    name: "Off-highway Dump Truck XGA 4251 D2WC",
+    categories: ["Dump Truck"], // Perbaikan: disamakan format array
+    image: "/images/XGA425D2WC.jpg",
     description:
-      "Kapasitas muat dan ketahanan tinggi untuk operasional berat.",
+      "Truk logistik jarak jauh yang efisien dan andal.",
   },
   {
-    slug: "mining-equipment-ex",
-    name: "Mining Equipment Heavy",
-    category: "Mining Equipment",
-    image:
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1200&q=85",
+    slug: "dump-truck-xdr",
+    name: "Mining Dump Truck XDR 80T-AT",
+    categories: ["Dump Truck", "Mining Equipment"],
+    image: "/images/XDR80T-AT.png",
     description:
-      "Peralatan heavy equipment untuk kebutuhan operasional tambang.",
+      "Truk tambang bertenaga dengan pemantauan mesin real-time.",
   },
   {
-    slug: "road-roller-xs123",
-    name: "Road Roller XS123",
-    category: "Road",
-    image:
-      "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=85",
+    slug: "motor-grader-gr3005t",
+    name: "Mining Grader GR 3005T-Pro",
+    categories: ["Motor Grader", "Mining Equipment", "Road"],
+    image: "/images/GR3005T-Pro.png",
     description:
-      "Memberikan hasil pemadatan yang konsisten untuk jalan raya.",
+      "Motor grader tambang presisi untuk perataan jalan ekstrem.",
+  },
+  {
+    slug: "dump-truck-xga105",
+    name: "Mining Dump Truck XGA 105",
+    categories: ["Dump Truck", "Mining Equipment"],
+    image: "/images/XGA105.png",
+    description:
+      "Truk tambang kokoh berdaya angkut besar dan efisien.",
   },
 ];
 
@@ -190,15 +191,18 @@ export default function ProductIndex() {
   const filteredProducts =
     selectedCategory === "All"
       ? productList
-      : productList.filter((product) => product.category === selectedCategory);
+      : productList.filter((product) => {
+          if (Array.isArray(product.categories)) {
+            return product.categories.includes(selectedCategory);
+          }
+          return product.category === selectedCategory;
+        });
 
   return (
     <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-[#ffc107] selection:text-[#0f2b5c] overflow-x-hidden">
       <Navbar />
 
-      {/* =====================================================
-          HERO BANNER
-      ===================================================== */}
+      {/* HERO BANNER */}
       <section className="relative bg-white overflow-hidden">
         <div className="absolute left-0 top-20 w-[330px] h-[250px] opacity-40 pointer-events-none">
           <div
@@ -231,7 +235,6 @@ export default function ProductIndex() {
                 Temukan berbagai lini produk berkualitas tinggi untuk mendukung efisiensi dan produktivitas proyek konstruksi serta pertambangan Anda.
               </p>
 
-              {/* Action Buttons: Lihat Produk & Download Katalog */}
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <a
                   href="#products"
@@ -326,9 +329,7 @@ export default function ProductIndex() {
         </div>
       </section>
 
-      {/* =====================================================
-          PRODUCT SECTION
-      ===================================================== */}
+      {/* PRODUCT SECTION */}
       <section id="products" className="relative bg-white py-16 lg:py-20">
         <div className="relative max-w-[1380px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-20">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">

@@ -22,20 +22,23 @@ export default function Management() {
       title: "HRGA and General Support Director",
       image: "/images/pa-adie.png",
       linkedin: "https://www.linkedin.com/in/sugih-hariyadi-b2b5b57b/",
+      customPosition: "object-[center_25%]",
     },
     {
       name: "Yuda Khamal Pura",
       title: "Operation Director",
       image: "/images/pa-yuda.png",
       linkedin: "https://www.linkedin.com/in/yuda-pura-8267aa19/",
+      customPosition: "object-[center_25%]",
     },
     {
-      name: "Dian Wijayanti", // 
-      title: "Chief Financial Officer", // 
-      image: "/images/.png", // 
+      name: "Dian Wijayanti",
+      title: "Chief Financial Officer",
+      image: "/images/bu-dian.jpeg",
       linkedin: "https://www.linkedin.com/in/lucilla-dian-w/",
-    },
-  ];
+      customStyle: "object-[center_10%] scale-[1.45]",
+  },
+ ];
 
   return (
     <div className="w-full pt-8">
@@ -43,11 +46,9 @@ export default function Management() {
         MANAGEMENT TEAM
       </span>
 
-      {/* ================= BARIS 1: CEO  ================= */}
+      {/* ================= BARIS 1: CEO ================= */}
       <div className="mb-10 flex justify-center w-full">
         <div className="group relative w-full max-w-sm rounded-2xl border border-slate-200/80 bg-white p-3.5 shadow-md transition-all duration-300 hover:border-[#FFC107] hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10">
-          
-
           <div className="relative h-[380px] w-full overflow-hidden rounded-xl bg-slate-100">
             <img
               src={ceoMember.image}
@@ -66,8 +67,8 @@ export default function Management() {
                 {ceoMember.name}
               </h4>
               <p className="truncate text-xs font-medium text-slate-500">
-  {ceoMember.title}
-</p>
+                {ceoMember.title}
+              </p>
             </div>
 
             <a
@@ -94,7 +95,7 @@ export default function Management() {
               <img
                 src={member.image}
                 alt={member.name}
-                className="h-full w-full object-cover object-[center_25%] transition-transform duration-500 group-hover:scale-105"
+                className={`h-full w-full object-cover ${member.customPosition} transition-transform duration-500 group-hover:scale-105`}
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://via.placeholder.com/350x500?text=Photo";

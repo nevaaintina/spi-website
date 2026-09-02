@@ -1,5 +1,8 @@
 import React from "react";
 
+/* =========================================================
+   INLINE SVG ICONS
+   ========================================================= */
 const IconTarget = (props) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
     <circle cx="12" cy="12" r="9" />
@@ -8,19 +11,13 @@ const IconTarget = (props) => (
   </svg>
 );
 
-const IconTruck = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
-    <rect x="1.5" y="8" width="12" height="8" rx="1" />
-    <path d="M13.5 11h4l3 3v2h-7v-5Z" />
-    <circle cx="6" cy="18" r="1.6" />
-    <circle cx="17" cy="18" r="1.6" />
-  </svg>
-);
-
 const IconHandshake = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
-    <path d="M2 12.5 6 9l3 2.2 3-2.2 3 2 4-3.5" />
-    <path d="M2 12.5 7 17l2-1.5 2 1.5 2-1.5 2 1.5 5-4" />
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="m11 17 2 2a1 1 0 0 0 1.4 0l3.6-3.6a1 1 0 0 0 0-1.4l-2-2" />
+    <path d="m18 10 1.6-1.6a1 1 0 0 0 0-1.4l-2.2-2.2a1 1 0 0 0-1.4 0L14 7" />
+    <path d="m12 8-2-2a1 1 0 0 0-1.4 0L5 9.6a1 1 0 0 0 0 1.4l2 2" />
+    <path d="M2 13l4.5-4.5" />
+    <path d="M22 11l-4.5 4.5" />
   </svg>
 );
 
@@ -31,25 +28,10 @@ const IconShieldCheck = (props) => (
   </svg>
 );
 
-const IconStar = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
-    <path d="m12 3 2.6 5.6 6.1.6-4.6 4.2 1.3 6.1L12 16.6 6.6 19.5l1.3-6.1L3.3 9.2l6.1-.6L12 3Z" />
-  </svg>
-);
-
 const IconGear = (props) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
     <circle cx="12" cy="12" r="3.2" />
     <path d="M12 3v2.2M12 18.8V21M21 12h-2.2M5.2 12H3M18.1 5.9l-1.6 1.6M7.5 16.5l-1.6 1.6M18.1 18.1l-1.6-1.6M7.5 7.5 5.9 5.9" />
-  </svg>
-);
-
-const IconUsersGroup = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
-    <circle cx="8.5" cy="8" r="2.8" />
-    <circle cx="16" cy="9" r="2.2" />
-    <path d="M3 19c.6-3 2.7-4.6 5.5-4.6S13.4 16 14 19" />
-    <path d="M14.5 14.6c2.3.1 4 1.6 4.5 4.4" />
   </svg>
 );
 
@@ -59,62 +41,111 @@ const IconQuote = (props) => (
   </svg>
 );
 
+const IconClipboardCheck = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <rect x="8" y="2" width="8" height="4" rx="1" />
+    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+    <path d="M9 14l2 2 4-4" />
+  </svg>
+);
+
+const IconLightbulb = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .4 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+    <path d="M9 18h6" />
+    <path d="M10 22h4" />
+  </svg>
+);
+
+/* =========================================================
+   DATA STORES
+   ========================================================= */
 const missions = [
-  { icon: IconTruck, text: "Deliver reliable and high-quality services" },
-  { icon: IconHandshake, text: "Provide innovative solutions for our customers" },
-  { icon: IconShieldCheck, text: "Ensure safety and environmental sustainability" },
-  { icon: IconUsersGroup, text: "Build long-term partnership with integrity" },
-  { icon: IconGear, text: "Develop professional and competent human resources" },
-  { icon: IconStar, text: "Create value for stakeholders and the nation" },
+  { 
+    icon: IconGear, 
+    text: "Menyediakan jasa servis dan suku cadang alat berat terbaik serta terlengkap." 
+  },
+  { 
+    icon: IconHandshake, 
+    text: "Membangun layanan berbasis konsumen dan memberikan solusi sesuai kebutuhan pelanggan." 
+  },
+  { 
+    icon: IconShieldCheck, 
+    text: "Menjaga dan meningkatkan kualitas pelayanan secara berkesinambungan." 
+  },
 ];
 
 const coreValues = [
-  { icon: IconStar, title: "Integrity", desc: "Uphold strong moral principles" },
-  { icon: IconGear, title: "Professionalism", desc: "We work with competence and responsibility" },
-  { icon: IconShieldCheck, title: "Safety", desc: "We prioritize safety in every activity" },
-  { icon: IconTarget, title: "Commitment", desc: "We are committed to delivering the best" },
+  { 
+    icon: IconHandshake, 
+    title: "Honest", 
+    desc: "Melayani klien dengan kejujuran." 
+  },
+  { 
+    icon: IconShieldCheck, 
+    title: "Integrity", 
+    desc: "Bertanggung jawab atas setiap tindakan." 
+  },
+  { 
+    icon: IconTarget, 
+    title: "Perseverance", 
+    desc: "Tekun mencapai tujuan jangka panjang." 
+  },
+  { 
+    icon: IconClipboardCheck, 
+    title: "Respect", 
+    desc: "Menghargai klien dengan proses terarah." 
+  },
+  { 
+    icon: IconLightbulb, 
+    title: "Open-minded", 
+    desc: "Menerima masukan demi evaluasi layanan." 
+  },
 ];
 
+/* =========================================================
+   COMPONENT
+   ========================================================= */
 export default function VisionMission() {
   return (
     <section className="bg-[#F8FAFC] pt-8 pb-16 md:pt-10 md:pb-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-6">
+        
+        {/* BARIS ATAS: 2 KOLOM (OUR VISION & OUR MISSION) */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           
-          {/* 1. VISION */}
-          <div className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#0F2B5C] p-7 text-white shadow-xl transition-all duration-300 hover:-translate-y-2 hover:border-[#FFC107]/50 hover:shadow-2xl hover:shadow-[#0F2B5C]/30">
-            {/* Background Glow Effect */}
-            <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#FFC107]/10 blur-2xl transition-all duration-500 group-hover:bg-[#FFC107]/20" />
+         {/* 1. VISION */}
+<div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#0F2B5C] p-7 text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107]/50 hover:shadow-2xl hover:shadow-[#0F2B5C]/30">
+  <div className="flex flex-col h-full justify-between">
+    {/* Judul di Atas */}
+    <h3 className="text-xs font-bold uppercase tracking-widest text-[#FFC107]">
+      Our Vision
+    </h3>
 
-            <div>
-              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFC107] text-[#0F2B5C] shadow-md transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[#FFC107]/30">
-                <IconTarget className="h-7 w-7" />
-              </div>
-              <h3 className="mb-3 text-xs font-bold uppercase tracking-widest text-[#FFC107]">
-                Our Vision
-              </h3>
-              <p className="text-sm leading-relaxed text-white/90">
-                To become Indonesia&apos;s leading heavy equipment service company that
-                provides innovative, reliable, and sustainable industrial solutions.
-              </p>
-            </div>
-          </div>
-
+    {/* Isi Teks Visi Clean */}
+    <div className="my-auto py-4">
+      <p className="text-lg font-normal leading-relaxed text-white/95">
+        Menjadi perusahaan penyedia jasa servis dan suku cadang alat berat 
+        terlengkap dan terbesar dengan pelayanan terbaik di Indonesia.
+      </p>
+    </div>
+  </div>
+</div> 
           {/* 2. MISSION */}
-          <div className="group flex flex-col justify-between rounded-2xl border border-[#E2E8F0] bg-white p-7 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:border-[#FFC107] hover:shadow-2xl hover:shadow-[#0F2B5C]/10">
+          <div className="group flex flex-col justify-between rounded-2xl border border-[#E2E8F0] bg-white p-7 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107] hover:shadow-2xl hover:shadow-[#0F2B5C]/10">
             <div>
               <h3 className="mb-5 text-xs font-bold uppercase tracking-widest text-[#FFC107]">
                 Our Mission
               </h3>
-              <ul className="space-y-3.5">
+              <ul className="space-y-4">
                 {missions.map((m, i) => {
                   const Icon = m.icon;
                   return (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#0F2B5C]/5 text-[#0F2B5C] transition-colors duration-300 group-hover:bg-[#FFC107] group-hover:text-[#0F2B5C]">
+                    <li key={i} className="flex items-start gap-3.5">
+                      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#0F2B5C]/5 text-[#0F2B5C] transition-colors duration-300 group-hover:bg-[#FFC107] group-hover:text-[#0F2B5C]">
                         <Icon className="h-4 w-4" />
                       </span>
-                      <span className="text-xs font-medium leading-snug text-[#64748B] transition-colors duration-300 group-hover:text-[#0F2B5C]">
+                      <span className="text-sm font-medium leading-relaxed text-[#64748B] transition-colors duration-300 group-hover:text-[#0F2B5C]">
                         {m.text}
                       </span>
                     </li>
@@ -124,52 +155,50 @@ export default function VisionMission() {
             </div>
           </div>
 
-          {/* 3. CORE VALUES */}
-          <div className="group flex flex-col justify-between rounded-2xl border border-[#E2E8F0] bg-white p-7 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:border-[#FFC107] hover:shadow-2xl hover:shadow-[#0F2B5C]/10">
-            <div>
-              <h3 className="mb-5 text-xs font-bold uppercase tracking-widest text-[#FFC107]">
-                Core Values
-              </h3>
-              <div className="grid grid-cols-2 gap-3.5">
-                {coreValues.map((v, i) => {
-                  const Icon = v.icon;
-                  return (
-                    <div
-                      key={i}
-                      className="rounded-xl border border-transparent bg-[#F8FAFC] p-2.5 transition-all duration-300 hover:border-[#FFC107]/40 hover:bg-[#0F2B5C]/5"
-                    >
-                      <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-lg bg-[#0F2B5C]/10 text-[#0F2B5C] transition-all duration-300 group-hover:bg-[#0F2B5C] group-hover:text-[#FFC107]">
-                        <Icon className="h-4 w-4" />
-                      </div>
-                      <p className="text-xs font-bold text-[#0F2B5C]">{v.title}</p>
-                      <p className="mt-0.5 text-[10px] leading-snug text-[#64748B]">
-                        {v.desc}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+        </div> 
+        {/* BARIS KEDUA: CORE VALUES (MELEBAR FULL HORIZONTAL 5 KOLOM) */}
+        <div className="group rounded-2xl border border-[#E2E8F0] bg-white p-7 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107] hover:shadow-2xl hover:shadow-[#0F2B5C]/10">
+          <h3 className="mb-5 text-xs font-bold uppercase tracking-widest text-[#FFC107]">
+            Core Values (HIPRO)
+          </h3>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {coreValues.map((v, i) => {
+              const Icon = v.icon;
+              return (
+                <div
+                  key={i}
+                  className="flex flex-col rounded-xl border border-transparent bg-[#F8FAFC] p-4 transition-all duration-300 hover:border-[#FFC107]/40 hover:bg-[#0F2B5C]/5"
+                >
+                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-[#0F2B5C]/10 text-[#0F2B5C] transition-all duration-300 group-hover:bg-[#0F2B5C] group-hover:text-[#FFC107]">
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <p className="text-sm font-bold text-[#0F2B5C]">{v.title}</p>
+                  <p className="mt-1 text-xs leading-snug text-[#64748B]">
+                    {v.desc}
+                  </p>
+                </div>
+              );
+            })}
           </div>
+        </div>
 
-          {/* 4. BUSINESS PHILOSOPHY */}
-          <div className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#0F2B5C] p-7 text-white shadow-xl transition-all duration-300 hover:-translate-y-2 hover:border-[#FFC107]/50 hover:shadow-2xl hover:shadow-[#0F2B5C]/30">
-            {/* Background Glow Effect */}
-            <div className="absolute -bottom-12 -left-12 h-32 w-32 rounded-full bg-[#FFC107]/10 blur-2xl transition-all duration-500 group-hover:bg-[#FFC107]/20" />
-
+        {/* BARIS KETIGA: BUSINESS PHILOSOPHY (BANNER HORIZONTAL) */}
+        <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0F2B5C] p-7 text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107]/50 hover:shadow-2xl hover:shadow-[#0F2B5C]/30">
+          <div className="absolute -bottom-10 -right-10 h-32 w-32 rounded-full bg-[#FFC107]/10 blur-2xl transition-all duration-500 group-hover:bg-[#FFC107]/20" />
+          
+          <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-6">
+            <IconQuote className="h-10 w-10 shrink-0 text-[#FFC107] transition-transform duration-300 group-hover:scale-110" />
             <div>
-              <h3 className="mb-5 text-xs font-bold uppercase tracking-widest text-[#FFC107]">
+              <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-[#FFC107]">
                 Business Philosophy
               </h3>
-              <IconQuote className="mb-4 h-8 w-8 text-[#FFC107] transition-transform duration-300 group-hover:scale-110" />
-              <p className="text-sm italic leading-relaxed text-white/90">
-                &ldquo;Delivering Excellence Through Quality, Integrity, Innovation, and
-                Customer Satisfaction.&rdquo;
+              <p className="text-base italic leading-relaxed text-white/90">
+                &ldquo;Delivering excellence in heavy equipment support and spare parts, grounded in honesty, integrity, and continuous service improvement.&rdquo;
               </p>
             </div>
           </div>
-
         </div>
+
       </div>
     </section>
   );
