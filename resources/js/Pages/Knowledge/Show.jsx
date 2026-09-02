@@ -61,108 +61,11 @@ const IconWrench = (props) => (
 );
 
 /* =========================================================
-   STATIC DATA
-   (In production this would come from Inertia page props)
+   PAGE COMPONENT (Dinamis menerima props article & relatedArticles)
    ========================================================= */
-const article = {
-    category: 'MAINTENANCE TIPS',
-    title: '5 Praktik Maintenance Penting untuk Heavy Equipment',
-    date: '20 Mei 2025',
-    readTime: '6 Menit',
-    tag: 'Technical Insight',
-    image: '/images/knowledge/article-01-maintenance-tips-hero.jpg',
-    intro:
-        'Maintenance yang konsisten adalah fondasi dari operasional heavy equipment yang andal. Tanpa strategi perawatan yang tepat, perusahaan berisiko mengalami downtime tidak terduga, biaya perbaikan yang membengkak, hingga penurunan umur pakai alat secara signifikan.',
-    sections: [
-        {
-            number: '01',
-            title: 'Lakukan Preventive Maintenance',
-            body: 'Preventive maintenance dilakukan secara terjadwal untuk mencegah kerusakan sebelum terjadi. Inspeksi rutin pada komponen kritikal membantu mengidentifikasi potensi masalah lebih awal, sehingga alat tetap beroperasi pada performa optimal.',
-            points: [
-                'Susun jadwal inspeksi berdasarkan jam operasional alat',
-                'Catat setiap temuan pada laporan maintenance digital',
-                'Libatkan operator dalam pengecekan harian',
-            ],
-        },
-        {
-            number: '02',
-            title: 'Periksa Hydraulic System',
-            body: 'Hydraulic system merupakan salah satu komponen paling vital pada heavy equipment. Kebocoran, tekanan tidak stabil, atau kontaminasi fluida dapat menyebabkan penurunan performa yang drastis apabila tidak segera ditangani.',
-            points: [
-                'Periksa tekanan hydraulic secara berkala',
-                'Pastikan tidak ada kebocoran pada seal dan hose',
-                'Ganti hydraulic fluid sesuai rekomendasi pabrikan',
-            ],
-        },
-        {
-            number: '03',
-            title: 'Gunakan Lubricant yang Tepat',
-            body: 'Pemilihan lubricant yang sesuai dengan spesifikasi alat akan mengurangi gesekan antar komponen, menurunkan suhu operasional, dan memperpanjang umur pakai part mekanis.',
-            points: [
-                'Gunakan lubricant sesuai rekomendasi manufaktur',
-                'Perhatikan interval penggantian secara berkala',
-                'Simpan lubricant pada kondisi bebas kontaminasi',
-            ],
-        },
-        {
-            number: '04',
-            title: 'Monitor Kondisi Mesin',
-            body: 'Condition monitoring berbasis data memungkinkan tim engineering untuk memantau kondisi mesin secara real-time, sehingga anomali dapat terdeteksi jauh sebelum menyebabkan kerusakan besar.',
-            points: [
-                'Pantau suhu engine dan tekanan oli secara berkala',
-                'Manfaatkan sensor IoT untuk data real-time',
-                'Analisis tren data untuk prediksi maintenance',
-            ],
-        },
-        {
-            number: '05',
-            title: 'Dokumentasikan Maintenance',
-            body: 'Dokumentasi yang rapi mempermudah tim engineering dalam melacak riwayat perawatan, mengevaluasi pola kerusakan, dan merencanakan maintenance berikutnya secara lebih akurat.',
-            points: [
-                'Gunakan sistem digital untuk pencatatan maintenance',
-                'Arsipkan riwayat perbaikan setiap unit alat',
-                'Evaluasi data secara berkala bersama tim teknis',
-            ],
-        },
-    ],
-    conclusion:
-        'Menerapkan kelima praktik ini secara konsisten akan membantu perusahaan menjaga keandalan heavy equipment, menekan biaya perbaikan yang tidak terduga, dan memaksimalkan uptime operasional dalam jangka panjang.',
-};
+export default function Show({ article, relatedArticles = [] }) {
+    if (!article) return null;
 
-const relatedArticles = [
-    {
-        number: '02',
-        category: 'HYDRAULIC SYSTEM',
-        title: 'Memahami Performa Hydraulic System dan Kerusakan yang Sering Terjadi',
-        readTime: '7 MENIT',
-        date: '18 MEI 2025',
-        image: '/images/knowledge/article-02-hydraulic-system.jpg',
-        slug: 'performa-hydraulic-system-heavy-equipment',
-    },
-    {
-        number: '03',
-        category: 'ENGINE MAINTENANCE',
-        title: 'Panduan Engine Maintenance untuk Menjaga Keandalan Alat',
-        readTime: '6 MENIT',
-        date: '15 MEI 2025',
-        image: '/images/knowledge/article-03-engine-maintenance.jpg',
-        slug: 'panduan-engine-maintenance-heavy-equipment',
-    },
-    {
-        number: '04',
-        category: 'LUBRICATION GUIDE',
-        title: 'Memilih Lubricant yang Tepat untuk Heavy Equipment',
-        readTime: '5 MENIT',
-        date: '12 MEI 2025',
-        image: '/images/knowledge/article-04-lubrication-guide.jpg',
-        slug: 'memilih-lubricant-tepat-heavy-equipment',
-    },
-];
-
-/* =========================================================
-   PAGE COMPONENT
-   ========================================================= */
-export default function Show() {
     return (
         <>
             <Head title={`${article.title} - Knowledge Center`} />
@@ -188,24 +91,24 @@ export default function Show() {
                         <div className="mt-5 flex flex-wrap items-center gap-4 text-sm font-semibold text-[#64748B]">
                             <span className="flex items-center gap-1.5">
                                 <IconCalendar className="h-4 w-4" />
-                                {article.date}
+                                {article.published_date}
                             </span>
                             <span className="h-1 w-1 rounded-full bg-[#E2E8F0]" />
                             <span className="flex items-center gap-1.5">
                                 <IconClock className="h-4 w-4" />
-                                {article.readTime}
+                                {article.read_time || '5 Menit'}
                             </span>
                             <span className="h-1 w-1 rounded-full bg-[#E2E8F0]" />
                             <span className="flex items-center gap-1.5">
                                 <IconDocument className="h-4 w-4" />
-                                {article.tag}
+                                Technical Insight
                             </span>
                         </div>
                     </div>
 
                     <div className="mx-auto mt-8 max-w-[1100px] overflow-hidden rounded-2xl border border-[#E2E8F0] shadow-sm">
                         <img
-                            src={article.image}
+                            src={article.image ? `/storage/${article.image}` : '/images/c1.jpg'}
                             alt={article.title}
                             className="h-[280px] w-full object-cover sm:h-[380px] lg:h-[460px]"
                         />
@@ -215,111 +118,89 @@ export default function Show() {
                 {/* ================= ARTICLE CONTENT ================= */}
                 <section className="bg-white px-6 py-12 sm:px-10 lg:px-16">
                     <div className="mx-auto max-w-[820px]">
-                        <p className="text-lg leading-relaxed text-[#334155]">{article.intro}</p>
+                        <p className="text-lg leading-relaxed text-[#334155]">{article.excerpt}</p>
 
-                        {article.sections.map((section, index) => (
-                            <div key={section.number} className="mt-12">
-                                <div className="flex items-start gap-4">
-                                    <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#0F2B5C] text-sm font-extrabold text-[#FFC107]">
-                                        {section.number}
-                                    </span>
-                                    <h2 className="pt-1 text-xl font-bold text-[#0F2B5C] sm:text-2xl">{section.title}</h2>
-                                </div>
+                        {/* Konten Utama Artikel (HTML dari database atau teks panjang) */}
+                        <div className="mt-8 space-y-6 text-base leading-relaxed text-[#334155]">
+                            <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: article.content }} />
+                        </div>
 
-                                <p className="mt-4 pl-[52px] text-base leading-relaxed text-[#334155]">
-                                    {section.body}
+                        {/* Technical Callout Box */}
+                        <div className="mt-10 flex gap-4 rounded-xl bg-[#0F2B5C] p-6 sm:p-7">
+                            <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#FFC107]">
+                                <IconLightbulb className="h-5 w-5" />
+                            </span>
+                            <div>
+                                <p className="text-xs font-bold tracking-[0.15em] text-[#FFC107]">
+                                    TECHNICAL INSIGHT
                                 </p>
-
-                                <ul className="mt-4 space-y-2.5 pl-[52px]">
-                                    {section.points.map((point) => (
-                                        <li key={point} className="flex items-start gap-2.5 text-[#334155]">
-                                            <IconCheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#FFC107]" />
-                                            <span className="text-sm leading-relaxed sm:text-base">{point}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-
-                                {/* Technical callout after first section */}
-                                {index === 0 && (
-                                    <div className="mt-8 flex gap-4 rounded-xl bg-[#0F2B5C] p-6 sm:p-7">
-                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#FFC107]">
-                                            <IconLightbulb className="h-5 w-5" />
-                                        </span>
-                                        <div>
-                                            <p className="text-xs font-bold tracking-[0.15em] text-[#FFC107]">
-                                                TECHNICAL INSIGHT
-                                            </p>
-                                            <p className="mt-2 text-sm leading-relaxed text-white/80 sm:text-base">
-                                                Preventive maintenance yang konsisten dapat membantu mengurangi risiko
-                                                downtime dan memperpanjang umur operasional heavy equipment.
-                                            </p>
-                                        </div>
-                                    </div>
-                                )}
+                                <p className="mt-2 text-sm leading-relaxed text-white/80 sm:text-base">
+                                    Preventive maintenance yang konsisten dapat membantu mengurangi risiko downtime dan memperpanjang umur operasional heavy equipment.
+                                </p>
                             </div>
-                        ))}
-
-                        <div className="mt-12 border-t border-[#E2E8F0] pt-8">
-                            <h2 className="text-xl font-bold text-[#0F2B5C]">Kesimpulan</h2>
-                            <p className="mt-3 text-base leading-relaxed text-[#334155]">{article.conclusion}</p>
                         </div>
                     </div>
                 </section>
 
                 {/* ================= RELATED ARTICLES ================= */}
-                <section className="bg-[#F8FAFC] px-6 py-16 sm:px-10 lg:px-16">
-                    <div className="mx-auto max-w-[1440px]">
-                        <div className="mb-10 flex items-center gap-3">
-                            <span className="h-px w-8 bg-[#FFC107]" />
-                            <h2 className="text-2xl font-bold text-[#0F2B5C] sm:text-3xl">Related Knowledge</h2>
-                        </div>
+                {relatedArticles.length > 0 && (
+                    <section className="bg-[#F8FAFC] px-6 py-16 sm:px-10 lg:px-16">
+                        <div className="mx-auto max-w-[1440px]">
+                            <div className="mb-10 flex items-center gap-3">
+                                <span className="h-px w-8 bg-[#FFC107]" />
+                                <h2 className="text-2xl font-bold text-[#0F2B5C] sm:text-3xl">Related Knowledge</h2>
+                            </div>
 
-                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {relatedArticles.map((related) => (
-                                <article
-                                    key={related.number}
-                                    className="group overflow-hidden rounded-xl border border-[#E2E8F0] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107] hover:shadow-lg"
-                                >
-                                    <Link href={`/knowledge/${related.slug}`} className="block">
-                                        <div className="relative h-48 overflow-hidden">
-                                            <img
-                                                src={related.image}
-                                                alt={related.title}
-                                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                            />
-                                            <span className="absolute left-4 top-4 rounded-md bg-[#FFC107] px-2.5 py-1 text-xs font-extrabold text-[#0F2B5C]">
-                                                {related.number}
-                                            </span>
-                                        </div>
-                                        <div className="p-6">
-                                            <span className="text-xs font-bold tracking-[0.12em] text-[#0F2B5C]">
-                                                {related.category}
-                                            </span>
-                                            <h3 className="mt-2 text-base font-bold leading-snug text-[#0F2B5C]">
-                                                {related.title}
-                                            </h3>
-                                            <div className="mt-5 flex items-center justify-between border-t border-[#E2E8F0] pt-4">
-                                                <div className="flex items-center gap-3 text-xs font-semibold text-[#64748B]">
-                                                    <span className="flex items-center gap-1">
-                                                        <IconClock className="h-3.5 w-3.5" />
-                                                        {related.readTime}
-                                                    </span>
-                                                    <span className="flex items-center gap-1">
-                                                        <IconCalendar className="h-3.5 w-3.5" />
-                                                        {related.date}
+                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                                {relatedArticles.map((related, index) => {
+                                    const formattedNum = index + 1 < 10 ? `0${index + 1}` : index + 1;
+                                    return (
+                                        <article
+                                            key={related.id}
+                                            className="group overflow-hidden rounded-xl border border-[#E2E8F0] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107] hover:shadow-lg"
+                                        >
+                                            <Link href={`/knowledge/${related.slug}`} className="block">
+                                                <div className="relative h-48 overflow-hidden">
+                                                    <img
+                                                        src={related.image ? `/storage/${related.image}` : '/images/c1.jpg'}
+                                                        alt={related.title}
+                                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                    />
+                                                    <span className="absolute left-4 top-4 rounded-md bg-[#FFC107] px-2.5 py-1 text-xs font-extrabold text-[#0F2B5C]">
+                                                        {formattedNum}
                                                     </span>
                                                 </div>
-                                                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F8FAFC] text-[#0F2B5C] transition-all duration-300 group-hover:bg-[#FFC107]">
-                                                    <IconArrowRight className="h-4 w-4" />
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                </article>
-                            ))}
+                                                <div className="p-6">
+                                                    <span className="text-xs font-bold tracking-[0.12em] text-[#0F2B5C]">
+                                                        {related.category}
+                                                    </span>
+                                                    <h3 className="mt-2 text-base font-bold leading-snug text-[#0F2B5C]">
+                                                        {related.title}
+                                                    </h3>
+                                                    <div className="mt-5 flex items-center justify-between border-t border-[#E2E8F0] pt-4">
+                                                        <div className="flex items-center gap-3 text-xs font-semibold text-[#64748B]">
+                                                            <span className="flex items-center gap-1">
+                                                                <IconClock className="h-3.5 w-3.5" />
+                                                                {related.read_time || '5 Menit'}
+                                                            </span>
+                                                            <span className="flex items-center gap-1">
+                                                                <IconCalendar className="h-3.5 w-3.5" />
+                                                                {related.published_date}
+                                                            </span>
+                                                        </div>
+                                                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F8FAFC] text-[#0F2B5C] transition-all duration-300 group-hover:bg-[#FFC107]">
+                                                            <IconArrowRight className="h-4 w-4" />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        </article>
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                )}
 
                 {/* ================= CTA SECTION ================= */}
                 <section className="relative overflow-hidden bg-[#071A35] px-6 py-16 sm:px-10 lg:px-16">
@@ -349,7 +230,7 @@ export default function Show() {
 
                         <div className="flex flex-col gap-3 sm:flex-shrink-0 sm:flex-row">
                             <Link
-                                href="/contact"
+                                href="/contact-us"
                                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#FFC107] px-6 py-3.5 text-sm font-bold text-[#0F2B5C] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                             >
                                 Hubungi Service Expert
@@ -366,6 +247,7 @@ export default function Show() {
                     </div>
                 </section>
             </main>
+            <Footer />
         </>
     );
 }

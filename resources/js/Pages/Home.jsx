@@ -137,156 +137,127 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
       <Navbar />
 
       {/* =========================================================
-          HERO BANNER - DINAMIS (Mengambil dari Database)
+          HERO BANNER - GRADASI KIRI LEBIH TIPIS
       ========================================================= */}
-      <section id="home" className="relative w-full min-h-[1050px] sm:min-h-[1000px] lg:min-h-[820px] bg-white overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-transparent z-0 pointer-events-none" />
-        <div className="absolute top-28 left-[35%] hidden lg:grid grid-cols-6 gap-3 opacity-30 z-10 pointer-events-none">
-          {[...Array(30)].map((_, i) => <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-400" />)}
+      <section id="home" className="relative w-full min-h-[920px] sm:min-h-[900px] lg:min-h-[780px] bg-white overflow-hidden">
+        
+        {/* 1. BACKGROUND VIDEO / GAMBAR PENUH DI KANAN */}
+        <div className="absolute top-0 right-0 w-full lg:w-[75%] h-[480px] sm:h-[560px] lg:h-[700px] overflow-hidden bg-slate-900">
+          {hero?.video_path ? (
+            <video
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ pointerEvents: 'none', transform: 'scale(1.05)' }}
+              src={`/storage/${hero.video_path}`}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+            />
+          ) : hero?.video_url ? (
+            <iframe
+              className="absolute inset-0 w-full h-full"
+              style={{ pointerEvents: 'none', width: '100%', height: '100%', transform: 'scale(1.05)' }}
+              src={`${hero?.video_url}${hero?.video_url?.includes('?') ? '&' : '?'}autoplay=1&mute=1&loop=1&playlist=${hero?.video_url?.split('/').pop()}&controls=0&showinfo=0`}
+              title="Heavy Equipment Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            />
+          ) : (
+            <img 
+              src="/images/XE2000.png" 
+              alt="Heavy Equipment Banner" 
+              className="absolute inset-0 w-full h-full object-cover object-[100%_0%]"
+            />
+          )}
+          {/* EFEK PUDAR HALUS PADA BATAS VIDEO */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/30 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/10 to-transparent" />
         </div>
-        <div className="absolute -left-20 bottom-[-100px] w-[400px] h-[400px] rounded-full border border-slate-200 opacity-60 pointer-events-none" />
-        <div className="absolute -left-10 bottom-[-60px] w-[330px] h-[330px] rounded-full border border-slate-200 opacity-50 pointer-events-none" />
-        <div className="absolute left-10 bottom-[-20px] w-[250px] h-[250px] rounded-full border border-slate-200 opacity-40 pointer-events-none" />
 
-        <div className="relative z-20 max-w-[1600px] mx-auto min-h-[1050px] sm:min-h-[1000px] lg:min-h-[820px]">
-          
-          <div className="absolute top-0 right-0 w-full lg:w-[68%] h-[480px] sm:h-[560px] lg:h-[700px] overflow-hidden bg-slate-900">
-            {hero?.video_path ? (
-              <video
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ pointerEvents: 'none', transform: 'scale(1.1)' }}
-                src={`/storage/${hero.video_path}`}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                ref={(video) => {
-                  if (video) {
-                    video.play().catch(error => {
-                      console.log("Autoplay dicegah browser:", error);
-                    });
-                  }
-                }}
-              />
-            ) : (
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                style={{ pointerEvents: 'none', width: '100%', height: '100%', transform: 'scale(1.1)' }}
-                src={`${hero?.video_url}${hero?.video_url?.includes('?') ? '&' : '?'}autoplay=1&mute=1&loop=1&playlist=${hero?.video_url?.split('/').pop()}&controls=0&showinfo=0`}
-                title="Heavy Equipment Video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/10 to-transparent" />
-          </div>
+        {/* 2. LATAR BELAKANG PUTIH PUDAR DI SEBELAH KIRI (LEBIH TIPIS / LEBAR HANYA 50%) */}
+        <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent lg:w-[52%]" />
 
-          <div className="relative z-30 w-full lg:w-[53%] px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 pt-24 sm:pt-28 lg:pt-32">
-            <div className="flex items-center gap-3 mb-6 sm:mb-7">
-              <span className="w-8 sm:w-10 h-[3px] bg-[#ffc107] rounded-full shrink-0" />
-              <span className="text-[10px] sm:text-xs font-extrabold tracking-[0.14em] sm:tracking-[0.18em] text-[#0f2b5c] uppercase">
-                {hero?.badge_text}
+        {/* 3. KONTEN TEKS UTAMA DI KIRI */}
+        <div className="relative z-20 max-w-[1500px] mx-auto px-6 sm:px-10 lg:px-16 pt-24 sm:pt-28 lg:pt-32 pb-36">
+          <div className="max-w-2xl">
+            
+            {/* BADGE TEXT */}
+            <div className="mb-4">
+              <span className="text-xs font-extrabold tracking-[0.2em] text-[#ffc107] uppercase">
+                {hero?.badge_text || "SOLUSI KONSTRUKSI, NILAI UNTUK NEGERI"}
               </span>
             </div>
 
-            <h1 className="font-extrabold text-[#0f2b5c] leading-[1.02] tracking-[-0.035em] text-4xl sm:text-5xl md:text-6xl lg:text-[60px] xl:text-[68px] max-w-[720px]">
-              <span className="block">{hero?.title_line_1}</span>
-              <span className="block text-[#ffc107] mt-1">{hero?.title_highlight}</span>
-              <span className="block mt-1">{hero?.title_line_2}</span>
+            {/* JUDUL UTAMA */}
+            <h1 className="font-black text-[#0f2b5c] leading-[1.05] tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-[64px]">
+              <span className="block">{hero?.title_line_1 || "BRIGHT FUTURE"}</span>
+              <span className="block text-[#ffc107] mt-1">{hero?.title_highlight || "UNTUK ANDA"}</span>
             </h1>
 
-            <div className="flex items-center gap-2 mt-6 sm:mt-7 mb-5">
-              <span className="w-10 sm:w-14 h-[3px] bg-[#ffc107] rounded-full" />
+            {/* GARIS KUNING KECIL */}
+            <div className="flex items-center gap-2 my-5">
+              <span className="w-12 h-[3px] bg-[#ffc107] rounded-full" />
               <span className="w-2 h-2 rounded-full bg-[#ffc107]" />
             </div>
 
-            <p className="text-slate-600 text-sm sm:text-base leading-6 sm:leading-7 max-w-[540px]">
-              {hero?.description}
+            {/* DESKRIPSI */}
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-lg mb-8 font-normal">
+              {hero?.description || "Kami berkomitmen menghadirkan layanan konstruksi terbaik dengan teknologi modern, peralatan berkualitas, dan sumber daya profesional untuk mendukung keberhasilan setiap proyek Anda."}
             </p>
 
-            <div className="mt-7 sm:mt-8 w-full sm:w-auto">
-              <a href="#services" className="group inline-flex w-full sm:w-auto items-center justify-center gap-3 sm:gap-4 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-[#0f2b5c] text-white text-xs sm:text-sm font-bold tracking-wide shadow-lg shadow-[#0f2b5c]/20 transition-all duration-300 hover:bg-[#ffc107] hover:text-[#0f2b5c] hover:-translate-y-1 active:translate-y-0">
+            {/* TOMBOL AKSI */}
+            <div className="flex flex-wrap items-center gap-4">
+              <a href="#services" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#0f2b5c] text-white font-bold text-xs sm:text-sm tracking-wide shadow-lg transition-all duration-300 hover:bg-[#ffc107] hover:text-[#0f2b5c] hover:-translate-y-0.5">
                 <span>LIHAT LAYANAN</span>
-                <span className="text-lg sm:text-xl leading-none transition-transform duration-300 group-hover:translate-x-1">→</span>
+                <span>→</span>
               </a>
             </div>
-          </div>
 
+          </div>
         </div>
 
-        {/* FLOATING INFORMATION CARDS */}
-        <div className="absolute z-40 left-4 right-4 sm:left-6 sm:right-6 lg:left-10 lg:right-10 xl:left-16 xl:right-16 bottom-6 lg:bottom-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+        {/* 4. FLOATING INFORMATION CARDS (4 CARD STATISTIK RAPAT DI BAWAH) */}
+        <div className="absolute z-30 left-4 right-4 sm:left-6 sm:right-6 lg:left-10 lg:right-10 xl:left-16 xl:right-16 bottom-6 lg:bottom-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1">
             
             {/* CARD 1 */}
-            <div className="group relative bg-white rounded-2xl border border-slate-200 px-5 py-5 shadow-[0_12px_40px_rgba(15,43,92,0.10)] overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_18px_45px_rgba(15,43,92,0.16)]">
-              <div className="relative z-10 flex items-start gap-4">
-                <div className="w-14 h-14 shrink-0 rounded-full bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-105">
-                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <div className="pt-1">
-                  <div className="text-2xl font-black text-[#0f2b5c] leading-none">200+</div>
-                  <h3 className="mt-1 text-sm font-extrabold text-[#0f2b5c]">Tenaga Ahli</h3>
-                  <div className="w-7 h-[2px] bg-[#ffc107] my-2" />
-                  <p className="text-[10px] leading-4 text-slate-500 max-w-[150px]">Berpengalaman dan kompeten di bidangnya.</p>
-                </div>
+            <div className="group relative bg-white rounded-2xl border border-slate-200 px-6 py-6 shadow-[0_15px_40px_rgba(15,43,92,0.12)] overflow-hidden transition-all duration-300 hover:-translate-y-1">
+              <div className="flex flex-col">
+                <div className="text-3xl font-black text-[#0f2b5c] tracking-tight">200+</div>
+                <h3 className="mt-1.5 text-sm font-extrabold text-[#0f2b5c]">Tenaga Ahli</h3>
+                <div className="w-8 h-[2px] bg-[#ffc107] my-3" />
+                <p className="text-xs leading-relaxed text-slate-500">Berpengalaman dan kompeten di bidangnya.</p>
               </div>
             </div>
 
             {/* CARD 2 */}
-            <div className="group relative bg-white rounded-2xl border border-slate-200 px-5 py-5 shadow-[0_12px_40px_rgba(15,43,92,0.10)] overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_18px_45px_rgba(15,43,92,0.16)]">
-              <div className="relative z-10 flex items-start gap-4">
-                <div className="w-14 h-14 shrink-0 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-105">
-                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div className="pt-1">
-                  <div className="text-2xl font-black text-[#0f2b5c] leading-none">24/7</div>
-                  <h3 className="mt-1 text-sm font-extrabold text-[#0f2b5c]">Layanan Responsif</h3>
-                  <div className="w-7 h-[2px] bg-[#ffc107] my-2" />
-                  <p className="text-[10px] leading-4 text-slate-500 max-w-[150px]">Siap mendukung kebutuhan Anda kapan saja.</p>
-                </div>
+            <div className="group relative bg-white rounded-2xl border border-slate-200 px-6 py-6 shadow-[0_15px_40px_rgba(15,43,92,0.12)] overflow-hidden transition-all duration-300 hover:-translate-y-1">
+              <div className="flex flex-col">
+                <div className="text-3xl font-black text-[#0f2b5c] tracking-tight">24/7</div>
+                <h3 className="mt-1.5 text-sm font-extrabold text-[#0f2b5c]">Layanan Responsif</h3>
+                <div className="w-8 h-[2px] bg-[#ffc107] my-3" />
+                <p className="text-xs leading-relaxed text-slate-500">Siap mendukung kebutuhan Anda kapan saja.</p>
               </div>
             </div>
 
             {/* CARD 3 */}
-            <div className="group relative bg-white rounded-2xl border border-slate-200 px-5 py-5 shadow-[0_12px_40px_rgba(15,43,92,0.10)] overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_18px_45px_rgba(15,43,92,0.16)]">
-              <div className="relative z-10 flex items-start gap-4">
-                <div className="w-14 h-14 shrink-0 rounded-full bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-105">
-                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div className="pt-1">
-                  <div className="text-2xl font-black text-[#0f2b5c] leading-none">100%</div>
-                  <h3 className="mt-1 text-sm font-extrabold text-[#0f2b5c]">Kualitas Terjamin</h3>
-                  <div className="w-7 h-[2px] bg-[#ffc107] my-2" />
-                  <p className="text-[10px] leading-4 text-slate-500 max-w-[150px]">Standar layanan terbaik untuk setiap proyek.</p>
-                </div>
+            <div className="group relative bg-white rounded-2xl border border-slate-200 px-6 py-6 shadow-[0_15px_40px_rgba(15,43,92,0.12)] overflow-hidden transition-all duration-300 hover:-translate-y-1">
+              <div className="flex flex-col">
+                <div className="text-3xl font-black text-[#0f2b5c] tracking-tight">100%</div>
+                <h3 className="mt-1.5 text-sm font-extrabold text-[#0f2b5c]">Kualitas Terjamin</h3>
+                <div className="w-8 h-[2px] bg-[#ffc107] my-3" />
+                <p className="text-xs leading-relaxed text-slate-500">Standar layanan terbaik untuk setiap proyek.</p>
               </div>
             </div>
 
             {/* CARD 4 */}
-            <div className="group relative bg-white rounded-2xl border border-slate-200 px-5 py-5 shadow-[0_12px_40px_rgba(15,43,92,0.10)] overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_18px_45px_rgba(15,43,92,0.16)]">
-              <div className="relative z-10 flex items-start gap-4">
-                <div className="w-14 h-14 shrink-0 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-105">
-                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M12 21s7-4.35 7-10a7 7 0 10-14 0c0 5.65 7 10 7 10z" />
-                    <circle cx="12" cy="11" r="2.5" strokeWidth="1.8" />
-                  </svg>
-                </div>
-                <div className="pt-1">
-                  <div className="text-lg font-black text-[#0f2b5c] leading-tight">NASIONAL</div>
-                  <h3 className="mt-1 text-sm font-extrabold text-[#0f2b5c]">Jangkauan Nasional</h3>
-                  <div className="w-7 h-[2px] bg-[#ffc107] my-2" />
-                  <p className="text-[10px] leading-4 text-slate-500 max-w-[150px]">Dukungan layanan di seluruh Indonesia.</p>
-                </div>
+            <div className="group relative bg-white rounded-2xl border border-slate-200 px-6 py-6 shadow-[0_15px_40px_rgba(15,43,92,0.12)] overflow-hidden transition-all duration-300 hover:-translate-y-1">
+              <div className="flex flex-col">
+                <div className="text-2xl font-black text-[#0f2b5c] tracking-tight pt-1">NASIONAL</div>
+                <h3 className="mt-1.5 text-sm font-extrabold text-[#0f2b5c]">Jangkauan Nasional</h3>
+                <div className="w-8 h-[2px] bg-[#ffc107] my-3" />
+                <p className="text-xs leading-relaxed text-slate-500">Dukungan layanan di seluruh Indonesia.</p>
               </div>
             </div>
 
@@ -789,13 +760,13 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
         <div className="relative w-full pt-28 pb-32 md:pt-36 md:pb-40 overflow-hidden bg-[#0f2b5c]">
             {/* Foto Latar */}
             <img 
-                src="/images/testimoni.png" 
+                src="/images/testimoni.jpg" 
                 alt="Testimonials Banner" 
                 className="absolute inset-0 w-full h-full object-cover"
             />
             
             {/* Overlay Gelap Tipis (Pas, tidak terlalu gelap) */}
-            <div className="absolute inset-0 bg-[#0f2b5c]/20" />
+            <div className="absolute inset-0 bg-[#0f2b5c]/40" />
 
             {/* Header Content */}
             <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">

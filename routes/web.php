@@ -2,13 +2,20 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\HomeController; // Digunakan untuk Homepage publik
-use App\Models\Post; // Import model Post untuk halaman Knowledge publik
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CareerController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\KnowledgeController;
+use App\Models\Post;
 
-// 1. Homepage (Menggunakan HomeController untuk data dinamis dari database)
+// ==========================================
+// 1. PUBLIC ROUTES
+// ==========================================
+
+// Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// 2. About Us Group
+// About Us Group
 Route::prefix('about')->group(function () {
     Route::get('/', function () { 
         return Inertia::render('About/Index'); 
@@ -23,12 +30,12 @@ Route::prefix('about')->group(function () {
     })->name('about.management');
 });
 
-// 3. Why Choose Us
+// Why Choose Us
 Route::get('/why-choose-us', function () {
     return Inertia::render('WhyChooseUs');
 })->name('why-choose-us');
 
-// 4. Products & Equipment XCMG Group
+// Products & Equipment XCMG Group
 Route::prefix('products')->group(function () {
     Route::get('/', function () { 
         return Inertia::render('Products/Index'); 
@@ -39,7 +46,7 @@ Route::prefix('products')->group(function () {
     })->name('products.show');
 });
 
-// 5. Services Group (Layanan Purna Jual)
+// Services Group (Layanan Purna Jual)
 Route::prefix('services')->group(function () {
     Route::get('/', function () { 
         return Inertia::render('Services/Index'); 
@@ -50,62 +57,66 @@ Route::prefix('services')->group(function () {
     })->name('services.show');
 });
 
-// 6. Spare Parts Center
+// Spare Parts Center
 Route::get('/spare-parts', function () {
     return Inertia::render('SpareParts');
 })->name('spare-parts');
 
-// 7. Knowledge Center & Company News (DINAMIS DARI DATABASE)
+// Knowledge Center & Company News (Terhubung ke KnowledgeController)
 Route::prefix('knowledge')->group(function () {
-    Route::get('/', function () { 
-        return Inertia::render('Knowledge/Index', [
-            'posts' => Post::latest()->get(),
-        ]); 
-    })->name('knowledge.index');
-    
-    Route::get('/{slug}', function ($slug) { 
-        $post = Post::where('slug', $slug)->firstOrFail();
-        return Inertia::render('Knowledge/Show', [
-            'post' => $post,
-            'recentPosts' => Post::where('id', '!=', $post->id)->latest()->take(3)->get(),
-        ]); 
-    })->name('knowledge.show');
+    Route::get('/', [KnowledgeController::class, 'index'])->name('knowledge.index');
+    Route::get('/{slug}', [KnowledgeController::class, 'show'])->name('knowledge.show');
 });
 
-// 8. Media Gallery
+// Media Gallery
 Route::get('/media-gallery', function () {
     return Inertia::render('Media');
 })->name('media');
 
-// 9. Sustainability (ESG, HSE & CSR)
+// Sustainability (ESG, HSE & CSR)
 Route::get('/sustainability', function () {
     return Inertia::render('Sustainability');
 })->name('sustainability');
 
-// 10. Career
-Route::get('/career', function () {
-    return Inertia::render('Career');
-})->name('career');
+// Career (Publik)
+Route::get('/career', [CareerController::class, 'index'])->name('career');
 
-// 11. Contact Us
-Route::get('/contact-us', function () {
-    return Inertia::render('Contact');
-})->name('contact');
-
-// untuk detail/lamaran kerja
+// Detail / Form Lamaran Kerja Publik
 Route::get('/career/apply/{id}', function ($id) {
     return Inertia::render('CareerApply', ['id' => $id]);
 })->name('career.apply');
 
+// Contact Us (Publik)
+Route::get('/contact-us', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact/submit', [ContactController::class, 'storeMessage'])->name('contact.submit');
+
 
 // ==========================================
-// 12. ADMIN PANEL / CMS ROUTES
+// 2. ADMIN PANEL / CMS ROUTES
 // ==========================================
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Halaman Utama Dashboard Admin
+    
+    // Dashboard Utama Admin
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
 
-    // Update Hero Banner & Hapus Video Hero
+    // CRUD Lowongan Karir di Admin
+    Route::get('/career', [CareerController::class, 'adminIndex'])->name('career');
+    Route::post('/jobs', [CareerController::class, 'store'])->name('jobs.store');
+    Route::match(['post', 'put'], '/jobs/{id}', [CareerController::class, 'update'])->name('jobs.update');
+    Route::delete('/jobs/{id}', [CareerController::class, 'destroy'])->name('jobs.destroy');
+
+    // Update Hero Banner Career
+    Route::post('/career/hero/{id}', [CareerController::class, 'updateHero'])->name('career.hero.update');
+
+    // Section Culture
+    Route::post('/career/culture-section', [CareerController::class, 'updateCultureSection'])->name('career.culture-section.update');
+
+    // CRUD Items Our Culture di Admin
+    Route::post('/cultures', [CareerController::class, 'storeCulture'])->name('cultures.store');
+    Route::put('/cultures/{id}', [CareerController::class, 'updateCulture'])->name('cultures.update');
+    Route::delete('/cultures/{id}', [CareerController::class, 'destroyCulture'])->name('cultures.destroy');
+
+    // Update Hero Banner & Hapus Video Hero Homepage
     Route::put('/hero/{id}', [HomeController::class, 'updateHero'])->name('hero.update');
     Route::delete('/hero/delete-video/{id}', [HomeController::class, 'destroyHeroVideo'])->name('hero.delete-video');
 
@@ -117,7 +128,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/statistics/{id}', [HomeController::class, 'updateStatistic'])->name('statistics.update');
     Route::delete('/statistics/{id}', [HomeController::class, 'destroyStatistic'])->name('statistics.destroy');
 
-    // CRUD Proyek (Project Gallery)
+    // CRUD Proyek
     Route::post('/projects', [HomeController::class, 'storeProject'])->name('projects.store');
     Route::put('/projects/{id}', [HomeController::class, 'updateProject'])->name('projects.update');
     Route::delete('/projects/{id}', [HomeController::class, 'destroyProject'])->name('projects.destroy');
@@ -127,7 +138,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/testimonials/{id}', [HomeController::class, 'updateTestimonial'])->name('testimonials.update');
     Route::delete('/testimonials/{id}', [HomeController::class, 'destroyTestimonial'])->name('testimonials.destroy');
 
-    // CRUD Berita / Posts / Knowledge Center
+    // CRUD Berita / Posts
     Route::post('/posts', [HomeController::class, 'storePost'])->name('posts.store');
     Route::put('/posts/{id}', [HomeController::class, 'updatePost'])->name('posts.update');
     Route::delete('/posts/{id}', [HomeController::class, 'destroyPost'])->name('posts.destroy');
@@ -144,8 +155,50 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/testimonial-section/{id}', [HomeController::class, 'updateTestimonialSection'])->name('testimonial.section.update');
     Route::put('/contact/{id}', [HomeController::class, 'updateContact'])->name('contact.update');
 
-    // CRUD Branch Office & Area Operasional (Lengkap dengan Store, Update, Destroy)
+    // CRUD Branch Office
     Route::post('/branches', [HomeController::class, 'storeBranch'])->name('branches.store');
     Route::put('/branches/{id}', [HomeController::class, 'updateBranch'])->name('branches.update');
     Route::delete('/branches/{id}', [HomeController::class, 'destroyBranch'])->name('branches.destroy');
+
+    // Section Job Vacancy
+    Route::post('/career/job-section', [CareerController::class, 'updateJobSection'])->name('career.job-section.update');
+
+    // CRUD Career Path
+    Route::post('/career-paths', [CareerController::class, 'storePath'])->name('career-paths.store');
+    Route::put('/career-paths/{id}', [CareerController::class, 'updatePath'])->name('career-paths.update');
+    Route::delete('/career-paths/{id}', [CareerController::class, 'destroyPath'])->name('career-paths.destroy');
+
+    // Section Career Development
+    Route::post('/career/development-section', [CareerController::class, 'updateDevelopmentSection'])->name('career.development-section.update');
+
+    // CRUD Employee Stories
+    Route::post('/employee-stories', [CareerController::class, 'storeStory'])->name('employee-stories.store');
+    Route::match(['post', 'put'], '/employee-stories/{id}', [CareerController::class, 'updateStory'])->name('employee-stories.update');
+    Route::delete('/employee-stories/{id}', [CareerController::class, 'destroyStory'])->name('employee-stories.destroy');
+    
+    Route::post('/career/story-section', [CareerController::class, 'updateStorySection'])->name('career.story-section.update');
+
+    // Section Internship Program & Testimonials
+    Route::post('/career/internship-section', [CareerController::class, 'updateInternshipSection'])->name('career.internship-section.update');
+    Route::post('/internship-testimonials', [CareerController::class, 'storeInternshipTestimonial'])->name('internship-testimonials.store');
+    Route::match(['post', 'put'], '/internship-testimonials/{id}', [CareerController::class, 'updateInternshipTestimonial'])->name('internship-testimonials.update');
+    Route::delete('/internship-testimonials/{id}', [CareerController::class, 'destroyInternshipTestimonial'])->name('internship-testimonials.destroy');
+
+    Route::post('/career/application-section', [CareerController::class, 'updateApplicationSection'])->name('career.application-section.update');
+
+    // ==========================================
+    // CONTACT US CMS MANAGEMENT (Admin)
+    // ==========================================
+    Route::get('/contact', [ContactController::class, 'adminIndex'])->name('contact.index');
+    Route::post('/contact/hero', [ContactController::class, 'updateHero'])->name('contact.hero.update');
+    Route::post('/contact/cards', [ContactController::class, 'updateCards'])->name('contact.cards.update');
+    Route::post('/contact/info-section', [ContactController::class, 'updateInfoSection'])->name('contact.info.update');
+    Route::delete('/contact/messages/{id}', [ContactController::class, 'destroyMessage'])->name('contact.messages.destroy');
+
+    // CRUD Knowledge Center di Admin
+    Route::get('/knowledge', [KnowledgeController::class, 'adminIndex'])->name('knowledge.index');
+    Route::post('/knowledge/hero', [KnowledgeController::class, 'updateHero'])->name('knowledge.hero'); // <-- TAMBAHKAN BARIS INI
+    Route::post('/knowledge', [KnowledgeController::class, 'store'])->name('knowledge.store');
+    Route::post('/knowledge/{id}', [KnowledgeController::class, 'update'])->name('knowledge.update');
+    Route::delete('/knowledge/{id}', [KnowledgeController::class, 'destroy'])->name('knowledge.destroy');
 });

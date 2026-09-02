@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
+import { Head, useForm } from "@inertiajs/react";
 
 /* =========================================================
    POP UP SCROLL ANIMATION
@@ -123,11 +124,42 @@ function SoftReveal({
 }
 
 /* =========================================================
-   CONTACT PAGE
+   CONTACT PAGE (DINAMIS DARI DATABASE)
 ========================================================= */
-export default function Contact() {
+export default function Contact({ hero, cards = [], infoSection = null }) {
+  // Inertia Form untuk Pengiriman Pesan Kontak
+  const { data, setData, post, processing, reset, errors } = useForm({
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: '',
+  });
+
+  const submitContact = (e) => {
+    e.preventDefault();
+    post('/contact/submit', {
+      preserveScroll: true,
+      onSuccess: () => {
+        alert("Pesan Anda berhasil dikirim! Tim kami akan segera menghubungi Anda.");
+        reset();
+      },
+    });
+  };
+
+  // Fallback data kartu jika database kosong
+  const defaultCards = [
+    { id: 1, card_number: '01', title: 'Office Hotline', subtitle: 'Senin - Jumat · 08:00 - 17:00', detail: '+62 21 555 888', image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=900&q=85', type: 'hotline' },
+    { id: 2, card_number: '02', title: 'WhatsApp Support', subtitle: 'Respon cepat melalui WhatsApp', detail: '+62 811-2223-3344', image: 'https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=900&q=85', type: 'whatsapp' },
+    { id: 3, card_number: '03', title: 'Official Email', subtitle: 'Pertanyaan & proposal bisnis', detail: 'info@servistamapro.co.id', image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85', type: 'email' },
+    { id: 4, card_number: '04', title: 'Emergency Service', subtitle: 'Layanan darurat alat berat', detail: '0800-1234-567', image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=900&q=85', type: 'emergency' },
+  ];
+
+  const contactCards = cards.length > 0 ? cards : defaultCards;
+
   return (
     <div className="min-h-screen bg-[#f7f9fc]">
+      <Head title="Contact Us - PT. Servistama Pro Indonesia" />
 
       {/* =====================================================
           CUSTOM ANIMATIONS KEYFRAMES
@@ -210,7 +242,6 @@ export default function Contact() {
 
           <div className="absolute inset-0 bg-[#071b38]/15" />
 
-          {/* GRADIENT KANAN DIBUAT LEBIH TRANSPARAN AGAR FOTO JELAS */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#071b38] via-[#071b38]/40 to-transparent" />
         </div>
 
@@ -227,7 +258,7 @@ export default function Contact() {
               <span className="w-8 h-[2px] bg-[#ffc107]" />
 
               <span className="text-[10px] md:text-[11px] font-bold tracking-[0.22em] uppercase text-[#ffc107]">
-                Get In Touch
+                {hero?.badge_text || "Get In Touch"}
               </span>
 
               <span className="w-10 h-[1px] bg-white/20" />
@@ -235,26 +266,24 @@ export default function Contact() {
 
             {/* Heading */}
             <h1 className="text-[42px] sm:text-[50px] md:text-[56px] lg:text-[58px] leading-[1.05] font-black tracking-[-0.035em] text-white">
-              Let's Build
+              {hero?.title_part1 || "Let's Build"}
               <br />
               Something{" "}
               <span className="text-[#ffc107]">
-                Great.
+                {hero?.title_part2 || "Great."}
               </span>
             </h1>
 
             {/* Description */}
             <p className="mt-5 max-w-[540px] text-[12px] md:text-[14px] leading-relaxed text-slate-300 font-normal">
-              Hubungi tim profesional PT. Servistama Pro Indonesia untuk
-              konsultasi alat berat, layanan purna jual, kebutuhan spare
-              parts, maupun kerja sama bisnis.
+              {hero?.description || "Hubungi tim profesional PT. Servistama Pro Indonesia untuk konsultasi alat berat, layanan purna jual, kebutuhan spare parts, maupun kerja sama bisnis."}
             </p>
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-3.5 mt-7">
 
               <a
-                href="tel:+6221555888"
+                href={hero?.button1_link || "tel:+6221555888"}
                 className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#ffc107] text-[#071b38] text-xs font-bold shadow-lg hover:bg-white hover:-translate-y-1 hover:scale-105 transition-all duration-300"
               >
                 <svg
@@ -271,11 +300,11 @@ export default function Contact() {
                   />
                 </svg>
 
-                Office Hotline
+                {hero?.button1_text || "Office Hotline"}
               </a>
 
               <a
-                href="https://wa.me/6281122233344"
+                href={hero?.button2_link || "https://wa.me/6281122233344"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl border border-white/20 text-white text-xs font-bold hover:bg-white/10 hover:-translate-y-1 hover:scale-105 transition-all duration-300 backdrop-blur-sm bg-black/10"
@@ -294,7 +323,7 @@ export default function Contact() {
                   />
                 </svg>
 
-                WhatsApp Support
+                {hero?.button2_text || "WhatsApp Support"}
               </a>
 
             </div>
@@ -312,303 +341,72 @@ export default function Contact() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
 
-
-            {/* =================================================
-                CARD 01 - HOTLINE
-            ================================================= */}
-            <PopReveal delay={0}>
-
-              <div className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-[0_12px_35px_rgba(15,35,70,0.08)] hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl hover:border-[#ffc107] transition-all duration-500">
-
-                {/* IMAGE */}
-                <div className="relative h-[145px] overflow-hidden">
-
-                  <img
-                    src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=900&q=85"
-                    alt="Customer service team"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#071b38]/80 via-[#071b38]/20 to-transparent" />
-
-                  <div className="absolute top-4 left-4 w-10 h-10 rounded-xl bg-[#071b38] flex items-center justify-center text-[#ffc107] shadow-lg">
-
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.04 11.04 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a2 2 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                      />
-                    </svg>
-
-                  </div>
-
-                  <span className="absolute top-5 right-5 text-[10px] font-bold text-white/70">
-                    01
-                  </span>
-
-                </div>
-
-                {/* CONTENT */}
-                <div className="p-6">
-
-                  <p className="text-[9px] font-bold tracking-[0.22em] text-[#b27b00] mb-1">
-                    HOTLINE
-                  </p>
-
-                  <h3 className="text-sm font-bold text-[#071b38]">
-                    Office Hotline
-                  </h3>
-
-                  <p className="text-[10px] text-slate-500 mt-1 font-normal">
-                    Senin - Jumat · 08:00 - 17:00
-                  </p>
-
-                  <a
-                    href="tel:+6221555888"
-                    className="block mt-4 text-xs font-bold text-[#071b38] hover:text-[#b27b00] transition"
-                  >
-                    +62 21 555 888
-                  </a>
-
-                </div>
-              </div>
-
-            </PopReveal>
-
-
-            {/* =================================================
-                CARD 02 - WHATSAPP
-            ================================================= */}
-            <PopReveal delay={120}>
-
-              <div className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-[0_12px_35px_rgba(15,35,70,0.08)] hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl hover:border-[#ffc107] transition-all duration-500">
-
-                {/* IMAGE */}
-                <div className="relative h-[145px] overflow-hidden">
-
-                  <img
-                    src="https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=900&q=85"
-                    alt="Business communication"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#071b38]/80 via-[#071b38]/20 to-transparent" />
-
-                  <div className="absolute top-4 left-4 w-10 h-10 rounded-xl bg-[#071b38] flex items-center justify-center text-[#ffc107] shadow-lg">
-
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M21 11.5a8.38 8.38 0 01-9 8.5 8.5 8.5 0 01-4.1-1.05L3 20l1.1-4.5A8.5 8.5 0 113 11.5"
-                      />
-                    </svg>
-
-                  </div>
-
-                  <span className="absolute top-5 right-5 text-[10px] font-bold text-white/70">
-                    02
-                  </span>
-
-                </div>
-
-                {/* CONTENT */}
-                <div className="p-6">
-
-                  <p className="text-[9px] font-bold tracking-[0.22em] text-[#b27b00] mb-1">
-                    DIRECT SUPPORT
-                  </p>
-
-                  <h3 className="text-sm font-bold text-[#071b38]">
-                    WhatsApp Support
-                  </h3>
-
-                  <p className="text-[10px] text-slate-500 mt-1 font-normal">
-                    Respon cepat melalui WhatsApp
-                  </p>
-
-                  <a
-                    href="https://wa.me/6281122233344"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block mt-4 text-xs font-bold text-[#071b38] hover:text-[#b27b00] transition"
-                  >
-                    +62 811-2223-3344
-                  </a>
-
-                </div>
-              </div>
-
-            </PopReveal>
-
-
-            {/* =================================================
-                CARD 03 - EMAIL
-            ================================================= */}
-            <PopReveal delay={240}>
-
-              <div className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-[0_12px_35px_rgba(15,35,70,0.08)] hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl hover:border-[#ffc107] transition-all duration-500">
-
-                {/* IMAGE */}
-                <div className="relative h-[145px] overflow-hidden">
-
-                  <img
-                    src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85"
-                    alt="Modern office"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#071b38]/80 via-[#071b38]/20 to-transparent" />
-
-                  <div className="absolute top-4 left-4 w-10 h-10 rounded-xl bg-[#071b38] flex items-center justify-center text-[#ffc107] shadow-lg">
-
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8"
-                      />
-
-                      <rect
-                        x="3"
-                        y="5"
-                        width="18"
-                        height="14"
-                        rx="2"
-                      />
-                    </svg>
-
-                  </div>
-
-                  <span className="absolute top-5 right-5 text-[10px] font-bold text-white/70">
-                    03
-                  </span>
-
-                </div>
-
-                {/* CONTENT */}
-                <div className="p-6">
-
-                  <p className="text-[9px] font-bold tracking-[0.22em] text-[#b27b00] mb-1">
-                    BUSINESS
-                  </p>
-
-                  <h3 className="text-sm font-bold text-[#071b38]">
-                    Official Email
-                  </h3>
-
-                  <p className="text-[10px] text-slate-500 mt-1 font-normal">
-                    Pertanyaan & proposal bisnis
-                  </p>
-
-                  <a
-                    href="mailto:info@servistamapro.co.id"
-                    className="block mt-4 text-xs font-bold text-[#071b38] hover:text-[#b27b00] transition break-all"
-                  >
-                    info@servistamapro.co.id
-                  </a>
-
-                </div>
-              </div>
-
-            </PopReveal>
-
-
-            {/* =================================================
-                CARD 04 - EMERGENCY
-            ================================================= */}
-            <PopReveal delay={360}>
-
-              <div className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-[0_12px_35px_rgba(15,35,70,0.08)] hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl hover:border-[#ffc107] transition-all duration-500">
-
-                {/* IMAGE */}
-                <div className="relative h-[145px] overflow-hidden">
-
-                  <img
-                    src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=900&q=85"
-                    alt="Heavy equipment service"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#071b38]/80 via-[#071b38]/20 to-transparent" />
-
-                  <div className="absolute top-4 left-4 w-10 h-10 rounded-xl bg-[#071b38] flex items-center justify-center text-[#ffc107] shadow-lg">
-
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                      />
-                    </svg>
-
-                  </div>
-
-                  <div className="absolute top-4 right-4 flex items-center gap-2">
-
-                    <span className="px-2 py-0.5 rounded bg-[#ffc107] text-[#071b38] text-[8px] font-bold uppercase">
-                      24 Hours
-                    </span>
-
-                    <span className="text-[10px] font-bold text-white/70">
-                      04
+            {contactCards.map((card, idx) => (
+              <PopReveal key={card.id || idx} delay={idx * 80}>
+
+                <div className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-[0_12px_35px_rgba(15,35,70,0.08)] hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl hover:border-[#ffc107] transition-all duration-500 flex flex-col h-full">
+
+                  {/* IMAGE */}
+                  <div className="relative h-[145px] overflow-hidden">
+
+                    <img
+                      src={card.image || defaultCards[idx]?.image || "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=900&q=85"}
+                      alt={card.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#071b38]/80 via-[#071b38]/20 to-transparent" />
+
+                    <div className="absolute top-4 left-4 w-10 h-10 rounded-xl bg-[#071b38] flex items-center justify-center text-[#ffc107] shadow-lg">
+
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.04 11.04 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a2 2 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        />
+                      </svg>
+
+                    </div>
+
+                    <span className="absolute top-5 right-5 text-[10px] font-bold text-white/70">
+                      {card.card_number || `0${idx + 1}`}
                     </span>
 
                   </div>
 
+                  {/* CONTENT */}
+                  <div className="p-6 flex flex-col justify-between flex-1">
+
+                    <div>
+                      <p className="text-[9px] font-bold tracking-[0.22em] text-[#b27b00] mb-1 uppercase">
+                        {card.title}
+                      </p>
+
+                      <h3 className="text-sm font-bold text-[#071b38]">
+                        {card.title}
+                      </h3>
+
+                      <p className="text-[10px] text-slate-500 mt-1 font-normal">
+                        {card.subtitle}
+                      </p>
+                    </div>
+
+                    <div className="mt-4 text-xs font-bold text-[#071b38] group-hover:text-[#b27b00] transition">
+                      {card.detail}
+                    </div>
+
+                  </div>
                 </div>
 
-                {/* CONTENT */}
-                <div className="p-6">
-
-                  <p className="text-[9px] font-bold tracking-[0.22em] text-[#b27b00] mb-1">
-                    EMERGENCY
-                  </p>
-
-                  <h3 className="text-sm font-bold text-[#071b38]">
-                    Emergency Service
-                  </h3>
-
-                  <p className="text-[10px] text-slate-500 mt-1 font-normal">
-                    Layanan darurat alat berat
-                  </p>
-
-                  <a
-                    href="tel:+628001234567"
-                    className="block mt-4 text-xs font-bold text-[#071b38] hover:text-[#b27b00] transition"
-                  >
-                    0800-1234-567
-                  </a>
-
-                </div>
-              </div>
-
-            </PopReveal>
+              </PopReveal>
+            ))}
 
           </div>
         </div>
@@ -627,7 +425,7 @@ export default function Contact() {
 
             {/* =================================================
                 CONTACT FORM
-            ================================================= */}
+            ================================================ */}
             <SoftReveal
               direction="left"
               delay={100}
@@ -643,7 +441,7 @@ export default function Contact() {
                     <span className="w-8 h-[2px] bg-[#ffc107]" />
 
                     <span className="text-[9px] font-bold tracking-[0.22em] text-[#b27b00] uppercase">
-                      Send Message
+                      {infoSection?.badge_text || "Send Message"}
                     </span>
 
                     <span className="w-10 h-[1px] bg-slate-200" />
@@ -651,15 +449,14 @@ export default function Contact() {
                   </div>
 
                   <h2 className="text-2xl md:text-[27px] font-black text-[#071b38] tracking-tight">
-                    Kirimkan Pesan{" "}
+                    {infoSection?.title_part1 || "Kirimkan Pesan"}{" "}
                     <span className="text-[#b27b00]">
-                      Kepada Kami
+                      {infoSection?.title_part2 || "Kepada Kami"}
                     </span>
                   </h2>
 
                   <p className="mt-1.5 text-[11px] text-slate-500 font-normal">
-                    Isi formulir di bawah ini dan tim kami akan segera
-                    merespons Anda.
+                    {infoSection?.description || "Isi formulir di bawah ini dan tim kami akan segera merespons Anda."}
                   </p>
 
                 </div>
@@ -667,13 +464,7 @@ export default function Contact() {
 
                 {/* FORM */}
                 <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-
-                    alert(
-                      "Pesan Anda berhasil dikirim! Terima kasih telah menghubungi SPI."
-                    );
-                  }}
+                  onSubmit={submitContact}
                   className="space-y-5"
                 >
 
@@ -689,9 +480,12 @@ export default function Contact() {
                       <input
                         type="text"
                         required
+                        value={data.name}
+                        onChange={e => setData('name', e.target.value)}
                         placeholder="Nama Anda"
                         className="w-full h-11 px-4 rounded-lg border border-slate-200 bg-[#fafbfc] text-[11px] outline-none transition focus:bg-white focus:border-[#071b38] focus:ring-2 focus:ring-[#071b38]/5"
                       />
+                      {errors.name && <span className="text-red-500 text-[10px] mt-1 block">{errors.name}</span>}
 
                     </div>
 
@@ -705,9 +499,12 @@ export default function Contact() {
                       <input
                         type="email"
                         required
+                        value={data.email}
+                        onChange={e => setData('email', e.target.value)}
                         placeholder="nama@email.com"
                         className="w-full h-11 px-4 rounded-lg border border-slate-200 bg-[#fafbfc] text-[11px] outline-none transition focus:bg-white focus:border-[#071b38] focus:ring-2 focus:ring-[#071b38]/5"
                       />
+                      {errors.email && <span className="text-red-500 text-[10px] mt-1 block">{errors.email}</span>}
 
                     </div>
 
@@ -726,9 +523,12 @@ export default function Contact() {
                       <input
                         type="tel"
                         required
+                        value={data.phone}
+                        onChange={e => setData('phone', e.target.value)}
                         placeholder="08xxxxxxxxxx"
                         className="w-full h-11 px-4 rounded-lg border border-slate-200 bg-[#fafbfc] text-[11px] outline-none transition focus:bg-white focus:border-[#071b38] focus:ring-2 focus:ring-[#071b38]/5"
                       />
+                      {errors.phone && <span className="text-red-500 text-[10px] mt-1 block">{errors.phone}</span>}
 
                     </div>
 
@@ -742,9 +542,12 @@ export default function Contact() {
                       <input
                         type="text"
                         required
+                        value={data.subject}
+                        onChange={e => setData('subject', e.target.value)}
                         placeholder="Contoh: Konsultasi Unit XCMG"
                         className="w-full h-11 px-4 rounded-lg border border-slate-200 bg-[#fafbfc] text-[11px] outline-none transition focus:bg-white focus:border-[#071b38] focus:ring-2 focus:ring-[#071b38]/5"
                       />
+                      {errors.subject && <span className="text-red-500 text-[10px] mt-1 block">{errors.subject}</span>}
 
                     </div>
 
@@ -761,9 +564,12 @@ export default function Contact() {
                     <textarea
                       rows="4"
                       required
+                      value={data.message}
+                      onChange={e => setData('message', e.target.value)}
                       placeholder="Tuliskan pesan Anda di sini..."
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-[#fafbfc] text-[11px] outline-none resize-none transition focus:bg-white focus:border-[#071b38] focus:ring-2 focus:ring-[#071b38]/5"
                     />
+                    {errors.message && <span className="text-red-500 text-[10px] mt-1 block">{errors.message}</span>}
 
                   </div>
 
@@ -771,7 +577,8 @@ export default function Contact() {
                   {/* SUBMIT */}
                   <button
                     type="submit"
-                    className="w-full h-11 rounded-lg bg-[#071b38] text-white text-[11px] font-bold flex items-center justify-center gap-3 hover:bg-[#ffc107] hover:text-[#071b38] transition-all duration-300 shadow-md hover:-translate-y-0.5"
+                    disabled={processing}
+                    className="w-full h-11 rounded-lg bg-[#071b38] text-white text-[11px] font-bold flex items-center justify-center gap-3 hover:bg-[#ffc107] hover:text-[#071b38] transition-all duration-300 shadow-md hover:-translate-y-0.5 disabled:opacity-50"
                   >
 
                     <svg
@@ -795,7 +602,7 @@ export default function Contact() {
                     </svg>
 
                     <span>
-                      Kirim Pesan Sekarang
+                      {processing ? 'Mengirim...' : 'Kirim Pesan Sekarang'}
                     </span>
 
                     <span className="text-base">
@@ -813,7 +620,7 @@ export default function Contact() {
 
             {/* =================================================
                 RIGHT SIDE
-            ================================================= */}
+            ================================================ */}
             <SoftReveal
               direction="right"
               delay={180}
@@ -825,7 +632,7 @@ export default function Contact() {
 
                 {/* =================================================
                     LOCATION
-                ================================================= */}
+                ================================================ */}
                 <PopReveal delay={200}>
 
                   <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-[0_10px_35px_rgba(15,35,70,0.06)] hover:shadow-xl transition-shadow duration-300">
@@ -865,8 +672,7 @@ export default function Contact() {
                         </h3>
 
                         <p className="text-[10px] text-slate-500 leading-relaxed mt-1 font-normal">
-                          Kawasan Industri Millenium, Jl. Millenium Blok O
-                          No. 12, Tangerang, Banten, Indonesia.
+                          {infoSection?.address || "Kawasan Industri Millenium, Jl. Millenium Blok O No. 12, Tangerang, Banten, Indonesia."}
                         </p>
 
                       </div>
@@ -895,7 +701,7 @@ export default function Contact() {
 
                 {/* =================================================
                     QR CODE
-                ================================================= */}
+                ================================================ */}
                 <PopReveal delay={350}>
 
                   <div className="relative overflow-hidden bg-[#071b38] rounded-2xl p-5 md:p-6 shadow-[0_12px_35px_rgba(7,27,56,0.18)] hover:scale-[1.01] transition-transform duration-300">
@@ -912,7 +718,7 @@ export default function Contact() {
                       <div className="bg-white rounded-xl p-2.5 shrink-0 shadow-sm">
 
                         <img
-                          src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://servistamapro.co.id"
+                          src={infoSection?.qr_image || `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(infoSection?.qr_data || 'https://servistamapro.co.id')}`}
                           alt="QR Code Contact SPI"
                           className="w-[92px] h-[92px] object-contain"
                         />
@@ -935,13 +741,12 @@ export default function Contact() {
 
 
                         <h4 className="text-base font-bold text-white">
-                          Simpan Kontak Kami
+                          {infoSection?.qr_title || "Simpan Kontak Kami"}
                         </h4>
 
 
                         <p className="text-[10px] text-slate-300 leading-relaxed mt-1 max-w-[250px] font-normal">
-                          Scan QR Code untuk menyimpan kontak resmi SPI
-                          ke ponsel Anda dengan mudah.
+                          {infoSection?.qr_subtitle || "Scan QR Code untuk menyimpan kontak resmi SPI ke ponsel Anda dengan mudah."}
                         </p>
 
 
