@@ -161,6 +161,12 @@ const IconFocus = (props) => (
   </svg>
 );
 
+const IconMountain = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+  </svg>
+);
+
 const IconPin = (props) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" {...props}>
     <path d="M12 21s7-6.4 7-12a7 7 0 1 0-14 0c0 5.6 7 12 7 12Z" />
@@ -333,19 +339,58 @@ const orgChart = [
 ];
 
 const cultureItems = [
-  { icon: IconShieldSafety, title: "Safety First", desc: "Safety is our top priority" },
-  { icon: IconTrend, title: "Continuous Improvement", desc: "We always strive to be better" },
-  { icon: IconTarget2, title: "Customer Focus", desc: "Customer success is our mission" },
-  { icon: IconBulb, title: "Innovation", desc: "We encourage new ideas and solutions" },
-  { icon: IconRespect, title: "Respect", desc: "We value every individual" },
-  { icon: IconCollab, title: "Collaboration", desc: "We achieve more together" },
+  { 
+    icon: IconShieldSafety, 
+    title: "Safety First", 
+    desc: "Mengutamakan keselamatan kerja sebagai fondasi utama operasional servis pertambangan." 
+  },
+  { 
+    icon: IconCheckBadge, 
+    title: "Integrity & Honesty", 
+    desc: "Menjunjung kejujuran dan integritas sebagai bentuk tanggung jawab penuh kepada klien." 
+  },
+  { 
+    icon: IconTarget2, 
+    title: "Customer Centric", 
+    desc: "Membangun layanan berbasis konsumen yang berfokus pada kebutuhan spesifik pelanggan." 
+  },
+  { 
+    icon: IconTrend, 
+    title: "Continuous Improvement", 
+    desc: "Meningkatkan kualitas pelayanan secara berkesinambungan demi hasil terbaik di Indonesia." 
+  },
+  { 
+    icon: IconMountain, 
+    title: "Perseverance", 
+    desc: "Tekun dan tangguh menghadapi tantangan serta rintangan di medan pertambangan." 
+  },
+  { 
+    icon: IconUsers, 
+    title: "Respect & Open-Minded", 
+    desc: "Menghormati proses terarah dan terbuka menerima masukan klien demi evaluasi bersama." 
+  },
 ];
-
 const governancePrinciples = [
-  { icon: IconEye, title: "Transparency", desc: "We conduct business with openness and honesty" },
-  { icon: IconCheckBadge, title: "Accountability", desc: "We take responsibility for every decision and action" },
-  { icon: IconShieldSafety, title: "Responsibility", desc: "We are responsible to stakeholders and the environment" },
-  { icon: IconScale, title: "Fairness", desc: "We treat everyone fairly and equally" },
+  { 
+    icon: IconEye, 
+    title: "Transparency", 
+    desc: "Menjamin keterbukaan informasi teknis, biaya, dan ketersediaan suku cadang secara jujur kepada klien." 
+  },
+  { 
+    icon: IconCheckBadge, 
+    title: "Accountability", 
+    desc: "Menjaga integritas dan tanggung jawab penuh atas keselamatan kerja (Safety First) serta keandalan servis di lapangan." 
+  },
+  { 
+    icon: IconMountain, 
+    title: "Responsibility", 
+    desc: "Tangguh dan konsisten menjaga standar operasional tinggi demi menjawab tantangan medan pertambangan." 
+  },
+  { 
+    icon: IconUsers, 
+    title: "Fairness", 
+    desc: "Menghormati dan memperlakukan seluruh klien, mitra, serta tenaga ahli secara adil, profesional, dan terbuka." 
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -724,78 +769,81 @@ export default function Index() {
   </section>
 
   {/* ============================== COMPANY CULTURE + GOVERNANCE ============================== */}
-  <section className="bg-[#F8FAFC] pt-6 pb-12 border-t border-slate-200">
-    <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+<section className="bg-[#F8FAFC] pt-6 pb-12 border-t border-slate-200">
+  {/* Tambahkan items-stretch agar tinggi kolom kiri & kanan 100% sejajar presisi */}
+  <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8 items-stretch">
+    
+    {/* 1. COMPANY CULTURE (KOLOM KIRI) */}
+    <div className="flex flex-col h-full">
+      <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
+        Company Culture
+      </span>
       
-      {/* Culture */}
-      <div>
-        <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
-          Company Culture
-        </span>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {cultureItems.map((c, i) => {
-            const Icon = c.icon;
+      {/* Grid 3x2 Kartu Culture */}
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 flex-1">
+        {cultureItems.map((c, i) => {
+          const Icon = c.icon;
+          return (
+            <div
+              key={i}
+              className="group flex flex-col items-center justify-center rounded-xl border border-[#E2E8F0] bg-white p-4 text-center shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-xl"
+            >
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#0F2B5C]/5 text-[#0F2B5C] transition-colors duration-300 group-hover:bg-[#FFC107]">
+                <Icon className="h-5 w-5" />
+              </span>
+              <p className="mt-2.5 text-xs font-bold leading-tight text-[#0F2B5C]">
+                {c.title}
+              </p>
+              <p className="mt-1 text-[10px] leading-snug text-[#64748B]">
+                {c.desc}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    {/* 2. CORPORATE GOVERNANCE (KOLOM KANAN) */}
+    <div className="flex flex-col h-full">
+      <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
+        Corporate Governance
+      </span>
+      
+      {/* Kartu Utama Governance Diberi h-full & flex-col justify-between Agar Bawahnya Pas Sejajar */}
+      <div className="flex flex-col justify-between flex-1 h-full rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-xl md:p-7">
+        <p className="mb-6 text-sm leading-relaxed text-[#64748B]">
+          Kami berkomitmen menerapkan prinsip Good Corporate Governance (GCG) secara konsisten demi memberikan pelayanan servis alat berat terbaik, terpercaya, dan profesional di Indonesia.
+        </p>
+
+        {/* Grid 2x2 Poin Governance */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 my-auto">
+          {governancePrinciples.map((g, i) => {
+            const Icon = g.icon;
             return (
-              <div
-                key={i}
-                className="group flex flex-col items-center rounded-xl border border-[#E2E8F0] bg-white p-4 text-center shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-xl"
+              <div 
+                key={i} 
+                className="group flex items-start gap-3 rounded-xl p-2 transition-all duration-300 hover:bg-[#F8FAFC]"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0F2B5C]/5 text-[#0F2B5C] transition-colors duration-300 group-hover:bg-[#FFC107]">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#0F2B5C] transition-all duration-300 group-hover:bg-[#FFC107] group-hover:scale-105">
                   <Icon className="h-5 w-5" />
                 </span>
-                <p className="mt-2.5 text-xs font-bold leading-tight text-[#0F2B5C]">
-                  {c.title}
-                </p>
-                <p className="mt-1 text-[10px] leading-snug text-[#64748B]">
-                  {c.desc}
-                </p>
+                <div>
+                  <p className="text-sm font-bold text-[#0F2B5C]">
+                    {g.title}
+                  </p>
+                  <p className="mt-0.5 text-xs leading-snug text-[#64748B]">
+                    {g.desc}
+                  </p>
+                </div>
               </div>
             );
           })}
         </div>
       </div>
-
-      {/* Governance */}
-      <div>
-        <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
-          Corporate Governance
-        </span>
-        
-        {/* Kartu Utama Governance */}
-        <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-xl md:p-7">
-          <p className="mb-6 text-sm leading-relaxed text-[#64748B]">
-            We are committed to implementing Good Corporate Governance (GCG)
-            principles in every aspect of our business.
-          </p>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {governancePrinciples.map((g, i) => {
-              const Icon = g.icon;
-              return (
-                <div 
-                  key={i} 
-                  className="group flex items-start gap-3 rounded-xl p-2 transition-all duration-300 hover:bg-[#F8FAFC]"
-                >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FFC107]/15 text-[#0F2B5C] transition-all duration-300 group-hover:bg-[#FFC107] group-hover:scale-105">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <p className="text-sm font-bold text-[#0F2B5C]">
-                      {g.title}
-                    </p>
-                    <p className="mt-0.5 text-xs leading-snug text-[#64748B]">
-                      {g.desc}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
     </div>
-  </section>
 
+  </div>
+</section>
   {/* ============================== CTA BANNER ============================== */}
   <section className="grid grid-cols-1 md:grid-cols-2">
     {/* Left - dark image with play & Youtube Cover */}

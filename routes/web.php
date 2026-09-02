@@ -55,7 +55,7 @@ Route::get('/spare-parts', function () {
     return Inertia::render('SpareParts');
 })->name('spare-parts');
 
-// 7. Knowledge Center & Company News (DINAMIS DARI DATABASE)
+// 7. Knowledge Center & Company News
 Route::prefix('knowledge')->group(function () {
     Route::get('/', function () { 
         return Inertia::render('Knowledge/Index', [
@@ -63,8 +63,8 @@ Route::prefix('knowledge')->group(function () {
         ]); 
     })->name('knowledge.index');
     
-    Route::get('/{slug}', function ($slug) { 
-        $post = Post::where('slug', $slug)->firstOrFail();
+    // Gunakan Route Model Binding ({post:slug})
+    Route::get('/{post:slug}', function (Post $post) { 
         return Inertia::render('Knowledge/Show', [
             'post' => $post,
             'recentPosts' => Post::where('id', '!=', $post->id)->latest()->take(3)->get(),

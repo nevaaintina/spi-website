@@ -346,63 +346,41 @@ export default function Index() {
 
             <main>
               {/* ================= HERO ================= */}
-<section className="relative flex min-h-[540px] lg:min-h-[600px] w-full items-center bg-white overflow-hidden pt-28 lg:pt-32">
+<section className="relative flex min-h-screen w-full items-center bg-white overflow-hidden pt-28 lg:pt-32">
     {/* Gambar Utama (Diturunkan dengan mt-4 / lg:mt-6) */}
     <div className="absolute inset-0 z-0 h-full w-full">
         <img 
-            src="/images/XE2000.png" 
+            src="/images/knowledge-hero.webp" 
             alt="Heavy Equipment Banner" 
-            className="mt-4 lg:mt-6 h-full w-full object-cover object-[100%_0%]"
             style={{ imageRendering: 'high-quality' }}
         />
     </div>
 
     {/* Konten Teks */}
-    <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 py-12 sm:px-10 lg:px-16">
-        <div className="max-w-xl">
-            <div className="mb-6 flex items-center gap-3">
-                <span className="text-xs font-bold tracking-[0.2em] text-[#FFC107]">KNOWLEDGE CENTER</span>
-                <span className="h-px w-10 bg-[#FFC107]" />
-            </div>
-
-            <h1 className="text-[2.5rem] font-extrabold leading-[1.08] tracking-tight text-[#0F2B5C] sm:text-5xl lg:text-[3.4rem]">
-                Engineering Knowledge.
-                <br />
-                Smarter Maintenance.
-            </h1>
-
-            <div className="mt-5 flex items-center gap-3">
-                <span className="h-px w-8 bg-[#FFC107]" />
-                <p className="text-sm font-semibold text-[#0F2B5C] sm:text-base">
-                    Pengetahuan Engineering. Maintenance Lebih Cerdas.
-                </p>
-            </div>
-
-            <p className="mt-6 max-w-lg text-base leading-relaxed text-slate-600">
-                Temukan wawasan teknis, panduan maintenance, serta solusi smart service yang dirancang untuk memaksimalkan uptime alat.
-            </p>
-
-            {/* Badges Statistik */}
-            <div className="mt-8 flex flex-wrap gap-4">
-                <div className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white/90 px-4 py-3 shadow-md backdrop-blur-sm">
-                    <IconDocument className="h-5 w-5 text-[#FFC107]" />
-                    <div>
-                        <p className="text-base font-extrabold text-[#0F2B5C]">500+</p>
-                        <p className="text-[11px] text-slate-500">Technical Articles</p>
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white/90 px-4 py-3 shadow-md backdrop-blur-sm">
-                    <IconShield className="h-5 w-5 text-[#FFC107]" />
-                    <div>
-                        <p className="text-base font-extrabold text-[#0F2B5C]">Expert</p>
-                        <p className="text-[11px] text-slate-500">Verified Content</p>
-                    </div>
-                </div>
-            </div>
+<div className="relative z-10 mx-auto -mt-16 w-full max-w-[1440px] px-6 py-12 sm:px-10 lg:px-16">
+    <div className="max-w-xl">
+        <div className="mb-6 flex items-center gap-3">
+            <span className="text-xs font-bold tracking-[0.2em] text-[#FFC107]">KNOWLEDGE CENTER</span>
+            <span className="h-px w-10 bg-[#FFC107]" />
         </div>
-    </div>
+
+        <h1 className="text-[2.5rem] font-extrabold leading-[1.08] tracking-tight text-[#0F2B5C] sm:text-5xl lg:text-[3.4rem]">
+            Engineering Knowledge.
+            <br />
+            Smarter Maintenance.
+        </h1> 
+
+        <div className="mt-5 flex items-center gap-3">
+            <span className="h-px w-8 bg-[#FFC107]" />
+            <p className="text-sm font-semibold text-[#0F2B5C] sm:text-base">
+                Pengetahuan Engineering. Maintenance Lebih Cerdas.
+            </p>  
+        </div> {/* Penutup div flex mt-5 */}
+
+    </div> 
+</div> 
 </section>
+
                     {/* ================= CATEGORY NAVIGATION ================= */}
 <section className="relative bg-[#F1F5F9] py-16 border-y border-slate-200/80">
     <div className="relative mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-16">

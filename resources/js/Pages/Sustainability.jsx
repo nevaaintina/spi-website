@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Navbar from '@/components/Navbar';
-
-// TODO: Replace with official SPI ESG & HSE hero image.
-const heroImage = '/images/heo-hse.png';
-// TODO: Replace with official SPI ESG & HSE hero video (optional, falls back to heroImage).
-const heroVideo = '/videos/esg-hse-hero.mp4';
 
 const pillars = [
     {
@@ -95,150 +90,123 @@ const iconByType = {
 };
 
 export default function Sustainability() {
-        // Lightweight parallax: background + HUD shift slightly with the pointer.
-        // Headline and text stay fixed, per brief.
-            const [offset, setOffset] = useState({ x: 0, y: 0 });
-
-            useEffect(() => {
-                const handleMouseMove = (e) => {
-                    const x = (e.clientX / window.innerWidth - 0.5) * 2;
-                    const y = (e.clientY / window.innerHeight - 0.5) * 2;
-                    setOffset({ x, y });
-                };
-                window.addEventListener('mousemove', handleMouseMove);
-                return () => window.removeEventListener('mousemove', handleMouseMove);
-            }, []);
-
     return (
         <main>
-            <section className="relative flex min-h-screen w-full flex-col justify-between bg-[#07111F]">
+            <section className="relative flex min-h-screen w-full flex-col justify-between overflow-hidden bg-black">
+    <Navbar />
 
-                <Navbar />
-
-                {/* BACKGROUND - Posisi Pas & Kecerahan Pas */}
-<div className="absolute inset-0 flex items-center justify-center bg-[#07111F]">
-    <img
-        src={heroImage}
-        alt="Heavy equipment mining operation"
-        className="h-full w-full object-contain object-center scale-110"
-    />
-</div>
+    {/* BACKGROUND VIDEO */}
+    <div className="absolute inset-0 z-0 overflow-hidden">
+        <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="h-full w-full object-cover opacity-90"
+        >
+            <source src="/heo-hse.mp4" type="video/mp4" />
+        </video>
+        {/* Overlay gelap transparan agar teks tetap terbaca */}
+        <div className="absolute inset-0 bg-black/40"></div>
+    </div>
 
                 {/* DIGITAL DECORATION */}
-                <div
-    className="pointer-events-none absolute inset-0 hidden md:block"
-    aria-hidden="true"
->
-                    {/* diagonal accent line, upper right */}
+                <div className="pointer-events-none absolute inset-0 z-10 hidden md:block" aria-hidden="true">
                     <svg className="absolute right-[6%] top-0 h-40 w-40 text-[#1683FF]/40" viewBox="0 0 200 200" fill="none">
                         <path d="M0 130 L130 0" stroke="currentColor" strokeWidth="1.5" />
                     </svg>
-                    {/* HUD / radar circle near the engineer */}
                     <svg className="absolute right-[15%] top-[6%] h-52 w-52 text-[#1683FF]/25 drop-shadow-[0_0_12px_rgba(22,131,255,0.25)]" viewBox="0 0 200 200" fill="none">
                         <circle cx="100" cy="100" r="90" stroke="currentColor" strokeWidth="1" />
                         <circle cx="100" cy="100" r="65" stroke="currentColor" strokeWidth="1" strokeDasharray="4 6" />
                         <circle cx="100" cy="100" r="40" stroke="currentColor" strokeWidth="1" strokeDasharray="2 5" />
                         <circle cx="100" cy="100" r="2" fill="currentColor" />
-</svg>
-                    {/* thin network line, bottom */}
+                    </svg>
                     <svg className="absolute bottom-28 left-0 h-px w-full text-[#1683FF]/20" viewBox="0 0 1000 1" preserveAspectRatio="none">
                         <line x1="0" y1="0.5" x2="1000" y2="0.5" stroke="currentColor" strokeWidth="1" />
                     </svg>
                 </div>
 
                 {/* HERO CONTENT */}
-<div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 items-center px-6 pt-28 pb-12 sm:px-10 lg:px-16">
-    <div className="max-w-xl text-left">
-        
-        {/* EYEBROW */}
-        <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#FFC107]">
-            The Future of Smart Heavy Equipment Service
-        </p>
-
-        {/* ESG & HSE TITLE */}
-        <h1 className="mt-3 text-4xl font-black uppercase leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.5rem]">
-            <span className="bg-gradient-to-r from-[#8AE08F] to-[#65C96A] bg-clip-text text-transparent">ESG</span>{' '}
-            <span className="text-white">&amp;</span>{' '}
-            <span className="text-[#1683FF]">HSE</span> Solutions,
-            <br />
-            <span className="text-white">Stronger Impact.</span>
-        </h1>
-
-        {/* SUBTITLE */}
-        <h2 className="mt-4 text-base font-bold leading-snug text-slate-100 sm:text-lg">
-            Building a Safer, Smarter, and More Sustainable Future
-        </h2>
-
-        {/* DESCRIPTION */}
-        <p className="mt-2 text-xs leading-relaxed text-slate-300 sm:text-sm">
-            We integrate Environmental responsibility, Social impact, Governance excellence, and Health &amp; Safety culture into every service we deliver.
-        </p>
-
-        {/* TAGLINE */}  
-        <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#FFC107]/80">
-            Smart Service. Maximum Uptime. Trusted Performance.
-        </p>
-
-        {/* PILLARS / FEATURES */}
-        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {pillars.map((pillar) => {
-                const Icon = iconByType[pillar.type];
-                const colorClass = pillarStyles[pillar.type];
-                return (
-                    <div key={pillar.type} className="flex flex-col items-start gap-1.5">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/10 backdrop-blur-md">
-                            <span className={colorClass}>
-                                <Icon className="h-5 w-5" />
-                            </span>
-                        </div>
-                        <p className={`mt-1 text-[11px] font-bold uppercase tracking-wide ${colorClass}`}>
-                            {pillar.title}
+                <div className="relative z-20 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-center px-6 pt-28 pb-12 sm:px-10 lg:px-16">
+                    <div className="max-w-xl text-left">
+                        
+                        {/* EYEBROW */}
+                        <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#FFC107]">
+                            The Future of Smart Heavy Equipment Service
                         </p>
-                        <p className="text-[10px] leading-tight text-slate-300 line-clamp-2">
-                            {pillar.description}
-                        </p> 
-                    </div>
-                ); 
-            })}
-            </div>
-        </div>
-        
-        
 
+                        {/* TITLE */}
+                        <h1 className="mt-3 text-4xl font-black uppercase leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.5rem]">
+                            <span className="bg-gradient-to-r from-[#8AE08F] to-[#65C96A] bg-clip-text text-transparent">ESG</span>{' '}
+                            <span className="text-white">&amp;</span>{' '}
+                            <span className="text-[#1683FF]">HSE</span> Solutions,
+                            <br />
+                            <span className="text-white">Stronger Impact.</span>
+                        </h1>
 
-{/* SCROLL INDICATOR */}
-<div className="relative z-10 flex justify-center pb-8">
-    <a
-        href="#esg-content"
-        aria-label="Scroll down"
-        className="flex h-11 w-11 animate-bounce items-center justify-center rounded-full border border-white/40 bg-white/5 text-white backdrop-blur-md transition-colors duration-300 hover:border-[#1683FF] hover:text-[#1683FF]"
-    >
-        <ArrowDownIcon />
-    </a>
-</div>
-                    {/* CTA */}
-                    <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
-                        <a
-                            href="#esg-content"
-                            className="group inline-flex items-center gap-2 rounded-md bg-[#F5C400] px-6 py-3 text-sm font-bold uppercase tracking-wide text-[#07111F] shadow-lg shadow-black/20 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#ffd21f] hover:brightness-105 hover:shadow-[#F5C400]/30"
-                        >
-                            Explore ESG &amp; HSE
-                            <span className="transition-transform duration-300 ease-out group-hover:translate-x-1">
-                                <ArrowRightIcon /> 
-                            </span>
-                        </a>
-                        <a
-                            href="#sustainability-report"
-                            className="inline-flex items-center gap-2 rounded-md border border-white/70 bg-white/5 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white backdrop-blur-md transition-all duration-300 ease-out hover:border-[#1683FF] hover:bg-white/10"
-                        >
-                            View Sustainability Report
-                            <DocumentIcon />
-                        </a>
+                        {/* SUBTITLE */}
+                        <h2 className="mt-4 text-base font-bold leading-snug text-slate-100 sm:text-lg">
+                            Building a Safer, Smarter, and More Sustainable Future
+                        </h2>
+
+                        {/* DESCRIPTION */}
+                        <p className="mt-2 text-xs leading-relaxed text-slate-300 sm:text-sm">
+                            We integrate Environmental responsibility, Social impact, Governance excellence, and Health &amp; Safety culture into every service we deliver.
+                        </p>
+
+                        {/* TAGLINE */}  
+                        <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#FFC107]/80">
+                            Smart Service. Maximum Uptime. Trusted Performance.
+                        </p>
+
+                        {/* PILLARS / FEATURES */}
+                        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                            {pillars.map((pillar) => {
+                                const Icon = iconByType[pillar.type];
+                                const colorClass = pillarStyles[pillar.type];
+                                return (
+                                    <div key={pillar.type} className="flex flex-col items-start gap-1.5">
+                                        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/10 backdrop-blur-md">
+                                            <span className={colorClass}>
+                                                <Icon className="h-5 w-5" />
+                                            </span>
+                                        </div>
+                                        <p className={`mt-1 text-[11px] font-bold uppercase tracking-wide ${colorClass}`}>
+                                            {pillar.title}
+                                        </p>
+                                        <p className="text-[10px] leading-tight text-slate-300 line-clamp-2">
+                                            {pillar.description}
+                                        </p> 
+                                    </div> 
+                                ); 
+                            })} 
+                        </div>
+
+                        {/* CALL TO ACTION BUTTONS */}
+                        <div className="mt-10 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center">
+                            <a
+                                href="#esg-content"
+                                className="group inline-flex items-center justify-center gap-2 rounded-md bg-[#F5C400] px-6 py-3 text-sm font-bold uppercase tracking-wide text-[#07111F] shadow-lg shadow-black/20 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#ffd21f] hover:brightness-105 hover:shadow-[#F5C400]/30"
+                            >
+                                Explore ESG &amp; HSE
+                                <span className="transition-transform duration-300 ease-out group-hover:translate-x-1">
+                                    <ArrowRightIcon /> 
+                                </span>
+                            </a>
+                            <a
+                                href="#sustainability-report"
+                                className="inline-flex items-center justify-center gap-2 rounded-md border border-white/70 bg-white/5 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white backdrop-blur-md transition-all duration-300 ease-out hover:border-[#1683FF] hover:bg-white/10"
+                            >
+                                View Sustainability Report
+                                <DocumentIcon />
+                            </a>
+                        </div>
+
                     </div>
                 </div>
 
                 {/* SCROLL INDICATOR */}
-                <div className="relative z-10 flex justify-center pb-8">
+                <div className="relative z-20 flex justify-center pb-8">
                     <a
                         href="#esg-content"
                         aria-label="Scroll down"
