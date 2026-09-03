@@ -16,7 +16,6 @@ use App\Models\Branch;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -36,7 +35,6 @@ class HomeController extends Controller
             'testimonial_section' => TestimonialSection::first() ?? [],
             'testimonials'        => Testimonial::all(),
             'projects'            => Project::latest()->get(),
-            // Mengambil 4 artikel terbaru langsung dari tabel Knowledge Center (knowledge_articles) untuk sisi kanan homepage
             'posts'               => DB::table('knowledge_articles')->latest()->take(4)->get(), 
             'branches'            => Branch::all(),
             'contact'             => Contact::first() ?? [],
@@ -106,12 +104,12 @@ class HomeController extends Controller
             'statistics'          => Statistic::all(),
             'testimonials'        => Testimonial::all(),
             'projects'            => Project::latest()->get(),
-            'posts'               => DB::table('knowledge_articles')->latest()->get(), // Sinkron dengan knowledge_articles
+            'posts'               => DB::table('knowledge_articles')->latest()->get(),
             'branches'            => Branch::all(),
         ]);
     }
 
-    // 3. UPDATE HERO BANNER (Disimpan langsung ke public/images/hero-videos)
+    // 3. UPDATE HERO BANNER
     public function updateHero(Request $request, $id)
     {
         $request->validate([
@@ -163,7 +161,7 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Video lokal berhasil dihapus!');
     }
 
-    // 3c. UPDATE INTRO / LAYANAN
+    // 3c. UPDATE INTRO / LAYANAN (Disimpan ke public/images/intro-images)
     public function updateIntro(Request $request, $id)
     {
         $request->validate([
@@ -181,37 +179,50 @@ class HomeController extends Controller
         ]);
 
         $intro = IntroSection::findOrFail($id);
-        
         $data = $request->except([
             'image', 
             'point_1_image', 'point_2_image', 'point_3_image',
             'service_1_image', 'service_2_image', 'service_3_image'
         ]);
 
+        $destinationPath = public_path('images/intro-images');
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
         if ($request->hasFile('image')) {
-            if ($intro->image_path && Storage::disk('public')->exists($intro->image_path)) {
-                Storage::disk('public')->delete($intro->image_path);
+            if ($intro->image_path && file_exists(public_path($intro->image_path))) {
+                @unlink(public_path($intro->image_path));
             }
-            $data['image_path'] = $request->file('image')->store('intro-images', 'public');
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+            $data['image_path'] = 'images/intro-images/' . $filename;
         }
 
         foreach ([1, 2, 3] as $i) {
             $field = "point_{$i}_image";
             if ($request->hasFile($field)) {
-                if ($intro->$field && Storage::disk('public')->exists($intro->$field)) {
-                    Storage::disk('public')->delete($intro->$field);
+                if ($intro->$field && file_exists(public_path($intro->$field))) {
+                    @unlink(public_path($intro->$field));
                 }
-                $data[$field] = $request->file($field)->store('intro-images', 'public');
+                $file = $request->file($field);
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move($destinationPath, $filename);
+                $data[$field] = 'images/intro-images/' . $filename;
             }
         }
 
         foreach ([1, 2, 3] as $i) {
             $field = "service_{$i}_image";
             if ($request->hasFile($field)) {
-                if ($intro->$field && Storage::disk('public')->exists($intro->$field)) {
-                    Storage::disk('public')->delete($intro->$field);
+                if ($intro->$field && file_exists(public_path($intro->$field))) {
+                    @unlink(public_path($intro->$field));
                 }
-                $data[$field] = $request->file($field)->store('intro-images', 'public');
+                $file = $request->file($field);
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move($destinationPath, $filename);
+                $data[$field] = 'images/intro-images/' . $filename;
             }
         }
 
@@ -254,7 +265,7 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Statistik berhasil dihapus!');
     }
 
-    // 4b. STRENGTH SECTION
+    // 4b. STRENGTH SECTION (Disimpan ke public/images/strength-images)
     public function updateStrength(Request $request, $id)
     {
         $request->validate([
@@ -273,17 +284,20 @@ class HomeController extends Controller
         $data = $request->except(['banner_image']);
 
         if ($request->hasFile('banner_image')) {
-            if ($strength->banner_image_path && Storage::disk('public')->exists($strength->banner_image_path)) {
-                Storage::disk('public')->delete($strength->banner_image_path);
+            if ($strength->banner_image_path && file_exists(public_path($strength->banner_image_path))) {
+                @unlink(public_path($strength->banner_image_path));
             }
-            $data['banner_image_path'] = $request->file('banner_image')->store('strength-images', 'public');
+            $file = $request->file('banner_image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/strength-images'), $filename);
+            $data['banner_image_path'] = 'images/strength-images/' . $filename;
         }
 
         $strength->update($data);
         return redirect()->back()->with('success', 'Company Strength berhasil diperbarui!');
     }
 
-    // 4c. FEATURED SERVICES SECTION & ITEMS
+    // 4c. FEATURED SERVICES SECTION & ITEMS (Disimpan ke public/images/featured-services)
     public function updateFeaturedSection(Request $request, $id)
     {
         $request->validate([
@@ -298,10 +312,13 @@ class HomeController extends Controller
         $data = $request->except(['bg_image']);
 
         if ($request->hasFile('bg_image')) {
-            if ($section->bg_image_path && Storage::disk('public')->exists($section->bg_image_path)) {
-                Storage::disk('public')->delete($section->bg_image_path);
+            if ($section->bg_image_path && file_exists(public_path($section->bg_image_path))) {
+                @unlink(public_path($section->bg_image_path));
             }
-            $data['bg_image_path'] = $request->file('bg_image')->store('featured-services', 'public');
+            $file = $request->file('bg_image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/featured-services'), $filename);
+            $data['bg_image_path'] = 'images/featured-services/' . $filename;
         }
 
         $section->update($data);
@@ -317,7 +334,10 @@ class HomeController extends Controller
             'link_url' => 'nullable|string',
         ]);
 
-        $imagePath = $request->file('image')->store('featured-services', 'public');
+        $file = $request->file('image');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('images/featured-services'), $filename);
+        $imagePath = 'images/featured-services/' . $filename;
 
         FeaturedServiceItem::create([
             'title' => $request->title,
@@ -342,10 +362,13 @@ class HomeController extends Controller
         $data = $request->except(['image']);
 
         if ($request->hasFile('image')) {
-            if ($item->image_path && Storage::disk('public')->exists($item->image_path)) {
-                Storage::disk('public')->delete($item->image_path);
+            if ($item->image_path && file_exists(public_path($item->image_path))) {
+                @unlink(public_path($item->image_path));
             }
-            $data['image_path'] = $request->file('image')->store('featured-services', 'public');
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/featured-services'), $filename);
+            $data['image_path'] = 'images/featured-services/' . $filename;
         }
 
         $item->update($data);
@@ -355,8 +378,8 @@ class HomeController extends Controller
     public function destroyFeaturedItem($id)
     {
         $item = FeaturedServiceItem::findOrFail($id);
-        if ($item->image_path && Storage::disk('public')->exists($item->image_path)) {
-            Storage::disk('public')->delete($item->image_path);
+        if ($item->image_path && file_exists(public_path($item->image_path))) {
+            @unlink(public_path($item->image_path));
         }
         $item->delete();
 
@@ -473,7 +496,7 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Proyek berhasil dihapus!');
     }
 
-    // 7. POSTS / NEWS (Dialihkan ke knowledge_articles & disimpan ke public/images/knowledge)
+    // 7. POSTS / NEWS (Disimpan ke public/images/knowledge)
     public function storePost(Request $request)
     {
         $request->validate([
