@@ -109,7 +109,7 @@ class HomeController extends Controller
         ]);
     }
 
-    // 3. UPDATE HERO BANNER
+    // 3. UPDATE HERO BANNER (Disimpan ke public/images/hero-videos)
     public function updateHero(Request $request, $id)
     {
         $request->validate([
@@ -142,7 +142,13 @@ class HomeController extends Controller
             }
             $file = $request->file('video');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/hero-videos'), $filename);
+            
+            $destinationPath = public_path('images/hero-videos');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
             $data['video_path'] = 'images/hero-videos/' . $filename;
         }
 
@@ -289,7 +295,13 @@ class HomeController extends Controller
             }
             $file = $request->file('banner_image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/strength-images'), $filename);
+            
+            $destinationPath = public_path('images/strength-images');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
             $data['banner_image_path'] = 'images/strength-images/' . $filename;
         }
 
@@ -317,7 +329,13 @@ class HomeController extends Controller
             }
             $file = $request->file('bg_image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/featured-services'), $filename);
+            
+            $destinationPath = public_path('images/featured-services');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
             $data['bg_image_path'] = 'images/featured-services/' . $filename;
         }
 
@@ -336,7 +354,13 @@ class HomeController extends Controller
 
         $file = $request->file('image');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('images/featured-services'), $filename);
+        
+        $destinationPath = public_path('images/featured-services');
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+        
+        $file->move($destinationPath, $filename);
         $imagePath = 'images/featured-services/' . $filename;
 
         FeaturedServiceItem::create([
@@ -367,7 +391,13 @@ class HomeController extends Controller
             }
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/featured-services'), $filename);
+            
+            $destinationPath = public_path('images/featured-services');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
             $data['image_path'] = 'images/featured-services/' . $filename;
         }
 
@@ -427,7 +457,7 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Testimoni dihapus!');
     }
 
-    // 6. PROJECT (Disimpan langsung ke public/images/projects)
+    // 6. PROJECT (Disimpan ke public/images/projects)
     public function storeProject(Request $request)
     {
         $request->validate([
@@ -442,7 +472,13 @@ class HomeController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/projects'), $filename);
+            
+            $destinationPath = public_path('images/projects');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
             $imagePath = 'images/projects/' . $filename;
         }
 
@@ -476,7 +512,13 @@ class HomeController extends Controller
             }
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/projects'), $filename);
+            
+            $destinationPath = public_path('images/projects');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
             $data['image'] = 'images/projects/' . $filename;
         }
 
@@ -509,7 +551,13 @@ class HomeController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/knowledge'), $filename);
+            
+            $destinationPath = public_path('images/knowledge');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
             $imagePath = 'images/knowledge/' . $filename;
         }
 
@@ -550,7 +598,13 @@ class HomeController extends Controller
             }
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/knowledge'), $filename);
+            
+            $destinationPath = public_path('images/knowledge');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
             $imagePath = 'images/knowledge/' . $filename;
         }
 

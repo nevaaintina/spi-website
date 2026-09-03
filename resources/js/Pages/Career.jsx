@@ -66,6 +66,14 @@ export default function Career({
   testimonials = [] 
 }) {
   
+  // Helper untuk membersihkan path gambar dari database agar aman dari awalan storage/ lama
+  const getCleanImageUrl = (path, fallback) => {
+    if (!path) return fallback;
+    if (path.startsWith('http')) return path;
+    const cleaned = path.replace(/^storage\//, '').replace(/^storage\//, '');
+    return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
+  };
+
   // Fallback data jika database kosong (agar desain awal tetap utuh sempurna)
   const defaultJobListings = [
     {
@@ -174,7 +182,7 @@ export default function Career({
       <Navbar />
 
       {/* =========================================================
-          HERO BANNER (DINAMIS DARI DATABASE)
+          HERO BANNER
       ========================================================= */}
       <section className="relative bg-white overflow-hidden">
         <div 
@@ -227,7 +235,7 @@ export default function Career({
 
               <div className="relative h-[400px] md:h-[500px] rounded-[2rem] overflow-hidden shadow-xl border border-slate-200">
                 <img
-                  src={hero?.image ? `${hero.image}?t=${Date.now()}` : "/images/karir2.jpg"}
+                  src={getCleanImageUrl(hero?.image, "/images/karir2.jpg")}
                   alt="SPI Team"
                   className="w-full h-full object-cover"
                 />
@@ -252,7 +260,7 @@ export default function Career({
       </section>
 
       {/* =========================================================
-          OUR CULTURE (DINAMIS DARI DATABASE - BERSIH & TIDAK DOUBLE)
+          OUR CULTURE
       ========================================================= */}
       <section id="culture" className="relative bg-white py-20 md:py-24 overflow-hidden border-t border-slate-200">
         <div
@@ -290,7 +298,7 @@ export default function Career({
 
               <div className="absolute left-[-48px] right-[-30px] bottom-[-55px] h-[320px] pointer-events-none overflow-hidden">
                 <img
-                  src={cultureSection?.image || "/images/karir-culture.jpg"}
+                  src={getCleanImageUrl(cultureSection?.image, "/images/karir-culture.jpg")}
                   alt="Open pit mining with heavy equipment"
                   className="w-full h-full object-cover object-center"
                 />
@@ -390,7 +398,7 @@ export default function Career({
       </section>
 
       {/* =========================================================
-          JOB VACANCY (DINAMIS DARI DATABASE)
+          JOB VACANCY
       ========================================================= */}
       <section id="vacancies" className="py-20 md:py-24 bg-[#f5f7fa]">
         <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16">
@@ -416,7 +424,7 @@ export default function Career({
               >
                 <div className="relative h-56 lg:h-full min-h-[220px] overflow-hidden">
                   <img
-                    src={job.image || "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"}
+                    src={getCleanImageUrl(job.image, "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80")}
                     alt={job.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -535,7 +543,7 @@ export default function Career({
       </section>
 
       {/* =========================================================
-          CAREER PATH (DINAMIS DARI DATABASE)
+          CAREER PATH
       ========================================================= */}
       <section className="py-24 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16">
@@ -578,7 +586,7 @@ export default function Career({
       </section>
 
       {/* =========================================================
-          EMPLOYEE STORIES (DINAMIS DARI DATABASE)
+          EMPLOYEE STORIES
       ========================================================= */}
       <section className="relative py-24 md:py-28 bg-[#071b38] overflow-hidden border-t border-b border-slate-800">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -623,7 +631,7 @@ export default function Career({
                 <div className="mt-6 pt-5 border-t border-slate-100 flex items-center gap-3.5">
                   <div className="w-13 h-13 rounded-full overflow-hidden ring-2 ring-[#ffc107] shrink-0 shadow-sm">
                     <img
-                      src={story.image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800"}
+                      src={getCleanImageUrl(story.image, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800")}
                       alt={story.name}
                       className="w-full h-full object-cover scale-105 group-hover:scale-110 transition duration-300"
                     />
@@ -720,7 +728,7 @@ export default function Career({
                   style={{ clipPath: "polygon(16% 0%, 100% 0%, 100% 100%, 0% 100%)" }}
                 >
                   <img
-                    src={internship?.image || "/images/internship.png"}
+                    src={getCleanImageUrl(internship?.image, "/images/internship.png")}
                     alt="Internship Program SPI"
                     className="w-full h-full object-cover"
                   />
@@ -751,7 +759,7 @@ export default function Career({
                   <div>
                     <div className="flex items-center gap-4 mb-5">
                       <div className="w-16 h-16 rounded-2xl overflow-hidden bg-white/10 shrink-0 border border-white/20 shadow-md">
-                        <img src={testi.image || "/images/testimonial-1.jpg"} alt={testi.name} className="w-full h-full object-cover" />
+                        <img src={getCleanImageUrl(testi.image, "/images/testimonial-1.jpg")} alt={testi.name} className="w-full h-full object-cover" />
                       </div>
                       <span className="text-3xl font-serif font-black text-[#ffc107]">“</span>
                     </div>

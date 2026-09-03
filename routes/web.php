@@ -144,10 +144,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::put('/strength/{id}', [HomeController::class, 'updateStrength'])->name('strength.update');
 
-    // Featured Services CMS (Menggunakan match post/put agar aman saat upload file gambar)
+    // Featured Services CMS (Diperbarui dengan match post/put dan optional id)
     Route::put('/featured-section/{id}', [HomeController::class, 'updateFeaturedSection'])->name('featured.section.update');
     Route::post('/featured-items', [HomeController::class, 'storeFeaturedItem'])->name('featured.items.store');
-    Route::match(['post', 'put'], '/featured-items/{id}', [HomeController::class, 'updateFeaturedItem'])->name('featured.items.update');
+    Route::match(['post', 'put'], '/featured-items/{id?}', [HomeController::class, 'updateFeaturedItem'])->name('featured.items.update');
     Route::delete('/featured-items/{id}', [HomeController::class, 'destroyFeaturedItem'])->name('featured.items.destroy');
 
     // Testimonials CMS Section & Contact

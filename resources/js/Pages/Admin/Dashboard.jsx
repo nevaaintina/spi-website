@@ -5,7 +5,7 @@ import AdminLayout from '@/Layouts/AdminLayout';
 export default function Dashboard({ hero, intro, statistics, strength, featured_section, featured_items, testimonial_section, testimonials, projects, posts, branches, contact }) {
   const [homeSubTab, setHomeSubTab] = useState('hero');
 
-  // 1. Hero Form (Fokus hanya pada pengaturan video & _method: 'PUT')
+  // 1. Hero Form
   const heroForm = useForm({
     _method: 'PUT',
     badge_text: hero?.badge_text || '',
@@ -182,10 +182,13 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
   const handleFeaturedItemSubmit = (e) => {
     e.preventDefault();
     if (editingFeaturedId) {
-      featuredItemForm.transform((data) => ({
-        ...data,
+      router.post(`/admin/featured-items/${editingFeaturedId}`, {
         _method: 'PUT',
-      })).post(`/admin/featured-items/${editingFeaturedId}`, {
+        title: featuredItemForm.data.title,
+        description: featuredItemForm.data.description,
+        link_url: featuredItemForm.data.link_url,
+        image: featuredItemForm.data.image,
+      }, {
         forceFormData: true,
         onSuccess: () => { 
           alert('Layanan berhasil diperbarui!'); 
@@ -286,10 +289,14 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
   const handleProjectSubmit = (e) => {
     e.preventDefault();
     if (editingProjectId) {
-      projectForm.transform((data) => ({
-        ...data,
+      router.post(`/admin/projects/${editingProjectId}`, {
         _method: 'PUT',
-      })).post(`/admin/projects/${editingProjectId}`, {
+        title: projectForm.data.title,
+        description: projectForm.data.description,
+        location: projectForm.data.location,
+        year: projectForm.data.year,
+        image: projectForm.data.image,
+      }, {
         forceFormData: true,
         onSuccess: () => { 
           alert('Proyek berhasil diperbarui!'); 
@@ -342,10 +349,12 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
   const handlePostSubmit = (e) => {
     e.preventDefault();
     if (editingPostId) {
-      postForm.transform((data) => ({
-        ...data,
+      router.post(`/admin/posts/${editingPostId}`, {
         _method: 'PUT',
-      })).post(`/admin/posts/${editingPostId}`, {
+        title: postForm.data.title,
+        content: postForm.data.content,
+        image: postForm.data.image,
+      }, {
         forceFormData: true,
         onSuccess: () => { 
           alert('Berita berhasil diperbarui!'); 
@@ -389,7 +398,7 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
     }
   };
 
-  // 8. Branches Form (Tambah, Edit, Auto-Detect & Hotline)
+  // 8. Branches Form
   const branchForm = useForm({ 
     name: '', 
     category: 'Branch Office', 
@@ -545,7 +554,7 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
         ))}
       </div>
 
-      {/* 1. HERO BANNER (HANYA PENGATURAN VIDEO) */}
+      {/* 1. HERO BANNER */}
       {homeSubTab === 'hero' && (
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 mt-4">
           <h2 className="text-xl font-black text-[#0f2b5c] mb-2">Kelola Video Hero Banner Homepage</h2>
@@ -1105,7 +1114,7 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
         </div>
       )}
 
-      {/* 8. BRANCHES SECTION (DENGAN TOMBOL EDIT, HAPUS & PETA) */}
+      {/* 8. BRANCHES SECTION */}
       {homeSubTab === 'branches' && (
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 mt-4 space-y-6">
           <h2 className="text-xl font-black text-[#0f2b5c]">Kelola Branch Office</h2>

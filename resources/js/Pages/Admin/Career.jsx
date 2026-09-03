@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
-import { Head, router, usePage } from '@inertiajs/react';
-import AdminLayout from '@/Layouts/AdminLayout';
+import React, { useState } from "react";
+import { Head, router, usePage } from "@inertiajs/react";
+import AdminLayout from "@/Layouts/AdminLayout";
 
 export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSection = null, jobSection = null, devSection = null, storySection = null, internship = null, applicationSection = null, paths = [], stories = [], testimonials = [] }) {
     const { flash } = usePage().props;
 
     const [activeSection, setActiveSection] = useState('hero');
     const [editingJob, setEditingJob] = useState(null);
+
+    // Helper untuk membersihkan path gambar di admin dari awalan storage/ lama
+    const getCleanImageUrl = (path, fallback = '/images/default.jpg') => {
+        if (!path) return fallback;
+        if (path.startsWith('http')) return path;
+        const cleaned = path.replace(/^storage\//, '').replace(/^storage\//, '');
+        return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
+    };
 
     // State untuk Form Hero Banner
     const [heroData, setHeroData] = useState({
@@ -538,7 +546,7 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
                             {hero?.image && (
                                 <div className="mt-2">
                                     <p className="text-[10px] text-slate-400 mb-1">Foto saat ini:</p>
-                                    <img src={hero.image} alt="Hero Preview" className="w-32 h-20 object-cover rounded-lg border" />
+                                    <img src={getCleanImageUrl(hero.image)} alt="Hero Preview" className="w-32 h-20 object-cover rounded-lg border" />
                                 </div>
                             )}
                             {heroErrors.image && <span className="text-red-500 text-[10px] mt-1 block">{heroErrors.image}</span>}
@@ -594,7 +602,7 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
                                 <input type="file" onChange={e => setCultureSecData({ ...cultureSecData, image: e.target.files[0] })} className="w-full border rounded-xl p-2 text-xs bg-slate-50 cursor-pointer" />
                                 {cultureSection?.image && (
                                     <div className="mt-2">
-                                        <img src={cultureSection.image} alt="Preview" className="w-32 h-20 object-cover rounded-lg border" />
+                                        <img src={getCleanImageUrl(cultureSection.image)} alt="Preview" className="w-32 h-20 object-cover rounded-lg border" />
                                     </div>
                                 )}
                             </div>
@@ -785,7 +793,7 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
                                 {jobErrors.requirements && <span className="text-red-500 text-[10px] mt-1 block">{jobErrors.requirements}</span>}
                             </div>
                             <div className="flex space-x-3 pt-2">
-                                <button type="submit" className="bg-[#0f2b5c] hover:bg-[#153a79] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm cursor-pointer">
+                                <button type="submit" className="bg-[#0f2b5c] hover:bg-[#153a79] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
                                     {editingJob ? 'Simpan Perubahan' : 'Simpan Lowongan'}
                                 </button>
                                 {editingJob && (
@@ -1077,7 +1085,7 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
                                         stories.map((story) => (
                                             <tr key={story.id} className="hover:bg-slate-50/50 transition">
                                                 <td className="px-6 py-4">
-                                                    <img src={story.image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800"} alt="" className="w-10 h-10 rounded-full object-cover border" />
+                                                    <img src={getCleanImageUrl(story.image, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800")} alt="" className="w-10 h-10 rounded-full object-cover border" />
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <div className="font-bold text-slate-800">{story.name}</div>
@@ -1172,7 +1180,7 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
                             <input type="file" onChange={e => setInternshipData({ ...internshipData, image: e.target.files[0] })} className="w-full border rounded-xl p-2 text-xs bg-slate-50 cursor-pointer" />
                             {internship?.image && (
                                 <div className="mt-2">
-                                    <img src={internship.image} alt="Preview" className="w-32 h-20 object-cover rounded-lg border" />
+                                    <img src={getCleanImageUrl(internship.image)} alt="Preview" className="w-32 h-20 object-cover rounded-lg border" />
                                 </div>
                             )}
                         </div>
@@ -1247,7 +1255,7 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
                                         testimonials.map((testi) => (
                                             <tr key={testi.id} className="hover:bg-slate-50/50 transition">
                                                 <td className="px-6 py-4">
-                                                    <img src={testi.image || "/images/testimonial-1.jpg"} alt="" className="w-10 h-10 rounded-full object-cover border" />
+                                                    <img src={getCleanImageUrl(testi.image, "/images/testimonial-1.jpg")} alt="" className="w-10 h-10 rounded-full object-cover border" />
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <div className="font-bold text-slate-800">{testi.name}</div>

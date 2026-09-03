@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Head, useForm, router } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
 
@@ -6,6 +6,14 @@ export default function AdminKnowledgeIndex({ articles, hero }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [currentId, setCurrentId] = useState(null);
+
+    // Helper untuk membersihkan path gambar agar aman dari awalan storage/ jika ada data lama
+    const getCleanImageUrl = (path, fallback) => {
+        if (!path) return fallback;
+        if (path.startsWith('http')) return path;
+        const cleaned = path.replace(/^storage\//, '').replace(/^storage\//, '');
+        return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
+    };
 
     // Form untuk Artikel
     const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
@@ -246,7 +254,7 @@ export default function AdminKnowledgeIndex({ articles, hero }) {
                                             <td className="p-4 text-slate-500 font-semibold">{idx + 1}</td>
                                             <td className="p-4">
                                                 <img
-                                                    src={art.image ? `/storage/${art.image}` : '/images/c1.jpg'}
+                                                    src={getCleanImageUrl(art.image, '/images/c1.jpg')}
                                                     alt={art.title}
                                                     className="w-16 h-12 object-cover rounded-lg border"
                                                 />

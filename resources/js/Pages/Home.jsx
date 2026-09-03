@@ -172,7 +172,6 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
           )}
         </div>
 
-        
       </section>
 
       {/* ================= 3. COMPANY INTRODUCTION & SERVICES ================= */}
@@ -253,12 +252,10 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                 <div 
                   className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                   style={{
-                    backgroundImage: `url('${intro?.image_path ? `/storage/${intro.image_path}` : '/images/layanan.png'}')`
+                    backgroundImage: `url('${intro?.image_path ? `/${intro.image_path}` : '/images/layanan.png'}')`
                   }}
                 ></div>
               </div>
-
-              
 
             </div>
 
@@ -273,7 +270,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
             <div className="relative p-8 bg-white border border-slate-200 rounded-3xl shadow-sm transition-all duration-500 hover:shadow-2xl flex flex-col justify-end group overflow-hidden h-[340px]">
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                style={{ backgroundImage: `url('${intro?.service_1_image ? `/storage/${intro.service_1_image}` : '/images/layanan-suku cadang.jpg'}')` }}
+                style={{ backgroundImage: `url('${intro?.service_1_image ? `/${intro.service_1_image}` : '/images/layanan-suku cadang.jpg'}')` }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:bg-[#0f2b5c]/90 transition-colors duration-500" />
               <div className="relative z-10 transition-all duration-500 transform group-hover:-translate-y-2 text-center">
@@ -295,7 +292,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
             <div className="relative p-8 bg-white border border-slate-200 rounded-3xl shadow-sm transition-all duration-500 hover:shadow-2xl flex flex-col justify-end group overflow-hidden h-[340px]">
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                style={{ backgroundImage: `url('${intro?.service_2_image ? `/storage/${intro.service_2_image}` : '/images/layanan-purna jual.jpg'}')` }}
+                style={{ backgroundImage: `url('${intro?.service_2_image ? `/${intro.service_2_image}` : '/images/layanan-purna jual.jpg'}')` }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:bg-[#0f2b5c]/90 transition-colors duration-500" />
               <div className="relative z-10 transition-all duration-500 transform group-hover:-translate-y-2 text-center">
@@ -317,7 +314,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
             <div className="relative p-8 bg-white border border-slate-200 rounded-3xl shadow-sm transition-all duration-500 hover:shadow-2xl flex flex-col justify-end group overflow-hidden h-[340px]">
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                style={{ backgroundImage: `url('${intro?.service_3_image ? `/storage/${intro.service_3_image}` : '/images/layanan-kemitraan.jpg'}')` }}
+                style={{ backgroundImage: `url('${intro?.service_3_image ? `/${intro.service_3_image}` : '/images/layanan-kemitraan.jpg'}')` }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:bg-[#0f2b5c]/90 transition-colors duration-500" />
               <div className="relative z-10 transition-all duration-500 transform group-hover:-translate-y-2 text-center">
@@ -349,8 +346,6 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
               <span>→</span>
             </a>
           </div>
-
-          
 
         </div>
       </section>
@@ -463,11 +458,10 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
               <div 
                 className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                 style={{
-                  backgroundImage: `url('${strength?.banner_image_path ? `/storage/${strength.banner_image_path}` : '/images/strength.jpg'}')`,
+                  backgroundImage: `url('${strength?.banner_image_path ? `/${strength.banner_image_path}` : '/images/strength.jpg'}')`,
                 }}
               ></div>
 
-              
             </div>
 
             <div className="lg:col-span-7 p-8 lg:p-10 flex flex-col justify-center bg-white pr-12">
@@ -502,7 +496,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
         
         <div
           className="absolute inset-0 w-full h-full bg-cover bg-right-top opacity-120 pointer-events-none z-0"
-          style={{ backgroundImage: `url('${featured_section?.bg_image_path ? `/storage/${featured_section.bg_image_path}` : '/images/services.jpg'}')` }}
+          style={{ backgroundImage: `url('${featured_section?.bg_image_path ? `/${featured_section.bg_image_path}` : '/images/services.jpg'}')` }}
         ></div>
 
         <div className="absolute inset-0 bg-[#0f2b5c]/50 pointer-events-none z-0"></div>
@@ -545,7 +539,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                 >
                   {/* 1. BACKGROUND FOTO PENUH (BERSIH TANPA APA-APA DI AWAL) */}
                   <img
-                    src={srv.image_path ? `/storage/${srv.image_path}` : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80'}
+                    src={srv.image_path ? `/${srv.image_path}` : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80'}
                     alt={srv.title}
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
@@ -585,8 +579,6 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
               <p className="text-center col-span-4 text-slate-300 text-xs">Belum ada data featured services.</p>
             )}
           </div>
-
-          
 
         </div>
       </section>
@@ -771,7 +763,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
               if (!showAll && idx >= 6) return null;
 
               const projectImage = proj.image 
-                ? `/storage/${proj.image}` 
+                ? `/${proj.image}` 
                 : (staticProjects[idx % staticProjects.length]?.image || 'https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80');
 
               return (
@@ -864,7 +856,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
               <div className="lg:col-span-7 relative rounded-3xl overflow-hidden shadow-xl min-h-[440px] md:min-h-[480px] flex flex-col justify-end p-8 md:p-10 group">
                 <div 
                   className="absolute inset-0 w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-700 z-0"
-                  style={{ backgroundImage: `url('${posts[0].image ? `/storage/${posts[0].image}` : '/images/karir.jpg'}')` }}
+                  style={{ backgroundImage: `url('${posts[0].image ? `/${posts[0].image}` : '/images/karir.jpg'}')` }}
                 ></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/50 to-transparent z-10"></div>
 
@@ -899,7 +891,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                     <div className="flex items-center gap-4 relative z-10">
                       <div className="relative shrink-0">
                         <img 
-                          src={post.image ? `/storage/${post.image}` : "https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=200&q=80"} 
+                          src={post.image ? `/${post.image}` : "https://images.unsplash.com/photo-1545558014-8692077e9b5c?auto=format&fit=crop&w=200&q=80"} 
                           alt={post.title} 
                           className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md"
                         />

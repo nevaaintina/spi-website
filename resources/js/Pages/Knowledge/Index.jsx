@@ -4,7 +4,7 @@ import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
 
 /* =========================================================
-   INLINE SVG ICONS
+    INLINE SVG ICONS
    ========================================================= */
 const IconWrench = (props) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -156,6 +156,14 @@ export default function Index({ hero, featuredArticle, articles = [], categories
         return categoryIcons[key] || { icon: IconWrench, bgColor: 'bg-amber-50', iconColor: 'text-amber-500' };
     };
 
+    // Helper untuk membersihkan path gambar agar aman dari awalan /storage/ jika ada data lama
+    const getCleanImageUrl = (path, fallback) => {
+        if (!path) return fallback;
+        if (path.startsWith('http')) return path;
+        const cleaned = path.replace(/^storage\//, '').replace(/^storage\//, '');
+        return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
+    };
+
     return (  
         <>
             <Head title="Knowledge Center - PT. Servistama Pro Indonesia" />
@@ -166,7 +174,7 @@ export default function Index({ hero, featuredArticle, articles = [], categories
                 <section className="relative flex min-h-[540px] lg:min-h-[600px] w-full items-center bg-white overflow-hidden pt-28 lg:pt-32">
                     <div className="absolute inset-0 z-0 h-full w-full">
                         <img 
-                            src={hero?.image ? `/storage/${hero.image}` : '/images/XE2000.png'} 
+                            src={getCleanImageUrl(hero?.image, '/images/XE2000.png')} 
                             alt="Heavy Equipment Banner" 
                             className="mt-4 lg:mt-6 h-full w-full object-cover object-[100%_0%]"
                             style={{ imageRendering: 'high-quality' }}
@@ -303,7 +311,7 @@ export default function Index({ hero, featuredArticle, articles = [], categories
 
                                 <div className="relative min-h-[280px] w-full overflow-hidden lg:min-h-[420px]">
                                     <img
-                                        src={featuredArticle.image ? `/storage/${featuredArticle.image}` : '/images/Predicitive.jpg'}
+                                        src={getCleanImageUrl(featuredArticle.image, '/images/Predicitive.jpg')}
                                         alt={featuredArticle.title}
                                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
@@ -403,17 +411,25 @@ export default function Index({ hero, featuredArticle, articles = [], categories
 }
 
 /* =========================================================
-   SUB COMPONENT: Article Card Dinamis
+    SUB COMPONENT: Article Card Dinamis
    ========================================================= */
 function ArticleCard({ article, index }) {
     const formattedNum = index < 10 ? `0${index}` : index;
+
+    // Helper path gambar untuk card artikel
+    const getCleanImageUrl = (path, fallback) => {
+        if (!path) return fallback;
+        if (path.startsWith('http')) return path;
+        const cleaned = path.replace(/^storage\//, '').replace(/^storage\//, '');
+        return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
+    };
 
     return (
         <article className="group overflow-hidden rounded-xl border border-[#E2E8F0] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107] hover:shadow-lg">
             <Link href={`/knowledge/${article.slug}`} className="block">
                 <div className="relative h-52 overflow-hidden">
                     <img
-                        src={article.image ? `/storage/${article.image}` : '/images/c1.jpg'}
+                        src={getCleanImageUrl(article.image, '/images/c1.jpg')}
                         alt={article.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
