@@ -47,13 +47,6 @@ const IconLightbulb = (props) => (
     </svg>
 );
 
-const IconCheckCircle = (props) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <circle cx="12" cy="12" r="9" />
-        <path d="M8.5 12.5l2.2 2.2 4.8-5.4" />
-    </svg>
-);
-
 const IconWrench = (props) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
         <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2z" />
@@ -65,6 +58,14 @@ const IconWrench = (props) => (
    ========================================================= */
 export default function Show({ article, relatedArticles = [] }) {
     if (!article) return null;
+
+    // Helper untuk membersihkan path gambar agar aman dari awalan storage/ lama
+    const getCleanImageUrl = (path, fallback) => {
+        if (!path) return fallback;
+        if (path.startsWith('http')) return path;
+        const cleaned = path.replace(/^storage\//, '').replace(/^storage\//, '');
+        return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
+    };
 
     return (
         <>
@@ -108,7 +109,7 @@ export default function Show({ article, relatedArticles = [] }) {
 
                     <div className="mx-auto mt-8 max-w-[1100px] overflow-hidden rounded-2xl border border-[#E2E8F0] shadow-sm">
                         <img
-                            src={article.image ? `/storage/${article.image}` : '/images/c1.jpg'}
+                            src={getCleanImageUrl(article.image, '/images/c1.jpg')}
                             alt={article.title}
                             className="h-[280px] w-full object-cover sm:h-[380px] lg:h-[460px]"
                         />
@@ -120,7 +121,7 @@ export default function Show({ article, relatedArticles = [] }) {
                     <div className="mx-auto max-w-[820px]">
                         <p className="text-lg leading-relaxed text-[#334155]">{article.excerpt}</p>
 
-                        {/* Konten Utama Artikel (HTML dari database atau teks panjang) */}
+                        {/* Konten Utama Artikel */}
                         <div className="mt-8 space-y-6 text-base leading-relaxed text-[#334155]">
                             <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: article.content }} />
                         </div>
@@ -162,7 +163,7 @@ export default function Show({ article, relatedArticles = [] }) {
                                             <Link href={`/knowledge/${related.slug}`} className="block">
                                                 <div className="relative h-48 overflow-hidden">
                                                     <img
-                                                        src={related.image ? `/storage/${related.image}` : '/images/c1.jpg'}
+                                                        src={getCleanImageUrl(related.image, '/images/c1.jpg')}
                                                         alt={related.title}
                                                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                                     />
