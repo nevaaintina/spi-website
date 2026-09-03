@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Head } from '@inertiajs/react';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
@@ -133,36 +133,17 @@ const IconPin = ({ className = 'w-6 h-6' }) => (
 );
 
 /* =========================================================
-   STATIC DATA
+   STATIC DATA / MAPPINGS
 ========================================================= */
 const CATEGORIES = [
-  { id: 'photo', label: 'Photo Gallery', number: '01.', icon: IconCamera },
-  { id: 'workshop', label: 'Workshop', number: '02.', icon: IconWrench },
-  { id: 'mining', label: 'Mining Site', number: '03.', icon: IconExcavator },
-  { id: 'customer', label: 'Customer Visit', number: '04.', icon: IconUsers },
-  { id: 'training', label: 'Training', number: '05.', icon: IconGraduation },
-  { id: 'csr', label: 'CSR', number: '06.', icon: IconHandshake },
-  { id: 'event', label: 'Company Event', number: '07.', icon: IconCalendar },
-  { id: 'drone', label: 'Drone Video', number: '08.', icon: IconDrone },
-];
-
-const FILTERS = ['Category', 'Location', 'Equipment', 'Year'];
-
-const MEDIA_ITEMS = [
-  { id: 1, image: 'https://picsum.photos/seed/mining-truck/600/700', span: 'row-span-2', isVideo: true },
-  { id: 2, image: 'https://picsum.photos/seed/team-review/600/500', span: '' },
-  { id: 3, image: 'https://picsum.photos/seed/excavator-sunset/600/700', span: 'row-span-2' },
-  { id: 4, image: 'https://picsum.photos/seed/office-team/600/450', span: '' },
-  { id: 5, image: 'https://picsum.photos/seed/meeting-room/600/450', span: '' },
-  { id: 6, image: 'https://picsum.photos/seed/tree-planting/600/450', span: '' },
-];
-
-const STATS = [
-  { icon: IconPhoto, value: '1,250+', label: 'Photos' },
-  { icon: IconVideo, value: '220+', label: 'Videos' },
-  { icon: IconPin, value: '85+', label: 'Project Locations' },
-  { icon: IconCalendar, value: '450+', label: 'Activities' },
-  { icon: IconUsers, value: '120+', label: 'Events & Trainings' },
+  { id: 'Photo Gallery', label: 'Photo Gallery', number: '01.', icon: IconCamera },
+  { id: 'Workshop', label: 'Workshop', number: '02.', icon: IconWrench },
+  { id: 'Mining Site', label: 'Mining Site', number: '03.', icon: IconExcavator },
+  { id: 'Customer Visit', label: 'Customer Visit', number: '04.', icon: IconUsers },
+  { id: 'Training', label: 'Training', number: '05.', icon: IconGraduation },
+  { id: 'CSR', label: 'CSR', number: '06.', icon: IconHandshake },
+  { id: 'Company Event', label: 'Company Event', number: '07.', icon: IconCalendar },
+  { id: 'Drone Video', label: 'Drone Video', number: '08.', icon: IconDrone },
 ];
 
 const DRONE_VIDEOS = [
@@ -193,17 +174,20 @@ const CategoryTab = ({ category, active, onClick }) => {
 };
 
 const MediaCard = ({ item }) => (
-  <div className={`relative overflow-hidden rounded-lg group cursor-pointer ${item.span}`}>
+  <div className="relative overflow-hidden rounded-lg group cursor-pointer h-72 sm:h-80 shadow-md">
     <img
-      src={item.image}
-      alt="Media gallery item"
+      src={`/${item.file_path}`}
+      alt={item.title || "Media gallery item"}
       className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
     />
-    {item.isVideo && (
+    {item.type === 'video' && (
       <span className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#0B1E3D]">
         <IconPlay className="w-4 h-4 ml-0.5" />
       </span>
     )}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+      <p className="text-white text-sm font-semibold">{item.title || item.category}</p>
+    </div>
   </div>
 );
 
@@ -236,18 +220,24 @@ const VideoThumbnail = ({ video }) => (
   </div>
 );
 
-const FilterDropdown = ({ label }) => (
-  <button className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-[#0B1E3D]">
-    {label}
-    <IconChevronDown className="w-4 h-4" />
-  </button>
-);
-
 /* =========================================================
-   MAIN PAGE COMPONENT
+   MAIN PAGE COMPONENT (DYNAMICS)
 ========================================================= */
-export default function Media() {
-  const [activeCategory, setActiveCategory] = useState('photo');
+export default function Media({ mediaItems, statistics, hero }) {
+  const [activeCategory, setActiveCategory] = useState('Photo Gallery');
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  // Filter media items based on selected category tab
+  const filteredMedia = mediaItems.filter(item => item.category === activeCategory);
+  const displayedMedia = filteredMedia.slice(0, visibleCount);
+
+  // Map database statistics to icons
+  const statIcons = [IconPhoto, IconVideo, IconPin, IconCalendar, IconUsers];
+  const mappedStats = statistics ? statistics.map((stat, idx) => ({
+    icon: statIcons[idx % statIcons.length],
+    value: stat.value,
+    label: stat.label,
+  })) : [];
 
   return (
     <>
@@ -268,28 +258,17 @@ export default function Media() {
           </div>
 
           <div className="relative mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:pl-24">
-            {/* vertical slide indicator */}
-            <div className="absolute left-2 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-2 sm:flex">
-              <span className="h-2.5 w-2.5 rounded-full bg-white" />
-              <span className="h-2 w-2 rounded-full border border-white/60" />
-              <span className="h-2 w-2 rounded-full border border-white/60" />
-              <span className="h-2 w-2 rounded-full border border-white/60" />
-              <span className="h-6 w-px bg-white/50" />
-            </div>
-
             <p className="text-sm font-semibold tracking-wide text-[#F5B800]">MEDIA GALLERY</p>
             <p className="mt-3 text-base text-white/90">Visual Stories. Real Service. Real Performance.</p>
 
             <h1 className="mt-4 max-w-2xl text-4xl font-bold leading-tight text-white sm:text-5xl">
-              Behind Every Machine, There Is a Story of{' '}
-              <span className="text-[#F5B800]">Performance.</span>
+              {hero?.title || 'Behind Every Machine, There Is a Story of Performance.'}
             </h1>
 
             <span className="mt-6 block h-1 w-14 bg-[#F5B800]" />
 
             <p className="mt-6 max-w-lg text-sm leading-relaxed text-white/80">
-              Jelajahi dokumentasi aktivitas PT. Servistama Pro Indonesia dalam menghadirkan layanan
-              heavy equipment, maintenance, customer support, training, dan smart service solution.
+              {hero?.description || 'Jelajahi dokumentasi aktivitas PT. Servistama Pro Indonesia dalam menghadirkan layanan heavy equipment, maintenance, customer support, training, dan smart service solution.'}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
@@ -328,15 +307,13 @@ export default function Media() {
         <section className="bg-white py-10">
           <div className="mx-auto max-w-7xl px-6">
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] items-center">
-              {/* text column */}
               <div>
                 <p className="text-xs font-semibold tracking-wide text-blue-700">FEATURED STORY</p>
                 <h2 className="mt-3 text-2xl font-bold leading-snug text-[#0B1E3D] sm:text-3xl">
                   Maintenance Excellence at <span className="text-[#F5B800]">Mining Site</span>
                 </h2>
                 <p className="mt-4 text-sm leading-relaxed text-gray-500">
-                  Tim teknisi kami melakukan preventive maintenance pada unit excavator XCMG di area
-                  mining untuk memastikan performa optimal dan zero breakdown.
+                  Tim teknisi kami melakukan preventive maintenance pada unit excavator XCMG di area mining untuk memastikan performa optimal dan zero breakdown.
                 </p>
                 <button className="mt-6 flex items-center gap-2 rounded-md bg-[#0B1E3D] px-5 py-3 text-sm font-semibold text-white hover:bg-[#0F2A52] transition-colors">
                   View Story
@@ -344,7 +321,6 @@ export default function Media() {
                 </button>
               </div>
 
-              {/* image grid column */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="relative col-span-1 row-span-2 overflow-hidden rounded-lg">
                   <img
@@ -377,51 +353,58 @@ export default function Media() {
           </div>
         </section>
 
-        {/* ============ 4. MEDIA FILTER BAR ============ */}
+        {/* ============ 4. MEDIA FILTER BAR (Lokasi, Equipment, Year dihapus) ============ */}
         <section className="border-t border-gray-100 bg-white py-6">
           <div className="mx-auto max-w-7xl px-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex flex-wrap items-center gap-6">
                 <button className="flex items-center gap-2 rounded-md bg-[#0B1E3D] px-4 py-2 text-xs font-semibold text-white">
                   <IconGrid />
-                  ALL MEDIA
+                  {activeCategory.toUpperCase()}
                 </button>
-                {FILTERS.map((f) => (
-                  <FilterDropdown key={f} label={f} />
-                ))}
               </div>
-              <button className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-[#0B1E3D]">
-                Sort by Latest
-                <IconChevronDown className="w-4 h-4 text-[#F5B800]" />
-              </button>
+              <span className="text-xs font-medium text-gray-500">
+                Menampilkan {displayedMedia.length} dari {filteredMedia.length} item
+              </span>
             </div>
           </div>
         </section>
 
-        {/* ============ 5. MEDIA GRID ============ */}
+        {/* ============ 5. MEDIA GRID (Memanjang ke Bawah / Vertical Flow) ============ */}
         <section className="bg-white pb-12">
           <div className="mx-auto max-w-7xl px-6">
-            <div className="grid grid-cols-2 auto-rows-[160px] gap-3 sm:grid-cols-3 lg:grid-cols-4">
-              {MEDIA_ITEMS.map((item) => (
-                <MediaCard key={item.id} item={item} />
-              ))}
-            </div>
+            {displayedMedia.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {displayedMedia.map((item) => (
+                  <MediaCard key={item.id} item={item} />
+                ))}
+              </div>
+            ) : (
+              <div className="py-12 text-center text-gray-400 text-sm">
+                Belum ada media yang diunggah untuk kategori ini.
+              </div>
+            )}
 
-            <div className="mt-10 flex justify-center">
-              <button className="flex items-center gap-2 rounded-md border border-gray-300 px-6 py-3 text-sm font-semibold text-[#0B1E3D] hover:bg-gray-50 transition-colors">
-                Load More Media
-                <IconRefresh />
-              </button>
-            </div>
+            {visibleCount < filteredMedia.length && (
+              <div className="mt-10 flex justify-center">
+                <button 
+                  onClick={() => setVisibleCount(prev => prev + 6)}
+                  className="flex items-center gap-2 rounded-md border border-gray-300 px-6 py-3 text-sm font-semibold text-[#0B1E3D] hover:bg-gray-50 transition-colors"
+                >
+                  Load More Media
+                  <IconRefresh />
+                </button>
+              </div>
+            )}
           </div>
         </section>
 
-        {/* ============ 6. STATS BAR ============ */}
+        {/* ============ 6. STATS BAR (Dinamis dari database) ============ */}
         <section className="bg-[#0B1E3D] py-8">
           <div className="mx-auto max-w-7xl px-6">
             <div className="grid grid-cols-1 divide-y divide-white/10 sm:grid-cols-5 sm:divide-y-0 sm:divide-x">
-              {STATS.map((stat) => (
-                <StatItem key={stat.label} {...stat} />
+              {mappedStats.map((stat, index) => (
+                <StatItem key={index} {...stat} />
               ))}
             </div>
           </div>
@@ -431,7 +414,6 @@ export default function Media() {
         <section className="bg-white py-16">
           <div className="mx-auto max-w-7xl px-6">
             <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.8fr)] items-center">
-              {/* text column */}
               <div>
                 <p className="text-xs font-semibold tracking-wide text-blue-700">DRONE VIDEO HIGHLIGHT</p>
                 <h2 className="mt-3 text-2xl font-bold leading-snug text-[#0B1E3D] sm:text-3xl">
@@ -446,7 +428,6 @@ export default function Media() {
                 </button>
               </div>
 
-              {/* video column */}
               <div className="grid gap-4 sm:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)]">
                 <div className="relative overflow-hidden rounded-lg">
                   <img
@@ -479,33 +460,9 @@ export default function Media() {
           </div>
         </section>
 
-        {/* ============ 8. CTA BANNER ============ */}
-        <section className="relative overflow-hidden bg-[#0B1E3D]">
-          <img
-            src="https://picsum.photos/seed/cta-heavy-equipment/1600/400"
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover opacity-20"
-          />
-          <div className="relative mx-auto max-w-7xl px-6 py-12">
-            <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
-              <div className="border-l-2 border-[#F5B800] pl-4">
-                <h3 className="text-xl font-bold text-white sm:text-2xl">
-                  Want to see more of our activities?
-                </h3>
-                <p className="mt-2 max-w-md text-sm text-white/70">
-                  Ikuti terus perjalanan kami dalam memberikan layanan terbaik untuk industri dan
-                  pertambangan di seluruh Indonesia.
-                </p>
-              </div>
-              <button className="flex shrink-0 items-center gap-2 rounded-md bg-[#F5B800] px-6 py-3 text-sm font-semibold text-[#0B1E3D] hover:bg-[#e0a700] transition-colors">
-                Stay Updated
-                <IconArrowRight />
-              </button>
-            </div>
-          </div>
-        </section>
+        {/* Bagian "Stay Updated" bawah telah dihapus sesuai permintaan */}
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
-}   
+}

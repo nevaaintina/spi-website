@@ -137,17 +137,17 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
       <Navbar />
 
       {/* =========================================================
-          HERO BANNER - GRADASI KIRI LEBIH TIPIS
+          HERO BANNER - HANYA VIDEO & 4 CARD STATISTIK DI BAWAHNYA
       ========================================================= */}
-      <section id="home" className="relative w-full min-h-[920px] sm:min-h-[900px] lg:min-h-[780px] bg-white overflow-hidden">
+      <section id="home" className="relative w-full h-[550px] sm:h-[650px] lg:h-[720px] bg-slate-900 overflow-hidden pb-24">
         
-        {/* 1. BACKGROUND VIDEO / GAMBAR PENUH DI KANAN */}
-        <div className="absolute top-0 right-0 w-full lg:w-[75%] h-[480px] sm:h-[560px] lg:h-[700px] overflow-hidden bg-slate-900">
+        {/* 1. BACKGROUND VIDEO / GAMBAR PENUH */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden bg-slate-900">
           {hero?.video_path ? (
             <video
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ pointerEvents: 'none', transform: 'scale(1.05)' }}
-              src={`/storage/${hero.video_path}`}
+              style={{ pointerEvents: 'none' }}
+              src={hero.video_path.startsWith('http') || hero.video_path.startsWith('/') ? hero.video_path : `/${hero.video_path}`}
               autoPlay
               muted
               loop
@@ -167,103 +167,12 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
             <img 
               src="/images/XE2000.png" 
               alt="Heavy Equipment Banner" 
-              className="absolute inset-0 w-full h-full object-cover object-[100%_0%]"
+              className="absolute inset-0 w-full h-full object-cover"
             />
           )}
-          {/* EFEK PUDAR HALUS PADA BATAS VIDEO */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/30 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/10 to-transparent" />
         </div>
 
-        {/* 2. LATAR BELAKANG PUTIH PUDAR DI SEBELAH KIRI (LEBIH TIPIS / LEBAR HANYA 50%) */}
-        <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent lg:w-[52%]" />
-
-        {/* 3. KONTEN TEKS UTAMA DI KIRI */}
-        <div className="relative z-20 max-w-[1500px] mx-auto px-6 sm:px-10 lg:px-16 pt-24 sm:pt-28 lg:pt-32 pb-36">
-          <div className="max-w-2xl">
-            
-            {/* BADGE TEXT */}
-            <div className="mb-4">
-              <span className="text-xs font-extrabold tracking-[0.2em] text-[#ffc107] uppercase">
-                {hero?.badge_text || "SOLUSI KONSTRUKSI, NILAI UNTUK NEGERI"}
-              </span>
-            </div>
-
-            {/* JUDUL UTAMA */}
-            <h1 className="font-black text-[#0f2b5c] leading-[1.05] tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-[64px]">
-              <span className="block">{hero?.title_line_1 || "BRIGHT FUTURE"}</span>
-              <span className="block text-[#ffc107] mt-1">{hero?.title_highlight || "UNTUK ANDA"}</span>
-            </h1>
-
-            {/* GARIS KUNING KECIL */}
-            <div className="flex items-center gap-2 my-5">
-              <span className="w-12 h-[3px] bg-[#ffc107] rounded-full" />
-              <span className="w-2 h-2 rounded-full bg-[#ffc107]" />
-            </div>
-
-            {/* DESKRIPSI */}
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-lg mb-8 font-normal">
-              {hero?.description || "Kami berkomitmen menghadirkan layanan konstruksi terbaik dengan teknologi modern, peralatan berkualitas, dan sumber daya profesional untuk mendukung keberhasilan setiap proyek Anda."}
-            </p>
-
-            {/* TOMBOL AKSI */}
-            <div className="flex flex-wrap items-center gap-4">
-              <a href="#services" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#0f2b5c] text-white font-bold text-xs sm:text-sm tracking-wide shadow-lg transition-all duration-300 hover:bg-[#ffc107] hover:text-[#0f2b5c] hover:-translate-y-0.5">
-                <span>LIHAT LAYANAN</span>
-                <span>→</span>
-              </a>
-            </div>
-
-          </div>
-        </div>
-
-        {/* 4. FLOATING INFORMATION CARDS (4 CARD STATISTIK RAPAT DI BAWAH) */}
-        <div className="absolute z-30 left-4 right-4 sm:left-6 sm:right-6 lg:left-10 lg:right-10 xl:left-16 xl:right-16 bottom-6 lg:bottom-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1">
-            
-            {/* CARD 1 */}
-            <div className="group relative bg-white rounded-2xl border border-slate-200 px-6 py-6 shadow-[0_15px_40px_rgba(15,43,92,0.12)] overflow-hidden transition-all duration-300 hover:-translate-y-1">
-              <div className="flex flex-col">
-                <div className="text-3xl font-black text-[#0f2b5c] tracking-tight">200+</div>
-                <h3 className="mt-1.5 text-sm font-extrabold text-[#0f2b5c]">Tenaga Ahli</h3>
-                <div className="w-8 h-[2px] bg-[#ffc107] my-3" />
-                <p className="text-xs leading-relaxed text-slate-500">Berpengalaman dan kompeten di bidangnya.</p>
-              </div>
-            </div>
-
-            {/* CARD 2 */}
-            <div className="group relative bg-white rounded-2xl border border-slate-200 px-6 py-6 shadow-[0_15px_40px_rgba(15,43,92,0.12)] overflow-hidden transition-all duration-300 hover:-translate-y-1">
-              <div className="flex flex-col">
-                <div className="text-3xl font-black text-[#0f2b5c] tracking-tight">24/7</div>
-                <h3 className="mt-1.5 text-sm font-extrabold text-[#0f2b5c]">Layanan Responsif</h3>
-                <div className="w-8 h-[2px] bg-[#ffc107] my-3" />
-                <p className="text-xs leading-relaxed text-slate-500">Siap mendukung kebutuhan Anda kapan saja.</p>
-              </div>
-            </div>
-
-            {/* CARD 3 */}
-            <div className="group relative bg-white rounded-2xl border border-slate-200 px-6 py-6 shadow-[0_15px_40px_rgba(15,43,92,0.12)] overflow-hidden transition-all duration-300 hover:-translate-y-1">
-              <div className="flex flex-col">
-                <div className="text-3xl font-black text-[#0f2b5c] tracking-tight">100%</div>
-                <h3 className="mt-1.5 text-sm font-extrabold text-[#0f2b5c]">Kualitas Terjamin</h3>
-                <div className="w-8 h-[2px] bg-[#ffc107] my-3" />
-                <p className="text-xs leading-relaxed text-slate-500">Standar layanan terbaik untuk setiap proyek.</p>
-              </div>
-            </div>
-
-            {/* CARD 4 */}
-            <div className="group relative bg-white rounded-2xl border border-slate-200 px-6 py-6 shadow-[0_15px_40px_rgba(15,43,92,0.12)] overflow-hidden transition-all duration-300 hover:-translate-y-1">
-              <div className="flex flex-col">
-                <div className="text-2xl font-black text-[#0f2b5c] tracking-tight pt-1">NASIONAL</div>
-                <h3 className="mt-1.5 text-sm font-extrabold text-[#0f2b5c]">Jangkauan Nasional</h3>
-                <div className="w-8 h-[2px] bg-[#ffc107] my-3" />
-                <p className="text-xs leading-relaxed text-slate-500">Dukungan layanan di seluruh Indonesia.</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
+        
       </section>
 
       {/* ================= 3. COMPANY INTRODUCTION & SERVICES ================= */}
@@ -349,23 +258,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                 ></div>
               </div>
 
-              <div className="absolute right-4 bottom-8 z-20 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-xl flex items-center gap-3 transition-transform duration-300 hover:scale-105">
-                <div className="w-10 h-10 rounded-xl bg-slate-100 text-[#0f2b5c] flex items-center justify-center">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-lg font-black text-[#0f2b5c] leading-none">200+</div>
-                  <div className="text-[11px] text-slate-500 font-medium mt-0.5 mb-1.5">Klien Puas</div>
-                  <div className="flex -space-x-2 overflow-hidden">
-                    <img className="inline-block h-5 w-5 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar 1" />
-                    <img className="inline-block h-5 w-5 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Avatar 2" />
-                    <img className="inline-block h-5 w-5 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80" alt="Avatar 3" />
-                    <img className="inline-block h-5 w-5 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Avatar 4" />
-                  </div>
-                </div>
-              </div>
+              
 
             </div>
 
@@ -457,57 +350,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
             </a>
           </div>
 
-          <div className="mt-14 p-5 bg-slate-50/80 rounded-2xl border border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm transition-transform duration-300 hover:scale-[1.01]">
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full md:w-auto divide-y md:divide-y-0 md:divide-x divide-slate-200">
-              
-              <div className="flex items-center gap-3.5 pt-2 md:pt-0">
-                <div className="w-10 h-10 rounded-xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shrink-0">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636l3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs text-[#0f2b5c]">Butuh Bantuan?</h4>
-                  <p className="text-[10px] text-slate-500">Tim kami siap membantu Anda kapan pun Anda membutuhkan.</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3.5 pt-2 md:pt-0 md:px-4">
-                <div className="w-10 h-10 rounded-xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shrink-0">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs text-[#0f2b5c]">24/7 Support</h4>
-                  <p className="text-[10px] text-slate-500">Layanan support siap 24 jam setiap harinya.</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3.5 pt-2 md:pt-0 md:px-4">
-                <div className="w-10 h-10 rounded-xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shrink-0">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs text-[#0f2b5c]">Garansi Resmi</h4>
-                  <p className="text-[10px] text-slate-500">Semua produk dan layanan dijamin resmi & terpercaya.</p>
-                </div>
-              </div>
-
-            </div>
-
-            <a 
-              href="https://wa.me/6281100000000" 
-              className="px-6 py-3 bg-[#0f2b5c] hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition shadow-md shrink-0 flex items-center gap-2 transform hover:scale-105"
-            >
-              <span>Hubungi Kami</span>
-              <span>→</span>
-            </a>
-
-          </div>
+          
 
         </div>
       </section>
@@ -550,15 +393,12 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
               statistics.map((item, idx) => (
                 <div key={item.id || idx} className="flex flex-col items-center text-center pt-6 lg:pt-0 lg:px-3 group">
                   <div className="relative w-44 h-44 rounded-full border-4 border-white/10 border-t-[#ffc107] border-r-[#ffc107] p-2 flex flex-col items-center justify-center bg-[#0f2b5c]/40 backdrop-blur-sm shadow-lg group-hover:scale-105 transition-transform duration-300">
-                    <div className="w-10 h-10 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center font-bold mb-1 shadow-sm border-2 border-white/20">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                    </div>
-                    <div className="text-2xl font-black text-white leading-none mb-1">
+                    <div className="text-3xl sm:text-4xl font-black text-white leading-none mb-1.5">
                       <AnimatedCounter targetNumber={item.target} suffix={item.suffix || ""} />
                     </div>
-                    <div className="text-[11px] font-bold text-[#ffc107]">{item.label}</div>
+                    <div className="text-xs font-bold text-[#ffc107] px-2">{item.label}</div>
                   </div>
-                  <p className="text-white text-[11px] leading-relaxed mt-4 max-w-[180px]">{item.desc}</p>
+                  <p className="text-white text-xs leading-relaxed mt-4 max-w-[180px]">{item.desc}</p>
                 </div>
               ))
             ) : (
@@ -568,10 +408,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
 
           <div className="flex flex-wrap justify-center items-center gap-4">
             {["Terpercaya & Profesional", "Layanan Cepat & Tepat", "Mitra Jangka Panjang"].map((text, i) => (
-              <div key={i} className="px-5 py-2.5 bg-[#0f2b5c]/50 backdrop-blur-md border border-white/20 rounded-full flex items-center gap-2.5 shadow-sm transition-transform duration-300 hover:scale-105">
-                <div className="w-6 h-6 rounded-full bg-[#ffc107] text-[#0f2b5c] flex items-center justify-center shrink-0">
-                   <div className="w-2 h-2 rounded-full bg-[#0f2b5c]"></div>
-                </div>
+              <div key={i} className="px-5 py-2.5 bg-[#0f2b5c]/50 backdrop-blur-md border border-white/20 rounded-full flex items-center shadow-sm transition-transform duration-300 hover:scale-105">
                 <span className="text-xs font-bold text-white">{text}</span>
               </div>
             ))}
@@ -608,12 +445,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                 <div className="w-full h-1 bg-[#0f2b5c] absolute bottom-0 left-0"></div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-[#0f2b5c] text-[#ffc107] flex items-center justify-center shadow-sm">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
+                  <div className="flex items-center justify-start mb-4">
                     <span className="text-2xl font-black text-[#0f2b5c]">{stat.target}{stat.suffix}</span>
                   </div>
                   <h3 className="font-bold text-xs text-[#0f2b5c] uppercase tracking-wider mb-3">{stat.label}</h3>
@@ -635,19 +467,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                 }}
               ></div>
 
-              <div className="absolute bottom-0 left-0 right-0 lg:right-[15%] z-20 bg-[#0f2b5c] text-white p-5 border-b-4 border-[#ffc107] flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl border-2 border-[#ffc107] text-[#ffc107] flex items-center justify-center shrink-0">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-sm text-white mb-0.5">{strength?.banner_title || 'Safety First'}</h4>
-                  <p className="text-[10px] text-slate-300 leading-snug">
-                    {strength?.banner_desc || 'Keselamatan adalah nilai utama dalam setiap pekerjaan kami.'}
-                  </p>
-                </div>
-              </div>
+              
             </div>
 
             <div className="lg:col-span-7 p-8 lg:p-10 flex flex-col justify-center bg-white pr-12">
@@ -719,28 +539,46 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {featured_items && featured_items.length > 0 ? (
               featured_items.map((srv, idx) => (
-                <div key={srv.id || idx} className="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden flex flex-col justify-between group">
-                  <div>
-                    <div className="relative h-36 overflow-hidden">
-                      <div 
-                        className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-                        style={{ backgroundImage: `url('${srv.image_path ? `/storage/${srv.image_path}` : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80'}')` }}
-                      />
-                    </div>
-                    <div className="p-5 pt-7 text-center relative">
-                      <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-2.5">
+                <div 
+                  key={srv.id || idx} 
+                  className="group relative h-[360px] w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200/40 bg-slate-900 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+                >
+                  {/* 1. BACKGROUND FOTO PENUH (BERSIH TANPA APA-APA DI AWAL) */}
+                  <img
+                    src={srv.image_path ? `/storage/${srv.image_path}` : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80'}
+                    alt={srv.title}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  />
+
+                  {/* 2. LAPISAN BIRU TRANSPARAN (SLIDE UP DARI BAWAH SAAT DI-HOVER) */}
+                  <div className="absolute inset-0 z-10 flex flex-col justify-end p-6 text-white bg-[#0f2b5c]/90 backdrop-blur-sm translate-y-full transition-transform duration-500 ease-out group-hover:translate-y-0">
+                    
+                    {/* KONTEN TEKS WARNA PUTIH & KUNING */}
+                    <div className="relative z-10 transform translate-y-4 opacity-0 transition-all duration-300 delay-100 group-hover:translate-y-0 group-hover:opacity-100">
+                      <span className="inline-block text-[10px] font-black uppercase tracking-widest text-[#ffc107] mb-1">
+                        LAYANAN UNGGULAN
+                      </span>
+                      
+                      <h3 className="text-base font-extrabold text-white leading-snug mb-2">
                         {srv.title}
                       </h3>
-                      <p className="text-slate-500 text-[10px] leading-relaxed mb-4">
+
+                      <div className="w-8 h-[2px] bg-[#ffc107] mb-3 rounded-full" />
+
+                      <p className="text-slate-200 text-xs leading-relaxed mb-5 line-clamp-3">
                         {srv.description}
                       </p>
+
+                      <a 
+                        href={srv.link_url || "/services"} 
+                        className="inline-flex items-center gap-2 text-xs font-bold text-[#ffc107] hover:text-white transition-colors duration-200"
+                      >
+                        <span>Pelajari Selengkapnya</span>
+                        <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+                      </a>
                     </div>
                   </div>
-                  <div className="p-5 pt-0 text-center">
-                    <a href={srv.link_url || "/services"} className="text-[11px] font-bold text-slate-700 hover:text-[#ffc107] transition">
-                      Learn More
-                    </a>
-                  </div>
+
                 </div>
               ))
             ) : (
@@ -754,187 +592,153 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
       </section>
 
       {/* ================= 7. SECTION CUSTOMER TESTIMONIALS ================= */}
-      <section id="testimonials" className="relative w-full overflow-hidden bg-[#0f2b5c] pb-32 md:pb-40">
+      <section id="testimonials" className="relative w-full overflow-hidden bg-white py-24 md:py-32">
         
-        {/* CONTAINER HEADER DENGAN BACKGROUND FOTO & GELOMBANG DI BAWAH */}
-        <div className="relative w-full pt-28 pb-32 md:pt-36 md:pb-40 overflow-hidden bg-[#0f2b5c]">
-            {/* Foto Latar */}
-            <img 
-                src="/images/testimoni.jpg" 
-                alt="Testimonials Banner" 
-                className="absolute inset-0 w-full h-full object-cover"
-            />
-            
-            {/* Overlay Gelap Tipis (Pas, tidak terlalu gelap) */}
-            <div className="absolute inset-0 bg-[#0f2b5c]/40" />
-
-            {/* Header Content */}
-            <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-                <div className="mb-4 flex items-center justify-center gap-4">
-                    <span className="h-[2px] w-9 bg-[#ffc107]"></span>
-                    <span className="text-[11px] font-black uppercase tracking-[0.18em] text-[#ffc107]">
-                        {testimonial_section?.badge_text || "CUSTOMER TESTIMONIALS"}
-                    </span>
-                    <span className="h-[2px] w-9 bg-[#ffc107]"></span>
-                </div>
-
-                <h2 className="text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl md:text-6xl drop-shadow-md">
-                    {testimonial_section?.title_main || "Apa Kata"}{" "}
-                    <span className="text-[#ffc107]">
-                        {testimonial_section?.title_highlight || "Mereka?"}
-                    </span>
-                </h2>
-
-                <div className="mx-auto mt-6 h-1 w-12 rounded-full bg-[#ffc107]"></div>
-
-                <p className="mx-auto mt-6 max-w-2xl text-sm sm:text-base leading-relaxed text-slate-100 drop-shadow">
-                    {testimonial_section?.description || "Kepercayaan pelanggan adalah bagian penting dari perjalanan kami. Berikut pengalaman mereka bekerja sama dengan tim kami."}
-                </p>
+        <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10 xl:px-14">
+          
+          {/* HEADER SECTION */}
+          <div className="mx-auto max-w-3xl text-center mb-16">
+            <div className="mb-4 flex items-center justify-center gap-4">
+              <span className="h-[2px] w-8 bg-[#ffc107]"></span>
+              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#ffc107]">
+                {testimonial_section?.badge_text || "CUSTOMER TESTIMONIALS"}
+              </span>
+              <span className="h-[2px] w-8 bg-[#ffc107]"></span>
             </div>
 
-            {/* Bentuk Gelombang SVG di Bagian Bawah Header */}
-            <svg className="absolute bottom-0 left-0 w-full h-16 sm:h-24 text-[#0f2b5c]" fill="currentColor" viewBox="0 0 1440 320" preserveAspectRatio="none">
-                <path d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,160,576,138.7C672,117,768,117,864,138.7C960,160,1056,203,1152,213.3C1248,224,1344,203,1392,192L1440,181L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-            </svg>
-        </div>
+            <h2 className="text-3xl font-black leading-tight tracking-tight text-[#0f2b5c] sm:text-4xl md:text-5xl">
+              {testimonial_section?.title_main || "Apa Kata"}{" "}
+              <span className="text-[#ffc107]">
+                {testimonial_section?.title_highlight || "Mereka?"}
+              </span>
+            </h2>
 
-        {/* CONTAINER CARD TESTIMONI DI ATAS BACKGROUND BIRU SPI */}
-        <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10 xl:px-14 -mt-12 sm:-mt-16">
+            <div className="mx-auto mt-5 h-1 w-12 rounded-full bg-[#ffc107]"></div>
 
-            {(() => {
-                const [currentIndex, setCurrentIndex] = useState(0);
-                const [fade, setFade] = useState(true);
+            <p className="mx-auto mt-5 max-w-xl text-xs sm:text-sm leading-relaxed text-slate-600">
+              {testimonial_section?.description || "Kepercayaan pelanggan adalah bagian penting dari perjalanan kami. Berikut pengalaman mereka bekerja sama dengan tim kami."}
+            </p>
+          </div>
 
-                if (!testimonials || testimonials.length === 0) {
-                    return <p className="text-center text-slate-300 text-xs mt-10">Belum ada testimoni klien.</p>;
-                }
+          {/* GRID TESTIMONI & SLIDER */}
+          {(() => {
+            const [currentIndex, setCurrentIndex] = useState(0);
+            const [fade, setFade] = useState(true);
 
-                const itemsPerPage = 3;
-                const totalPages = Math.ceil(testimonials.length / itemsPerPage);
+            if (!testimonials || testimonials.length === 0) {
+              return <p className="text-center text-slate-400 text-xs mt-10">Belum ada testimoni klien.</p>;
+            }
 
-                const handlePrev = () => {
-                    setFade(false);
-                    setTimeout(() => {
-                        setCurrentIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
-                        setFade(true);
-                    }, 200);
-                };
+            const itemsPerPage = 3;
+            const totalPages = Math.ceil(testimonials.length / itemsPerPage);
 
-                const handleNext = () => {
-                    setFade(false);
-                    setTimeout(() => {
-                        setCurrentIndex((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
-                        setFade(true);
-                    }, 200);
-                };
+            const handlePrev = () => {
+              setFade(false);
+              setTimeout(() => {
+                setCurrentIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
+                setFade(true);
+              }, 200);
+            };
 
-                const visibleTestimonials = testimonials.slice(
-                    currentIndex * itemsPerPage,
-                    (currentIndex + 1) * itemsPerPage
-                );
+            const handleNext = () => {
+              setFade(false);
+              setTimeout(() => {
+                setCurrentIndex((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+                setFade(true);
+              }, 200);
+            };
 
-                return (
-                    <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center">
-                        {testimonials.length > itemsPerPage && (
-                            <button 
-                                onClick={handlePrev} 
-                                className="absolute -left-2 sm:-left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white text-[#0f2b5c] border border-slate-200 flex items-center justify-center shadow-xl hover:bg-[#ffc107] transition cursor-pointer"
-                                aria-label="Previous"
-                            >
-                                ←
-                            </button>
-                        )}
+            const visibleTestimonials = testimonials.slice(
+              currentIndex * itemsPerPage,
+              (currentIndex + 1) * itemsPerPage
+            );
 
-                        {/* Grid Kotak Tetap Menyamping, Isi Teks Mengalir ke Bawah di dalam Kotak */}
-                        <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-4 md:px-8 transition-opacity duration-300 ${fade ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
-                            {visibleTestimonials.map((t, idx) => (
-                                <div 
-                                    key={t.id || idx} 
-                                    className="relative mx-auto w-full max-w-[380px] opacity-0 animate-[fadeInUp_0.6s_ease-out_forwards]"
-                                    style={{ animationDelay: `${idx * 0.15}s` }}
-                                >
-                                    <div className="group relative flex flex-col justify-between p-8 rounded-3xl bg-white shadow-[0_15px_35px_rgba(0,0,0,0.2)] border border-slate-100 transition-all duration-300 hover:-translate-y-2 hover:border-[#ffc107] hover:shadow-[0_20px_45px_rgba(255,193,7,0.3)] h-full min-h-[350px]">
-                                        
-                                        <div>
-                                            {/* Icon Kutipan */}
-                                            <div className="text-[#ffc107] mb-4">
-                                                <svg className="w-8 h-8 opacity-90" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.999v10h-9.999z"/>
-                                                </svg>
-                                            </div>
+            return (
+              <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center">
+                
+                {/* TOMBOL PREV (KIRI) */}
+                {testimonials.length > itemsPerPage && (
+                  <button 
+                    onClick={handlePrev} 
+                    className="absolute -left-3 sm:left-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-slate-100 text-[#0f2b5c] border border-slate-200 flex items-center justify-center shadow-md hover:bg-[#ffc107] transition cursor-pointer"
+                    aria-label="Previous"
+                  >
+                    ←
+                  </button>
+                )}
 
-                                            {/* Isi Testimoni (Mengalir rapi ke bawah di dalam kotak tanpa keluar batas) */}
-                                            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed italic mb-6 break-words">
-                                                "{t.quote}"
-                                            </p>
-                                        </div>
-
-                                        <div className="pt-4 border-t border-slate-100">
-                                            {/* Info Klien */}
-                                            <div>
-                                                <h4 className="font-black text-xs sm:text-sm text-[#0f2b5c]">
-                                                    {t.client_name}
-                                                </h4>
-                                                <p className="text-[11px] font-bold text-[#b27b00] mt-0.5">
-                                                    {t.client_title}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            ))}
+                {/* CARD GRID */}
+                <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-2 sm:px-6 transition-opacity duration-300 ${fade ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+                  {visibleTestimonials.map((t, idx) => (
+                    <div 
+                      key={t.id || idx} 
+                      className="w-full flex justify-center"
+                    >
+                      <div className="group relative flex flex-col justify-between p-8 rounded-[24px] bg-slate-50/80 shadow-[0_10px_30px_rgba(15,43,92,0.06)] border border-slate-200/60 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(15,43,92,0.12)] hover:bg-white w-full max-w-[380px] min-h-[360px]">
+                        
+                        <div className="overflow-hidden">
+                          {/* TANDA KUTIP */}
+                          <div className="text-[#ffc107] mb-2 text-4xl font-serif font-black leading-none select-none">
+                            “
+                          </div>
+                          {/* ISI TESTIMONI */}
+                          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6 font-normal break-words overflow-hidden">
+                            {t.quote}
+                          </p>
                         </div>
 
-                        {testimonials.length > itemsPerPage && (
-                            <button 
-                                onClick={handleNext} 
-                                className="absolute -right-2 sm:-right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white text-[#0f2b5c] border border-slate-200 flex items-center justify-center shadow-xl hover:bg-[#ffc107] transition cursor-pointer"
-                                aria-label="Next"
-                            >
-                                →
-                            </button>
-                        )}
+                        <div className="pt-4 border-t border-slate-200/60 mt-auto">
+                          <div className="w-6 h-[2px] bg-[#ffc107] mb-2.5 rounded-full" />
+                          <div>
+                            <h4 className="font-extrabold text-xs sm:text-sm text-[#0f2b5c] truncate">
+                              {t.client_name}
+                            </h4>
+                            <p className="text-[11px] font-medium text-slate-500 mt-0.5 truncate">
+                              {t.client_title}
+                            </p>
+                          </div>
+                        </div>
 
-                        {totalPages > 1 && (
-                            <div className="flex items-center justify-center gap-2 mt-12 z-20">
-                                {[...Array(totalPages)].map((_, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => {
-                                            setFade(false);
-                                            setTimeout(() => {
-                                                setCurrentIndex(idx);
-                                                setFade(true);
-                                            }, 200);
-                                        }}
-                                        className={`h-2.5 rounded-full transition-all cursor-pointer ${currentIndex === idx ? 'w-8 bg-[#ffc107]' : 'w-2.5 bg-white/40'}`}
-                                        aria-label={`Go to page ${idx + 1}`}
-                                    />
-                                ))}
-                            </div>
-                        )}
+                      </div>
                     </div>
-                );
-            })()}
+                  ))}
+                </div>
+
+                {/* TOMBOL NEXT (KANAN) */}
+                {testimonials.length > itemsPerPage && (
+                  <button 
+                    onClick={handleNext} 
+                    className="absolute -right-3 sm:right-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-slate-100 text-[#0f2b5c] border border-slate-200 flex items-center justify-center shadow-md hover:bg-[#ffc107] transition cursor-pointer"
+                    aria-label="Next"
+                  >
+                    →
+                  </button>
+                )}
+
+                {/* DOTS PAGINATION */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-2 mt-12 z-20">
+                    {[...Array(totalPages)].map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setFade(false);
+                          setTimeout(() => {
+                            setCurrentIndex(idx);
+                            setFade(true);
+                          }, 200);
+                        }}
+                        className={`h-2.5 rounded-full transition-all cursor-pointer ${currentIndex === idx ? 'w-8 bg-[#ffc107]' : 'w-2.5 bg-slate-300'}`}
+                        aria-label={`Go to page ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
 
         </div>
-
-        
-
-        {/* CSS Keyframes untuk Animasi Masuk (FadeIn Up) */}
-        <style dangerouslySetInnerHTML={{ __html: `
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-        `}} />
       </section>
 
       {/* ================= 7. SECTION PROJECT GALLERY ================= */}
@@ -948,7 +752,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
 
         <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16 relative z-10">
           
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="text-center max-w-3xl mx-auto mb-14"> 
             
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
               Proyek yang Telah <span className="text-[#ffc107]">Kami Kerjakan</span>
@@ -971,16 +775,26 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                 : (staticProjects[idx % staticProjects.length]?.image || 'https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80');
 
               return (
-                <div key={proj.id || idx} className="bg-white rounded-2xl border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden group">
-                  <div className="relative h-36 overflow-hidden">
-                    <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('${projectImage}')` }}></div>
-                  </div>
-                  <div className="p-3.5">
-                    <h3 className="font-bold text-xs text-[#0f2b5c] mb-1.5 leading-snug">{proj.title}</h3>
-                    <div className="flex items-center justify-between text-[10px] text-slate-500">
-                      <span>{proj.location}</span>
-                      <span>{proj.year}</span>
+                <div key={proj.id || idx} className="group relative h-[260px] rounded-2xl overflow-hidden shadow-lg border border-slate-200/40 bg-slate-900 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                  
+                  {/* 1. BACKGROUND FOTO PENUH (TAMPILAN AWAL BERSIH CUMA FOTO) */}
+                  <div 
+                    className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110" 
+                    style={{ backgroundImage: `url('${projectImage}')` }}
+                  ></div>
+
+                  {/* 2. LAPISAN PUTIH SETENGAH (MUNCUL DARI BAWAH KE ATAS HANYA SETENGAH SAAT DI-HOVER) */}
+                  <div className="absolute inset-x-0 bottom-0 top-1/2 z-10 flex flex-col justify-end p-5 text-slate-900 bg-white/95 backdrop-blur-md translate-y-full transition-transform duration-500 ease-out group-hover:translate-y-0">
+                    
+                    <div className="relative z-10 transform translate-y-3 opacity-0 transition-all duration-300 delay-100 group-hover:translate-y-0 group-hover:opacity-100">
+                      <h3 className="font-extrabold text-xs text-[#0f2b5c] mb-2 leading-snug line-clamp-1">{proj.title}</h3>
+                      <div className="w-8 h-[2px] bg-[#ffc107] mb-2.5 rounded-full"></div>
+                      <div className="flex items-center justify-between text-[10px] font-bold text-slate-500">
+                        <span>{proj.location}</span>
+                        <span>{proj.year}</span>
+                      </div>
                     </div>
+
                   </div>
                 </div>
               );

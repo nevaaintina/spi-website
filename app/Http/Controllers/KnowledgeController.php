@@ -84,7 +84,7 @@ class KnowledgeController extends Controller
         ]);
     }
 
-    // Mengupdate pengaturan Hero Banner dari Admin
+    // Mengupdate pengaturan Hero Banner dari Admin (Disimpan ke public/images/knowledge_hero)
     public function updateHero(Request $request)
     {
         $request->validate([
@@ -102,7 +102,13 @@ class KnowledgeController extends Controller
         $imagePath = $hero ? $hero->image : null;
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('knowledge_hero', 'public');
+            if ($hero && $hero->image && file_exists(public_path($hero->image))) {
+                @unlink(public_path($hero->image));
+            }
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/knowledge_hero'), $filename);
+            $imagePath = 'images/knowledge_hero/' . $filename;
         }
 
         DB::table('knowledge_hero')->updateOrInsert(
@@ -123,7 +129,7 @@ class KnowledgeController extends Controller
         return redirect()->back()->with('success', 'Hero Banner berhasil diperbarui.');
     }
 
-    // Menyimpan artikel baru dari Admin
+    // Menyimpan artikel baru dari Admin (Disimpan ke public/images/knowledge)
     public function store(Request $request)
     {
         $request->validate([
@@ -136,7 +142,10 @@ class KnowledgeController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('knowledge_images', 'public');
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/knowledge'), $filename);
+            $imagePath = 'images/knowledge/' . $filename;
         }
 
         DB::table('knowledge_articles')->insert([
@@ -175,7 +184,13 @@ class KnowledgeController extends Controller
 
         $imagePath = $article->image;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('knowledge_images', 'public');
+            if ($article->image && file_exists(public_path($article->image))) {
+                @unlink(public_path($article->image));
+            }
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/knowledge'), $filename);
+            $imagePath = 'images/knowledge/' . $filename;
         }
 
         DB::table('knowledge_articles')->where('id', $id)->update([
@@ -192,9 +207,14 @@ class KnowledgeController extends Controller
         return redirect()->back()->with('success', 'Artikel berhasil diperbarui.');
     }
 
-    // Menghapus artikel
+    // Menghapus artikel (Sekerta menghapus file fisik di folder public jika ada)
     public function destroy($id)
     {
+        $article = DB::table('knowledge_articles')->where('id', $id)->first();
+        if ($article && $article->image && file_exists(public_path($article->image))) {
+            @unlink(public_path($article->image));
+        }
+
         DB::table('knowledge_articles')->where('id', $id)->delete();
 
         return redirect()->back()->with('success', 'Artikel berhasil dihapus.');

@@ -5,7 +5,7 @@ import AdminLayout from '@/Layouts/AdminLayout';
 export default function Dashboard({ hero, intro, statistics, strength, featured_section, featured_items, testimonial_section, testimonials, projects, posts, branches, contact }) {
   const [homeSubTab, setHomeSubTab] = useState('hero');
 
-  // 1. Hero Form
+  // 1. Hero Form (Fokus hanya pada pengaturan video & _method: 'PUT')
   const heroForm = useForm({
     _method: 'PUT',
     badge_text: hero?.badge_text || '',
@@ -21,10 +21,10 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
     e.preventDefault();
     heroForm.post(`/admin/hero/${hero?.id || 1}`, { 
       forceFormData: true,
-      onSuccess: () => alert('Hero banner dan video berhasil diperbarui!'),
+      onSuccess: () => alert('Video hero banner berhasil diperbarui!'),
       onError: (errors) => {
         console.log(errors);
-        alert('Gagal memperbarui hero. Cek console browser untuk detail error.');
+        alert('Gagal memperbarui video hero. Cek console browser untuk detail error.');
       }
     });
   };
@@ -545,41 +545,32 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
         ))}
       </div>
 
-      {/* 1. HERO BANNER */}
+      {/* 1. HERO BANNER (HANYA PENGATURAN VIDEO) */}
       {homeSubTab === 'hero' && (
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 mt-4">
-          <h2 className="text-xl font-black text-[#0f2b5c] mb-6">Kelola Hero Banner & Video Homepage</h2>
+          <h2 className="text-xl font-black text-[#0f2b5c] mb-2">Kelola Video Hero Banner Homepage</h2>
+          <p className="text-xs text-slate-500 mb-6">Teks pada hero banner telah disembunyikan di halaman utama. Anda dapat mengatur video latar belakang di sini.</p>
+          
           <form onSubmit={handleHeroSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-600 mb-1">Teks Badge Atas</label>
-                <input type="text" value={heroForm.data.badge_text} onChange={e => heroForm.setData('badge_text', e.target.value)} className="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50" />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-slate-600 mb-1">Judul Highlight (Kuning)</label>
-                <input type="text" value={heroForm.data.title_highlight} onChange={e => heroForm.setData('title_highlight', e.target.value)} className="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50" />
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-slate-600 mb-1">Judul Baris 1</label>
-                <input type="text" value={heroForm.data.title_line_1} onChange={e => heroForm.setData('title_line_1', e.target.value)} className="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50" />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-slate-600 mb-1">Judul Baris 2</label>
-                <input type="text" value={heroForm.data.title_line_2} onChange={e => heroForm.setData('title_line_2', e.target.value)} className="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50" />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
                 <label className="block text-xs font-bold text-slate-600 mb-1">URL Video YouTube (Opsional)</label>
-                <input type="text" value={heroForm.data.video_url} onChange={e => heroForm.setData('video_url', e.target.value)} className="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50" placeholder="https://www.youtube.com/embed/..." />
+                <input 
+                  type="text" 
+                  value={heroForm.data.video_url} 
+                  onChange={e => heroForm.setData('video_url', e.target.value)} 
+                  className="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50" 
+                  placeholder="https://www.youtube.com/embed/..." 
+                />
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-600 mb-1">Upload File Video (MP4)</label>
-                <input type="file" accept="video/mp4,mov,avi" onChange={e => heroForm.setData('video', e.target.files[0])} className="w-full border border-slate-200 p-2.5 rounded-xl text-sm bg-slate-50" />
+                <input 
+                  type="file" 
+                  accept="video/mp4,mov,avi" 
+                  onChange={e => heroForm.setData('video', e.target.files[0])} 
+                  className="w-full border border-slate-200 p-2.5 rounded-xl text-sm bg-slate-50" 
+                />
                 
                 {hero?.video_path && (
                   <div className="mt-3 p-3 bg-red-50 rounded-xl border border-red-200 flex items-center justify-between">
@@ -592,13 +583,8 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
               </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-600 mb-1">Deskripsi Hero</label>
-              <textarea rows="3" value={heroForm.data.description} onChange={e => heroForm.setData('description', e.target.value)} className="w-full border border-slate-200 p-3 rounded-xl text-sm bg-slate-50" />
-            </div>
-
             <button type="submit" disabled={heroForm.processing} className="px-6 py-3 bg-[#0f2b5c] text-white font-bold text-xs rounded-xl shadow hover:bg-slate-800 transition">
-              {heroForm.processing ? 'Menyimpan...' : 'Simpan Perubahan Hero'}
+              {heroForm.processing ? 'Menyimpan...' : 'Simpan Perubahan Video'}
             </button>
           </form>
         </div>
@@ -1290,7 +1276,7 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
 
             <div>
               <label className="block text-xs font-bold text-slate-600 mb-1">Jam Operasional</label>
-              <input type="text" value={contactForm.data.operational_hours} onChange={e => contactForm.setData('operational_hours', e.target.value)} className="w-full border p-3 rounded-xl text-xs bg-slate-50" placeholder="Cth: Senin - Jumat: 08.00 - 17.00" />
+              <input type="text" value={contactForm.data.operational_hours} onChange={e => contactForm.setData('operational_hours', e.target.value)} className="w-full border p-3 rounded-xl text-slate-50" placeholder="Cth: Senin - Jumat: 08.00 - 17.00" />
             </div>
 
             <button type="submit" disabled={contactForm.processing} className="px-6 py-3 bg-[#0f2b5c] text-white font-bold text-xs rounded-xl shadow hover:bg-slate-800 transition">

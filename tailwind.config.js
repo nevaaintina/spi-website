@@ -11,8 +11,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
+        sans: ['Montserrat', 'sans-serif'], // Mengubah font utama sans menjadi Montserrat
+      },
             colors: {
                 pama: {
                     navy: '#0f2b5c',

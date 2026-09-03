@@ -111,15 +111,14 @@ class CareerController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($hero->image) {
-                $oldPath = str_replace('/storage/', '', $hero->image);
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
+            if ($hero->image && file_exists(public_path($hero->image))) {
+                @unlink(public_path($hero->image));
             }
 
-            $path = $request->file('image')->store('career', 'public');
-            $data['image'] = '/storage/' . $path;
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/career'), $filename);
+            $data['image'] = 'images/career/' . $filename;
         }
 
         $hero->update($data);
@@ -148,15 +147,13 @@ class CareerController extends Controller
         $data = $request->except('image');
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('career/culture_section', 'public');
-            $data['image'] = '/storage/' . $path;
-
-            if ($section && $section->image) {
-                $oldPath = str_replace('/storage/', '', $section->image);
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
+            if ($section && $section->image && file_exists(public_path($section->image))) {
+                @unlink(public_path($section->image));
             }
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/career/culture'), $filename);
+            $data['image'] = 'images/career/culture/' . $filename;
         }
 
         if ($section) {
@@ -288,14 +285,13 @@ class CareerController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            if ($section && $section->image) {
-                $oldPath = str_replace('/storage/', '', $section->image);
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
+            if ($section && $section->image && file_exists(public_path($section->image))) {
+                @unlink(public_path($section->image));
             }
-            $path = $request->file('image')->store('career/internship', 'public');
-            $data['image'] = '/storage/' . $path;
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/career/internship'), $filename);
+            $data['image'] = 'images/career/internship/' . $filename;
         }
 
         if ($section) {
@@ -367,8 +363,10 @@ class CareerController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('career/jobs', 'public');
-            $data['image'] = '/storage/' . $path;
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/career/jobs'), $filename);
+            $data['image'] = 'images/career/jobs/' . $filename;
         }
 
         CareerJob::create($data);
@@ -403,15 +401,14 @@ class CareerController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($job->image) {
-                $oldPath = str_replace('/storage/', '', $job->image);
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
+            if ($job->image && file_exists(public_path($job->image))) {
+                @unlink(public_path($job->image));
             }
 
-            $path = $request->file('image')->store('career/jobs', 'public');
-            $data['image'] = '/storage/' . $path;
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/career/jobs'), $filename);
+            $data['image'] = 'images/career/jobs/' . $filename;
         }
 
         $job->update($data);
@@ -423,11 +420,8 @@ class CareerController extends Controller
     {
         $job = CareerJob::findOrFail($id);
         
-        if ($job->image) {
-            $oldPath = str_replace('/storage/', '', $job->image);
-            if (Storage::disk('public')->exists($oldPath)) {
-                Storage::disk('public')->delete($oldPath);
-            }
+        if ($job->image && file_exists(public_path($job->image))) {
+            @unlink(public_path($job->image));
         }
 
         $job->delete();
@@ -529,8 +523,10 @@ class CareerController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('career/stories', 'public');
-            $data['image'] = '/storage/' . $path;
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/career/stories'), $filename);
+            $data['image'] = 'images/career/stories/' . $filename;
         }
 
         DB::table('employee_stories')->insert($data);
@@ -557,14 +553,13 @@ class CareerController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            if ($story && $story->image) {
-                $oldPath = str_replace('/storage/', '', $story->image);
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
+            if ($story && $story->image && file_exists(public_path($story->image))) {
+                @unlink(public_path($story->image));
             }
-            $path = $request->file('image')->store('career/stories', 'public');
-            $data['image'] = '/storage/' . $path;
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/career/stories'), $filename);
+            $data['image'] = 'images/career/stories/' . $filename;
         }
 
         DB::table('employee_stories')->where('id', $id)->update($data);
@@ -575,11 +570,8 @@ class CareerController extends Controller
     public function destroyStory($id)
     {
         $story = DB::table('employee_stories')->where('id', $id)->first();
-        if ($story && $story->image) {
-            $oldPath = str_replace('/storage/', '', $story->image);
-            if (Storage::disk('public')->exists($oldPath)) {
-                Storage::disk('public')->delete($oldPath);
-            }
+        if ($story && $story->image && file_exists(public_path($story->image))) {
+            @unlink(public_path($story->image));
         }
 
         DB::table('employee_stories')->where('id', $id)->delete();
@@ -607,8 +599,10 @@ class CareerController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('career/testimonials', 'public');
-            $data['image'] = '/storage/' . $path;
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/career/testimonials'), $filename);
+            $data['image'] = 'images/career/testimonials/' . $filename;
         }
 
         DB::table('internship_testimonials')->insert($data);
@@ -637,14 +631,13 @@ class CareerController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            if ($testi && $testi->image) {
-                $oldPath = str_replace('/storage/', '', $testi->image);
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
+            if ($testi && $testi->image && file_exists(public_path($testi->image))) {
+                @unlink(public_path($testi->image));
             }
-            $path = $request->file('image')->store('career/testimonials', 'public');
-            $data['image'] = '/storage/' . $path;
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/career/testimonials'), $filename);
+            $data['image'] = 'images/career/testimonials/' . $filename;
         }
 
         DB::table('internship_testimonials')->where('id', $id)->update($data);
@@ -655,11 +648,8 @@ class CareerController extends Controller
     public function destroyInternshipTestimonial($id)
     {
         $testi = DB::table('internship_testimonials')->where('id', $id)->first();
-        if ($testi && $testi->image) {
-            $oldPath = str_replace('/storage/', '', $testi->image);
-            if (Storage::disk('public')->exists($oldPath)) {
-                Storage::disk('public')->delete($oldPath);
-            }
+        if ($testi && $testi->image && file_exists(public_path($testi->image))) {
+            @unlink(public_path($testi->image));
         }
 
         DB::table('internship_testimonials')->where('id', $id)->delete();

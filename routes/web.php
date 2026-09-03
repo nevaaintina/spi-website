@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\KnowledgeController;
+use App\Http\Controllers\MediaController;
 use App\Models\Post;
 
 // ==========================================
@@ -68,10 +69,8 @@ Route::prefix('knowledge')->group(function () {
     Route::get('/{slug}', [KnowledgeController::class, 'show'])->name('knowledge.show');
 });
 
-// Media Gallery
-Route::get('/media-gallery', function () {
-    return Inertia::render('Media');
-})->name('media');
+// Media Gallery (Publik)
+Route::get('/media-gallery', [MediaController::class, 'index'])->name('media');
 
 // Sustainability (ESG, HSE & CSR)
 Route::get('/sustainability', function () {
@@ -145,10 +144,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::put('/strength/{id}', [HomeController::class, 'updateStrength'])->name('strength.update');
 
-    // Featured Services CMS
+    // Featured Services CMS (Menggunakan match post/put agar aman saat upload file gambar)
     Route::put('/featured-section/{id}', [HomeController::class, 'updateFeaturedSection'])->name('featured.section.update');
     Route::post('/featured-items', [HomeController::class, 'storeFeaturedItem'])->name('featured.items.store');
-    Route::put('/featured-items/{id}', [HomeController::class, 'updateFeaturedItem'])->name('featured.items.update');
+    Route::match(['post', 'put'], '/featured-items/{id}', [HomeController::class, 'updateFeaturedItem'])->name('featured.items.update');
     Route::delete('/featured-items/{id}', [HomeController::class, 'destroyFeaturedItem'])->name('featured.items.destroy');
 
     // Testimonials CMS Section & Contact
@@ -195,10 +194,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/contact/info-section', [ContactController::class, 'updateInfoSection'])->name('contact.info.update');
     Route::delete('/contact/messages/{id}', [ContactController::class, 'destroyMessage'])->name('contact.messages.destroy');
 
-    // CRUD Knowledge Center di Admin
+    // CRUD Knowledge Center di Admin (Menggunakan match post/put untuk update artikel & hero)
     Route::get('/knowledge', [KnowledgeController::class, 'adminIndex'])->name('knowledge.index');
-    Route::post('/knowledge/hero', [KnowledgeController::class, 'updateHero'])->name('knowledge.hero'); // <-- TAMBAHKAN BARIS INI
+    Route::post('/knowledge/hero', [KnowledgeController::class, 'updateHero'])->name('knowledge.hero');
     Route::post('/knowledge', [KnowledgeController::class, 'store'])->name('knowledge.store');
-    Route::post('/knowledge/{id}', [KnowledgeController::class, 'update'])->name('knowledge.update');
+    Route::match(['post', 'put'], '/knowledge/{id}', [KnowledgeController::class, 'update'])->name('knowledge.update');
     Route::delete('/knowledge/{id}', [KnowledgeController::class, 'destroy'])->name('knowledge.destroy');
+
+    // ==========================================
+    // MEDIA GALLERY CMS MANAGEMENT (Admin)
+    // ==========================================
+    Route::get('/media', [MediaController::class, 'adminIndex'])->name('media');
+    Route::post('/media', [MediaController::class, 'store']);
+    Route::delete('/media/{id}', [MediaController::class, 'destroy']);
+    Route::put('/media-hero', [MediaController::class, 'updateHero']);
+    Route::put('/media-statistics/{id}', [MediaController::class, 'updateStatistic']);
 });

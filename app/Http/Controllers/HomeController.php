@@ -12,10 +12,10 @@ use App\Models\FeaturedServiceItem;
 use App\Models\TestimonialSection;
 use App\Models\Testimonial;
 use App\Models\Project;
-use App\Models\Post;
 use App\Models\Branch;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -36,7 +36,8 @@ class HomeController extends Controller
             'testimonial_section' => TestimonialSection::first() ?? [],
             'testimonials'        => Testimonial::all(),
             'projects'            => Project::latest()->get(),
-            'posts'               => Post::latest()->get(),
+            // Mengambil 4 artikel terbaru langsung dari tabel Knowledge Center (knowledge_articles) untuk sisi kanan homepage
+            'posts'               => DB::table('knowledge_articles')->latest()->take(4)->get(), 
             'branches'            => Branch::all(),
             'contact'             => Contact::first() ?? [],
         ]);
@@ -105,12 +106,12 @@ class HomeController extends Controller
             'statistics'          => Statistic::all(),
             'testimonials'        => Testimonial::all(),
             'projects'            => Project::latest()->get(),
-            'posts'               => Post::latest()->get(),
+            'posts'               => DB::table('knowledge_articles')->latest()->get(), // Sinkron dengan knowledge_articles
             'branches'            => Branch::all(),
         ]);
     }
 
-    // 3. UPDATE HERO BANNER
+    // 3. UPDATE HERO BANNER (Disimpan langsung ke public/images/hero-videos)
     public function updateHero(Request $request, $id)
     {
         $request->validate([
@@ -134,12 +135,17 @@ class HomeController extends Controller
                 $data['video_url'] = $url;
             }
         } else {
-            $data['video_url'] = null;
+            $data['video_url'] = $hero->video_url ?? '';
         }
 
         if ($request->hasFile('video')) {
-            if ($hero->video_path) Storage::disk('public')->delete($hero->video_path);
-            $data['video_path'] = $request->file('video')->store('hero-videos', 'public');
+            if ($hero->video_path && file_exists(public_path($hero->video_path))) {
+                @unlink(public_path($hero->video_path));
+            }
+            $file = $request->file('video');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/hero-videos'), $filename);
+            $data['video_path'] = 'images/hero-videos/' . $filename;
         }
 
         $hero->update($data);
@@ -149,8 +155,8 @@ class HomeController extends Controller
     public function destroyHeroVideo($id)
     {
         $hero = HeroContent::findOrFail($id);
-        if ($hero->video_path && Storage::disk('public')->exists($hero->video_path)) {
-            Storage::disk('public')->delete($hero->video_path);
+        if ($hero->video_path && file_exists(public_path($hero->video_path))) {
+            @unlink(public_path($hero->video_path));
             $hero->video_path = null;
             $hero->save();
         }
@@ -213,7 +219,7 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Intro & Layanan berhasil diperbarui!');
     }
 
-    // 4. STATISTIK (TAMBAH & EDIT)
+    // 4. STATISTIK
     public function storeStatistic(Request $request)
     {
         $request->validate([
@@ -398,7 +404,7 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Testimoni dihapus!');
     }
 
-    // 6. PROJECT
+    // 6. PROJECT (Disimpan langsung ke public/images/projects)
     public function storeProject(Request $request)
     {
         $request->validate([
@@ -411,7 +417,10 @@ class HomeController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('projects', 'public');
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/projects'), $filename);
+            $imagePath = 'images/projects/' . $filename;
         }
 
         Project::create([
@@ -439,10 +448,13 @@ class HomeController extends Controller
         $data = $request->only(['title', 'description', 'location', 'year']);
 
         if ($request->hasFile('image')) {
-            if ($project->image && Storage::disk('public')->exists($project->image)) {
-                Storage::disk('public')->delete($project->image);
+            if ($project->image && file_exists(public_path($project->image))) {
+                @unlink(public_path($project->image));
             }
-            $data['image'] = $request->file('image')->store('projects', 'public');
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/projects'), $filename);
+            $data['image'] = 'images/projects/' . $filename;
         }
 
         $project->update($data);
@@ -453,15 +465,15 @@ class HomeController extends Controller
     public function destroyProject($id)
     {
         $project = Project::findOrFail($id);
-        if ($project->image && Storage::disk('public')->exists($project->image)) {
-            Storage::disk('public')->delete($project->image);
+        if ($project->image && file_exists(public_path($project->image))) {
+            @unlink(public_path($project->image));
         }
         $project->delete();
         
         return redirect()->back()->with('success', 'Proyek berhasil dihapus!');
     }
 
-    // 7. POSTS / NEWS
+    // 7. POSTS / NEWS (Dialihkan ke knowledge_articles & disimpan ke public/images/knowledge)
     public function storePost(Request $request)
     {
         $request->validate([
@@ -472,17 +484,27 @@ class HomeController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public');
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/knowledge'), $filename);
+            $imagePath = 'images/knowledge/' . $filename;
         }
 
-        Post::create([
+        DB::table('knowledge_articles')->insert([
             'title' => $request->title,
-            'slug' => Str::slug($request->title),
+            'slug' => Str::slug($request->title) . '-' . time(),
+            'category' => 'General News',
+            'excerpt' => Str::limit(strip_tags($request->content), 100),
             'content' => $request->content,
             'image' => $imagePath,
+            'read_time' => '5 Menit',
+            'published_date' => now()->format('Y-m-d'),
+            'is_featured' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
-        return redirect()->back()->with('success', 'Berita berhasil dipublikasikan!');
+        return redirect()->back()->with('success', 'Berita berhasil dipublikasikan ke Knowledge Center!');
     }
 
     public function updatePost(Request $request, $id)
@@ -493,34 +515,46 @@ class HomeController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
-        $post = Post::findOrFail($id);
-        $data = [
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'content' => $request->content,
-        ];
-
-        if ($request->hasFile('image')) {
-            if ($post->image && Storage::disk('public')->exists($post->image)) {
-                Storage::disk('public')->delete($post->image);
-            }
-            $data['image'] = $request->file('image')->store('posts', 'public');
+        $article = DB::table('knowledge_articles')->where('id', $id)->first();
+        if (!$article) {
+            abort(404, 'Artikel tidak ditemukan.');
         }
 
-        $post->update($data);
+        $imagePath = $article->image;
+        if ($request->hasFile('image')) {
+            if ($article->image && file_exists(public_path($article->image))) {
+                @unlink(public_path($article->image));
+            }
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/knowledge'), $filename);
+            $imagePath = 'images/knowledge/' . $filename;
+        }
+
+        DB::table('knowledge_articles')->where('id', $id)->update([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title) . '-' . time(),
+            'excerpt' => Str::limit(strip_tags($request->content), 100),
+            'content' => $request->content,
+            'image' => $imagePath,
+            'updated_at' => now(),
+        ]);
 
         return redirect()->back()->with('success', 'Berita berhasil diperbarui!');
     }
 
     public function destroyPost($id)
     {
-        $post = Post::findOrFail($id);
-        $post->delete();
-
+        $article = DB::table('knowledge_articles')->where('id', $id)->first();
+        if ($article && $article->image && file_exists(public_path($article->image))) {
+            @unlink(public_path($article->image));
+        }
+        DB::table('knowledge_articles')->where('id', $id)->delete();
+        
         return redirect()->back()->with('success', 'Berita berhasil dihapus!');
     }
 
-    // 8. BRANCHES (TAMBAH & EDIT)
+    // 8. BRANCHES
     public function storeBranch(Request $request)
     {
         $request->validate([

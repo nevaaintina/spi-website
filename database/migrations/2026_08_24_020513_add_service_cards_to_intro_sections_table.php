@@ -24,7 +24,7 @@ return new class extends Migration
         $table->text('service_3_desc')->nullable();
         $table->string('service_3_image')->nullable();
     });
-}
+} 
 
     /**
      * Reverse the migrations.
