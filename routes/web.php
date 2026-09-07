@@ -7,6 +7,7 @@ use App\Http\Controllers\CareerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\Admin\SparePartController;
 use App\Models\Post;
 
 // ==========================================
@@ -15,6 +16,9 @@ use App\Models\Post;
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Halaman Detail Featured Services / Layanan Unggulan dari Home (Ditempatkan paling atas agar tidak 404)
+Route::get('/featured-services/{slug}', [HomeController::class, 'showFeaturedService'])->name('featured.service.show');
 
 // About Us Group
 Route::prefix('about')->group(function () {
@@ -58,10 +62,8 @@ Route::prefix('services')->group(function () {
     })->name('services.show');
 });
 
-// Spare Parts Center
-Route::get('/spare-parts', function () {
-    return Inertia::render('SpareParts');
-})->name('spare-parts');
+// Spare Parts Center (Publik)
+Route::get('/spare-parts', [SparePartController::class, 'index'])->name('spare-parts');
 
 // Knowledge Center & Company News (Terhubung ke KnowledgeController)
 Route::prefix('knowledge')->group(function () {
@@ -144,7 +146,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::put('/strength/{id}', [HomeController::class, 'updateStrength'])->name('strength.update');
 
-    // Featured Services CMS (Diperbarui dengan match post/put dan optional id)
+    // Featured Services CMS
     Route::put('/featured-section/{id}', [HomeController::class, 'updateFeaturedSection'])->name('featured.section.update');
     Route::post('/featured-items', [HomeController::class, 'storeFeaturedItem'])->name('featured.items.store');
     Route::match(['post', 'put'], '/featured-items/{id?}', [HomeController::class, 'updateFeaturedItem'])->name('featured.items.update');
@@ -194,7 +196,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/contact/info-section', [ContactController::class, 'updateInfoSection'])->name('contact.info.update');
     Route::delete('/contact/messages/{id}', [ContactController::class, 'destroyMessage'])->name('contact.messages.destroy');
 
-    // CRUD Knowledge Center di Admin (Menggunakan match post/put untuk update artikel & hero)
+    // CRUD Knowledge Center di Admin
     Route::get('/knowledge', [KnowledgeController::class, 'adminIndex'])->name('knowledge.index');
     Route::post('/knowledge/hero', [KnowledgeController::class, 'updateHero'])->name('knowledge.hero');
     Route::post('/knowledge', [KnowledgeController::class, 'store'])->name('knowledge.store');
@@ -209,4 +211,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('/media/{id}', [MediaController::class, 'destroy']);
     Route::put('/media-hero', [MediaController::class, 'updateHero']);
     Route::put('/media-statistics/{id}', [MediaController::class, 'updateStatistic']);
+
+    // ==========================================
+    // SPARE PARTS & PARTS MANAGER (Menggunakan SparePartController)
+    // ==========================================
+    Route::get('/spare-parts-manager', [SparePartController::class, 'adminIndex'])->name('parts.manager');
+    Route::post('/spare-parts', [SparePartController::class, 'store'])->name('spare-parts.store');
+    Route::post('/spare-parts/{id}', [SparePartController::class, 'update'])->name('spare-parts.update');
+    Route::delete('/spare-parts/{id}', [SparePartController::class, 'destroy'])->name('spare-parts.destroy');
+    Route::post('/exploded-views', [SparePartController::class, 'storeExplodedView'])->name('exploded-views.store');
+    Route::delete('/exploded-views/{id}', [SparePartController::class, 'destroyExplodedView'])->name('exploded-views.destroy');
+    Route::post('/spare-catalog-file', [SparePartController::class, 'updateCatalogFile'])->name('spare-parts.catalog.update');
 });

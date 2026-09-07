@@ -160,7 +160,7 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
     });
   };
 
-  // 5. Featured Services Form
+  // 5. Featured Services Form (Lengkap dengan Konten & Galeri Foto untuk Halaman Detail)
   const featuredSectionForm = useForm({
     _method: 'PUT',
     badge_text: featured_section?.badge_text || '',
@@ -173,25 +173,38 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
   const featuredItemForm = useForm({ 
     title: '', 
     description: '', 
+    content: '',
     image: null, 
-    link_url: '/services' 
+    photos: null,
+    link_url: '' 
   });
   
   const [editingFeaturedId, setEditingFeaturedId] = useState(null);
 
   const handleFeaturedItemSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('title', featuredItemForm.data.title);
+    formData.append('description', featuredItemForm.data.description);
+    formData.append('content', featuredItemForm.data.content || '');
+    formData.append('link_url', featuredItemForm.data.link_url || '');
+
+    if (featuredItemForm.data.image) {
+      formData.append('image', featuredItemForm.data.image);
+    }
+
+    if (featuredItemForm.data.photos) {
+      for (let i = 0; i < featuredItemForm.data.photos.length; i++) {
+        formData.append('photos[]', featuredItemForm.data.photos[i]);
+      }
+    }
+
     if (editingFeaturedId) {
-      router.post(`/admin/featured-items/${editingFeaturedId}`, {
-        _method: 'PUT',
-        title: featuredItemForm.data.title,
-        description: featuredItemForm.data.description,
-        link_url: featuredItemForm.data.link_url,
-        image: featuredItemForm.data.image,
-      }, {
+      formData.append('_method', 'PUT');
+      router.post(`/admin/featured-items/${editingFeaturedId}`, formData, {
         forceFormData: true,
         onSuccess: () => { 
-          alert('Layanan berhasil diperbarui!'); 
+          alert('Layanan unggulan beserta detail berhasil diperbarui!'); 
           featuredItemForm.reset(); 
           setEditingFeaturedId(null); 
         },
@@ -201,10 +214,10 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
         }
       });
     } else {
-      featuredItemForm.post('/admin/featured-items', {
+      router.post('/admin/featured-items', formData, {
         forceFormData: true,
         onSuccess: () => { 
-          alert('Layanan berhasil ditambahkan!'); 
+          alert('Layanan unggulan berhasil ditambahkan!'); 
           featuredItemForm.reset(); 
         },
         onError: (errors) => {
@@ -220,8 +233,10 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
     featuredItemForm.setData({
       title: item.title,
       description: item.description || '',
-      link_url: item.link_url || '/services',
+      content: item.content || '',
+      link_url: item.link_url || '',
       image: null,
+      photos: null,
     });
   };
 
@@ -807,10 +822,10 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
         </div>
       )}
 
-      {/* 5. FEATURED SERVICES SECTION */}
+      {/* 5. FEATURED SERVICES SECTION (LENGKAP DENGAN KONTEN & GALERI FOTO) */}
       {homeSubTab === 'featured_srv' && (
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 mt-4 space-y-6">
-          <h2 className="text-xl font-black text-[#0f2b5c]">Kelola Featured Services</h2>
+          <h2 className="text-xl font-black text-[#0f2b5c]">Kelola Featured Services & Halaman Detail</h2>
           
           <form onSubmit={(e) => {
             e.preventDefault();
@@ -848,7 +863,7 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
           <form onSubmit={handleFeaturedItemSubmit} className="p-5 bg-blue-50/50 rounded-2xl border border-blue-100 space-y-4">
             <div className="flex justify-between items-center">
               <h3 className="font-bold text-xs text-[#0f2b5c]">
-                {editingFeaturedId ? 'Edit Card Layanan' : 'Tambah Card Layanan Baru'}
+                {editingFeaturedId ? 'Edit Card & Detail Layanan Unggulan' : 'Tambah Card & Detail Layanan Baru'}
               </h3>
               {editingFeaturedId && (
                 <button type="button" onClick={() => { setEditingFeaturedId(null); featuredItemForm.reset(); }} className="text-[10px] text-red-500 font-bold hover:underline">
@@ -863,22 +878,27 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
                 <input type="text" value={featuredItemForm.data.title} onChange={e => featuredItemForm.setData('title', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" placeholder="Cth: Suku Cadang Original" required />
               </div>
               <div>
-                <label className="block text-[10px] font-bold text-slate-600 mb-1">Foto Card Layanan</label>
+                <label className="block text-[10px] font-bold text-slate-600 mb-1">Foto Utama Card</label>
                 <input type="file" accept="image/*" onChange={e => featuredItemForm.setData('image', e.target.files[0])} className="w-full border p-1.5 bg-white rounded-xl text-xs" />
               </div>
               <div>
-                <label className="block text-[10px] font-bold text-slate-600 mb-1">Link URL</label>
-                <input type="text" value={featuredItemForm.data.link_url} onChange={e => featuredItemForm.setData('link_url', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" placeholder="Cth: /services" />
+                <label className="block text-[10px] font-bold text-slate-600 mb-1">Tambah Foto Galeri (Bisa Banyak)</label>
+                <input type="file" multiple accept="image/*" onChange={e => featuredItemForm.setData('photos', e.target.files)} className="w-full border p-1.5 bg-white rounded-xl text-xs" />
               </div>
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold text-slate-600 mb-1">Deskripsi Singkat</label>
-              <textarea rows="2" value={featuredItemForm.data.description} onChange={e => featuredItemForm.setData('description', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" placeholder="Deskripsi layanan..." required />
+              <label className="block text-[10px] font-bold text-slate-600 mb-1">Deskripsi Singkat (Tampil di Card Beranda)</label>
+              <textarea rows="2" value={featuredItemForm.data.description} onChange={e => featuredItemForm.setData('description', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" placeholder="Deskripsi singkat..." required />
+            </div>
+
+            <div>
+              <label className="block text-[10px] font-bold text-slate-600 mb-1">Penjelasan Lengkap / Konten (Tampil di Halaman Detail ShowFeatured)</label>
+              <textarea rows="5" value={featuredItemForm.data.content} onChange={e => featuredItemForm.setData('content', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" placeholder="Tulis penjelasan lengkap, artikel, atau format HTML di sini..." />
             </div>
 
             <button type="submit" disabled={featuredItemForm.processing} className="px-5 py-2.5 bg-[#0f2b5c] text-white font-bold text-xs rounded-xl shadow hover:bg-slate-800 transition">
-              {featuredItemForm.processing ? 'Menyimpan...' : (editingFeaturedId ? 'Perbarui Layanan' : 'Tambah Layanan')}
+              {featuredItemForm.processing ? 'Menyimpan...' : (editingFeaturedId ? 'Perbarui Layanan & Detail' : 'Tambah Layanan Unggulan')}
             </button>
           </form>
 
@@ -1141,7 +1161,7 @@ export default function Dashboard({ hero, intro, statistics, strength, featured_
                 <select value={branchForm.data.category} onChange={e => branchForm.setData('category', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" required>
                   <option value="Head Office">Head Office</option>
                   <option value="Branch Office">Branch Office</option>
-                  <option value="Workshop">Workshop</option>
+                  <option value="Warehouse">Warehouse</option>
                   <option value="Service Point">Service Point</option>
                   <option value="Engineer Coverage">Engineer Coverage</option>
                 </select>
