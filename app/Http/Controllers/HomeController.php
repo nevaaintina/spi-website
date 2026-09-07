@@ -41,6 +41,16 @@ class HomeController extends Controller
         ]);
     }
 
+    // 1b. HALAMAN DETAIL FEATURED SERVICE (DINAMIS DARI ADMIN)
+    public function showFeaturedService($slug)
+    {
+        $service = FeaturedServiceItem::where('slug', $slug)->firstOrFail();
+
+        return Inertia::render('ShowFeatured', [
+            'service' => $service,
+        ]);
+    }
+
     // 2. HALAMAN ADMIN
     public function dashboard()
     {
@@ -109,7 +119,7 @@ class HomeController extends Controller
         ]);
     }
 
-    // 3. UPDATE HERO BANNER (Disimpan ke public/images/hero-videos)
+    // 3. UPDATE HERO BANNER
     public function updateHero(Request $request, $id)
     {
         $request->validate([
@@ -167,7 +177,7 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Video lokal berhasil dihapus!');
     }
 
-    // 3c. UPDATE INTRO / LAYANAN (Disimpan ke public/images/intro-images)
+    // 3c. UPDATE INTRO / LAYANAN
     public function updateIntro(Request $request, $id)
     {
         $request->validate([
@@ -271,7 +281,7 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Statistik berhasil dihapus!');
     }
 
-    // 4b. STRENGTH SECTION (Disimpan ke public/images/strength-images)
+    // 4b. STRENGTH SECTION
     public function updateStrength(Request $request, $id)
     {
         $request->validate([
@@ -309,7 +319,7 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Company Strength berhasil diperbarui!');
     }
 
-    // 4c. FEATURED SERVICES SECTION & ITEMS (Disimpan ke public/images/featured-services)
+    // 4c. FEATURED SERVICES SECTION & ITEMS
     public function updateFeaturedSection(Request $request, $id)
     {
         $request->validate([
@@ -348,7 +358,9 @@ class HomeController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'content' => 'nullable|string',
             'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240',
+            'photos.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
             'link_url' => 'nullable|string',
         ]);
 
@@ -363,14 +375,28 @@ class HomeController extends Controller
         $file->move($destinationPath, $filename);
         $imagePath = 'images/featured-services/' . $filename;
 
+        $galleryPhotos = [];
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $pFile) {
+                $pName = time() . '_' . uniqid() . '_' . $pFile->getClientOriginalName();
+                $pFile->move($destinationPath, $pName);
+                $galleryPhotos[] = 'images/featured-services/' . $pName;
+            }
+        }
+
+        $slug = Str::slug($request->title);
+
         FeaturedServiceItem::create([
             'title' => $request->title,
+            'slug' => $slug,
             'description' => $request->description,
+            'content' => $request->content,
             'image_path' => $imagePath,
-            'link_url' => $request->link_url ?? '/services',
+            'photos' => !empty($galleryPhotos) ? json_encode($galleryPhotos) : null,
+            'link_url' => $request->link_url ?? '/featured-services/' . $slug,
         ]);
 
-        return redirect()->back()->with('success', 'Layanan berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'Layanan unggulan berhasil ditambahkan!');
     }
 
     public function updateFeaturedItem(Request $request, $id)
@@ -378,12 +404,14 @@ class HomeController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'content' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
+            'photos.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
             'link_url' => 'nullable|string',
         ]);
 
         $item = FeaturedServiceItem::findOrFail($id);
-        $data = $request->except(['image']);
+        $data = $request->except(['image', 'photos']);
 
         if ($request->hasFile('image')) {
             if ($item->image_path && file_exists(public_path($item->image_path))) {
@@ -401,8 +429,34 @@ class HomeController extends Controller
             $data['image_path'] = 'images/featured-services/' . $filename;
         }
 
+        if ($request->hasFile('photos')) {
+            $destinationPath = public_path('images/featured-services');
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $existingPhotos = $item->photos ? json_decode($item->photos, true) : [];
+            
+            foreach ($request->file('photos') as $pFile) {
+                $pName = time() . '_' . uniqid() . '_' . $pFile->getClientOriginalName();
+                $pFile->move($destinationPath, $pName);
+                $existingPhotos[] = 'images/featured-services/' . $pName;
+            }
+            $data['photos'] = json_encode($existingPhotos);
+        }
+
+        if ($request->filled('title') && $request->title !== $item->title) {
+            $data['slug'] = Str::slug($request->title);
+        }
+
+        // Pastikan link_url selalu mengarah ke halaman detail jika kosong
+        if (!$request->filled('link_url')) {
+            $slugToUse = $data['slug'] ?? $item->slug;
+            $data['link_url'] = '/featured-services/' . $slugToUse;
+        }
+
         $item->update($data);
-        return redirect()->back()->with('success', 'Layanan berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Layanan unggulan beserta detail berhasil diperbarui!');
     }
 
     public function destroyFeaturedItem($id)
@@ -411,6 +465,18 @@ class HomeController extends Controller
         if ($item->image_path && file_exists(public_path($item->image_path))) {
             @unlink(public_path($item->image_path));
         }
+        
+        if ($item->photos) {
+            $photos = json_decode($item->photos, true);
+            if (is_array($photos)) {
+                foreach ($photos as $p) {
+                    if (file_exists(public_path($p))) {
+                        @unlink(public_path($p));
+                    }
+                }
+            }
+        }
+
         $item->delete();
 
         return redirect()->back()->with('success', 'Layanan berhasil dihapus!');
@@ -457,7 +523,7 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Testimoni dihapus!');
     }
 
-    // 6. PROJECT (Disimpan ke public/images/projects)
+    // 6. PROJECT
     public function storeProject(Request $request)
     {
         $request->validate([
@@ -538,7 +604,7 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Proyek berhasil dihapus!');
     }
 
-    // 7. POSTS / NEWS (Disimpan ke public/images/knowledge)
+    // 7. POSTS / NEWS
     public function storePost(Request $request)
     {
         $request->validate([
