@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
+import { Link } from '@inertiajs/react';
 
 // Komponen Helper untuk Counter yang Berputar Ulang Setiap Kali di-Scroll ke Layar
 function AnimatedCounter({ targetNumber, suffix = "" }) {
@@ -563,13 +564,12 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                         {srv.description}
                       </p>
 
-                      <a 
-                        href={srv.link_url || "/services"} 
-                        className="inline-flex items-center gap-2 text-xs font-bold text-[#ffc107] hover:text-white transition-colors duration-200"
-                      >
-                        <span>Pelajari Selengkapnya</span>
-                        <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-                      </a>
+                     <Link 
+  href={srv.link_url || "/layanan/servis-unit"} 
+  className="inline-flex items-center gap-1 text-[#0A192F] font-semibold hover:text-[#FFD100] transition-colors"
+>
+  Pelajari Selengkapnya →
+</Link>
                     </div>
                   </div>
 

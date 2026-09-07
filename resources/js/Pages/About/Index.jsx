@@ -292,10 +292,10 @@ const companyStats = [
 
 const milestones = [
   {
-    year: "2010",
+    year: "1 jan 2025 - 31 des 2028",
     title: "Foundation",
-    desc: "SPI was established with a vision to deliver reliable heavy equipment services.",
-    image: "/images/certificate-2010.jpg",
+    desc: "Trusted Product & Services Support for Your Mining Operation",
+    image: "/images/milestone.jpeg",
   },
   {
     year: "2013",
@@ -727,11 +727,11 @@ export default function Index() {
         </span>
         <div className="flex flex-col items-center">
           <div className="w-full rounded-md bg-[#0F2B5C] py-2.5 text-center text-xs font-bold text-white">
-            COMMISSIONER
+            CEO
           </div>
           <span className="my-1 h-4 w-0.5 bg-[#E2E8F0]" />
           <div className="w-full rounded-md bg-[#FFC107] py-2.5 text-center text-xs font-bold text-[#0B1220]">
-            PRESIDENT DIRECTOR
+             DIRECTOR
           </div>
           <span className="my-1 h-4 w-0.5 bg-[#E2E8F0]" />
           <div className="w-full rounded-md bg-[#0F2B5C] py-2.5 text-center text-xs font-bold text-white">

@@ -37,8 +37,68 @@ export default function Management() {
       image: "/images/bu-dian.jpeg",
       linkedin: "https://www.linkedin.com/in/lucilla-dian-w/",
       customStyle: "object-[center_10%] scale-[1.45]",
-  },
- ];
+    },
+  ];
+
+  // Data tambahan 8 Manager
+  const managers = [
+    {
+      name: "Gomgom Obed Ferdinand Manurung",
+      title: "Finance Accounting & Tax Manager",
+      department: "FIN-ACC-Tax Dept.",
+      image: "/images/gomgom.png",
+      linkedin: "#",
+    },
+    {
+      name: "Paulinus Sitanggang",
+      title: "WH & Logistics Manager",
+      department: "SCM Dept.",
+      image: "/images/paulinus.png",
+      linkedin: "#",
+    },
+    {
+      name: "Rahmat Citra Anugerah",
+      title: "Part & Logistics Manager KALTIM",
+      department: "SCM Dept.",
+      image: "/images/rahmat.png",
+      linkedin: "#",
+    },
+    {
+      name: "Adi Rahmat",
+      title: "Part Manager & Key Account",
+      department: "SCM Dept.",
+      image: "/images/adi.png",
+      linkedin: "#",
+    },
+    {
+      name: "Aryan Afriandi",
+      title: "HRGA Manager",
+      department: "HRGA Dept.",
+      image: "/images/aryan.png",
+      linkedin: "#",
+    },
+    {
+      name: "Danang Yuhana Putra",
+      title: "Operational Manager",
+      department: "Service Dept.",
+      image: "/images/danang.png",
+      linkedin: "#",
+    },
+    {
+      name: "Muh Ahmadi",
+      title: "Quality Control Manager",
+      department: "Service Dept.",
+      image: "/images/ahmadi.png",
+      linkedin: "#",
+    },
+    {
+      name: "Eki Heryawan",
+      title: "Technical Service Manager",
+      department: "Service Dept.",
+      image: "/images/eki.png",
+      linkedin: "#",
+    },
+  ];
 
   return (
     <div className="w-full pt-8">
@@ -85,7 +145,7 @@ export default function Management() {
       </div>
 
       {/* ================= BARIS 2: 3 DIREKTUR (SEJAJAR 3 KOLOM) ================= */}
-      <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-3 md:gap-8 lg:gap-10 w-full">
+      <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-3 md:gap-8 lg:gap-10 w-full mb-12">
         {directors.map((member, idx) => (
           <div
             key={idx}
@@ -122,6 +182,51 @@ export default function Management() {
               >
                 <IconLinkedin className="h-4 w-4" />
               </a>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ================= BARIS 3: 8 MANAGER (SEJAJAR 4 KOLOM) ================= */}
+      <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-2 md:grid-cols-4 md:gap-6 w-full">
+        {managers.map((mgr, idx) => (
+          <div
+            key={idx}
+            className="group rounded-2xl border border-slate-200/80 bg-white p-3 shadow-md transition-all duration-300 hover:border-[#FFC107] hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10"
+          >
+            <div className="relative h-[280px] w-full overflow-hidden rounded-xl bg-slate-100">
+              <img
+                src={mgr.image}
+                alt={mgr.name}
+                className="h-full w-full object-cover object-[center_25%] transition-transform duration-500 group-hover:scale-105"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://via.placeholder.com/350x500?text=Photo";
+                }}
+              />
+            </div>
+
+            <div className="mt-3 flex items-center justify-between px-1 pb-1">
+              <div className="overflow-hidden pr-2">
+                <h4 className="truncate text-xs font-extrabold text-[#0F2B5C] transition-colors duration-300 group-hover:text-[#FFC107]">
+                  {mgr.name}
+                </h4>
+                <p className="truncate text-[11px] font-medium text-slate-500">
+                  {mgr.title}
+                </p>
+              </div>
+
+              {mgr.linkedin && mgr.linkedin !== "#" && (
+                <a
+                  href={mgr.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400 transition-all duration-300 hover:scale-110 hover:bg-[#0077b5] hover:text-white"
+                  title="LinkedIn Profile"
+                >
+                  <IconLinkedin className="h-4 w-4" />
+                </a>
+              )}
             </div>
           </div>
         ))}
