@@ -23,36 +23,37 @@ const IconHeadset = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentC
 /* -------------------------------------------------------------------------- */
 const SERVICES_DATA = {
     'maintenance-repair': {
-        title: 'Maintenance & Repair',
-        description: 'Reliable maintenance and repair solutions designed to keep your heavy equipment operating at peak performance.',
-        items: [
-            {
-                id: 'preventive-maintenance',
-                num: '01',
-                name: 'Preventive Maintenance',
-                icon: IconWrench,
-                description: 'Scheduled maintenance programs designed to prevent unexpected failures, maintain optimal equipment condition, and maximize operational uptime.',
-                steps: [
-                    { title: 'Scheduled Inspection', desc: 'Regular inspection to detect potential issues early.' },
-                    { title: 'Component Check', desc: 'Comprehensive check of critical components and systems.' },
-                    { title: 'Maintenance Planning', desc: 'Structured maintenance plans tailored to your equipment needs.' },
-                    { title: 'Performance Optimization', desc: 'Ensure equipment operates at optimal performance.' }
-                ],
-                whatWeDo: [
-                    'Fluid analysis and replacement',
-                    'Filter inspection and replacement',
-                    'Wear and tear inspection',
-                    'System performance check',
-                    'Software & parameter update',
-                    'Detailed maintenance reporting'
-                ],
-                benefits: [
-                    'Reduce unexpected breakdowns',
-                    'Extend equipment lifespan',
-                    'Lower repair costs',
-                    'Increase operational efficiency'
-                ]
-            },
+       title: 'Maintenance & Repair',
+description: 'Reliable maintenance and repair solutions designed to keep your heavy equipment operating at peak performance.',
+items: [
+    {
+        id: 'preventive-maintenance',
+        num: '01',
+        name: 'Preventive Maintenance',
+        icon: IconWrench,
+        description: 'Preventive Maintenance merupakan langkah perawatan terencana yang dilakukan secara berkala untuk menjaga kondisi alat berat tetap optimal, mencegah potensi kerusakan, serta meminimalkan risiko unplanned downtime di area operasional. Melalui pemeriksaan dan perawatan yang sistematis, setiap komponen alat dievaluasi berdasarkan kondisi aktual dan interval pemeliharaan yang direkomendasikan. Tim service memastikan unit tetap berada dalam kondisi kerja yang aman, andal dan siap mendukung produktivitas operasional.',
+        steps: [
+            { title: 'Inspeksi Komponen', desc: 'Pemeriksaan kondisi dan fungsi komponen utama alat.' },
+            { title: 'Penggantian Fluid & Filter', desc: 'Penggantian oli, filter, dan consumable sesuai interval.' },
+            { title: 'Pemeriksaan Sistem', desc: 'Evaluasi sistem engine, hydraulic, electrical, dan drivetrain.' },
+            { title: 'Deteksi Dini', desc: 'Pencatatan hasil inspeksi dan deteksi potensi kerusakan.' }
+        ],
+        whatWeDo: [
+            'Pemeriksaan kondisi dan fungsi komponen utama',
+            'Penggantian oli, filter dan consumable sesuai interval',
+            'Pemeriksaan sistem engine, hydraulic, electrical dan drivetrain',
+            'Inspection dan adjustment komponen sesuai kebutuhan',
+            'Deteksi dini terhadap potensi kerusakan',
+            'Pencatatan hasil inspection dan rekomendasi perawatan'
+        ],
+        benefits: [
+            'Meningkatkan reliability unit',
+            'Memperpanjang usia komponen',
+            'Mengurangi biaya perbaikan akibat kerusakan besar',
+            'Meminimalisir risiko unplanned downtime',
+            'Menjaga produktivitas alat berat secara berkelanjutan'
+        ]
+    },
             {
                 id: 'corrective-maintenance',
                 num: '02',
@@ -462,9 +463,9 @@ const SERVICES_DATA = {
                 ]
             },
             {
-                id: 'technical-consultation',
+                id: 'technical-consultation',         
                 num: '02',
-                name: 'Technical Consultation',
+                name: 'Technical Consultation',       
                 icon: IconClipboard,
                 description: 'Expert engineering advice on machine selection, application matching, fleet optimization, and site efficiency.',
                 steps: [
@@ -606,55 +607,36 @@ export default function Show({ slug }) {
                         {/* RIGHT CONTENT AREA: Selected Sub-service Detail */}
                         <div className="space-y-8 lg:col-span-8">
                             
-                            {/* TOP CARD: Overview & SPI Technician Image */}
-                            <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-                                <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-center">
-                                    <div className="lg:col-span-7">
-                                        <span className="text-xl font-black text-amber-500 bg-amber-50 px-3 py-1 rounded-lg inline-block">
-                                            {selectedItem.num}
-                                        </span>
-                                        <h2 className="mt-4 text-2xl font-extrabold text-[#0B1B32]">
-                                            {selectedItem.name}
-                                        </h2>
-                                        <p className="mt-3 text-xs leading-relaxed text-gray-500">
-                                            {selectedItem.description}
-                                        </p>
-                                        <span className="mt-6 block h-0.5 w-12 rounded-full bg-[#FDC02F]" />
-                                    </div>
+                            {/* TOP CARD: Overview (Foto Dihapus) */}
+<div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+    <div>
+        <span className="text-xl font-black text-amber-500 bg-amber-50 px-3 py-1 rounded-lg inline-block">
+            {selectedItem.num}
+        </span>
+        <h2 className="mt-4 text-2xl font-extrabold text-[#0B1B32]">
+            {selectedItem.name}
+        </h2>
+        <p className="mt-3 text-xs leading-relaxed text-gray-500">
+            {selectedItem.description}
+        </p>
+        <span className="mt-6 block h-0.5 w-12 rounded-full bg-[#FDC02F]" />
+    </div>
 
-                                    {/* SPI Field Technician Image */}
-                                    <div className="lg:col-span-5">
-                                        <div className="relative overflow-hidden rounded-xl border border-gray-200 shadow-md">
-                                            <img
-                                                src="/images/choose.jpg"
-                                                alt="SPI Technician inspects heavy equipment"
-                                                className="h-56 w-full object-cover"
-                                                onError={(e) => {
-                                                    e.target.src = 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop';
-                                                }}
-                                            />
-                                            <div className="absolute bottom-2 right-2 rounded bg-[#0B1B32]/90 px-2.5 py-1 text-[10px] font-bold text-white backdrop-blur-sm">
-                                                SPI CERTIFIED
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* 4 Feature Steps/Process */}
-                                {selectedItem.steps && (
-                                    <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4 border-t border-gray-100 pt-8">
-                                        {selectedItem.steps.map((st, i) => (
-                                            <div key={i} className="rounded-xl bg-slate-50/80 p-4 border border-slate-100">
-                                                <span className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-100 text-emerald-600 mb-3">
-                                                    <IconWrench className="h-4 w-4" />
-                                                </span>
-                                                <h4 className="text-xs font-bold text-[#0B1B32]">{st.title}</h4>
-                                                <p className="mt-1 text-[11px] leading-relaxed text-gray-500">{st.desc}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
+    {/* 4 Feature Steps/Process */}
+    {selectedItem.steps && (
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4 border-t border-gray-100 pt-8">
+            {selectedItem.steps.map((st, i) => (
+                <div key={i} className="rounded-xl bg-slate-50/80 p-4 border border-slate-100">
+                    <span className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-100 text-emerald-600 mb-3">
+                        <IconWrench className="h-4 w-4" />
+                    </span>
+                    <h4 className="text-xs font-bold text-[#0B1B32]">{st.title}</h4>
+                    <p className="mt-1 text-[11px] leading-relaxed text-gray-500">{st.desc}</p>
+                </div>
+            ))}
+        </div>
+    )}
+</div>
 
                             {/* BOTTOM GRID: What We Do & Key Benefits */}
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -746,4 +728,4 @@ export default function Show({ slug }) {
             </div>
         </>
     );
-}
+}   

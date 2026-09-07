@@ -136,13 +136,6 @@ const NAV_LINKS = [
     { label: 'CONTACT', href: '/contact' },
 ];
 
-const STATS = [
-    { icon: IconWrench, value: '18+', label: 'Service Solutions' },
-    { icon: IconHeadset, value: '24/7', label: 'Emergency Support' },
-    { icon: IconBadge, value: 'Certified', label: 'Technical Team' },
-    { icon: IconGauge, value: 'Maximum', label: 'Equipment Uptime' },
-];
-
 const CATEGORIES = [
     {
         slug: 'maintenance-repair',
@@ -206,37 +199,25 @@ const CATEGORIES = [
 /* -------------------------------------------------------------------------- */
 
 // Replace with actual SPI services hero image
-const heroImage = '/images/services/services-hero.jpg';
+const heroImage = '/images/hero-services.png';
 
 function Hero() {
     return (
-        <section className="relative flex min-h-[640px] items-center overflow-hidden bg-[#0B1B32] pt-16">
-            {/* Background image + overlay */}
+        /* Menggunakan h-screen agar tinggi banner pas 100% tinggi layar monitor */
+        <section className="relative flex h-screen w-full items-center overflow-hidden bg-black pt-16">
+            {/* Background image full layar */}
             <div className="absolute inset-0">
                 <img
                     src={heroImage}
                     alt="SPI technician inspecting heavy equipment"
                     className="h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0B1B32] via-[#0B1B32]/85 to-[#0B1B32]/30" />
-                <div className="absolute inset-0 bg-[#0B1B32]/30" />
+                {/* Overlay gradasi hitam tipis di sebelah kiri */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
             </div>
 
-            {/* HUD-style tech accents (decorative) */}
-            <div className="pointer-events-none absolute right-10 top-24 hidden h-24 w-40 rounded-md border border-[#2E9EF5]/40 bg-[#0B1B32]/40 backdrop-blur-sm lg:block" />
-            <div className="pointer-events-none absolute bottom-24 right-16 hidden h-28 w-28 items-center justify-center rounded-full border border-[#2E9EF5]/50 text-[#2E9EF5] lg:flex">
-                <span className="text-lg font-bold">98%</span>
-            </div>
-
-            <div className="relative mx-auto w-full max-w-[1440px] px-6 py-20 lg:px-10">
+            <div className="relative mx-auto w-full max-w-[1440px] px-6 lg:px-10">
                 <div className="max-w-2xl">
-                    {/* Breadcrumb */}
-                    <div className="mb-6 flex items-center gap-2 text-xs font-semibold tracking-wide text-gray-300">
-                        <Link href="/" className="hover:text-[#FDC02F]">HOME</Link>
-                        <IconChevronDown className="h-3 w-3 -rotate-90" />
-                        <span className="text-[#FDC02F]">SERVICES</span>
-                    </div>
-
                     {/* Headline */}
                     <h1 className="text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
                         OUR SERVICE
@@ -248,21 +229,6 @@ function Hero() {
                         Comprehensive service solutions designed to keep your heavy
                         equipment performing at its best.
                     </p>
-
-                    {/* Statistics */}
-                    <div className="mt-12 grid grid-cols-2 gap-6 sm:flex sm:flex-wrap sm:gap-10">
-                        {STATS.map(({ icon: Icon, value, label }) => (
-                            <div key={label} className="flex items-center gap-3">
-                                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-[#FDC02F]/50 text-[#FDC02F]">
-                                    <Icon className="h-5 w-5" />
-                                </span>
-                                <span>
-                                    <span className="block text-lg font-extrabold text-white">{value}</span>
-                                    <span className="block text-xs text-gray-300">{label}</span>
-                                </span>
-                            </div>
-                        ))}
-                    </div>
                 </div>
             </div>
         </section>
