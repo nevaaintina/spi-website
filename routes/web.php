@@ -9,6 +9,7 @@ use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\MediaController;
 use App\Models\Post;
 use App\Http\Controllers\SparePartController;
+use App\Http\Controllers\ServiceController;
 // ==========================================
 // 1. PUBLIC ROUTES
 // ==========================================
@@ -50,15 +51,10 @@ Route::prefix('products')->group(function () {
     })->name('products.show');
 });
 
-// Services Group (Layanan Purna Jual)
+// Services Group (Publik Index & Show Detail Layanan)
 Route::prefix('services')->group(function () {
-    Route::get('/', function () { 
-        return Inertia::render('Services/Index'); 
-    })->name('services.index');
-    
-    Route::get('/{slug}', function ($slug) { 
-        return Inertia::render('Services/Show', ['slug' => $slug]); 
-    })->name('services.show');
+    Route::get('/', [ServiceController::class, 'index'])->name('services.index');
+    Route::get('/{slug}', [ServiceController::class, 'show'])->name('services.show');
 });
 
 // Spare Parts Center (Publik)
@@ -98,6 +94,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
     // Dashboard Utama Admin
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
+
+    // ==========================================
+    // SERVICES CMS MANAGEMENT (Admin)
+    // ==========================================
+    Route::get('/services', [ServiceController::class, 'adminIndex'])->name('services');
+    Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
+    Route::match(['post', 'put'], '/services/{id}', [ServiceController::class, 'update'])->name('services.update');
+    Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
 
     // CRUD Lowongan Karir di Admin
     Route::get('/career', [CareerController::class, 'adminIndex'])->name('career');
@@ -223,4 +227,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/spare-catalog-file', [SparePartController::class, 'updateCatalogFile'])->name('spare-parts.catalog.update');
 
     Route::post('/spare-parts-content', [SparePartController::class, 'updateContent'])->name('spare-parts.content.update');
+
+    
 });

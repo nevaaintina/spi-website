@@ -15,11 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Gunakan firstOrCreate agar tidak error duplicate entry jika data sudah ada
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => bcrypt('password'), // Pastikan password terisi jika diperlukan
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Panggil seeder kategori layanan
+        $this->call([
+            ServiceSeeder::class,
         ]);
     }
 }
