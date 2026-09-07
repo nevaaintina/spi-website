@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 
@@ -6,10 +6,10 @@ import Footer from "@/Components/Footer";
    FADE REVEAL
 ========================================================= */
 function FadeReveal({ children, className = "", delay = 0 }) {
-  const ref = useRef(null);
+  const ref = React.useRef(null);
   const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
@@ -101,7 +101,7 @@ function PartsIcon() {
    MAIN COMPONENT
 ========================================================= */
 
-export default function SpareParts({ spare_parts, exploded_views, setting }) {
+export default function SpareParts({ spare_parts, exploded_views, spare_setting }) {
   /* =======================================================
      DATA MAPPING DARI DATABASE
   ======================================================= */
@@ -164,10 +164,10 @@ export default function SpareParts({ spare_parts, exploded_views, setting }) {
   ======================================================= */
 
   const handleDownloadCatalog = () => {
-    if (setting?.catalog_file_path) {
+    if (spare_setting?.catalog_file_path) {
       const link = document.createElement("a");
-      link.href = `/${setting.catalog_file_path}`;
-      link.download = setting.catalog_file_path.split('/').pop();
+      link.href = `/${spare_setting.catalog_file_path}`;
+      link.download = spare_setting.catalog_file_path.split('/').pop();
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -180,12 +180,12 @@ export default function SpareParts({ spare_parts, exploded_views, setting }) {
     <div className="min-h-screen bg-white text-slate-700 font-sans overflow-x-hidden">
       <Navbar />
 
-      {/* 1. HERO BANNER */}
+      {/* 1. HERO BANNER (DINAMIS DARI DATABASE) */}
       <section className="relative w-full min-h-[650px] lg:min-h-[720px] flex items-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2200&q=90')`,
+            backgroundImage: `url('${spare_setting?.hero_image_path ? `/${spare_setting.hero_image_path}` : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2200&q=90'}')`,
           }}
         />
         <div className="absolute inset-0 bg-[#071b38]/35" />
@@ -202,15 +202,29 @@ export default function SpareParts({ spare_parts, exploded_views, setting }) {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[66px] leading-[1.05] tracking-tight font-medium text-white drop-shadow-md">
-              Suku Cadang
-              <br />
-              <span className="text-[#ffc107]">Original XCMG</span>
+              {spare_setting?.hero_title ? (
+                spare_setting.hero_title.includes('XCMG') ? (
+                  <>
+                    {spare_setting.hero_title.split('XCMG')[0]}
+                    <span className="text-[#ffc107]">XCMG</span>
+                    {spare_setting.hero_title.split('XCMG')[1]}
+                  </>
+                ) : (
+                  spare_setting.hero_title
+                )
+              ) : (
+                <>
+                  Suku Cadang
+                  <br />
+                  <span className="text-[#ffc107]">Original XCMG</span>
+                </>
+              )}
             </h1>
 
             <div className="mt-7 w-16 h-[3px] bg-[#ffc107]" />
 
             <p className="mt-7 text-sm md:text-base leading-7 text-slate-100 max-w-2xl font-normal drop-shadow">
-              Temukan berbagai komponen dan suku cadang original untuk menjaga performa, keandalan, dan produktivitas alat berat Anda.
+              {spare_setting?.hero_subtitle || "Temukan berbagai komponen dan suku cadang original untuk menjaga performa, keandalan, dan produktivitas alat berat Anda."}
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
@@ -537,7 +551,7 @@ export default function SpareParts({ spare_parts, exploded_views, setting }) {
         </div>
       </section>
 
-      {/* 5. CTA */}
+      {/* 5. CTA (DINAMIS DARI DATABASE) */}
       <section className="relative bg-[#071b38] py-16 md:py-20 overflow-hidden">
         <div className="absolute -right-32 -top-32 w-80 h-80 rounded-full border border-white/10 pointer-events-none" />
         <div className="absolute left-10 bottom-10 w-20 h-20 rounded-full border border-[#ffc107]/20 pointer-events-none" />
@@ -546,17 +560,30 @@ export default function SpareParts({ spare_parts, exploded_views, setting }) {
           <FadeReveal>
             <span className="text-[10px] uppercase tracking-[0.22em] text-[#ffc107] font-medium">Need Assistance?</span>
             <h2 className="mt-4 text-3xl md:text-4xl text-white font-medium">
-              Butuh bantuan mencari<span className="text-[#ffc107]"> suku cadang?</span>
+              {spare_setting?.cta_title ? (
+                spare_setting.cta_title.includes('suku cadang') ? (
+                  <>
+                    {spare_setting.cta_title.split('suku cadang')[0]}
+                    <span className="text-[#ffc107]">suku cadang?</span>
+                  </>
+                ) : (
+                  spare_setting.cta_title
+                )
+              ) : (
+                <>
+                  Butuh bantuan mencari<span className="text-[#ffc107]"> suku cadang?</span>
+                </>
+              )}
             </h2>
             <p className="mt-4 text-sm text-slate-300 leading-6 max-w-xl mx-auto">
-              Tim Servistama Pro Indonesia siap membantu Anda menemukan part yang sesuai berdasarkan kode, model unit, maupun kebutuhan teknis.
+              {spare_setting?.cta_subtitle || "Tim Servistama Pro Indonesia siap membantu Anda menemukan part yang sesuai berdasarkan kode, model unit, maupun kebutuhan teknis."}
             </p>
 
             <div className="mt-7 flex flex-wrap justify-center gap-3">
               <a href="/contact" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#ffc107] text-[#071b38] text-xs font-medium hover:bg-white transition">
                 Hubungi Sales <span>→</span>
               </a>
-              <a href="https://wa.me/6281122233344" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-white/20 text-white text-xs font-medium hover:bg-white hover:text-[#071b38] transition">
+              <a href={`https://wa.me/${spare_setting?.whatsapp_number || '6281122233344'}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-white/20 text-white text-xs font-medium hover:bg-white hover:text-[#071b38] transition">
                 WhatsApp Support
               </a>
             </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\SparePart;
@@ -11,12 +11,23 @@ use Inertia\Inertia;
 
 class SparePartController extends Controller
 {
+    // Tampilan halaman publik Spare Parts (mengarah ke resources/js/Pages/SpareParts.jsx)
     public function index()
+    {
+        return Inertia::render('SpareParts', [
+            'spare_parts' => SparePart::all(),
+            'exploded_views' => ExplodedView::all(),
+            'spare_setting' => SparePartSetting::firstOrCreate([]),
+        ]);
+    }
+
+    // Tampilan halaman admin Parts Manager
+    public function adminIndex()
     {
         return Inertia::render('Admin/PartsManager', [
             'spare_parts' => SparePart::all(),
             'exploded_views' => ExplodedView::all(),
-            'spare_setting' => SparePartSetting::first() ?? [],
+            'spare_setting' => SparePartSetting::firstOrCreate([]),
         ]);
     }
 
@@ -147,5 +158,37 @@ class SparePartController extends Controller
         }
 
         return redirect()->back()->with('success', 'File katalog berhasil di-upload!');
+    }
+
+    // Fungsi Pengelolaan Hero Banner & CTA Publik
+    public function updateContent(Request $request)
+    {
+        $request->validate([
+            'hero_title' => 'required|string|max:255',
+            'hero_subtitle' => 'required|string',
+            'hero_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
+            'cta_title' => 'required|string|max:255',
+            'cta_subtitle' => 'required|string',
+            'whatsapp_number' => 'required|string|max:50',
+        ]);
+
+        $setting = SparePartSetting::firstOrCreate([]);
+        $data = $request->except(['hero_image']);
+
+        if ($request->hasFile('hero_image')) {
+            if ($setting->hero_image_path && file_exists(public_path($setting->hero_image_path))) {
+                @unlink(public_path($setting->hero_image_path));
+            }
+            $file = $request->file('hero_image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $destinationPath = public_path('images/spare-parts');
+            if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+            $file->move($destinationPath, $filename);
+            $data['hero_image_path'] = 'images/spare-parts/' . $filename;
+        }
+
+        $setting->update($data);
+
+        return redirect()->back()->with('success', 'Konten Hero Banner & CTA berhasil diperbarui!');
     }
 }

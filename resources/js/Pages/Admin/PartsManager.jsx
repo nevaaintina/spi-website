@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
-import { useForm, router } from '@inertiajs/react';
-import AdminLayout from '@/Layouts/AdminLayout';
+import React, { useState } from "react";
+import { useForm, router } from "@inertiajs/react";
+import AdminLayout from "@/Layouts/AdminLayout";
 
 export default function PartsManager({ spare_parts, exploded_views, spare_setting }) {
   const catalogFileForm = useForm({ catalog_file: null });
   const explodedViewForm = useForm({ system_name: '', image: null });
-  const sparePartForm = useForm({ code: '', name: '', category: 'Hydraulic System', unit: '', spec: '', image: null });
+  
+  // FORM SPARE PART (Disesuaikan hanya Nomor Part, Nama Component, Kategori & Foto)
+  const sparePartForm = useForm({ 
+    code: '', 
+    name: '', 
+    category: 'Hydraulic System', 
+    image: null 
+  });
+
+  // FORM EDIT HERO & CTA
+  const contentForm = useForm({
+    hero_title: spare_setting?.hero_title || 'Suku Cadang Original XCMG',
+    hero_subtitle: spare_setting?.hero_subtitle || 'Temukan berbagai komponen dan suku cadang original untuk menjaga performa, keandalan, dan produktivitas alat berat Anda.',
+    hero_image: null,
+    cta_title: spare_setting?.cta_title || 'Butuh bantuan mencari suku cadang?',
+    cta_subtitle: spare_setting?.cta_subtitle || 'Tim Servistama Pro Indonesia siap membantu Anda menemukan part yang sesuai berdasarkan kode, model unit, maupun kebutuhan teknis.',
+    whatsapp_number: spare_setting?.whatsapp_number || '6281122233344',
+  });
   
   const [editingSpareId, setEditingSpareId] = useState(null);
 
@@ -33,14 +50,21 @@ export default function PartsManager({ spare_parts, exploded_views, spare_settin
     });
   };
 
+  const handleContentSubmit = (e) => {
+    e.preventDefault();
+    contentForm.post('/admin/spare-parts-content', {
+      forceFormData: true,
+      onSuccess: () => alert('Konten Hero Banner & CTA berhasil diperbarui!'),
+      onError: (err) => console.log(err)
+    });
+  };
+
   const handleSparePartSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('code', sparePartForm.data.code);
     formData.append('name', sparePartForm.data.name);
     formData.append('category', sparePartForm.data.category);
-    formData.append('unit', sparePartForm.data.unit || '');
-    formData.append('spec', sparePartForm.data.spec || '');
 
     if (sparePartForm.data.image) {
       formData.append('image', sparePartForm.data.image);
@@ -72,11 +96,9 @@ export default function PartsManager({ spare_parts, exploded_views, spare_settin
   const handleEditSparePart = (item) => {
     setEditingSpareId(item.id);
     sparePartForm.setData({
-      code: item.code,
-      name: item.name,
-      category: item.category,
-      unit: item.unit || '',
-      spec: item.spec || '',
+      code: item.code || '',
+      name: item.name || '',
+      category: item.category || 'Hydraulic System',
       image: null,
     });
   };
@@ -85,9 +107,43 @@ export default function PartsManager({ spare_parts, exploded_views, spare_settin
     <AdminLayout currentPage="parts-manager">
       <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
         <div>
-          <h2 className="text-2xl font-black text-[#0f2b5c]">Kelola Spare Parts, Exploded View & Katalog</h2>
-          <p className="text-xs text-slate-500 mt-1">Halaman manajemen khusus untuk mengontrol seluruh data suku cadang dan file unduhan publik.</p>
+          <h2 className="text-2xl font-black text-[#0f2b5c]">Kelola Spare Parts, Exploded View & Konten</h2>
+          <p className="text-xs text-slate-500 mt-1">Halaman manajemen khusus untuk mengontrol seluruh data suku cadang, file unduhan, dan teks banner publik.</p>
         </div>
+
+        {/* 0. EDIT HERO BANNER & CTA */}
+        <form onSubmit={handleContentSubmit} className="p-5 bg-indigo-50/50 rounded-2xl border border-indigo-100 space-y-4">
+          <h3 className="font-bold text-xs text-[#0f2b5c]">Pengaturan Teks Hero Banner & CTA Publik</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-[10px] font-bold text-slate-600 mb-1">Judul Hero Banner</label>
+              <input type="text" value={contentForm.data.hero_title} onChange={e => contentForm.setData('hero_title', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" required />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold text-slate-600 mb-1">Background Hero Banner (Foto)</label>
+              <input type="file" accept="image/*" onChange={e => contentForm.setData('hero_image', e.target.files[0])} className="w-full border p-1.5 bg-white rounded-xl text-xs" />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-[10px] font-bold text-slate-600 mb-1">Subjudul Hero Banner</label>
+              <textarea value={contentForm.data.hero_subtitle} onChange={e => contentForm.setData('hero_subtitle', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" rows="2" required />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold text-slate-600 mb-1">Judul CTA Bawah</label>
+              <input type="text" value={contentForm.data.cta_title} onChange={e => contentForm.setData('cta_title', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" required />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold text-slate-600 mb-1">No. WhatsApp Support (Cth: 62811...)</label>
+              <input type="text" value={contentForm.data.whatsapp_number} onChange={e => contentForm.setData('whatsapp_number', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" required />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-[10px] font-bold text-slate-600 mb-1">Deskripsi CTA Bawah</label>
+              <textarea value={contentForm.data.cta_subtitle} onChange={e => contentForm.setData('cta_subtitle', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" rows="2" required />
+            </div>
+          </div>
+          <button type="submit" disabled={contentForm.processing} className="px-5 py-2.5 bg-[#0f2b5c] text-white font-bold text-xs rounded-xl shadow">
+            {contentForm.processing ? 'Menyimpan...' : 'Simpan Perubahan Teks'}
+          </button>
+        </form>
 
         {/* 1. UPLOAD FILE KATALOG */}
         <form onSubmit={handleCatalogFileSubmit} className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
@@ -114,15 +170,15 @@ export default function PartsManager({ spare_parts, exploded_views, spare_settin
           </div>
         </form>
 
-        {/* 2. UPLOAD EXPLODED VIEW */}
-        <form onSubmit={handleExplodedViewSubmit} className="p-5 bg-amber-50/50 rounded-2xl border border-amber-200 space-y-3">
-          <h3 className="font-bold text-xs text-[#0f2b5c]">Tambah Gambar Diagram Exploded View Baru</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        {/* 2. UPLOAD & LIST EXPLODED VIEW */}
+        <div className="p-5 bg-amber-50/50 rounded-2xl border border-amber-200 space-y-4">
+          <h3 className="font-bold text-xs text-[#0f2b5c]">Kelola Diagram Exploded View</h3>
+          <form onSubmit={handleExplodedViewSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
               <label className="block text-[10px] font-bold text-slate-600 mb-1">Nama Sistem / Assembly</label>
               <input 
                 type="text" 
-                value={explodedViewForm.data.system_name} 
+                value={explodedViewForm.data.system_name || ''} 
                 onChange={e => explodedViewForm.setData('system_name', e.target.value)} 
                 className="w-full border p-2.5 rounded-xl text-xs bg-white" 
                 placeholder="Cth: Hydraulic System Assembly" 
@@ -144,10 +200,32 @@ export default function PartsManager({ spare_parts, exploded_views, spare_settin
                 Tambah Diagram
               </button>
             </div>
-          </div>
-        </form>
+          </form>
 
-        {/* 3. FORM CRUD SPARE PARTS */}
+          {/* List Exploded View Aktif */}
+          <div className="mt-4 space-y-2">
+            <p className="text-[11px] font-bold text-slate-600">Daftar Diagram Terunggah:</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {exploded_views && exploded_views.map((ev) => (
+                <div key={ev.id} className="p-3 bg-white rounded-xl border border-amber-200 flex items-center justify-between shadow-xs">
+                  <div className="flex items-center gap-3">
+                    <img src={`/${ev.image_path}`} alt={ev.system_name} className="w-10 h-10 object-cover rounded-lg border" />
+                    <div>
+                      <p className="text-xs font-bold text-[#0f2b5c]">{ev.system_name}</p>
+                    </div>
+                  </div>
+                  <button type="button" onClick={() => {
+                    if (confirm('Yakin ingin menghapus diagram ini?')) {
+                      router.delete(`/admin/exploded-views/${ev.id}`, { onSuccess: () => alert('Diagram berhasil dihapus!') });
+                    }
+                  }} className="px-2.5 py-1 bg-red-500 text-white text-[10px] font-bold rounded-lg">Hapus</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* 3. FORM CRUD SPARE PARTS (Hanya Nomor Part, Nama Component, Kategori & Foto) */}
         <form onSubmit={handleSparePartSubmit} className="p-5 bg-blue-50/50 rounded-2xl border border-blue-100 space-y-4">
           <div className="flex justify-between items-center">
             <h3 className="font-bold text-xs text-[#0f2b5c]">
@@ -163,15 +241,15 @@ export default function PartsManager({ spare_parts, exploded_views, spare_settin
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
               <label className="block text-[10px] font-bold text-slate-600 mb-1">Nomor Part / Part No.</label>
-              <input type="text" value={sparePartForm.data.code} onChange={e => sparePartForm.setData('code', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white font-mono" placeholder="Cth: XCMG-HYD-092" required />
+              <input type="text" value={sparePartForm.data.code || ''} onChange={e => sparePartForm.setData('code', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white font-mono" placeholder="Cth: XCMG-HYD-092" required />
             </div>
             <div>
               <label className="block text-[10px] font-bold text-slate-600 mb-1">Nama Component</label>
-              <input type="text" value={sparePartForm.data.name} onChange={e => sparePartForm.setData('name', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" placeholder="Cth: Hydraulic Pump Assembly" required />
+              <input type="text" value={sparePartForm.data.name || ''} onChange={e => sparePartForm.setData('name', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" placeholder="Cth: Hydraulic Pump Assembly" required />
             </div>
             <div>
               <label className="block text-[10px] font-bold text-slate-600 mb-1">Kategori</label>
-              <select value={sparePartForm.data.category} onChange={e => sparePartForm.setData('category', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" required>
+              <select value={sparePartForm.data.category || 'Hydraulic System'} onChange={e => sparePartForm.setData('category', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" required>
                 <option value="Hydraulic System">Hydraulic System</option>
                 <option value="Filters & Maintenance">Filters & Maintenance</option>
                 <option value="Undercarriage">Undercarriage</option>
@@ -182,19 +260,9 @@ export default function PartsManager({ spare_parts, exploded_views, spare_settin
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div>
-              <label className="block text-[10px] font-bold text-slate-600 mb-1">Compatible Unit</label>
-              <input type="text" value={sparePartForm.data.unit} onChange={e => sparePartForm.setData('unit', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" placeholder="Cth: Excavator XE210" />
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold text-slate-600 mb-1">Foto Suku Cadang</label>
-              <input type="file" accept="image/*" onChange={e => sparePartForm.setData('image', e.target.files[0])} className="w-full border p-1.5 bg-white rounded-xl text-xs" />
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold text-slate-600 mb-1">Spesifikasi Singkat</label>
-              <input type="text" value={sparePartForm.data.spec} onChange={e => sparePartForm.setData('spec', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" placeholder="Keterangan spesifikasi..." />
-            </div>
+          <div>
+            <label className="block text-[10px] font-bold text-slate-600 mb-1">Foto Suku Cadang</label>
+            <input type="file" accept="image/*" onChange={e => sparePartForm.setData('image', e.target.files[0])} className="w-full border p-1.5 bg-white rounded-xl text-xs md:w-1/2" />
           </div>
 
           <button type="submit" disabled={sparePartForm.processing} className="px-5 py-2.5 bg-[#0f2b5c] text-white font-bold text-xs rounded-xl shadow hover:bg-slate-800 transition">
@@ -213,6 +281,7 @@ export default function PartsManager({ spare_parts, exploded_views, spare_settin
                   <div>
                     <p className="text-xs font-bold text-[#0f2b5c] font-mono">{item.code}</p>
                     <p className="text-xs text-slate-700 font-medium">{item.name}</p>
+                    <p className="text-[10px] text-slate-400">{item.category}</p>
                   </div>
                 </div>
                 <div className="flex gap-2">

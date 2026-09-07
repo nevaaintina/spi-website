@@ -7,9 +7,8 @@ use App\Http\Controllers\CareerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\MediaController;
-use App\Http\Controllers\Admin\SparePartController;
 use App\Models\Post;
-
+use App\Http\Controllers\SparePartController;
 // ==========================================
 // 1. PUBLIC ROUTES
 // ==========================================
@@ -217,9 +216,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // ==========================================
     Route::get('/spare-parts-manager', [SparePartController::class, 'adminIndex'])->name('parts.manager');
     Route::post('/spare-parts', [SparePartController::class, 'store'])->name('spare-parts.store');
-    Route::post('/spare-parts/{id}', [SparePartController::class, 'update'])->name('spare-parts.update');
+    Route::match(['post', 'put'], '/spare-parts/{id}', [SparePartController::class, 'update'])->name('spare-parts.update');
     Route::delete('/spare-parts/{id}', [SparePartController::class, 'destroy'])->name('spare-parts.destroy');
     Route::post('/exploded-views', [SparePartController::class, 'storeExplodedView'])->name('exploded-views.store');
     Route::delete('/exploded-views/{id}', [SparePartController::class, 'destroyExplodedView'])->name('exploded-views.destroy');
     Route::post('/spare-catalog-file', [SparePartController::class, 'updateCatalogFile'])->name('spare-parts.catalog.update');
+
+    Route::post('/spare-parts-content', [SparePartController::class, 'updateContent'])->name('spare-parts.content.update');
 });

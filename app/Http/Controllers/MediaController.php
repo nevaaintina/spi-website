@@ -65,7 +65,9 @@ class MediaController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/media'), $filename);
+            $destinationPath = public_path('images/media');
+            if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+            $file->move($destinationPath, $filename);
             $filePath = 'images/media/' . $filename;
         }
 
@@ -92,20 +94,40 @@ class MediaController extends Controller
         return redirect()->back()->with('success', 'Media berhasil dihapus!');
     }
 
-    // 5. Update Hero Media
+    // 5. Update Hero Media (Mendukung Teks, Deskripsi, dan Gambar Latar Belakang)
     public function updateHero(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
             'description' => 'required|string',
+            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
         ]);
+
+        $hero = DB::table('media_hero')->first();
+        $bgPath = $hero ? $hero->background_image : null;
+
+        if ($request->hasFile('background_image')) {
+            if ($bgPath && file_exists(public_path($bgPath))) {
+                @unlink(public_path($bgPath));
+            }
+            $file = $request->file('background_image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $destinationPath = public_path('images/media');
+            if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+            $file->move($destinationPath, $filename);
+            $bgPath = 'images/media/' . $filename;
+        }
 
         DB::table('media_hero')->updateOrInsert(
             ['id' => 1],
             [
                 'title' => $request->title,
+                'subtitle' => $request->subtitle ?? 'MEDIA GALLERY',
                 'description' => $request->description,
+                'background_image' => $bgPath,
                 'updated_at' => now(),
+                'created_at' => $hero ? $hero->created_at : now(),
             ]
         );
 
