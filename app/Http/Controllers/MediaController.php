@@ -19,10 +19,13 @@ class MediaController extends Controller
             $query->where('category', $category);
         }
 
-        $mediaItems = $query->latest()->get();
+        $mediaItems = $query->orderBy('position', 'asc')->latest()->get();
         
-        // Ambil gambar secara random dari tabel media_galleries (khusus tipe image) untuk Featured Story
+        // Ambil 3 gambar secara random dari tabel media_galleries (khusus tipe image) untuk Featured Story
         $randomStoryImages = MediaGallery::where('type', 'image')->inRandomOrder()->take(3)->get();
+
+        // Ambil data Drone Video Highlight dari database
+        $droneVideos = DB::table('drone_videos')->latest()->get();
 
         $statistics = DB::table('media_statistics')->get();
         $hero = DB::table('media_hero')->first();
@@ -30,6 +33,7 @@ class MediaController extends Controller
         return Inertia::render('Media', [
             'mediaItems' => $mediaItems,
             'randomStoryImages' => $randomStoryImages,
+            'droneVideos' => $droneVideos,
             'statistics' => $statistics,
             'hero' => $hero,
             'selectedCategory' => $category ?? 'All Media',
@@ -39,26 +43,30 @@ class MediaController extends Controller
     // 2. Admin CMS Media Gallery
     public function adminIndex()
     {
-        $mediaItems = MediaGallery::latest()->get();
+        $mediaItems = MediaGallery::orderBy('position', 'asc')->latest()->get();
+        $droneVideos = DB::table('drone_videos')->latest()->get();
         $statistics = DB::table('media_statistics')->get();
         $hero = DB::table('media_hero')->first();
 
         return Inertia::render('Admin/Media', [
             'mediaItems' => $mediaItems,
+            'droneVideos' => $droneVideos,
             'statistics' => $statistics,
             'hero' => $hero,
         ]);
     }
 
-    // 3. Simpan Media Baru (Foto/Video + Kategori)
+    // 3. Simpan Media Baru (Foto/Video + Kategori + Posisi + Display Style)
     public function store(Request $request)
     {
         $request->validate([
             'category' => 'required|string|max:255',
             'type' => 'required|in:image,video',
-            'file' => 'required|file|mimes:jpeg,png,jpg,webp,mp4,mov|max:51200',
+            'file' => 'required|file|mimes:jpeg,png,jpg,webp,mp4,mov,mkv,webm|max:102400',
             'title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'position' => 'nullable|integer',
+            'display_style' => 'nullable|string|in:cover,contain',
         ]);
 
         $filePath = null;
@@ -77,12 +85,42 @@ class MediaController extends Controller
             'type' => $request->type,
             'file_path' => $filePath,
             'description' => $request->description,
+            'position' => $request->position ?? 0,
+            'display_style' => $request->display_style ?? 'cover',
         ]);
 
         return redirect()->back()->with('success', 'Media berhasil ditambahkan!');
     }
 
-    // 4. Hapus Media
+    // 4. Update Posisi / Urutan Letak Media (Admin)
+    public function updatePosition(Request $request, $id)
+    {
+        $request->validate([
+            'position' => 'required|integer',
+        ]);
+
+        $media = MediaGallery::findOrFail($id);
+        $media->position = $request->position;
+        $media->save();
+
+        return redirect()->back()->with('success', 'Urutan posisi berhasil diperbarui!');
+    }
+
+    // 5. Update Bentuk Tampilan Foto / Display Style (Admin)
+    public function updateStyle(Request $request, $id)
+    {
+        $request->validate([
+            'display_style' => 'required|in:cover,contain',
+        ]);
+
+        $media = MediaGallery::findOrFail($id);
+        $media->display_style = $request->display_style;
+        $media->save();
+
+        return redirect()->back()->with('success', 'Bentuk tampilan foto berhasil diubah!');
+    }
+
+    // 6. Hapus Media
     public function destroy($id)
     {
         $media = MediaGallery::findOrFail($id);
@@ -94,7 +132,7 @@ class MediaController extends Controller
         return redirect()->back()->with('success', 'Media berhasil dihapus!');
     }
 
-    // 5. Update Hero Media (Mendukung Teks, Deskripsi, dan Gambar Latar Belakang)
+    // 7. Update Hero Media (Mendukung Teks, Deskripsi, dan Gambar Latar Belakang)
     public function updateHero(Request $request)
     {
         $request->validate([
@@ -134,7 +172,7 @@ class MediaController extends Controller
         return redirect()->back()->with('success', 'Hero media berhasil diperbarui!');
     }
 
-    // 6. Update Statistik Media (Admin)
+    // 8. Update Statistik Media (Admin)
     public function updateStatistic(Request $request, $id)
     {
         $request->validate([
@@ -149,5 +187,51 @@ class MediaController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Statistik media berhasil diperbarui!');
+    }
+
+    // 9. Simpan Drone Video Highlight (Admin)
+    public function storeDroneVideo(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
+            'duration' => 'nullable|string|max:50',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
+            'video_url' => 'nullable|string',
+        ]);
+
+        $thumbPath = null;
+        if ($request->hasFile('thumbnail')) {
+            $file = $request->file('thumbnail');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $destinationPath = public_path('images/drone');
+            if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+            $file->move($destinationPath, $filename);
+            $thumbPath = 'images/drone/' . $filename;
+        }
+
+        DB::table('drone_videos')->insert([
+            'title' => $request->title,
+            'subtitle' => $request->subtitle,
+            'duration' => $request->duration,
+            'thumbnail_path' => $thumbPath,
+            'video_url' => $request->video_url,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Drone video berhasil ditambahkan!');
+    }
+
+    // 10. Hapus Drone Video Highlight (Admin)
+    public function destroyDroneVideo($id)
+    {
+        $video = DB::table('drone_videos')->where('id', $id)->first();
+        if ($video && $video->thumbnail_path && file_exists(public_path($video->thumbnail_path))) {
+            @unlink(public_path($video->thumbnail_path));
+        }
+        DB::table('drone_videos')->where('id', $id)->delete();
+
+        return redirect()->back()->with('success', 'Drone video berhasil dihapus!');
     }
 }

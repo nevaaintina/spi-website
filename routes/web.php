@@ -232,6 +232,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/media-hero', [MediaController::class, 'updateHero']);
     Route::put('/media-statistics/{id}', [MediaController::class, 'updateStatistic']);
 
+    // CRUD Drone Video Highlight (Admin)
+    Route::post('/drone-videos', [MediaController::class, 'storeDroneVideo'])->name('drone.store');
+    Route::delete('/drone-videos/{id}', [MediaController::class, 'destroyDroneVideo'])->name('drone.destroy');
+
     // ==========================================
     // SPARE PARTS & PARTS MANAGER
     // ==========================================
@@ -244,4 +248,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/spare-catalog-file', [SparePartController::class, 'updateCatalogFile'])->name('spare-parts.catalog.update');
     Route::post('/spare-parts-content', [SparePartController::class, 'updateContent'])->name('spare-parts.content.update');
 
+    // Di dalam Route::prefix('admin')->name('admin.')->group(function () { ... })
+    Route::put('/media-position/{id}', [MediaController::class, 'updatePosition']);
+    Route::put('/media-style/{id}', [MediaController::class, 'updateStyle']);
 });
