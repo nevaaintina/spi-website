@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Head } from '@inertiajs/react';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
@@ -7,7 +7,7 @@ import Footer from '@/Components/Footer';
 /* SVG ICONS PER KATEGORI & SUB-LAYANAN                                       */
 /* -------------------------------------------------------------------------- */
 const IconWrench = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M14.7 6.3a4 4 0 1 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2-2 2.5-2.5Z"/></svg>;
-const IconGear = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...p}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.32 9c.13.36.36.68.66.93.3.24.53.56.66.93A1.65 1.65 0 0 0 21.91 11H22a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>;
+const IconGear = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...p}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06-.06A1.65 1.65 0 0 0 19.32 9c.13.36.36.68.66.93.3.24.53.56.66.93A1.65 1.65 0 0 0 21.91 11H22a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>;
 const IconChevronRight = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="m9 18 6-6-6-6"/></svg>;
 const IconArrowRight = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>;
 const IconArrowLeft = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>;
@@ -18,6 +18,15 @@ const IconHeadset = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentC
 export default function Show({ category, services }) {
     const serviceList = services && services.length > 0 ? services : [];
     const [selectedItem, setSelectedItem] = useState(serviceList[0] || null);
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+    // Fungsi aman untuk membersihkan URL file path
+    const getCleanUrl = (path, fallback) => {
+        if (!path) return fallback;
+        if (path.startsWith('http')) return path;
+        const cleaned = path.replace(/^storage\//, '');
+        return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
+    };
 
     // Fungsi aman untuk mengubah data JSON/String menjadi Array bersih untuk ditampilkan
     const parseList = (data) => {
@@ -36,10 +45,32 @@ export default function Show({ category, services }) {
     useEffect(() => {
         if (serviceList.length > 0) {
             setSelectedItem(serviceList[0]);
+            setActiveImageIndex(0);
         }
     }, [category, services]);
 
     if (!category) return null;
+
+    // Persiapan galeri gambar untuk sub-layanan terpilih
+    const mainImage = getCleanUrl(selectedItem?.image, "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80");
+    
+    let extraGallery = [];
+    try {
+        if (selectedItem?.gallery_images) {
+            if (typeof selectedItem.gallery_images === 'string') {
+                extraGallery = JSON.parse(selectedItem.gallery_images);
+            } else if (Array.isArray(selectedItem.gallery_images)) {
+                extraGallery = selectedItem.gallery_images;
+            }
+        }
+    } catch (e) {
+        extraGallery = [];
+    }
+
+    const galleryList = [
+        mainImage,
+        ...extraGallery.map(img => getCleanUrl(img, mainImage))
+    ];
 
     return (
         <>
@@ -99,7 +130,10 @@ export default function Show({ category, services }) {
                                             return (
                                                 <button
                                                     key={item.id}
-                                                    onClick={() => setSelectedItem(item)}
+                                                    onClick={() => {
+                                                        setSelectedItem(item);
+                                                        setActiveImageIndex(0);
+                                                    }}
                                                     className={`group relative flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left text-xs font-bold transition-all duration-300 ease-in-out cursor-pointer ${
                                                         isSelected
                                                             ? 'bg-amber-50 text-[#0B1B32] border-l-4 border-[#FDC02F] shadow-sm'
@@ -142,8 +176,30 @@ export default function Show({ category, services }) {
                         <div className="space-y-8 lg:col-span-8">
                             {selectedItem ? (
                                 <>
-                                    {/* TOP CARD: Overview */}
-                                    <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+                                    {/* TOP CARD: Image Gallery & Overview */}
+                                    <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm space-y-6">
+                                        {/* Gallery View */}
+                                        <div className="relative overflow-hidden rounded-2xl bg-slate-100 border border-slate-200 aspect-[16/9]">
+                                            <img
+                                                src={galleryList[activeImageIndex] || mainImage}
+                                                alt={selectedItem.title}
+                                                className="absolute inset-0 w-full h-full object-cover transition-all duration-500"
+                                            />
+                                            {galleryList.length > 1 && (
+                                                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-black/40 backdrop-blur-md p-2 rounded-xl">
+                                                    {galleryList.map((img, idx) => (
+                                                        <button
+                                                            key={idx}
+                                                            onClick={() => setActiveImageIndex(idx)}
+                                                            className={`w-12 h-9 rounded-lg overflow-hidden border-2 transition-all ${activeImageIndex === idx ? 'border-[#FDC02F] scale-105' : 'border-transparent opacity-70'}`}
+                                                        >
+                                                            <img src={img} alt="thumb" className="w-full h-full object-cover" />
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+
                                         <div>
                                             <span className="text-xl font-black text-amber-500 bg-amber-50 px-3 py-1 rounded-lg inline-block">
                                                 {String(serviceList.findIndex(s => s.id === selectedItem.id) + 1).padStart(2, '0')}
@@ -213,6 +269,20 @@ export default function Show({ category, services }) {
                                             </ul>
                                         </div>
                                     </div>
+
+                                    {/* VIDEO DEMONSTRATION SECTION */}
+                                    {selectedItem.video_url && (
+                                        <div className="rounded-2xl border border-gray-200 bg-white p-7 shadow-sm">
+                                            <h3 className="text-base font-extrabold text-[#0B1B32] mb-4">Service Demonstration Video</h3>
+                                            <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-900 border border-slate-200">
+                                                {selectedItem.video_url.includes('youtube.com') || selectedItem.video_url.includes('youtu.be') ? (
+                                                    <iframe className="absolute inset-0 w-full h-full" src={selectedItem.video_url} title="Video Demo" frameBorder="0" allowFullScreen />
+                                                ) : (
+                                                    <video className="absolute inset-0 w-full h-full object-cover" controls src={`/${selectedItem.video_url}`} />
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {/* CALL TO ACTION BANNER */}
                                     <div className="rounded-2xl bg-[#0B1B32] p-8 shadow-lg text-white flex flex-col sm:flex-row items-center justify-between gap-6">

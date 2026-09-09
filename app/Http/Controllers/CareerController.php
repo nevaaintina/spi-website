@@ -15,14 +15,17 @@ class CareerController extends Controller
 {
     public function index()
     {
-        $hero = CareerHero::first() ?? CareerHero::create([
-            'badge_text' => 'CAREER AT SPI',
-            'title_line1' => 'Build Your',
-            'title_line2' => 'Future With Us.',
-            'description' => 'Temukan kesempatan untuk berkembang, berkolaborasi, dan membangun karier bersama perusahaan penyedia layanan alat berat terkemuka di Indonesia.',
-            'sub_badge' => 'JOIN OUR TEAM',
-            'sub_title' => 'Grow. Contribute. Make an Impact.',
-        ]);
+        $hero = CareerHero::first();
+        if (!$hero) {
+            $hero = CareerHero::create([
+                'badge_text' => 'CAREER AT SPI',
+                'title_line1' => 'Build Your',
+                'title_line2' => 'Future With Us.',
+                'description' => 'Temukan kesempatan untuk berkembang, berkolaborasi, dan membangun karier bersama perusahaan penyedia layanan alat berat terkemuka di Indonesia.',
+                'sub_badge' => 'JOIN OUR TEAM',
+                'sub_title' => 'Grow. Contribute. Make an Impact.',
+            ]);
+        }
 
         $cultureSection = CareerCulture::first();
         $jobSection = DB::table('career_job_sections')->first();
@@ -52,14 +55,17 @@ class CareerController extends Controller
 
     public function adminIndex()
     {
-        $hero = CareerHero::first() ?? CareerHero::create([
-            'badge_text' => 'CAREER AT SPI',
-            'title_line1' => 'Build Your',
-            'title_line2' => 'Future With Us.',
-            'description' => 'Temukan kesempatan untuk berkembang, berkolaborasi, dan membangun karier bersama perusahaan penyedia layanan alat berat terkemuka di Indonesia.',
-            'sub_badge' => 'JOIN OUR TEAM',
-            'sub_title' => 'Grow. Contribute. Make an Impact.',
-        ]);
+        $hero = CareerHero::first();
+        if (!$hero) {
+            $hero = CareerHero::create([
+                'badge_text' => 'CAREER AT SPI',
+                'title_line1' => 'Build Your',
+                'title_line2' => 'Future With Us.',
+                'description' => 'Temukan kesempatan untuk berkembang, berkolaborasi, dan membangun karier bersama perusahaan penyedia layanan alat berat terkemuka di Indonesia.',
+                'sub_badge' => 'JOIN OUR TEAM',
+                'sub_title' => 'Grow. Contribute. Make an Impact.',
+            ]);
+        }
 
         $cultureSection = CareerCulture::first();
         $jobSection = DB::table('career_job_sections')->first();
@@ -90,28 +96,28 @@ class CareerController extends Controller
     public function updateHero(Request $request, $id)
     {
         $request->validate([
-            'badge_text' => 'required|string|max:255',
-            'title_line1' => 'required|string|max:255',
-            'title_line2' => 'required|string|max:255',
-            'description' => 'required|string',
+            'badge_text' => 'nullable|string|max:255',
+            'title_line1' => 'nullable|string|max:255',
+            'title_line2' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
             'sub_badge' => 'nullable|string|max:255',
             'sub_title' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $hero = CareerHero::findOrFail($id);
-        
-        $data = $request->only([
-            'badge_text', 
-            'title_line1', 
-            'title_line2', 
-            'description', 
-            'sub_badge', 
-            'sub_title'
-        ]);
+        $hero = CareerHero::find($id) ?? CareerHero::first();
+
+        $data = [
+            'badge_text' => $request->badge_text ?? '',
+            'title_line1' => $request->title_line1 ?? '',
+            'title_line2' => $request->title_line2 ?? '',
+            'description' => $request->description ?? '',
+            'sub_badge' => $request->sub_badge ?? '',
+            'sub_title' => $request->sub_title ?? '',
+        ];
 
         if ($request->hasFile('image')) {
-            if ($hero->image && file_exists(public_path($hero->image))) {
+            if ($hero && $hero->image && file_exists(public_path($hero->image))) {
                 @unlink(public_path($hero->image));
             }
 
@@ -121,9 +127,13 @@ class CareerController extends Controller
             $data['image'] = 'images/career/' . $filename;
         }
 
-        $hero->update($data);
+        if ($hero) {
+            $hero->update($data);
+        } else {
+            CareerHero::create($data);
+        }
 
-        return redirect()->back()->with('success', 'Hero banner career beserta gambar berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Hero banner career berhasil diperbarui!');
     }
 
     public function updateCultureSection(Request $request)
@@ -144,7 +154,20 @@ class CareerController extends Controller
         ]);
 
         $section = CareerCulture::first();
-        $data = $request->except('image');
+        
+        $data = [
+            'badge' => $request->badge ?? '',
+            'title_part1' => $request->title_part1 ?? '',
+            'title_part2' => $request->title_part2 ?? '',
+            'description' => $request->description ?? '',
+            'stat_text' => $request->stat_text ?? '',
+            'stat_1_num' => $request->stat_1_num ?? '',
+            'stat_1_label' => $request->stat_1_label ?? '',
+            'stat_2_num' => $request->stat_2_num ?? '',
+            'stat_2_label' => $request->stat_2_label ?? '',
+            'stat_3_num' => $request->stat_3_num ?? '',
+            'stat_3_label' => $request->stat_3_label ?? '',
+        ];
 
         if ($request->hasFile('image')) {
             if ($section && $section->image && file_exists(public_path($section->image))) {
@@ -179,12 +202,12 @@ class CareerController extends Controller
         $section = DB::table('career_job_sections')->first();
         
         $data = [
-            'badge' => $request->badge,
-            'title_part1' => $request->title_part1,
-            'title_part2' => $request->title_part2,
-            'description' => $request->description,
-            'banner_title' => $request->banner_title,
-            'banner_desc' => $request->banner_desc,
+            'badge' => $request->badge ?? '',
+            'title_part1' => $request->title_part1 ?? '',
+            'title_part2' => $request->title_part2 ?? '',
+            'description' => $request->description ?? '',
+            'banner_title' => $request->banner_title ?? '',
+            'banner_desc' => $request->banner_desc ?? '',
             'updated_at' => now(),
         ];
 
@@ -210,10 +233,10 @@ class CareerController extends Controller
         $section = DB::table('career_development_sections')->first();
         
         $data = [
-            'badge' => $request->badge,
-            'title_part1' => $request->title_part1,
-            'title_part2' => $request->title_part2,
-            'description' => $request->description,
+            'badge' => $request->badge ?? '',
+            'title_part1' => $request->title_part1 ?? '',
+            'title_part2' => $request->title_part2 ?? '',
+            'description' => $request->description ?? '',
             'updated_at' => now(),
         ];
 
@@ -239,10 +262,10 @@ class CareerController extends Controller
         $section = DB::table('employee_story_sections')->first();
         
         $data = [
-            'badge' => $request->badge,
-            'title_part1' => $request->title_part1,
-            'title_part2' => $request->title_part2,
-            'description' => $request->description,
+            'badge' => $request->badge ?? '',
+            'title_part1' => $request->title_part1 ?? '',
+            'title_part2' => $request->title_part2 ?? '',
+            'description' => $request->description ?? '',
             'updated_at' => now(),
         ];
 
@@ -273,14 +296,14 @@ class CareerController extends Controller
         $section = DB::table('career_internship_sections')->first();
         
         $data = [
-            'badge_text' => $request->badge_text,
-            'title_line1' => $request->title_line1,
-            'title_line2' => $request->title_line2,
-            'description' => $request->description,
-            'feature1_title' => $request->feature1_title,
-            'feature1_desc' => $request->feature1_desc,
-            'feature2_title' => $request->feature2_title,
-            'feature2_desc' => $request->feature2_desc,
+            'badge_text' => $request->badge_text ?? '',
+            'title_line1' => $request->title_line1 ?? '',
+            'title_line2' => $request->title_line2 ?? '',
+            'description' => $request->description ?? '',
+            'feature1_title' => $request->feature1_title ?? '',
+            'feature1_desc' => $request->feature1_desc ?? '',
+            'feature2_title' => $request->feature2_title ?? '',
+            'feature2_desc' => $request->feature2_desc ?? '',
             'updated_at' => now(),
         ];
 
@@ -318,12 +341,12 @@ class CareerController extends Controller
         $section = DB::table('career_application_sections')->first();
         
         $data = [
-            'badge_text' => $request->badge_text,
-            'title' => $request->title,
-            'description' => $request->description,
-            'security_title' => $request->security_title,
-            'security_desc' => $request->security_desc,
-            'button_text' => $request->button_text,
+            'badge_text' => $request->badge_text ?? '',
+            'title' => $request->title ?? '',
+            'description' => $request->description ?? '',
+            'security_title' => $request->security_title ?? '',
+            'security_desc' => $request->security_desc ?? '',
+            'button_text' => $request->button_text ?? '',
             'updated_at' => now(),
         ];
 
@@ -356,7 +379,7 @@ class CareerController extends Controller
             'department' => $request->department,
             'location' => $request->location,
             'type' => $request->type,
-            'education' => $request->education,
+            'education' => $request->education ?? '',
             'description' => $request->description,
             'requirements' => $request->requirements,
             'is_active' => true,
@@ -389,16 +412,16 @@ class CareerController extends Controller
 
         $job = CareerJob::findOrFail($id);
         
-        $data = $request->only([
-            'title', 
-            'department', 
-            'location', 
-            'type', 
-            'education', 
-            'description', 
-            'requirements', 
-            'is_active'
-        ]);
+        $data = [
+            'title' => $request->title,
+            'department' => $request->department,
+            'location' => $request->location,
+            'type' => $request->type,
+            'education' => $request->education ?? '',
+            'description' => $request->description,
+            'requirements' => $request->requirements,
+            'is_active' => $request->has('is_active') ? $request->is_active : $job->is_active,
+        ];
 
         if ($request->hasFile('image')) {
             if ($job->image && file_exists(public_path($job->image))) {

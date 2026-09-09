@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Head, router, usePage } from "@inertiajs/react";
 import AdminLayout from "@/Layouts/AdminLayout";
 
@@ -16,14 +16,14 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
         return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
     };
 
-    // State untuk Form Hero Banner
+    // State untuk Form Hero Banner (Aman dari null/undefined)
     const [heroData, setHeroData] = useState({
-        badge_text: hero ? hero.badge_text : '',
-        title_line1: hero ? hero.title_line1 : '',
-        title_line2: hero ? hero.title_line2 : '',
-        description: hero ? hero.description : '',
-        sub_badge: hero ? hero.sub_badge : '',
-        sub_title: hero ? hero.sub_title : '',
+        badge_text: hero?.badge_text || '',
+        title_line1: hero?.title_line1 || '',
+        title_line2: hero?.title_line2 || '',
+        description: hero?.description || '',
+        sub_badge: hero?.sub_badge || '',
+        sub_title: hero?.sub_title || '',
         image: null,
     });
 
@@ -41,10 +41,10 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
         setHeroErrors({});
 
         const formData = new FormData();
-        formData.append('badge_text', heroData.badge_text);
-        formData.append('title_line1', heroData.title_line1);
-        formData.append('title_line2', heroData.title_line2);
-        formData.append('description', heroData.description);
+        formData.append('badge_text', heroData.badge_text || '');
+        formData.append('title_line1', heroData.title_line1 || '');
+        formData.append('title_line2', heroData.title_line2 || '');
+        formData.append('description', heroData.description || '');
         formData.append('sub_badge', heroData.sub_badge || '');
         formData.append('sub_title', heroData.sub_title || '');
         if (heroData.image) {
@@ -65,7 +65,7 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
         });
     };
 
-    // State untuk Our Culture Section
+    // State untuk Our Culture Section (Aman dari null/undefined)
     const [cultureSecData, setCultureSecData] = useState({
         badge: cultureSection?.badge || 'OUR CULTURE',
         title_part1: cultureSection?.title_part1 || 'Where People',
@@ -96,20 +96,20 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
     const handleSaveCultureSection = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('badge', cultureSecData.badge);
-        formData.append('title_part1', cultureSecData.title_part1);
-        formData.append('title_part2', cultureSecData.title_part2);
-        formData.append('description', cultureSecData.description);
+        formData.append('badge', cultureSecData.badge || '');
+        formData.append('title_part1', cultureSecData.title_part1 || '');
+        formData.append('title_part2', cultureSecData.title_part2 || '');
+        formData.append('description', cultureSecData.description || '');
         if (cultureSecData.image) {
             formData.append('image', cultureSecData.image);
         }
-        formData.append('stat_text', cultureSecData.stat_text);
-        formData.append('stat_1_num', cultureSecData.stat_1_num);
-        formData.append('stat_1_label', cultureSecData.stat_1_label);
-        formData.append('stat_2_num', cultureSecData.stat_2_num);
-        formData.append('stat_2_label', cultureSecData.stat_2_label);
-        formData.append('stat_3_num', cultureSecData.stat_3_num);
-        formData.append('stat_3_label', cultureSecData.stat_3_label);
+        formData.append('stat_text', cultureSecData.stat_text || '');
+        formData.append('stat_1_num', cultureSecData.stat_1_num || '');
+        formData.append('stat_1_label', cultureSecData.stat_1_label || '');
+        formData.append('stat_2_num', cultureSecData.stat_2_num || '');
+        formData.append('stat_2_label', cultureSecData.stat_2_label || '');
+        formData.append('stat_3_num', cultureSecData.stat_3_num || '');
+        formData.append('stat_3_label', cultureSecData.stat_3_label || '');
 
         router.post('/admin/career/culture-section', formData, {
             forceFormData: true,
@@ -117,9 +117,9 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
             onSuccess: () => {
                 cultureCards.forEach((card) => {
                     if (card.id) {
-                        router.put(`/admin/cultures/${card.id}`, { title: card.title, description: card.description }, { preserveScroll: true });
+                        router.put(`/admin/cultures/${card.id}`, { title: card.title || '', description: card.description || '' }, { preserveScroll: true });
                     } else {
-                        router.post('/admin/cultures', { title: card.title, description: card.description }, { preserveScroll: true });
+                        router.post('/admin/cultures', { title: card.title || '', description: card.description || '' }, { preserveScroll: true });
                     }
                 });
                 alert('Semua konten Our Culture berhasil diperbarui!');
@@ -154,15 +154,15 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
     const handleOpenEditJob = (job) => {
         setEditingJob(job);
         setJobData({
-            title: job.title,
-            department: job.department,
-            location: job.location,
-            type: job.type,
+            title: job.title || '',
+            department: job.department || '',
+            location: job.location || '',
+            type: job.type || 'Full-time',
             education: job.education || '',
-            description: job.description,
-            requirements: job.requirements,
+            description: job.description || '',
+            requirements: job.requirements || '',
             image: null,
-            is_active: job.is_active,
+            is_active: job.is_active ?? true,
         });
         setActiveSection('jobs');
     };
@@ -186,13 +186,13 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
     const handleSubmitJob = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('title', jobData.title);
-        formData.append('department', jobData.department);
-        formData.append('location', jobData.location);
-        formData.append('type', jobData.type);
-        formData.append('education', jobData.education);
-        formData.append('description', jobData.description);
-        formData.append('requirements', jobData.requirements);
+        formData.append('title', jobData.title || '');
+        formData.append('department', jobData.department || '');
+        formData.append('location', jobData.location || '');
+        formData.append('type', jobData.type || '');
+        formData.append('education', jobData.education || '');
+        formData.append('description', jobData.description || '');
+        formData.append('requirements', jobData.requirements || '');
         formData.append('is_active', jobData.is_active ? 1 : 0);
         if (jobData.image) {
             formData.append('image', jobData.image);
@@ -239,9 +239,9 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
     const handleOpenEditPath = (path) => {
         setEditingPath(path);
         setPathData({
-            level: path.level,
-            title: path.title,
-            description: path.description,
+            level: path.level || '',
+            title: path.title || '',
+            description: path.description || '',
         });
     };
 
@@ -252,13 +252,18 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
 
     const handleSubmitPath = (e) => {
         e.preventDefault();
+        const payload = {
+            level: pathData.level || '',
+            title: pathData.title || '',
+            description: pathData.description || '',
+        };
         if (editingPath) {
-            router.put(`/admin/career-paths/${editingPath.id}`, pathData, {
+            router.put(`/admin/career-paths/${editingPath.id}`, payload, {
                 preserveScroll: true,
                 onSuccess: () => handleCancelEditPath(),
             });
         } else {
-            router.post('/admin/career-paths', pathData, {
+            router.post('/admin/career-paths', payload, {
                 preserveScroll: true,
                 onSuccess: () => handleCancelEditPath(),
             });
@@ -291,9 +296,9 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
     const handleOpenEditStory = (story) => {
         setEditingStory(story);
         setStoryData({
-            name: story.name,
-            role: story.role,
-            quote: story.quote,
+            name: story.name || '',
+            role: story.role || '',
+            quote: story.quote || '',
             image: null,
         });
     };
@@ -306,9 +311,9 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
     const handleSubmitStory = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('name', storyData.name);
-        formData.append('role', storyData.role);
-        formData.append('quote', storyData.quote);
+        formData.append('name', storyData.name || '');
+        formData.append('role', storyData.role || '');
+        formData.append('quote', storyData.quote || '');
         if (storyData.image) {
             formData.append('image', storyData.image);
         }
@@ -361,10 +366,10 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
     const handleOpenEditTesti = (testi) => {
         setEditingTesti(testi);
         setTestiData({
-            name: testi.name,
-            university: testi.university,
-            role: testi.role,
-            quote: testi.quote,
+            name: testi.name || '',
+            university: testi.university || '',
+            role: testi.role || '',
+            quote: testi.quote || '',
             image: null,
         });
     };
@@ -377,10 +382,10 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
     const handleSubmitTesti = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('name', testiData.name);
-        formData.append('university', testiData.university);
-        formData.append('role', testiData.role);
-        formData.append('quote', testiData.quote);
+        formData.append('name', testiData.name || '');
+        formData.append('university', testiData.university || '');
+        formData.append('role', testiData.role || '');
+        formData.append('quote', testiData.quote || '');
         if (testiData.image) {
             formData.append('image', testiData.image);
         }
@@ -1110,14 +1115,14 @@ export default function AdminCareer({ hero, jobs = [], cultures = [], cultureSec
                     <form onSubmit={(e) => {
                         e.preventDefault();
                         const formData = new FormData();
-                        formData.append('badge_text', internshipData.badge_text);
-                        formData.append('title_line1', internshipData.title_line1);
-                        formData.append('title_line2', internshipData.title_line2);
-                        formData.append('description', internshipData.description);
-                        formData.append('feature1_title', internshipData.feature1_title);
-                        formData.append('feature1_desc', internshipData.feature1_desc);
-                        formData.append('feature2_title', internshipData.feature2_title);
-                        formData.append('feature2_desc', internshipData.feature2_desc);
+                        formData.append('badge_text', internshipData.badge_text || '');
+                        formData.append('title_line1', internshipData.title_line1 || '');
+                        formData.append('title_line2', internshipData.title_line2 || '');
+                        formData.append('description', internshipData.description || '');
+                        formData.append('feature1_title', internshipData.feature1_title || '');
+                        formData.append('feature1_desc', internshipData.feature1_desc || '');
+                        formData.append('feature2_title', internshipData.feature2_title || '');
+                        formData.append('feature2_desc', internshipData.feature2_desc || '');
                         if (internshipData.image) formData.append('image', internshipData.image);
 
                         router.post('/admin/career/internship-section', formData, {

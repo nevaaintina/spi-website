@@ -6,14 +6,18 @@ use App\Models\ServiceCategory;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ServiceController extends Controller
 {
     public function index()
     {
+        $service_setting = DB::table('service_settings')->first();
+
         return Inertia::render('Services/Index', [
-            'categories' => ServiceCategory::withCount('services')->get()
+            'categories' => ServiceCategory::withCount('services')->get(),
+            'service_setting' => $service_setting,
         ]);
     }
 
@@ -30,9 +34,56 @@ class ServiceController extends Controller
 
     public function adminIndex()
     {
+        $service_setting = DB::table('service_settings')->first();
+
         return Inertia::render('Admin/ServicesManager', [
-            'categories' => ServiceCategory::with('services')->get()
+            'categories' => ServiceCategory::with('services')->get(),
+            'service_setting' => $service_setting,
         ]);
+    }
+
+    public function updateContent(Request $request)
+    {
+        $request->validate([
+            'hero_title_part1' => 'nullable|string|max:255',
+            'hero_title_part2' => 'nullable|string|max:255',
+            'hero_description' => 'nullable|string',
+            'hero_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'cta_title' => 'nullable|string|max:255',
+            'cta_subtitle' => 'nullable|string',
+            'whatsapp_number' => 'nullable|string|max:50',
+        ]);
+
+        $setting = DB::table('service_settings')->first();
+
+        $data = [
+            'hero_title_part1' => $request->hero_title_part1 ?? '',
+            'hero_title_part2' => $request->hero_title_part2 ?? '',
+            'hero_description' => $request->hero_description ?? '',
+            'cta_title' => $request->cta_title ?? '',
+            'cta_subtitle' => $request->cta_subtitle ?? '',
+            'whatsapp_number' => $request->whatsapp_number ?? '',
+            'updated_at' => now(),
+        ];
+
+        if ($request->hasFile('hero_image')) {
+            if ($setting && $setting->hero_image && file_exists(public_path($setting->hero_image))) {
+                @unlink(public_path($setting->hero_image));
+            }
+            $file = $request->file('hero_image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/services'), $filename);
+            $data['hero_image'] = 'images/services/' . $filename;
+        }
+
+        if ($setting) {
+            DB::table('service_settings')->where('id', $setting->id)->update($data);
+        } else {
+            $data['created_at'] = now();
+            DB::table('service_settings')->insert($data);
+        }
+
+        return redirect()->back()->with('success', 'Konten Hero Banner & CTA Services berhasil diperbarui!');
     }
 
     public function store(Request $request)

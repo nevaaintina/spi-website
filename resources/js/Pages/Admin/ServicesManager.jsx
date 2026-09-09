@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm, router } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
 
-export default function ServicesManager({ categories }) {
+export default function ServicesManager({ categories, service_setting }) {
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
 
     useEffect(() => {
@@ -12,6 +12,17 @@ export default function ServicesManager({ categories }) {
     }, [categories]);
 
     const [editingServiceId, setEditingServiceId] = useState(null);
+
+    // Form Pengaturan Hero Banner & CTA Halaman Services
+    const contentForm = useForm({
+        hero_title_part1: service_setting?.hero_title_part1 || 'OUR SERVICE',
+        hero_title_part2: service_setting?.hero_title_part2 || 'SOLUTIONS',
+        hero_description: service_setting?.hero_description || 'Comprehensive service solutions designed to keep your heavy equipment performing at its best.',
+        hero_image: null,
+        cta_title: service_setting?.cta_title || 'Need Technical Support or Service Consultation?',
+        cta_subtitle: service_setting?.cta_subtitle || 'Our technical team is ready to help you 24/7.',
+        whatsapp_number: service_setting?.whatsapp_number || '6281122233344',
+    });
 
     const serviceForm = useForm({
         service_category_id: '',
@@ -26,6 +37,16 @@ export default function ServicesManager({ categories }) {
             serviceForm.setData('service_category_id', selectedCategoryId);
         }
     }, [selectedCategoryId]);
+
+    const handleContentSubmit = (e) => {
+        e.preventDefault();
+        contentForm.post('/admin/services-content', {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => alert('Konten Hero Banner & CTA Services berhasil diperbarui!'),
+            onError: (err) => console.log(err)
+        });
+    };
 
     const handleServiceSubmit = (e) => {
         e.preventDefault();
@@ -88,11 +109,49 @@ export default function ServicesManager({ categories }) {
         <AdminLayout currentPage="services">
             <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-8">
                 <div>
-                    <h2 className="text-2xl font-black text-[#0f2b5c]">Kelola Layanan & Sub-Layanan</h2>
-                    <p className="text-xs text-slate-500 mt-1">Pilih kategori utama di bawah, lalu masukkan rincian sub-layanan sesuai dengan struktur modul perusahaan.</p>
+                    <h2 className="text-2xl font-black text-[#0f2b5c]">Kelola Layanan, Sub-Layanan & Konten Publik</h2>
+                    <p className="text-xs text-slate-500 mt-1">Pilih kategori utama di bawah, lalu masukkan rincian sub-layanan serta ubah teks hero banner dan CTA publik.</p>
                 </div>
 
-                {/* Pilih Kategori Utama (Dropdown Select & Tombol Tab Kategori) */}
+                {/* FORM PENGATURAN HERO BANNER & CTA SERVICES */}
+                <form onSubmit={handleContentSubmit} className="p-5 bg-indigo-50/50 rounded-2xl border border-indigo-100 space-y-4">
+                    <h3 className="font-bold text-xs text-[#0f2b5c]">Pengaturan Teks Hero Banner & CTA Halaman Services</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-[10px] font-bold text-slate-600 mb-1">Judul Hero Bagian 1 (Putih)</label>
+                            <input type="text" value={contentForm.data.hero_title_part1} onChange={e => contentForm.setData('hero_title_part1', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" required />
+                        </div>
+                        <div>
+                            <label className="block text-[10px] font-bold text-slate-600 mb-1">Judul Hero Bagian 2 (Kuning)</label>
+                            <input type="text" value={contentForm.data.hero_title_part2} onChange={e => contentForm.setData('hero_title_part2', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" required />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-[10px] font-bold text-slate-600 mb-1">Deskripsi / Subjudul Hero Banner</label>
+                            <textarea value={contentForm.data.hero_description} onChange={e => contentForm.setData('hero_description', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" rows="2" required />
+                        </div>
+                        <div>
+                            <label className="block text-[10px] font-bold text-slate-600 mb-1">Background Foto Hero Banner</label>
+                            <input type="file" accept="image/*" onChange={e => contentForm.setData('hero_image', e.target.files[0])} className="w-full border p-1.5 bg-white rounded-xl text-xs" />
+                        </div>
+                        <div>
+                            <label className="block text-[10px] font-bold text-slate-600 mb-1">No. WhatsApp Support (Cth: 62811...)</label>
+                            <input type="text" value={contentForm.data.whatsapp_number} onChange={e => contentForm.setData('whatsapp_number', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" required />
+                        </div>
+                        <div>
+                            <label className="block text-[10px] font-bold text-slate-600 mb-1">Judul CTA Bawah</label>
+                            <input type="text" value={contentForm.data.cta_title} onChange={e => contentForm.setData('cta_title', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" required />
+                        </div>
+                        <div>
+                            <label className="block text-[10px] font-bold text-slate-600 mb-1">Deskripsi CTA Bawah</label>
+                            <input type="text" value={contentForm.data.cta_subtitle} onChange={e => contentForm.setData('cta_subtitle', e.target.value)} className="w-full border p-2.5 rounded-xl text-xs bg-white" required />
+                        </div>
+                    </div>
+                    <button type="submit" disabled={contentForm.processing} className="px-5 py-2.5 bg-[#0f2b5c] text-white font-bold text-xs rounded-xl shadow">
+                        {contentForm.processing ? 'Menyimpan...' : 'Simpan Perubahan Teks Hero & CTA'}
+                    </button>
+                </form>
+
+                {/* Pilih Kategori Utama */}
                 <div className="space-y-3">
                     <label className="block text-xs font-bold text-[#0f2b5c]">Pilih Kategori Layanan Utama</label>
                     <select

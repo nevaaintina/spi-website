@@ -77,7 +77,8 @@ export default function Navbar() {
       aboutManagement: "Tim Manajemen",
       aboutVision: "Visi & Misi",
       aboutWhy: "Mengapa Memilih Kami",
-      aboutEsg: "Keberlanjutan (ESG/HSE)",
+      aboutEsg: "Environment, Social & Governance (ESG)",
+      aboutHse: "Health, Safety & Environment (HSE)",
 
       products: "Products",
 
@@ -115,7 +116,8 @@ export default function Navbar() {
       aboutManagement: "Management Team",
       aboutVision: "Vision & Mission",
       aboutWhy: "Why Choose Us",
-      aboutEsg: "Sustainability (ESG/HSE)",
+      aboutEsg: "Environment, Social & Governance (ESG)",
+      aboutHse: "Health, Safety & Environment (HSE)",
 
       products: "Products",
 
@@ -195,12 +197,12 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* About Us Dropdown */}
+            {/* About Us Dropdown - TERPISAH ESG & HSE */}
             <div className="relative">
               <button 
                 onClick={() => handleMenuClick('about')} 
                 className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 flex items-center gap-1 focus:outline-none hover:text-[#ffc107] ${
-                  activeMenu === 'about' || isParentActive(['/about', '/why-choose-us', '/sustainability']) ? 'border-[#ffc107] text-[#ffc107]' : 'border-transparent text-[#0f2b5c]'
+                  activeMenu === 'about' || isParentActive(['/about', '/why-choose-us', '/esg', '/hse']) ? 'border-[#ffc107] text-[#ffc107]' : 'border-transparent text-[#0f2b5c]'
                 }`}
               >
                 <span>{currentText.about}</span>
@@ -208,20 +210,21 @@ export default function Navbar() {
               </button>
 
               {activeMenu === 'about' && (
-                <div className="absolute top-full left-0 w-[420px] bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 mt-3 z-50">
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-xs font-bold text-[#0f2b5c]">
+                <div className="absolute top-full left-0 w-[460px] bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 mt-3 z-50">
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-xs font-bold text-[#0f2b5c]">
                     <a href="/about" className="hover:text-[#ffc107] transition py-1 col-span-2 border-b border-slate-100 font-black">{currentText.aboutOverview}</a>
                     <a href="/about" className="hover:text-[#ffc107] transition py-1">{currentText.aboutProfile}</a>
                     <a href="/why-choose-us" className="text-[#ffc107] hover:text-[#0f2b5c] transition py-1 font-extrabold">{currentText.aboutWhy}</a>
                     <a href="/about/management" className="hover:text-[#ffc107] transition py-1">{currentText.aboutManagement}</a>
-                    <a href="/sustainability" className="text-[#ffc107] hover:text-[#0f2b5c] transition py-1 font-extrabold">{currentText.aboutEsg}</a>
-                    <a href="/about/vision-mission" className="hover:text-[#ffc107] transition py-1 col-span-2">{currentText.aboutVision}</a>
+                    <a href="/about/vision-mission" className="hover:text-[#ffc107] transition py-1">{currentText.aboutVision}</a>
+                    <a href="/esg" className="text-[#ffc107] hover:text-[#0f2b5c] transition py-1 font-extrabold">{currentText.aboutEsg}</a>
+                    <a href="/hse" className="text-[#ffc107] hover:text-[#0f2b5c] transition py-1 font-extrabold">{currentText.aboutHse}</a>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Products (Tanpa Dropdown) */}
+            {/* Products */}
             <a 
               href="/products" 
               className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 hover:text-[#ffc107] ${
@@ -335,8 +338,9 @@ export default function Navbar() {
             <a href="/about" className="py-2 border-b border-slate-100">{currentText.about}</a>
             <a href="/about/management" className="py-2 border-b border-slate-100 pl-4 text-xs">{currentText.aboutManagement}</a>
             <a href="/why-choose-us" className="py-2 border-b border-slate-100 pl-4 text-xs text-[#ffc107] hover:text-[#0f2b5c]">{currentText.aboutWhy}</a>
-            <a href="/sustainability" className="py-2 border-b border-slate-100 pl-4 text-xs text-[#ffc107] hover:text-[#0f2b5c]">{currentText.aboutEsg}</a>
             <a href="/about/vision-mission" className="py-2 border-b border-slate-100 pl-4 text-xs">{currentText.aboutVision}</a>
+            <a href="/esg" className="py-2 border-b border-slate-100 pl-4 text-xs text-[#ffc107] hover:text-[#0f2b5c]">{currentText.aboutEsg}</a>
+            <a href="/hse" className="py-2 border-b border-slate-100 pl-4 text-xs text-[#ffc107] hover:text-[#0f2b5c]">{currentTest.aboutHse}</a>
             
             <a href="/products" className="py-2 border-b border-slate-100">{currentText.products}</a>
 
@@ -346,11 +350,11 @@ export default function Navbar() {
               <a href="/services/maintenance-repair" className="pl-4 text-xs font-normal py-1">{currentText.servicesMaint}</a>
               <a href="/services/installation-commissioning" className="pl-4 text-xs font-normal py-1">{currentText.servicesInst}</a>
               <a href="/services/overhaul-rebuild" className="pl-4 text-xs font-normal py-1">{currentText.servicesOverhaul}</a>
-              <a href="/services/inspection-testing" className="pl-4 text-xs font-normal py-1">{currentText.servicesInsps || currentText.servicesInsp}</a>
+              <a href="/services/inspection-testing" className="pl-4 text-xs font-normal py-1">{currentText.servicesInsp}</a>
               <a href="/services/contract-consulting" className="pl-4 text-xs font-normal py-1">{currentText.servicesContract}</a>
             </div>
 
-            <a href="/spare-parts" className="py-2 border-b border-slate-100">{currentText.parts}</a>
+            <a href="/spare-parts" className="py-2 border-b border-slate-100">{currentTest.parts}</a>
             <a href="/knowledge" className="py-2 border-b border-slate-100">{currentText.knowledge}</a>
             <a href="/media-gallery" className="py-2 border-b border-slate-100">{currentText.media}</a>
             <a href="/career" className="py-2 border-b border-slate-100">{currentText.career}</a>

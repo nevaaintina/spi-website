@@ -245,52 +245,12 @@ export default function SpareParts({ spare_parts, exploded_views, spare_setting 
               </a>
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4 text-[11px] text-slate-100">
-              <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-[#ffc107]/20 text-[#ffc107] flex items-center justify-center"><CheckIcon /></span>
-                Original XCMG Parts
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-[#ffc107]/20 text-[#ffc107] flex items-center justify-center"><CheckIcon /></span>
-                Technical Support
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-[#ffc107]/20 text-[#ffc107] flex items-center justify-center"><CheckIcon /></span>
-                Genuine Components
-              </div>
-            </div>
+            
           </FadeReveal>
         </div>
       </section>
 
-      {/* QUICK ACTION BAR */}
-      <section className="relative bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16">
-          <div className="grid grid-cols-1 sm:grid-cols-3">
-            <div className="flex items-center gap-4 py-5 sm:px-5 border-b sm:border-b-0 sm:border-r border-slate-200">
-              <div className="w-10 h-10 rounded-xl bg-[#071b38] text-[#ffc107] flex items-center justify-center shrink-0"><PartsIcon /></div>
-              <div>
-                <p className="text-[10px] uppercase tracking-wider text-slate-400">Product Range</p>
-                <p className="text-sm text-[#071b38] font-medium mt-0.5">Genuine XCMG Parts</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 py-5 sm:px-5 border-b sm:border-b-0 sm:border-r border-slate-200">
-              <div className="w-10 h-10 rounded-xl bg-[#fff8dc] text-[#b27b00] flex items-center justify-center shrink-0"><BookIcon /></div>
-              <div>
-                <p className="text-[10px] uppercase tracking-wider text-slate-400">Catalog</p>
-                <p className="text-sm text-[#071b38] font-medium mt-0.5">Part Specification</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 py-5 sm:px-5">
-              <div className="w-10 h-10 rounded-xl bg-slate-100 text-[#071b38] flex items-center justify-center shrink-0"><CheckIcon /></div>
-              <div>
-                <p className="text-[10px] uppercase tracking-wider text-slate-400">Support</p>
-                <p className="text-sm text-[#071b38] font-medium mt-0.5">Technical Assistance</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       {/* 2. CATALOG SECTION */}
       <section id="katalog-section" className="relative bg-[#f7f9fc] py-16 md:py-20">

@@ -10,6 +10,8 @@ use App\Http\Controllers\MediaController;
 use App\Models\Post;
 use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ProductController;
+
 // ==========================================
 // 1. PUBLIC ROUTES
 // ==========================================
@@ -17,7 +19,7 @@ use App\Http\Controllers\ServiceController;
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Halaman Detail Featured Services / Layanan Unggulan dari Home (Ditempatkan paling atas agar tidak 404)
+// Halaman Detail Featured Services / Layanan Unggulan dari Home
 Route::get('/featured-services/{slug}', [HomeController::class, 'showFeaturedService'])->name('featured.service.show');
 
 // About Us Group
@@ -40,15 +42,20 @@ Route::get('/why-choose-us', function () {
     return Inertia::render('WhyChooseUs');
 })->name('why-choose-us');
 
-// Products & Equipment XCMG Group
+// Halaman Khusus ESG (Environment, Social & Governance)
+Route::get('/esg', function () {
+    return Inertia::render('About/Esg');
+})->name('about.esg');
+
+// Halaman Khusus HSE (Health, Safety & Environment)
+Route::get('/hse', function () {
+    return Inertia::render('About/Hse');
+})->name('about.hse');
+
+// Products & Equipment XCMG Group (Publik Index & Show)
 Route::prefix('products')->group(function () {
-    Route::get('/', function () { 
-        return Inertia::render('Products/Index'); 
-    })->name('products.index');
-    
-    Route::get('/{slug}', function ($slug) { 
-        return Inertia::render('Products/Show', ['slug' => $slug]); 
-    })->name('products.show');
+    Route::get('/', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/{slug}', [ProductController::class, 'show'])->name('products.show');
 });
 
 // Services Group (Publik Index & Show Detail Layanan)
@@ -60,7 +67,7 @@ Route::prefix('services')->group(function () {
 // Spare Parts Center (Publik)
 Route::get('/spare-parts', [SparePartController::class, 'index'])->name('spare-parts');
 
-// Knowledge Center & Company News (Terhubung ke KnowledgeController)
+// Knowledge Center & Company News
 Route::prefix('knowledge')->group(function () {
     Route::get('/', [KnowledgeController::class, 'index'])->name('knowledge.index');
     Route::get('/{slug}', [KnowledgeController::class, 'show'])->name('knowledge.show');
@@ -69,7 +76,7 @@ Route::prefix('knowledge')->group(function () {
 // Media Gallery (Publik)
 Route::get('/media-gallery', [MediaController::class, 'index'])->name('media');
 
-// Sustainability (ESG, HSE & CSR)
+// Sustainability (ESG, HSE & CSR) Umum
 Route::get('/sustainability', function () {
     return Inertia::render('Sustainability');
 })->name('sustainability');
@@ -102,6 +109,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
     Route::match(['post', 'put'], '/services/{id}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
+    Route::post('/services-content', [ServiceController::class, 'updateContent'])->name('services.content.update');
+
+    // ==========================================
+    // PRODUCTS CMS MANAGEMENT (Admin)
+    // ==========================================
+    Route::get('/products', [ProductController::class, 'adminIndex'])->name('products.manager');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::match(['post', 'put'], '/products/{id}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::post('/products-content', [ProductController::class, 'updateContent'])->name('products.content.update');
 
     // CRUD Lowongan Karir di Admin
     Route::get('/career', [CareerController::class, 'adminIndex'])->name('career');
@@ -216,7 +233,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/media-statistics/{id}', [MediaController::class, 'updateStatistic']);
 
     // ==========================================
-    // SPARE PARTS & PARTS MANAGER (Menggunakan SparePartController)
+    // SPARE PARTS & PARTS MANAGER
     // ==========================================
     Route::get('/spare-parts-manager', [SparePartController::class, 'adminIndex'])->name('parts.manager');
     Route::post('/spare-parts', [SparePartController::class, 'store'])->name('spare-parts.store');
@@ -225,8 +242,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/exploded-views', [SparePartController::class, 'storeExplodedView'])->name('exploded-views.store');
     Route::delete('/exploded-views/{id}', [SparePartController::class, 'destroyExplodedView'])->name('exploded-views.destroy');
     Route::post('/spare-catalog-file', [SparePartController::class, 'updateCatalogFile'])->name('spare-parts.catalog.update');
-
     Route::post('/spare-parts-content', [SparePartController::class, 'updateContent'])->name('spare-parts.content.update');
 
-    
 });

@@ -1,22 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, Head } from '@inertiajs/react';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
 
 /* -------------------------------------------------------------------------- */
-/* Design tokens (SPI brand)                                                  */
-/* -------------------------------------------------------------------------- */
-const COLORS = {
-    navy: '#0B1B32',
-    navyDark: '#081426',
-    yellow: '#FDC02F',
-    blue: '#2E9EF5',
-};
-
-/* -------------------------------------------------------------------------- */
 /* Inline SVG Icons                                                           */
 /* -------------------------------------------------------------------------- */
-
 const IconWrench = (props) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...props}>
         <path d="M14.7 6.3a4 4 0 1 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2-2 2.5-2.5Z" />
@@ -40,60 +29,37 @@ const IconArrowRight = (props) => (
     </svg>
 );
 
-/* Category dynamic icon mapping / fallback helper --------------------------- */
+/* Helper untuk membersihkan path gambar */
+const getCleanImageUrl = (path, fallback) => {
+    if (!path) return fallback;
+    if (path.startsWith('http')) return path;
+    const cleaned = path.replace(/^storage\//, '').replace(/^storage\//, '');
+    return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
+};
+
+/* Category Design Mapping */
 const getCategoryDesign = (index) => {
     const designs = [
-        {
-            icon: IconWrench,
-            iconBg: 'bg-amber-50',
-            iconColor: 'text-amber-500',
-            accent: 'text-amber-500',
-            accentBar: 'bg-amber-500',
-        },
-        {
-            icon: IconWrench,
-            iconBg: 'bg-sky-50',
-            iconColor: 'text-sky-500',
-            accent: 'text-sky-500',
-            accentBar: 'bg-sky-500',
-        },
-        {
-            icon: IconWrench,
-            iconBg: 'bg-violet-50',
-            iconColor: 'text-violet-500',
-            accent: 'text-violet-500',
-            accentBar: 'bg-violet-500',
-        },
-        {
-            icon: IconWrench,
-            iconBg: 'bg-emerald-50',
-            iconColor: 'text-emerald-600',
-            accent: 'text-emerald-600',
-            accentBar: 'bg-emerald-600',
-        },
-        {
-            icon: IconWrench,
-            iconBg: 'bg-orange-50',
-            iconColor: 'text-orange-500',
-            accent: 'text-orange-500',
-            accentBar: 'bg-orange-500',
-        },
+        { icon: IconWrench, iconBg: 'bg-amber-50', iconColor: 'text-amber-500', accent: 'text-amber-500', accentBar: 'bg-amber-500' },
+        { icon: IconWrench, iconBg: 'bg-sky-50', iconColor: 'text-sky-500', accent: 'text-sky-500', accentBar: 'bg-sky-500' },
+        { icon: IconWrench, iconBg: 'bg-violet-50', iconColor: 'text-violet-500', accent: 'text-violet-500', accentBar: 'bg-violet-500' },
+        { icon: IconWrench, iconBg: 'bg-emerald-50', iconColor: 'text-emerald-600', accent: 'text-emerald-600', accentBar: 'bg-emerald-600' },
+        { icon: IconWrench, iconBg: 'bg-orange-50', iconColor: 'text-orange-500', accent: 'text-orange-500', accentBar: 'bg-orange-500' },
     ];
     return designs[index % designs.length];
 };
 
 /* -------------------------------------------------------------------------- */
-/* Hero                                                                       */
+/* Hero Section Dinamis                                                       */
 /* -------------------------------------------------------------------------- */
+function Hero({ serviceSetting }) {
+    const bgImage = getCleanImageUrl(serviceSetting?.hero_image, '/images/hero-services.png');
 
-const heroImage = '/images/hero-services.png';
-
-function Hero() {
     return (
         <section className="relative flex h-screen w-full items-center overflow-hidden bg-black pt-16">
             <div className="absolute inset-0">
                 <img
-                    src={heroImage}
+                    src={bgImage}
                     alt="SPI technician inspecting heavy equipment"
                     className="h-full w-full object-cover"
                 />
@@ -103,24 +69,19 @@ function Hero() {
             <div className="relative mx-auto w-full max-w-[1440px] px-6 lg:px-10">
                 <div className="max-w-2xl">
                     <h1 className="text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
-                        OUR SERVICE
+                        {serviceSetting?.hero_title_part1 || 'OUR SERVICE'}
                         <br />
-                        <span className="text-[#FDC02F]">SOLUTIONS</span>
+                        <span className="text-[#FDC02F]">{serviceSetting?.hero_title_part2 || 'SOLUTIONS'}</span>
                     </h1>
 
                     <p className="mt-6 max-w-lg text-base leading-relaxed text-gray-300 sm:text-lg">
-                        Comprehensive service solutions designed to keep your heavy
-                        equipment performing at its best.
+                        {serviceSetting?.hero_description || 'Comprehensive service solutions designed to keep your heavy equipment performing at its best.'}
                     </p>
                 </div>
             </div>
         </section>
     );
 }
-
-/* -------------------------------------------------------------------------- */
-/* Explore section heading                                                    */
-/* -------------------------------------------------------------------------- */
 
 function ExploreHeading() {
     return (
@@ -139,10 +100,6 @@ function ExploreHeading() {
     );
 }
 
-/* -------------------------------------------------------------------------- */
-/* Category card                                                              */
-/* -------------------------------------------------------------------------- */
-
 function CategoryCard({ category, index }) {
     const design = getCategoryDesign(index);
     const Icon = design.icon;
@@ -152,9 +109,7 @@ function CategoryCard({ category, index }) {
             href={`/services/${category.slug}`}
             className="group relative flex flex-col rounded-2xl border border-gray-200 bg-white p-7 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-[#FDC02F] hover:shadow-xl"
         >
-            <span
-                className={`grid h-14 w-14 place-items-center rounded-xl ${design.iconBg} ${design.iconColor} transition-transform duration-300 group-hover:scale-105`}
-            >
+            <span className={`grid h-14 w-14 place-items-center rounded-xl ${design.iconBg} ${design.iconColor} transition-transform duration-300 group-hover:scale-105`}>
                 <Icon className="h-6 w-6" />
             </span>
 
@@ -184,10 +139,12 @@ function CategoryCard({ category, index }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Technical Support CTA                                                      */
+/* Technical Support & CTA Dinamis                                            */
 /* -------------------------------------------------------------------------- */
+function TechnicalSupportCTA({ serviceSetting }) {
+    const waNumber = serviceSetting?.whatsapp_number || '6281122233344';
+    const waUrl = `https://wa.me/${waNumber}?text=Halo%20SPI,%20saya%20butuh%20bantuan%20teknis%20dan%20konsultasi%20layanan.`;
 
-function TechnicalSupportCTA() {
     return (
         <section className="mx-6 mb-20 overflow-hidden rounded-2xl bg-[#0B1B32] lg:mx-10">
             <div className="relative flex flex-col items-start gap-8 px-8 py-12 sm:flex-row sm:items-center sm:justify-between sm:px-12">
@@ -206,10 +163,10 @@ function TechnicalSupportCTA() {
                     </span>
                     <div>
                         <h3 className="text-xl font-extrabold text-white sm:text-2xl">
-                            Need Technical Support or Service Consultation?
+                            {serviceSetting?.cta_title || 'Need Technical Support or Service Consultation?'}
                         </h3>
                         <p className="mt-2 text-sm text-gray-300 sm:text-base">
-                            Our technical team is ready to help you 24/7.
+                            {serviceSetting?.cta_subtitle || 'Our technical team is ready to help you 24/7.'}
                         </p>
                     </div>
                 </div>
@@ -222,31 +179,29 @@ function TechnicalSupportCTA() {
                         TALK TO OUR EXPERT
                         <IconArrowRight className="h-3.5 w-3.5" />
                     </Link>
-                    <Link
-                        href="/contact-us"
+                    <a
+                        href={waUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 rounded-full bg-[#FDC02F] px-6 py-3 text-xs font-bold tracking-wide text-[#0B1B32] transition-transform duration-200 hover:scale-105"
                     >
                         REQUEST SERVICE
                         <IconArrowRight className="h-3.5 w-3.5" />
-                    </Link>
+                    </a>
                 </div>
             </div>
         </section>
     );
 }
 
-/* -------------------------------------------------------------------------- */
-/* Page                                                                       */
-/* -------------------------------------------------------------------------- */
-
-export default function Index({ categories }) {
+export default function Index({ categories, service_setting }) {
     return (
         <>
             <Head title="Our Service Solutions" />
 
             <div className="min-h-screen bg-white">
                 <Navbar />
-                <Hero />
+                <Hero serviceSetting={service_setting} />
 
                 <main>
                     <ExploreHeading />
@@ -260,7 +215,7 @@ export default function Index({ categories }) {
                     </section>
 
                     <div className="mt-16">
-                        <TechnicalSupportCTA />
+                        <TechnicalSupportCTA serviceSetting={service_setting} />
                     </div>
                 </main>
 
