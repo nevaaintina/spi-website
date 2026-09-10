@@ -56,7 +56,7 @@ class MediaController extends Controller
         ]);
     }
 
-    // 3. Simpan Media Baru (Foto/Video + Kategori + Posisi + Display Style)
+    // 3. Simpan Media Baru (Foto/Video + Kategori + Posisi + Display Style + Crop Data)
     public function store(Request $request)
     {
         $request->validate([
@@ -67,6 +67,7 @@ class MediaController extends Controller
             'description' => 'nullable|string',
             'position' => 'nullable|integer',
             'display_style' => 'nullable|string|in:cover,contain',
+            'crop_data' => 'nullable|array',
         ]);
 
         $filePath = null;
@@ -87,6 +88,7 @@ class MediaController extends Controller
             'description' => $request->description,
             'position' => $request->position ?? 0,
             'display_style' => $request->display_style ?? 'cover',
+            'crop_data' => $request->crop_data,
         ]);
 
         return redirect()->back()->with('success', 'Media berhasil ditambahkan!');
@@ -120,7 +122,21 @@ class MediaController extends Controller
         return redirect()->back()->with('success', 'Bentuk tampilan foto berhasil diubah!');
     }
 
-    // 6. Hapus Media
+    // 6. Update Titik Fokus Posisi Foto / Crop Data Interaktif (Admin)
+    public function updateCrop(Request $request, $id)
+    {
+        $request->validate([
+            'crop_data' => 'nullable|array',
+        ]);
+
+        $media = MediaGallery::findOrFail($id);
+        $media->crop_data = $request->crop_data;
+        $media->save();
+
+        return redirect()->back()->with('success', 'Area pas foto berhasil disimpan!');
+    }
+
+    // 7. Hapus Media
     public function destroy($id)
     {
         $media = MediaGallery::findOrFail($id);
@@ -132,7 +148,7 @@ class MediaController extends Controller
         return redirect()->back()->with('success', 'Media berhasil dihapus!');
     }
 
-    // 7. Update Hero Media (Mendukung Teks, Deskripsi, dan Gambar Latar Belakang)
+    // 8. Update Hero Media (Mendukung Teks, Deskripsi, dan Gambar Latar Belakang)
     public function updateHero(Request $request)
     {
         $request->validate([
@@ -172,7 +188,7 @@ class MediaController extends Controller
         return redirect()->back()->with('success', 'Hero media berhasil diperbarui!');
     }
 
-    // 8. Update Statistik Media (Admin)
+    // 9. Update Statistik Media (Admin)
     public function updateStatistic(Request $request, $id)
     {
         $request->validate([
@@ -189,7 +205,7 @@ class MediaController extends Controller
         return redirect()->back()->with('success', 'Statistik media berhasil diperbarui!');
     }
 
-    // 9. Simpan Drone Video Highlight (Admin)
+    // 10. Simpan Drone Video Highlight (Admin)
     public function storeDroneVideo(Request $request)
     {
         $request->validate([
@@ -223,7 +239,7 @@ class MediaController extends Controller
         return redirect()->back()->with('success', 'Drone video berhasil ditambahkan!');
     }
 
-    // 10. Hapus Drone Video Highlight (Admin)
+    // 11. Hapus Drone Video Highlight (Admin)
     public function destroyDroneVideo($id)
     {
         $video = DB::table('drone_videos')->where('id', $id)->first();

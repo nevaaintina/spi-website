@@ -5,7 +5,7 @@ import AdminLayout from '@/Layouts/AdminLayout';
 export default function AdminMedia({ mediaItems, droneVideos = [], statistics, hero }) {
   const [activeTab, setActiveTab] = useState('media');
 
-  // 1. Form Upload Media Baru (Dengan field position & display_style)
+  // 1. Form Upload Media Baru (Dengan field position, display_style & image_position)
   const mediaForm = useForm({
     title: '',
     category: 'Photo Gallery',
@@ -14,6 +14,7 @@ export default function AdminMedia({ mediaItems, droneVideos = [], statistics, h
     description: '',
     position: 0,
     display_style: 'cover',
+    image_position: 'center',
   });
 
   const handleMediaSubmit = (e) => {
@@ -113,7 +114,7 @@ export default function AdminMedia({ mediaItems, droneVideos = [], statistics, h
             <h2 className="text-xl font-black text-[#0f2b5c] mb-4">Unggah Foto atau Video Baru</h2>
             
             <form onSubmit={handleMediaSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
                 <div className="md:col-span-1">
                   <label className="block text-xs font-bold text-slate-600 mb-1">Judul / Keterangan</label>
                   <input 
@@ -168,7 +169,22 @@ export default function AdminMedia({ mediaItems, droneVideos = [], statistics, h
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-600 mb-1">Nomor Urut Posisi</label>
+                  <label className="block text-xs font-bold text-slate-600 mb-1">Fokus Foto</label>
+                  <select 
+                    value={mediaForm.data.image_position} 
+                    onChange={e => mediaForm.setData('image_position', e.target.value)} 
+                    className="w-full border border-slate-200 p-3 rounded-xl text-xs bg-slate-50"
+                  >
+                    <option value="center">Center</option>
+                    <option value="top">Top</option>
+                    <option value="bottom">Bottom</option>
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-600 mb-1">Urutan Posisi</label>
                   <input 
                     type="number" 
                     value={mediaForm.data.position} 
@@ -206,7 +222,7 @@ export default function AdminMedia({ mediaItems, droneVideos = [], statistics, h
             </form>
           </div>
 
-          {/* Daftar Media Aktif dengan Fitur Adjust Bentuk & Posisi */}
+          {/* Daftar Media Aktif dengan Fitur Adjust Posisi & Fokus */}
           <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
             <h3 className="font-bold text-sm text-[#0f2b5c] mb-4">Daftar Media Tersimpan ({mediaItems.length})</h3>
             
@@ -372,17 +388,25 @@ export default function AdminMedia({ mediaItems, droneVideos = [], statistics, h
   );
 }
 
-// Komponen Card Media dengan Input Pengaturan Posisi & Bentuk Tampilan Foto
+// Komponen Card Media dengan Input Pengaturan Posisi, Bentuk Tampilan & Fokus Foto
 function MediaItemCard({ item, onDelete }) {
   const form = useForm({
     position: item.position || 0,
     display_style: item.display_style || 'cover',
+    image_position: item.image_position || 'center',
   });
 
-  const handleUpdate = (e) => {
+  const handleUpdateStyle = (e) => {
     e.preventDefault();
     form.put(`/admin/media-style/${item.id}`, {
-      onSuccess: () => alert('Pengaturan media berhasil diperbarui!'),
+      onSuccess: () => alert('Bentuk tampilan foto berhasil diperbarui!'),
+    });
+  };
+
+  const handleUpdateImagePosition = (e) => {
+    e.preventDefault();
+    form.put(`/admin/media-image-position/${item.id}`, {
+      onSuccess: () => alert('Posisi fokus foto berhasil diperbarui!'),
     });
   };
 
@@ -403,6 +427,7 @@ function MediaItemCard({ item, onDelete }) {
             <img 
               src={`/${item.file_path}`} 
               alt={item.title} 
+              style={{ objectPosition: item.image_position || 'center' }}
               className={`h-full w-full ${item.display_style === 'contain' ? 'object-contain' : 'object-cover'}`} 
             />
           )}
@@ -417,7 +442,7 @@ function MediaItemCard({ item, onDelete }) {
 
       <div className="p-3 pt-0 border-t border-slate-100 mt-2 space-y-2">
         {/* Form Atur Bentuk Foto (Cover / Contain) */}
-        <form onSubmit={handleUpdate} className="flex items-center gap-2 mt-2">
+        <form onSubmit={handleUpdateStyle} className="flex items-center gap-2 mt-2">
           <div className="w-1/2">
             <label className="block text-[9px] font-bold text-slate-500 mb-0.5">Bentuk Foto</label>
             <select 
@@ -432,6 +457,29 @@ function MediaItemCard({ item, onDelete }) {
           <div className="w-1/2 flex items-end">
             <button type="submit" disabled={form.processing} className="w-full py-1.5 bg-[#0f2b5c] hover:bg-slate-800 text-white text-[10px] font-bold rounded-lg transition cursor-pointer">
               Simpan Style
+            </button>
+          </div>
+        </form>
+
+        {/* Form Atur Fokus Posisi Foto / Crop Alignment */}
+        <form onSubmit={handleUpdateImagePosition} className="flex items-center gap-2">
+          <div className="w-1/2">
+            <label className="block text-[9px] font-bold text-slate-500 mb-0.5">Fokus Foto</label>
+            <select 
+              value={form.data.image_position} 
+              onChange={e => form.setData('image_position', e.target.value)} 
+              className="w-full border p-1.5 rounded-lg text-xs bg-white font-bold"
+            >
+              <option value="center">Center</option>
+              <option value="top">Top</option>
+              <option value="bottom">Bottom</option>
+              <option value="left">Left</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+          <div className="w-1/2 flex items-end">
+            <button type="submit" disabled={form.processing} className="w-full py-1.5 bg-sky-700 hover:bg-sky-800 text-white text-[10px] font-bold rounded-lg transition cursor-pointer">
+              Atur Fokus
             </button>
           </div>
         </form>

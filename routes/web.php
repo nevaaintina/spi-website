@@ -11,18 +11,15 @@ use App\Models\Post;
 use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AboutAdminController;
 
 // ==========================================
 // 1. PUBLIC ROUTES
 // ==========================================
 
-// Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// Halaman Detail Featured Services / Layanan Unggulan dari Home
 Route::get('/featured-services/{slug}', [HomeController::class, 'showFeaturedService'])->name('featured.service.show');
 
-// About Us Group
 Route::prefix('about')->group(function () {
     Route::get('/', function () { 
         return Inertia::render('About/Index'); 
@@ -37,59 +34,45 @@ Route::prefix('about')->group(function () {
     })->name('about.management');
 });
 
-// Why Choose Us
 Route::get('/why-choose-us', function () {
     return Inertia::render('WhyChooseUs');
 })->name('why-choose-us');
 
-// Halaman Khusus ESG (Environment, Social & Governance)
 Route::get('/esg', function () {
     return Inertia::render('About/Esg');
 })->name('about.esg');
 
-// Halaman Khusus HSE (Health, Safety & Environment)
 Route::get('/hse', function () {
     return Inertia::render('About/Hse');
 })->name('about.hse');
 
-// Products & Equipment XCMG Group (Publik Index & Show)
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('products.index');
     Route::get('/{slug}', [ProductController::class, 'show'])->name('products.show');
 });
 
-// Services Group (Publik Index & Show Detail Layanan)
 Route::prefix('services')->group(function () {
     Route::get('/', [ServiceController::class, 'index'])->name('services.index');
     Route::get('/{slug}', [ServiceController::class, 'show'])->name('services.show');
 });
 
-// Spare Parts Center (Publik)
 Route::get('/spare-parts', [SparePartController::class, 'index'])->name('spare-parts');
 
-// Knowledge Center & Company News
 Route::prefix('knowledge')->group(function () {
     Route::get('/', [KnowledgeController::class, 'index'])->name('knowledge.index');
     Route::get('/{slug}', [KnowledgeController::class, 'show'])->name('knowledge.show');
 });
 
-// Media Gallery (Publik)
 Route::get('/media-gallery', [MediaController::class, 'index'])->name('media');
-
-// Sustainability (ESG, HSE & CSR) Umum
 Route::get('/sustainability', function () {
     return Inertia::render('Sustainability');
 })->name('sustainability');
 
-// Career (Publik)
 Route::get('/career', [CareerController::class, 'index'])->name('career');
-
-// Detail / Form Lamaran Kerja Publik
 Route::get('/career/apply/{id}', function ($id) {
     return Inertia::render('CareerApply', ['id' => $id]);
 })->name('career.apply');
 
-// Contact Us (Publik)
 Route::get('/contact-us', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact/submit', [ContactController::class, 'storeMessage'])->name('contact.submit');
 
@@ -99,146 +82,116 @@ Route::post('/contact/submit', [ContactController::class, 'storeMessage'])->name
 // ==========================================
 Route::prefix('admin')->name('admin.')->group(function () {
     
+    // ➔ RUTE ABOUT MANAGER DILETAKKAN DI PALING ATAS BLOK ADMIN AGAR TIDAK 404
+    Route::get('/about-manager', [AboutAdminController::class, 'index'])->name('about.manager');
+    Route::post('/about/text', [AboutAdminController::class, 'updateText'])->name('about.text.update');
+    Route::post('/about/management', [AboutAdminController::class, 'storeManagement'])->name('about.management.store');
+    Route::delete('/about/management/{id}', [AboutAdminController::class, 'destroyManagement'])->name('about.management.destroy');
+
     // Dashboard Utama Admin
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
 
-    // ==========================================
-    // SERVICES CMS MANAGEMENT (Admin)
-    // ==========================================
+    // SERVICES CMS MANAGEMENT
     Route::get('/services', [ServiceController::class, 'adminIndex'])->name('services');
     Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
     Route::match(['post', 'put'], '/services/{id}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
     Route::post('/services-content', [ServiceController::class, 'updateContent'])->name('services.content.update');
 
-    // ==========================================
-    // PRODUCTS CMS MANAGEMENT (Admin)
-    // ==========================================
+    // PRODUCTS CMS MANAGEMENT
     Route::get('/products', [ProductController::class, 'adminIndex'])->name('products.manager');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::match(['post', 'put'], '/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::post('/products-content', [ProductController::class, 'updateContent'])->name('products.content.update');
 
-    // CRUD Lowongan Karir di Admin
+    // CAREER ADMIN
     Route::get('/career', [CareerController::class, 'adminIndex'])->name('career');
     Route::post('/jobs', [CareerController::class, 'store'])->name('jobs.store');
     Route::match(['post', 'put'], '/jobs/{id}', [CareerController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs/{id}', [CareerController::class, 'destroy'])->name('jobs.destroy');
-
-    // Update Hero Banner Career
     Route::post('/career/hero/{id}', [CareerController::class, 'updateHero'])->name('career.hero.update');
-
-    // Section Culture
     Route::post('/career/culture-section', [CareerController::class, 'updateCultureSection'])->name('career.culture-section.update');
 
-    // CRUD Items Our Culture di Admin
     Route::post('/cultures', [CareerController::class, 'storeCulture'])->name('cultures.store');
     Route::put('/cultures/{id}', [CareerController::class, 'updateCulture'])->name('cultures.update');
     Route::delete('/cultures/{id}', [CareerController::class, 'destroyCulture'])->name('cultures.destroy');
 
-    // Update Hero Banner & Hapus Video Hero Homepage
     Route::put('/hero/{id}', [HomeController::class, 'updateHero'])->name('hero.update');
     Route::delete('/hero/delete-video/{id}', [HomeController::class, 'destroyHeroVideo'])->name('hero.delete-video');
-
-    // Update Intro / Layanan
     Route::put('/intro/{id}', [HomeController::class, 'updateIntro'])->name('intro.update');
 
-    // CRUD Statistik Perusahaan
     Route::post('/statistics', [HomeController::class, 'storeStatistic'])->name('statistics.store');
     Route::put('/statistics/{id}', [HomeController::class, 'updateStatistic'])->name('statistics.update');
     Route::delete('/statistics/{id}', [HomeController::class, 'destroyStatistic'])->name('statistics.destroy');
 
-    // CRUD Proyek
     Route::post('/projects', [HomeController::class, 'storeProject'])->name('projects.store');
     Route::put('/projects/{id}', [HomeController::class, 'updateProject'])->name('projects.update');
     Route::delete('/projects/{id}', [HomeController::class, 'destroyProject'])->name('projects.destroy');
 
-    // CRUD Testimoni Customer
     Route::post('/testimonials', [HomeController::class, 'storeTestimonial'])->name('testimonials.store');
     Route::put('/testimonials/{id}', [HomeController::class, 'updateTestimonial'])->name('testimonials.update');
     Route::delete('/testimonials/{id}', [HomeController::class, 'destroyTestimonial'])->name('testimonials.destroy');
 
-    // CRUD Berita / Posts
     Route::post('/posts', [HomeController::class, 'storePost'])->name('posts.store');
     Route::put('/posts/{id}', [HomeController::class, 'updatePost'])->name('posts.update');
     Route::delete('/posts/{id}', [HomeController::class, 'destroyPost'])->name('posts.destroy');
 
     Route::put('/strength/{id}', [HomeController::class, 'updateStrength'])->name('strength.update');
 
-    // Featured Services CMS
     Route::put('/featured-section/{id}', [HomeController::class, 'updateFeaturedSection'])->name('featured.section.update');
     Route::post('/featured-items', [HomeController::class, 'storeFeaturedItem'])->name('featured.items.store');
     Route::match(['post', 'put'], '/featured-items/{id?}', [HomeController::class, 'updateFeaturedItem'])->name('featured.items.update');
     Route::delete('/featured-items/{id}', [HomeController::class, 'destroyFeaturedItem'])->name('featured.items.destroy');
 
-    // Testimonials CMS Section & Contact
     Route::put('/testimonial-section/{id}', [HomeController::class, 'updateTestimonialSection'])->name('testimonial.section.update');
     Route::put('/contact/{id}', [HomeController::class, 'updateContact'])->name('contact.update');
 
-    // CRUD Branch Office
     Route::post('/branches', [HomeController::class, 'storeBranch'])->name('branches.store');
     Route::put('/branches/{id}', [HomeController::class, 'updateBranch'])->name('branches.update');
     Route::delete('/branches/{id}', [HomeController::class, 'destroyBranch'])->name('branches.destroy');
 
-    // Section Job Vacancy
     Route::post('/career/job-section', [CareerController::class, 'updateJobSection'])->name('career.job-section.update');
-
-    // CRUD Career Path
     Route::post('/career-paths', [CareerController::class, 'storePath'])->name('career-paths.store');
     Route::put('/career-paths/{id}', [CareerController::class, 'updatePath'])->name('career-paths.update');
     Route::delete('/career-paths/{id}', [CareerController::class, 'destroyPath'])->name('career-paths.destroy');
-
-    // Section Career Development
     Route::post('/career/development-section', [CareerController::class, 'updateDevelopmentSection'])->name('career.development-section.update');
 
-    // CRUD Employee Stories
     Route::post('/employee-stories', [CareerController::class, 'storeStory'])->name('employee-stories.store');
     Route::match(['post', 'put'], '/employee-stories/{id}', [CareerController::class, 'updateStory'])->name('employee-stories.update');
     Route::delete('/employee-stories/{id}', [CareerController::class, 'destroyStory'])->name('employee-stories.destroy');
-    
     Route::post('/career/story-section', [CareerController::class, 'updateStorySection'])->name('career.story-section.update');
 
-    // Section Internship Program & Testimonials
     Route::post('/career/internship-section', [CareerController::class, 'updateInternshipSection'])->name('career.internship-section.update');
     Route::post('/internship-testimonials', [CareerController::class, 'storeInternshipTestimonial'])->name('internship-testimonials.store');
     Route::match(['post', 'put'], '/internship-testimonials/{id}', [CareerController::class, 'updateInternshipTestimonial'])->name('internship-testimonials.update');
     Route::delete('/internship-testimonials/{id}', [CareerController::class, 'destroyInternshipTestimonial'])->name('internship-testimonials.destroy');
-
     Route::post('/career/application-section', [CareerController::class, 'updateApplicationSection'])->name('career.application-section.update');
 
-    // ==========================================
-    // CONTACT US CMS MANAGEMENT (Admin)
-    // ==========================================
+    // CONTACT US CMS MANAGEMENT
     Route::get('/contact', [ContactController::class, 'adminIndex'])->name('contact.index');
     Route::post('/contact/hero', [ContactController::class, 'updateHero'])->name('contact.hero.update');
     Route::post('/contact/cards', [ContactController::class, 'updateCards'])->name('contact.cards.update');
     Route::post('/contact/info-section', [ContactController::class, 'updateInfoSection'])->name('contact.info.update');
     Route::delete('/contact/messages/{id}', [ContactController::class, 'destroyMessage'])->name('contact.messages.destroy');
 
-    // CRUD Knowledge Center di Admin
+    // KNOWLEDGE CENTER ADMIN
     Route::get('/knowledge', [KnowledgeController::class, 'adminIndex'])->name('knowledge.index');
     Route::post('/knowledge/hero', [KnowledgeController::class, 'updateHero'])->name('knowledge.hero');
     Route::post('/knowledge', [KnowledgeController::class, 'store'])->name('knowledge.store');
     Route::match(['post', 'put'], '/knowledge/{id}', [KnowledgeController::class, 'update'])->name('knowledge.update');
     Route::delete('/knowledge/{id}', [KnowledgeController::class, 'destroy'])->name('knowledge.destroy');
 
-    // ==========================================
-    // MEDIA GALLERY CMS MANAGEMENT (Admin)
-    // ==========================================
+    // MEDIA GALLERY ADMIN
     Route::get('/media', [MediaController::class, 'adminIndex'])->name('media');
     Route::post('/media', [MediaController::class, 'store']);
     Route::delete('/media/{id}', [MediaController::class, 'destroy']);
     Route::put('/media-hero', [MediaController::class, 'updateHero']);
     Route::put('/media-statistics/{id}', [MediaController::class, 'updateStatistic']);
-
-    // CRUD Drone Video Highlight (Admin)
     Route::post('/drone-videos', [MediaController::class, 'storeDroneVideo'])->name('drone.store');
     Route::delete('/drone-videos/{id}', [MediaController::class, 'destroyDroneVideo'])->name('drone.destroy');
 
-    // ==========================================
     // SPARE PARTS & PARTS MANAGER
-    // ==========================================
     Route::get('/spare-parts-manager', [SparePartController::class, 'adminIndex'])->name('parts.manager');
     Route::post('/spare-parts', [SparePartController::class, 'store'])->name('spare-parts.store');
     Route::match(['post', 'put'], '/spare-parts/{id}', [SparePartController::class, 'update'])->name('spare-parts.update');
@@ -248,7 +201,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/spare-catalog-file', [SparePartController::class, 'updateCatalogFile'])->name('spare-parts.catalog.update');
     Route::post('/spare-parts-content', [SparePartController::class, 'updateContent'])->name('spare-parts.content.update');
 
-    // Di dalam Route::prefix('admin')->name('admin.')->group(function () { ... })
     Route::put('/media-position/{id}', [MediaController::class, 'updatePosition']);
     Route::put('/media-style/{id}', [MediaController::class, 'updateStyle']);
 });

@@ -54,7 +54,7 @@ const IconHandshake = ({ className = 'w-6 h-6' }) => (
 const IconCalendar = ({ className = 'w-6 h-6' }) => (
   <svg viewBox="0 0 24 24" fill="none" className={className}>
     <rect x="4" y="5.5" width="16" height="14" rx="2" stroke="currentColor" strokeWidth="1.6" />
-    <path d="M4 10h16M8 3.5v3M16 3.5v3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    <path d="M4 10h16M8 3.5v3M16 3.5v3" stroke="currentColor" strokeLinecap="round" />
   </svg>
 );
 
@@ -154,6 +154,12 @@ const MediaCard = ({ item, onImageClick }) => {
   const isVideo = item.type === 'video' || mediaUrl.match(/\.(mp4|mov|mkv|webm)$/i);
   
   const imageDisplayClass = item.display_style === 'contain' ? 'object-contain bg-slate-950' : 'object-cover';
+  
+  // Menerapkan titik fokus posisi kustom dari hasil crop interaktif admin jika tersedia
+  const cropStyle = item.crop_data ? {
+    objectFit: 'cover',
+    objectPosition: `${item.crop_data.x}% ${item.crop_data.y}%`
+  } : {};
 
   return (
     <div className="relative overflow-hidden rounded-lg group h-72 sm:h-80 shadow-md bg-slate-900 flex items-center justify-center">
@@ -171,6 +177,7 @@ const MediaCard = ({ item, onImageClick }) => {
             src={mediaUrl}
             alt={item.title || "Media gallery item"}
             onClick={() => onImageClick(mediaUrl, item.title || item.category)}
+            style={cropStyle}
             className={`absolute inset-0 h-full w-full transition-transform duration-300 group-hover:scale-105 cursor-pointer ${imageDisplayClass}`}
             title="Klik untuk memperbesar foto"
           />

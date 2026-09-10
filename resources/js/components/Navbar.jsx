@@ -72,24 +72,13 @@ export default function Navbar() {
       homeBranch: "Kantor Cabang",
 
       about: "About Us",
-      aboutOverview: "Profil Perusahaan",
-      aboutProfile: "Profil Perusahaan",
-      aboutManagement: "Tim Manajemen",
-      aboutVision: "Visi & Misi",
-      aboutWhy: "Mengapa Memilih Kami",
+      aboutOverview: "Company Profile Overview",
+      aboutWhy: "Why Choose Us",
       aboutEsg: "Environment, Social & Governance (ESG)",
       aboutHse: "Health, Safety & Environment (HSE)",
 
       products: "Products",
-
       services: "Services",
-      servicesAll: "Semua Layanan",
-      servicesMaint: "Pemeliharaan & Perbaikan",
-      servicesInst: "Pemasangan & Pengujian",
-      servicesOverhaul: "Restorasi Total",
-      servicesInsp: "Inspeksi & Pengujian",
-      servicesContract: "Kontrak & Konsultasi",
-
       parts: "Spare Parts",
       knowledge: "Knowledge",
       media: "Media",
@@ -112,23 +101,12 @@ export default function Navbar() {
 
       about: "About Us",
       aboutOverview: "Company Profile Overview",
-      aboutProfile: "Company Profile",
-      aboutManagement: "Management Team",
-      aboutVision: "Vision & Mission",
       aboutWhy: "Why Choose Us",
       aboutEsg: "Environment, Social & Governance (ESG)",
       aboutHse: "Health, Safety & Environment (HSE)",
 
       products: "Products",
-
       services: "Services",
-      servicesAll: "All Services Overview",
-      servicesMaint: "Maintenance & Repair",
-      servicesInst: "Installation & Commissioning",
-      servicesOverhaul: "Overhaul & Rebuild",
-      servicesInsp: "Inspection & Testing",
-      servicesContract: "Contract & Consulting",
-
       parts: "Spare Parts",
       knowledge: "Knowledge",
       media: "Media",
@@ -197,11 +175,11 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* About Us Dropdown - TERPISAH ESG & HSE */}
+            {/* About Us Dropdown - Dengan Opsi Overview (/about) */}
             <div className="relative">
               <button 
                 onClick={() => handleMenuClick('about')} 
-                className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 flex items-center gap-1 focus:outline-none hover:text-[#ffc107] ${
+                className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 flex items-center gap-1 focus:outline-none hover:text-[#ffc107] cursor-pointer ${
                   activeMenu === 'about' || isParentActive(['/about', '/why-choose-us', '/esg', '/hse']) ? 'border-[#ffc107] text-[#ffc107]' : 'border-transparent text-[#0f2b5c]'
                 }`}
               >
@@ -210,15 +188,12 @@ export default function Navbar() {
               </button>
 
               {activeMenu === 'about' && (
-                <div className="absolute top-full left-0 w-[460px] bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 mt-3 z-50">
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-xs font-bold text-[#0f2b5c]">
-                    <a href="/about" className="hover:text-[#ffc107] transition py-1 col-span-2 border-b border-slate-100 font-black">{currentText.aboutOverview}</a>
-                    <a href="/about" className="hover:text-[#ffc107] transition py-1">{currentText.aboutProfile}</a>
-                    <a href="/why-choose-us" className="text-[#ffc107] hover:text-[#0f2b5c] transition py-1 font-extrabold">{currentText.aboutWhy}</a>
-                    <a href="/about/management" className="hover:text-[#ffc107] transition py-1">{currentText.aboutManagement}</a>
-                    <a href="/about/vision-mission" className="hover:text-[#ffc107] transition py-1">{currentText.aboutVision}</a>
-                    <a href="/esg" className="text-[#ffc107] hover:text-[#0f2b5c] transition py-1 font-extrabold">{currentText.aboutEsg}</a>
-                    <a href="/hse" className="text-[#ffc107] hover:text-[#0f2b5c] transition py-1 font-extrabold">{currentText.aboutHse}</a>
+                <div className="absolute top-full left-0 w-[320px] bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-4 mt-3 z-50">
+                  <div className="flex flex-col space-y-2 text-xs font-bold">
+                    <a href="/about" className="text-[#0f2b5c] hover:text-[#ffc107] transition py-1.5 border-b border-slate-100 font-black">{currentText.aboutOverview}</a>
+                    <a href="/why-choose-us" className="text-[#0f2b5c] hover:opacity-80 transition py-1 font-extrabold">{currentText.aboutWhy}</a>
+                    <a href="/esg" className="text-[#15803d] hover:opacity-80 transition py-1 font-extrabold">{currentText.aboutEsg}</a>
+                    <a href="/hse" className="text-[#0284c7] hover:opacity-80 transition py-1 font-extrabold">{currentText.aboutHse}</a>
                   </div>
                 </div>
               )}
@@ -234,31 +209,15 @@ export default function Navbar() {
               {currentText.products}
             </a>
 
-            {/* Services Dropdown */}
-            <div className="relative">
-              <button 
-                onClick={() => handleMenuClick('services')} 
-                className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 flex items-center gap-1 focus:outline-none hover:text-[#ffc107] ${
-                  activeMenu === 'services' || isParentActive(['/services']) ? 'border-[#ffc107] text-[#ffc107]' : 'border-transparent text-[#0f2b5c]'
-                }`}
-              >
-                <span>{currentText.services}</span>
-                <span className="text-[10px]">▼</span>
-              </button>
-
-              {activeMenu === 'services' && (
-                <div className="absolute top-full left-0 w-[440px] bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 mt-3 z-50">
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-xs text-[#0f2b5c] font-bold">
-                    <a href="/services" className="hover:text-[#ffc107] transition pb-2 col-span-2 border-b border-slate-100 font-black">{currentText.servicesAll}</a>
-                    <a href="/services/maintenance-repair" className="hover:text-[#ffc107] transition py-1 rounded-lg">{currentText.servicesMaint}</a>
-                    <a href="/services/installation-commissioning" className="hover:text-[#ffc107] transition py-1 rounded-lg">{currentText.servicesInst}</a>
-                    <a href="/services/overhaul-rebuild" className="hover:text-[#ffc107] transition py-1 rounded-lg">{currentText.servicesOverhaul}</a>
-                    <a href="/services/inspection-testing" className="hover:text-[#ffc107] transition py-1 rounded-lg">{currentText.servicesInsp}</a>
-                    <a href="/services/contract-consulting" className="hover:text-[#ffc107] transition py-1 rounded-lg col-span-2">{currentText.servicesContract}</a>
-                  </div>
-                </div>
-              )}
-            </div>
+            {/* Services Tanpa Dropdown */}
+            <a 
+              href="/services" 
+              className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 hover:text-[#ffc107] ${
+                isParentActive(['/services']) ? 'border-[#ffc107] text-[#ffc107]' : 'border-transparent text-[#0f2b5c]'
+              }`}
+            >
+              {currentText.services}
+            </a>
 
             {/* Spare Parts */}
             <a href="/spare-parts" className={`px-2.5 py-1.5 transition-all duration-200 border-b-2 hover:text-[#ffc107] ${isActive('/spare-parts') ? 'border-[#ffc107] text-[#ffc107]' : 'border-transparent text-[#0f2b5c]'}`}>
@@ -335,26 +294,17 @@ export default function Navbar() {
             <a href="/#contact" className="py-2 border-b border-slate-100 pl-4 text-xs font-normal">{currentText.homeContact}</a>
             <a href="/#operational-area" className="py-2 border-b border-slate-100 pl-4 text-xs font-normal">{currentText.homeBranch}</a>
 
-            <a href="/about" className="py-2 border-b border-slate-100">{currentText.about}</a>
-            <a href="/about/management" className="py-2 border-b border-slate-100 pl-4 text-xs">{currentText.aboutManagement}</a>
-            <a href="/why-choose-us" className="py-2 border-b border-slate-100 pl-4 text-xs text-[#ffc107] hover:text-[#0f2b5c]">{currentText.aboutWhy}</a>
-            <a href="/about/vision-mission" className="py-2 border-b border-slate-100 pl-4 text-xs">{currentText.aboutVision}</a>
-            <a href="/esg" className="py-2 border-b border-slate-100 pl-4 text-xs text-[#ffc107] hover:text-[#0f2b5c]">{currentText.aboutEsg}</a>
-            <a href="/hse" className="py-2 border-b border-slate-100 pl-4 text-xs text-[#ffc107] hover:text-[#0f2b5c]">{currentTest.aboutHse}</a>
+            <div className="py-2 border-b border-slate-100 flex flex-col space-y-2">
+              <span className="text-slate-400 font-semibold">{currentText.about}</span>
+              <a href="/about" className="pl-4 text-xs text-[#0f2b5c] font-black">{currentText.aboutOverview}</a>
+              <a href="/why-choose-us" className="pl-4 text-xs text-[#0f2b5c] font-extrabold">{currentText.aboutWhy}</a>
+              <a href="/esg" className="pl-4 text-xs text-[#15803d] font-extrabold">{currentText.aboutEsg}</a>
+              <a href="/hse" className="pl-4 text-xs text-[#0284c7] font-extrabold">{currentText.aboutHse}</a>
+            </div>
             
             <a href="/products" className="py-2 border-b border-slate-100">{currentText.products}</a>
-
-            {/* Mobile Services Sub-bab */}
-            <div className="py-2 border-b border-slate-100 flex flex-col space-y-1">
-              <span>{currentText.services}</span>
-              <a href="/services/maintenance-repair" className="pl-4 text-xs font-normal py-1">{currentText.servicesMaint}</a>
-              <a href="/services/installation-commissioning" className="pl-4 text-xs font-normal py-1">{currentText.servicesInst}</a>
-              <a href="/services/overhaul-rebuild" className="pl-4 text-xs font-normal py-1">{currentText.servicesOverhaul}</a>
-              <a href="/services/inspection-testing" className="pl-4 text-xs font-normal py-1">{currentText.servicesInsp}</a>
-              <a href="/services/contract-consulting" className="pl-4 text-xs font-normal py-1">{currentText.servicesContract}</a>
-            </div>
-
-            <a href="/spare-parts" className="py-2 border-b border-slate-100">{currentTest.parts}</a>
+            <a href="/services" className="py-2 border-b border-slate-100">{currentText.services}</a>
+            <a href="/spare-parts" className="py-2 border-b border-slate-100">{currentText.parts}</a>
             <a href="/knowledge" className="py-2 border-b border-slate-100">{currentText.knowledge}</a>
             <a href="/media-gallery" className="py-2 border-b border-slate-100">{currentText.media}</a>
             <a href="/career" className="py-2 border-b border-slate-100">{currentText.career}</a>
