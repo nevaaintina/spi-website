@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
-import { Link } from '@inertiajs/react';
 
 // Komponen Helper untuk Counter yang Berputar Ulang Setiap Kali di-Scroll ke Layar
 function AnimatedCounter({ targetNumber, suffix = "" }) {
@@ -59,18 +58,6 @@ function AnimatedCounter({ targetNumber, suffix = "" }) {
 
 export default function Home({ hero, intro, statistics, strength, featured_section, featured_items, testimonial_section, testimonials, projects, posts, contact, branches }) {
   const [showAll, setShowAll] = useState(false);
-
-  // Skrip otomatis untuk menangkap hash #featured-services saat kembali dari halaman detail
-  useEffect(() => {
-    if (window.location.hash === '#featured-services') {
-      const section = document.getElementById('featured-services');
-      if (section) {
-        setTimeout(() => {
-          section.scrollIntoView({ behavior: 'smooth' });
-        }, 150);
-      }
-    }
-  }, []);
 
   // Inisialisasi Peta Interaktif Leaflet Publik
   useEffect(() => {
@@ -274,9 +261,12 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
 
           </div>
 
-          {/* ================= 3 CARD LAYANAN BESAR ================= */}
+          {/* =========================================================
+              3 CARD LAYANAN BESAR
+          ========================================================= */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             
+            {/* CARD 1 */}
             <div className="relative p-8 bg-white border border-slate-200 rounded-3xl shadow-sm transition-all duration-500 hover:shadow-2xl flex flex-col justify-end group overflow-hidden h-[340px]">
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
@@ -298,6 +288,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
               </div>
             </div>
 
+            {/* CARD 2 */}
             <div className="relative p-8 bg-white border border-slate-200 rounded-3xl shadow-sm transition-all duration-500 hover:shadow-2xl flex flex-col justify-end group overflow-hidden h-[340px]">
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
@@ -319,6 +310,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
               </div>
             </div>
 
+            {/* CARD 3 */}
             <div className="relative p-8 bg-white border border-slate-200 rounded-3xl shadow-sm transition-all duration-500 hover:shadow-2xl flex flex-col justify-end group overflow-hidden h-[340px]">
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
@@ -363,7 +355,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
         
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-80 pointer-events-none"
-          style={{ backgroundImage: `url('/images/statistik.jpg')` }}
+          style={{ backgroundImage: `url('/images/statistik.png')` }}
         ></div>
 
         <div className="absolute top-12 right-12 z-0 hidden lg:grid grid-cols-6 gap-2.5 opacity-20 pointer-events-none">
@@ -389,9 +381,9 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
             <p className="text-white text-xs md:text-sm mt-4 font-normal leading-relaxed max-w-2xl mx-auto">
               Komitmen kami dalam memberikan layanan terbaik bagi sektor pertambangan dan konstruksi di seluruh Indonesia.
             </p>
-          </div>
+          </div> 
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-16 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
+         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-16">
             {statistics && statistics.length > 0 ? (
               statistics.map((item, idx) => (
                 <div key={item.id || idx} className="flex flex-col items-center text-center pt-6 lg:pt-0 lg:px-3 group">
@@ -469,6 +461,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                   backgroundImage: `url('${strength?.banner_image_path ? `/${strength.banner_image_path}` : '/images/strength.jpg'}')`,
                 }}
               ></div>
+
             </div>
 
             <div className="lg:col-span-7 p-8 lg:p-10 flex flex-col justify-center bg-white pr-12">
@@ -478,19 +471,6 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
               <p className="text-slate-500 text-xs md:text-sm leading-relaxed mb-8 max-w-xl">
                 {strength?.desc_why || 'Kami tidak hanya menyediakan layanan, tetapi juga menghadirkan nilai tambah melalui kualitas, inovasi, dan komitmen berkelanjutan.'}
               </p>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 divide-x-0 md:divide-x divide-slate-200/60">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="flex flex-col items-center text-center p-2 transition-transform duration-300 hover:scale-105">
-                    <div className="w-12 h-12 rounded-2xl bg-amber-100/60 text-amber-600 flex items-center justify-center mb-3 border border-amber-200/80 shadow-2xs font-black text-xs">
-                      {i === 4 ? '24/7' : `0${i}`}
-                    </div>
-                    <h4 className="font-bold text-xs text-[#0f2b5c] mb-1">{strength?.[`point_${i}_title`] || `Poin ${i}`}</h4>
-                    <p className="text-slate-500 text-[10px] leading-snug mb-3">{strength?.[`point_${i}_desc`] || 'Deskripsi poin keunggulan.'}</p>
-                    <span className="w-6 h-[2px] bg-[#ffc107]"></span>
-                  </div>
-                ))}
-              </div>
             </div>
 
           </div>
@@ -498,8 +478,8 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
         </div>
       </section>
 
-      {/* ================= 6. SECTION FEATURED SERVICES (ID DIGANTI JADI #featured-services) ================= */}
-      <section id="featured-services" className="relative w-full py-24 overflow-hidden border-b border-slate-800 bg-[#0f2b5c]">
+      {/* ================= 6. SECTION FEATURED SERVICES ================= */}
+      <section id="services" className="relative w-full py-24 overflow-hidden border-b border-slate-800 bg-[#0f2b5c]">
         
         <div
           className="absolute inset-0 w-full h-full bg-cover bg-right-top opacity-120 pointer-events-none z-0"
@@ -544,14 +524,17 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                   key={srv.id || idx} 
                   className="group relative h-[360px] w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200/40 bg-slate-900 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
                 >
+                  {/* 1. BACKGROUND FOTO PENUH (BERSIH TANPA APA-APA DI AWAL) */}
                   <img
                     src={srv.image_path ? `/${srv.image_path}` : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80'}
                     alt={srv.title}
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
 
+                  {/* 2. LAPISAN BIRU TRANSPARAN (SLIDE UP DARI BAWAH SAAT DI-HOVER) */}
                   <div className="absolute inset-0 z-10 flex flex-col justify-end p-6 text-white bg-[#0f2b5c]/90 backdrop-blur-sm translate-y-full transition-transform duration-500 ease-out group-hover:translate-y-0">
                     
+                    {/* KONTEN TEKS WARNA PUTIH & KUNING */}
                     <div className="relative z-10 transform translate-y-4 opacity-0 transition-all duration-300 delay-100 group-hover:translate-y-0 group-hover:opacity-100">
                       <span className="inline-block text-[10px] font-black uppercase tracking-widest text-[#ffc107] mb-1">
                         LAYANAN UNGGULAN
@@ -567,12 +550,13 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                         {srv.description}
                       </p>
 
-                     <Link 
-  href={srv.link_url || "/layanan/servis-unit"} 
-  className="inline-flex items-center gap-1 text-[#0A192F] font-semibold hover:text-[#FFD100] transition-colors"
->
-  Pelajari Selengkapnya →
-</Link>
+                      <a 
+                        href={srv.link_url || "/services"} 
+                        className="inline-flex items-center gap-2 text-xs font-bold text-[#ffc107] hover:text-white transition-colors duration-200"
+                      >
+                        <span>Pelajari Selengkapnya</span>
+                        <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+                      </a>
                     </div>
                   </div>
 
@@ -591,6 +575,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
         
         <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10 xl:px-14">
           
+          {/* HEADER SECTION */}
           <div className="mx-auto max-w-3xl text-center mb-16">
             <div className="mb-4 flex items-center justify-center gap-4">
               <span className="h-[2px] w-8 bg-[#ffc107]"></span>
@@ -614,6 +599,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
             </p>
           </div>
 
+          {/* GRID TESTIMONI & SLIDER */}
           {(() => {
             const [currentIndex, setCurrentIndex] = useState(0);
             const [fade, setFade] = useState(true);
@@ -649,6 +635,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
             return (
               <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center">
                 
+                {/* TOMBOL PREV (KIRI) */}
                 {testimonials.length > itemsPerPage && (
                   <button 
                     onClick={handlePrev} 
@@ -659,6 +646,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                   </button>
                 )}
 
+                {/* CARD GRID */}
                 <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-2 sm:px-6 transition-opacity duration-300 ${fade ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
                   {visibleTestimonials.map((t, idx) => (
                     <div 
@@ -668,9 +656,11 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                       <div className="group relative flex flex-col justify-between p-8 rounded-[24px] bg-slate-50/80 shadow-[0_10px_30px_rgba(15,43,92,0.06)] border border-slate-200/60 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(15,43,92,0.12)] hover:bg-white w-full max-w-[380px] min-h-[360px]">
                         
                         <div className="overflow-hidden">
+                          {/* TANDA KUTIP */}
                           <div className="text-[#ffc107] mb-2 text-4xl font-serif font-black leading-none select-none">
                             “
                           </div>
+                          {/* ISI TESTIMONI */}
                           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6 font-normal break-words overflow-hidden">
                             {t.quote}
                           </p>
@@ -693,6 +683,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                   ))}
                 </div>
 
+                {/* TOMBOL NEXT (KANAN) */}
                 {testimonials.length > itemsPerPage && (
                   <button 
                     onClick={handleNext} 
@@ -703,6 +694,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
                   </button>
                 )}
 
+                {/* DOTS PAGINATION */}
                 {totalPages > 1 && (
                   <div className="flex items-center justify-center gap-2 mt-12 z-20">
                     {[...Array(totalPages)].map((_, idx) => (
@@ -739,7 +731,7 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
 
         <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-16 relative z-10">
           
-          <div className="text-center max-w-3xl mx-auto mb-14">  
+          <div className="text-center max-w-3xl mx-auto mb-14"> 
             
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
               Proyek yang Telah <span className="text-[#ffc107]">Kami Kerjakan</span>
@@ -764,11 +756,13 @@ export default function Home({ hero, intro, statistics, strength, featured_secti
               return (
                 <div key={proj.id || idx} className="group relative h-[260px] rounded-2xl overflow-hidden shadow-lg border border-slate-200/40 bg-slate-900 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
                   
+                  {/* 1. BACKGROUND FOTO PENUH (TAMPILAN AWAL BERSIH CUMA FOTO) */}
                   <div 
                     className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110" 
                     style={{ backgroundImage: `url('${projectImage}')` }}
                   ></div>
 
+                  {/* 2. LAPISAN PUTIH SETENGAH (MUNCUL DARI BAWAH KE ATAS HANYA SETENGAH SAAT DI-HOVER) */}
                   <div className="absolute inset-x-0 bottom-0 top-1/2 z-10 flex flex-col justify-end p-5 text-slate-900 bg-white/95 backdrop-blur-md translate-y-full transition-transform duration-500 ease-out group-hover:translate-y-0">
                     
                     <div className="relative z-10 transform translate-y-3 opacity-0 transition-all duration-300 delay-100 group-hover:translate-y-0 group-hover:opacity-100">

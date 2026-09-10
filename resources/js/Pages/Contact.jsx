@@ -213,17 +213,7 @@ export default function Contact({ hero, cards = [], infoSection = null }) {
       {/* =====================================================
           HERO SECTION
       ===================================================== */}
-      <section className="relative overflow-hidden bg-[#071b38] pt-24 pb-20 md:pt-28 md:pb-24">
-
-        {/* Background Grid */}
-        <div
-          className="absolute inset-0 opacity-[0.035]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,.7) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.7) 1px, transparent 1px)",
-            backgroundSize: "42px 42px",
-          }}
-        />
+     <section className="relative overflow-hidden bg-[#071b38] pt-24 pb-20 md:pt-28 md:pb-24">
 
         {/* Decorative Circle 1 */}
         <div className="absolute -right-20 top-[-120px] w-[420px] h-[420px] rounded-full border border-white/10 pointer-events-none animate-[floatSlow_7s_ease-in-out_infinite]" />
@@ -330,7 +320,6 @@ export default function Contact({ hero, cards = [], infoSection = null }) {
           </div>
         </SoftReveal>
       </section>
-
 
       {/* =====================================================
           CONTACT INFO CARDS

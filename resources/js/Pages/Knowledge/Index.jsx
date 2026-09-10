@@ -4,7 +4,7 @@ import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
 
 /* =========================================================
-    INLINE SVG ICONS
+   INLINE SVG ICONS
    ========================================================= */
 const IconWrench = (props) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -61,13 +61,6 @@ const IconActivity = (props) => (
     </svg>
 );
 
-const IconShield = (props) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z" />
-        <path d="M9 12l2 2 4-4" />
-    </svg>
-);
-
 const IconDocument = (props) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
         <path d="M7 3h7l4 4v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" />
@@ -102,34 +95,6 @@ const IconChevronRight = (props) => (
     </svg>
 );
 
-const IconBadgeCheck = (props) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M12 2.5 14.5 5l3.4-.4.6 3.4 3 1.8-1.6 3 1.6 3-3 1.8-.6 3.4-3.4-.4L12 21.5 9.5 19l-3.4.4-.6-3.4-3-1.8 1.6-3-1.6-3 3-1.8.6-3.4L9.5 5z" />
-        <path d="M9 12l2 2 4-4" />
-    </svg>
-);
-
-const IconTarget = (props) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <circle cx="12" cy="12" r="8" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="12" cy="12" r="0.6" fill="currentColor" />
-    </svg>
-);
-
-const IconZap = (props) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" />
-    </svg>
-);
-
-const IconTrendingUp = (props) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M3 17l6-6 4 4 8-8" />
-        <path d="M15 7h6v6" />
-    </svg>
-);
-
 /* Mapping Icon untuk Kategori */
 const categoryIcons = {
     'maintenance-tips': { icon: IconWrench, bgColor: 'bg-amber-50', iconColor: 'text-amber-500' },
@@ -141,12 +106,13 @@ const categoryIcons = {
     'predictive-maintenance': { icon: IconActivity, bgColor: 'bg-sky-50', iconColor: 'text-sky-500' },
 };
 
-const ctaFeatures = [
-    { icon: IconBadgeCheck, title: 'Service Expert', subtitle: 'Bersertifikasi' },
-    { icon: IconTarget, title: 'Solusi Tepat', subtitle: 'Berbasis Data' },
-    { icon: IconZap, title: 'Response Cepat', subtitle: '24/7 Support' },
-    { icon: IconTrendingUp, title: 'Uptime Maksimal', subtitle: 'Operasional Optimal' },
-];
+/* Helper untuk membersihkan URL gambar */
+const getCleanImageUrl = (path, fallback) => {
+    if (!path) return fallback;
+    if (path.startsWith('http')) return path;
+    const cleaned = path.replace(/^storage\//, '').replace(/^storage\//, '');
+    return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
+};
 
 export default function Index({ hero, featuredArticle, articles = [], categories = [], selectedCategory }) {
     const [activeCategory, setActiveCategory] = useState(selectedCategory || '');
@@ -156,29 +122,22 @@ export default function Index({ hero, featuredArticle, articles = [], categories
         return categoryIcons[key] || { icon: IconWrench, bgColor: 'bg-amber-50', iconColor: 'text-amber-500' };
     };
 
-    // Helper untuk membersihkan path gambar agar aman dari awalan /storage/ jika ada data lama
-    const getCleanImageUrl = (path, fallback) => {
-        if (!path) return fallback;
-        if (path.startsWith('http')) return path;
-        const cleaned = path.replace(/^storage\//, '').replace(/^storage\//, '');
-        return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
-    };
-
     return (  
         <>
             <Head title="Knowledge Center - PT. Servistama Pro Indonesia" />
             <Navbar />
 
             <main>
-                {/* ================= HERO (DINAMIS DARI DATABASE) ================= */}
-                <section className="relative flex min-h-[540px] lg:min-h-[600px] w-full items-center bg-white overflow-hidden pt-28 lg:pt-32">
+                {/* ================= HERO (FULL SCREEN) ================= */}
+                <section className="relative flex min-h-screen w-full items-center justify-center bg-white overflow-hidden pt-20">
                     <div className="absolute inset-0 z-0 h-full w-full">
                         <img 
-                            src={getCleanImageUrl(hero?.image, '/images/XE2000.png')} 
+                            src={getCleanImageUrl(hero?.image, '/images/knowledge.png')} 
                             alt="Heavy Equipment Banner" 
-                            className="mt-4 lg:mt-6 h-full w-full object-cover object-[100%_0%]"
+                            className="h-full w-full object-cover object-[100%_0%]"
                             style={{ imageRendering: 'high-quality' }}
                         />
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/60 to-transparent lg:w-2/3" />
                     </div>
 
                     <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 py-12 sm:px-10 lg:px-16">
@@ -196,32 +155,14 @@ export default function Index({ hero, featuredArticle, articles = [], categories
 
                             <div className="mt-5 flex items-center gap-3">
                                 <span className="h-px w-8 bg-[#FFC107]" />
-                                <p className="text-sm font-semibold text-[#0F2B5C] sm:text-base">
+                                <p className="text-sm font-bold text-[#0F2B5C] sm:text-base">
                                     {hero?.subtitle || 'Pengetahuan Engineering. Maintenance Lebih Cerdas.'}
                                 </p>
                             </div>
 
-                            <p className="mt-6 max-w-lg text-base leading-relaxed text-slate-600">
+                            <p className="mt-6 max-w-lg text-base font-medium leading-relaxed text-[#0F2B5C] drop-shadow-sm">
                                 {hero?.description || 'Temukan wawasan teknis, panduan maintenance, serta solusi smart service yang dirancang untuk memaksimalkan uptime alat.'}
                             </p>
-
-                            <div className="mt-8 flex flex-wrap gap-4">
-                                <div className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white/90 px-4 py-3 shadow-md backdrop-blur-sm">
-                                    <IconDocument className="h-5 w-5 text-[#FFC107]" />
-                                    <div>
-                                        <p className="text-base font-extrabold text-[#0F2B5C]">{hero?.stat_number || '500+'}</p>
-                                        <p className="text-[11px] text-slate-500">{hero?.stat_label || 'Technical Articles'}</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white/90 px-4 py-3 shadow-md backdrop-blur-sm">
-                                    <IconShield className="h-5 w-5 text-[#FFC107]" />
-                                    <div>
-                                        <p className="text-base font-extrabold text-[#0F2B5C]">{hero?.stat_box_title || 'Expert'}</p>
-                                        <p className="text-[11px] text-slate-500">{hero?.stat_box_subtitle || 'Verified Content'}</p>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </section>
@@ -324,127 +265,117 @@ export default function Index({ hero, featuredArticle, articles = [], categories
 
                 {/* ================= ARTICLE GRID ================= */}
                 <section className="bg-[#F8FAFC] px-6 py-16 sm:px-10 lg:px-16">
-                    <div className="mx-auto max-w-[1440px]">
-                        <div className="mb-10 flex items-end justify-between">
-                            <div>
-                                <span className="text-xs font-bold tracking-[0.2em] text-[#FFC107]">ARTICLES</span>
-                                <h2 className="mt-2 text-2xl font-bold text-[#0F2B5C] sm:text-3xl">
-                                    Technical Insight Terbaru
-                                </h2>
-                            </div>
-                        </div>
+    <div className="mx-auto max-w-[1440px]">
+        <div className="mb-10 flex items-end justify-between">
+            <div>
+                <span className="text-xs font-bold tracking-[0.2em] text-[#FFC107]">ARTICLES</span>
+                <h2 className="mt-2 text-2xl font-bold text-[#0F2B5C] sm:text-3xl">
+                    Technical Insight Terbaru
+                </h2>
+            </div>
+        </div>
 
-                        {articles.length > 0 ? (
-                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                                {articles.map((article, index) => (
-                                    <ArticleCard key={article.id} article={article} index={index + 1} />
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="py-12 text-center text-slate-500">
-                                Belum ada artikel untuk kategori ini.
-                            </div>
-                        )}
-                    </div>
-                </section>
+        {articles.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {articles.map((article) => (
+                    <ArticleCard key={article.id} article={article} />
+                ))}
+            </div>
+        ) : (
+            <div className="py-12 text-center text-slate-500">
+                Belum ada artikel untuk kategori ini.
+            </div>
+        )}
+    </div>
+</section>
 
-                {/* ================= CTA TECHNICAL SUPPORT ================= */}
-                <section className="relative overflow-hidden bg-[#071A35] px-6 py-16 sm:px-10 lg:px-16">
-                    <div
-                        className="pointer-events-none absolute inset-0 opacity-[0.08]"
-                        aria-hidden="true"
-                        style={{
-                            backgroundImage:
-                                'linear-gradient(#FFC107 1px, transparent 1px), linear-gradient(90deg, #FFC107 1px, transparent 1px)',
-                            backgroundSize: '40px 40px',
-                        }}
-                    />
+               {/* ================= CTA TECHNICAL SUPPORT ================= */}
+<section className="relative overflow-hidden px-6 py-20 sm:px-10 lg:px-16">
+    {/* Background Image */}
+    <img
+        src="/images/cta.png" /* Ganti dengan path foto kamu */
+        alt="Technical Support Background"
+        className="absolute inset-0 h-full w-full object-cover object-center"
+    />
 
-                    <div className="relative mx-auto grid max-w-[1440px] grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr] lg:items-center">
-                        <div>
-                            <span className="mb-4 block h-px w-10 bg-[#FFC107]" />
-                            <h2 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-                                Butuh Dukungan Teknis?
-                            </h2>
-                            <p className="mt-4 max-w-md text-sm leading-relaxed text-white/60 sm:text-base">
-                                Terhubung dengan tim service expert kami untuk mendapatkan dukungan maintenance,
-                                diagnostic, warranty, dan solusi heavy equipment profesional.
-                            </p>
+    {/* Overlay Semi-Transparan Biru */}
+    <div className="absolute inset-0 bg-[#071A35]/40" />
 
-                            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                                <Link
-                                    href="/contact-us"
-                                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#FFC107] px-6 py-3.5 text-sm font-bold text-[#0F2B5C] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
-                                >
-                                    Hubungi Service Expert
-                                    <IconArrowRight className="h-4 w-4" />
-                                </Link>
-                                <Link
-                                    href="/knowledge"
-                                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/25 px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:border-[#FFC107] hover:text-[#FFC107]"
-                                >
-                                    Lihat Semua Knowledge
-                                    <IconArrowRight className="h-4 w-4" />
-                                </Link>
-                            </div>
-                        </div>
+    {/* Content */}
+    <div className="relative z-10 mx-auto max-w-[1440px] text-left">
+        <div className="max-w-2xl">
+            <span className="mb-4 block h-px w-10 bg-[#FFC107]" />
+            <h2 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl">
+                Butuh Dukungan Teknis?
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-white/90 sm:text-base">
+                Terhubung dengan tim service expert kami untuk mendapatkan dukungan maintenance,
+                diagnostic, warranty, dan solusi heavy equipment profesional.
+            </p>
 
-                        <div className="grid grid-cols-1 gap-x-8 gap-y-6 border-t border-white/10 pt-8 sm:grid-cols-2 lg:border-t-0 lg:border-l lg:pl-10 lg:pt-0">
-                            {ctaFeatures.map((feature) => (
-                                <div key={feature.title} className="flex items-start gap-3">
-                                    <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full border border-[#FFC107]/40 text-[#FFC107]">
-                                        <feature.icon className="h-5 w-5" />
-                                    </span>
-                                    <div>
-                                        <p className="text-sm font-bold text-white">{feature.title}</p>
-                                        <p className="text-xs text-white/50">{feature.subtitle}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
+            <div className="mt-8 flex flex-col justify-start gap-3 sm:flex-row">
+                <Link
+                    href="/contact-us"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#FFC107] px-6 py-3.5 text-sm font-bold text-[#0F2B5C] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+                >
+                    Hubungi Service Expert
+                    <IconArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                    href="/knowledge"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/30 bg-white/10 backdrop-blur-sm px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:border-[#FFC107] hover:text-[#FFC107]"
+                >
+                    Lihat Semua Knowledge
+                    <IconArrowRight className="h-4 w-4" />
+                </Link>
+            </div>
+        </div>
+    </div>
+</section>
             </main>
+
             <Footer />
         </>
     );
 }
 
 /* =========================================================
-    SUB COMPONENT: Article Card Dinamis
+   SUB COMPONENT: Article Card Dinamis
    ========================================================= */
-function ArticleCard({ article, index }) {
-    const formattedNum = index < 10 ? `0${index}` : index;
-
-    // Helper path gambar untuk card artikel
-    const getCleanImageUrl = (path, fallback) => {
-        if (!path) return fallback;
-        if (path.startsWith('http')) return path;
-        const cleaned = path.replace(/^storage\//, '').replace(/^storage\//, '');
-        return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
-    };
-
+function ArticleCard({ article }) {
     return (
-        <article className="group overflow-hidden rounded-xl border border-[#E2E8F0] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107] hover:shadow-lg">
-            <Link href={`/knowledge/${article.slug}`} className="block">
-                <div className="relative h-52 overflow-hidden">
+        <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107] hover:shadow-xl">
+            <Link href={`/knowledge/${article.slug}`} className="flex h-full flex-col">
+                {/* Image Section (Rasio & Tinggi Disesuaikan) */}
+                <div className="relative h-60 w-full shrink-0 overflow-hidden bg-slate-100">
                     <img
                         src={getCleanImageUrl(article.image, '/images/c1.jpg')}
                         alt={article.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                     />
-                    <span className="absolute left-4 top-4 rounded-md bg-[#FFC107] px-2.5 py-1 text-xs font-extrabold text-[#0F2B5C]">
-                        {formattedNum}
-                    </span>
                 </div>
 
-                <div className="p-6">
-                    <span className="text-xs font-bold tracking-[0.12em] text-[#0F2B5C]">{article.category}</span>
-                    <h3 className="mt-2 text-lg font-bold leading-snug text-[#0F2B5C]">{article.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-[#64748B]">{article.excerpt}</p>
+                {/* Content Section */}
+                <div className="flex flex-1 flex-col justify-between p-6">
+                    <div>
+                        <span className="text-xs font-bold tracking-[0.12em] text-[#0F2B5C]">
+                            {article.category}
+                        </span>
 
-                    <div className="mt-5 flex items-center justify-between border-t border-[#E2E8F0] pt-4">
-                        <div className="flex items-center gap-3 text-xs font-semibold text-[#64748B]">
+                        {/* Judul: Dikunci h-[3.5rem] (2 baris) */}
+                        <h3 className="mt-2.5 h-[3.5rem] line-clamp-2 text-lg font-bold leading-snug text-[#0F2B5C]">
+                            {article.title}
+                        </h3>
+
+                        {/* Deskripsi: Dikunci h-[4.2rem] (3 baris) */}
+                        <p className="mt-2 h-[4.2rem] line-clamp-3 text-sm leading-relaxed text-slate-500">
+                            {article.excerpt}
+                        </p>
+                    </div>
+
+                    {/* Footer Card: Garis selalu sejajar presisi */}
+                    <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
+                        <div className="flex items-center gap-3 text-xs font-semibold text-slate-400">
                             <span className="flex items-center gap-1">
                                 <IconClock className="h-3.5 w-3.5" />
                                 {article.read_time || '5 Menit'}
@@ -454,7 +385,7 @@ function ArticleCard({ article, index }) {
                                 {article.published_date}
                             </span>
                         </div>
-                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F8FAFC] text-[#0F2B5C] transition-all duration-300 group-hover:bg-[#FFC107]">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full text-slate-600 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#0F2B5C]">
                             <IconArrowRight className="h-4 w-4" />
                         </span>
                     </div>

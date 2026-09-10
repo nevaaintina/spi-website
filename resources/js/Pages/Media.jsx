@@ -246,53 +246,72 @@ export default function Media({ mediaItems = [], randomStoryImages = [], droneVi
       <Navbar />
 
       <div className="bg-white">
-        {/* ============ 1. HERO SECTION ============ */}
-        <section className="relative overflow-hidden">
-          <div className="absolute inset-0">
-            <img
-              src={hero?.background_image ? `/${hero.background_image}` : "https://picsum.photos/seed/hero-heavy-equipment/1600/900"}
-              alt="Heavy equipment technician"
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0B1E3D] via-[#0B1E3D]/85 to-[#0B1E3D]/20" />
-          </div>
+       <section className="relative flex min-h-screen w-full items-center overflow-hidden">
+  {/* Background Image & Overlay */}
+  <div className="absolute inset-0">
+    <img
+      src={hero?.background_image ? `/${hero.background_image}` : "https://picsum.photos/seed/hero-heavy-equipment/1600/900"}
+      alt="Heavy equipment technician"
+      className="h-full w-full object-cover"
+    />
+    <div className="absolute inset-0 bg-gradient-to-r from-[#0B1E3D] via-[#0B1E3D]/85 to-[#0B1E3D]/20" />
+  </div>
 
-          <div className="relative mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:pl-24">
-            <p className="text-sm font-semibold tracking-wide text-[#F5B800]">{hero?.subtitle || 'MEDIA GALLERY'}</p>
-            <p className="mt-3 text-base text-white/90">Visual Stories. Real Service. Real Performance.</p>
+  {/* Content (Ditengah secara vertikal) */}
+  <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-32 sm:py-40 lg:pl-24">
+    <p className="text-sm font-semibold tracking-wide text-[#F5B800]">
+      {hero?.subtitle || 'MEDIA GALLERY'}
+    </p>
+    <p className="mt-3 text-base text-white/90">
+      Visual Stories. Real Service. Real Performance.
+    </p>
 
-            <h1 className="mt-4 max-w-2xl text-4xl font-bold leading-tight text-white sm:text-5xl">
-              {hero?.title || 'Behind Every Machine, There Is a Story of Performance.'}
-            </h1>
+    <h1 className="mt-4 max-w-2xl text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
+      {hero?.title || 'Behind Every Machine, There Is a Story of Performance.'}
+    </h1>
 
-            <span className="mt-6 block h-1 w-14 bg-[#F5B800]" />
+    <span className="mt-6 block h-1 w-14 bg-[#F5B800]" />
 
-            <p className="mt-6 max-w-lg text-sm leading-relaxed text-white/80">
-              {hero?.description || 'Jelajahi dokumentasi aktivitas PT. Servistama Pro Indonesia dalam menghadirkan layanan heavy equipment, maintenance, customer support, training, dan smart service solution.'}
-            </p>
-          </div>
-        </section>
+    <p className="mt-6 max-w-lg text-sm leading-relaxed text-white/80 sm:text-base">
+      {hero?.description || 'Jelajahi dokumentasi aktivitas PT. Servistama Pro Indonesia dalam menghadirkan layanan heavy equipment, maintenance, customer support, training, dan smart service solution.'}
+    </p>
+  </div>
+</section>
 
         {/* ============ 2. CATEGORY TABS ============ */}
-        <section className="relative z-10 -mt-8 sm:-mt-10">
-          <div className="mx-auto max-w-7xl px-6">
-            <div className="rounded-t-2xl bg-white p-6 shadow-xl">
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
-                {CATEGORIES.map((cat) => (
-                  <CategoryTab
-                    key={cat.id}
-                    category={cat}
-                    active={activeCategory.toLowerCase() === cat.id.toLowerCase()}
-                    onClick={(id) => {
-                      setActiveCategory(id);
-                      setVisibleCount(6);
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+      <section className="relative z-10 -mt-8 sm:-mt-10">
+  <div className="mx-auto max-w-7xl px-6">
+    <div className="rounded-t-2xl bg-white p-6 shadow-xl">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+        {CATEGORIES.map((cat) => {
+          const IconComponent = cat.icon;
+          const isActive = activeCategory.toLowerCase() === cat.id.toLowerCase();
+
+          return (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => {
+                setActiveCategory(cat.id);
+                setVisibleCount(6);
+              }}
+              className={`flex flex-col items-center justify-center gap-2 rounded-xl p-4 transition-all duration-300 ${
+                isActive
+                  ? 'bg-[#FFC107] text-[#0F2B5C] shadow-md'
+                  : 'bg-[#F8FAFC] text-[#64748B] hover:bg-slate-100 hover:text-[#0F2B5C]'
+              }`}
+            >
+              {IconComponent && <IconComponent className="h-6 w-6" />}
+              <span className="text-xs font-bold tracking-wide">
+                {cat.name || cat.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</section>
 
         {/* ============ 3. FEATURED STORY ============ */}
         <section className="bg-white py-10">
