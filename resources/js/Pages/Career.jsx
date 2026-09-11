@@ -507,9 +507,7 @@ export default function Career({
           </div>
 
           <div className="mt-8 relative overflow-hidden rounded-3xl bg-[#0b2348] p-8 md:p-10 shadow-xl">
-            <div className="absolute inset-0 opacity-10 pointer-events-none">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:12px_12px]" />
-            </div>
+
 
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-5">
