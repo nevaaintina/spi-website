@@ -81,80 +81,60 @@ export default function ProductIndex({ categories = [], products = [], currentCa
       <Head title="Katalog Produk & Alat Berat - PT Servistama Pro Indonesia" />
       <Navbar />
 
-      {/* HERO BANNER DINAMIS */}
-      <section className="relative bg-white overflow-hidden">
-        <div className="absolute left-0 top-20 w-[330px] h-[250px] opacity-40 pointer-events-none">
-          <div
-            className="w-full h-full"
-            style={{
-              backgroundImage: "radial-gradient(#cbd5e1 1.2px, transparent 1.2px)",
-              backgroundSize: "22px 22px",
-              maskImage: "linear-gradient(to right, black, transparent)",
-              WebkitMaskImage: "linear-gradient(to right, black, transparent)",
-            }}
-          />
-        </div>
+      {/* HERO BANNER DIPERBESAR (PADING & MIN-HEIGHT LEBIH TINGGI) */}
+      <section className="relative overflow-hidden">
+        {/* Gambar Background Full 100% Asli */}
+        <div
+          className="absolute inset-0 bg-cover bg-center z-0"
+          style={{
+            backgroundImage: `url('${getCleanImageUrl(product_setting?.hero_image, '/images/internship.png')}')`,
+          }}
+        />
 
-        <div className="relative min-h-[500px] lg:min-h-[535px]">
-          <div className="relative z-20 w-full lg:w-[55%] min-h-[500px] lg:min-h-[535px] flex items-center">
-            <div className="w-full max-w-[1380px] mx-auto px-7 sm:px-10 lg:px-16 xl:px-20 py-20 lg:py-24">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="w-7 h-[3px] bg-[#ffc107]" />
-                <span className="text-sm md:text-[15px] font-extrabold tracking-[0.08em] text-[#0f2b5c] uppercase">
-                  KATALOG ALAT BERAT & PRODUK
-                </span>
-              </div>
-
-              <h1 className="max-w-[700px] text-[44px] sm:text-[52px] md:text-[62px] xl:text-[68px] leading-[1.02] tracking-[-0.035em] font-black text-[#102f62]">
-                {product_setting?.hero_title_part1 || 'Solusi Alat Berat &'} <br />
-                <span className="text-[#f9aa00]">{product_setting?.hero_title_part2 || 'Suku Cadang XCMG'}</span>
-              </h1>
-
-              <p className="mt-7 max-w-[620px] text-[15px] md:text-[16px] leading-7 text-slate-500 font-medium">
-                {product_setting?.hero_description || 'Temukan berbagai lini produk berkualitas tinggi untuk mendukung efisiensi dan produktivitas proyek konstruksi serta pertambangan Anda.'}
-              </p>
-
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <a
-                  href="#products"
-                  className="inline-flex items-center gap-4 bg-[#0f2b5c] hover:bg-[#183b76] text-white px-7 py-4 rounded-xl text-sm font-bold shadow-lg shadow-[#0f2b5c]/20 transition-all duration-300 hover:-translate-y-1"
-                >
-                  LIHAT PRODUK
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14m-5-5l5 5-5 5" />
-                  </svg>
-                </a>
-
-                {product_setting?.catalog_pdf && (
-                  <a
-                    href={`/${product_setting.catalog_pdf}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 bg-white hover:bg-slate-50 text-[#0f2b5c] border border-slate-200 px-7 py-4 rounded-xl text-sm font-bold shadow-sm transition-all duration-300 hover:-translate-y-1"
-                  >
-                    <svg className="w-5 h-5 text-[#f9aa00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    DOWNLOAD KATALOG (PDF)
-                  </a>
-                )}
-              </div>
+        {/* Konten Teks */}
+        <div className="relative max-w-[1380px] mx-auto px-7 sm:px-10 lg:px-16 xl:px-20 py-36 lg:py-48 min-h-[660px] lg:min-h-[740px] flex items-center z-20">
+          <div className="w-full max-w-[820px]">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-7 h-[3px] bg-[#ffc107]" />
+              <span className="text-sm md:text-[15px] font-extrabold tracking-[0.08em] text-[#ffc107] uppercase drop-shadow-md">
+                KATALOG ALAT BERAT & PRODUK
+              </span>
             </div>
-          </div>
 
-          <div className="absolute right-0 top-0 w-full lg:w-[63%] h-full overflow-hidden">
-            <div
-              className="absolute inset-0 bg-cover bg-center lg:bg-[center_right]"
-              style={{
-                backgroundImage: `url('${getCleanImageUrl(product_setting?.hero_image, '/images/internship.png')}')`,
-              }}
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background: "linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.96) 13%, rgba(255,255,255,0.78) 27%, rgba(255,255,255,0.20) 48%, rgba(255,255,255,0) 65%)",
-              }}
-            />
+            <h1 className="text-[40px] sm:text-[50px] md:text-[60px] xl:text-[70px] leading-[1.08] tracking-[-0.02em] font-semibold text-white drop-shadow-lg">
+              {product_setting?.hero_title_part1 || 'Solusi Alat Berat &'} <br />
+              <span className="text-[#ffc107] font-bold">{product_setting?.hero_title_part2 || 'Suku Cadang XCMG'}</span>
+            </h1>
+
+            <p className="mt-7 max-w-[680px] text-[16px] md:text-[18px] leading-8 text-slate-100 font-medium drop-shadow-md">
+              {product_setting?.hero_description || 'Temukan berbagai lini produk berkualitas tinggi untuk mendukung efisiensi dan produktivitas proyek konstruksi serta pertambangan Anda.'}
+            </p>
+
+            <div className="mt-9 flex flex-wrap items-center gap-4">
+              <a
+                href="#products"
+                className="inline-flex items-center gap-4 bg-[#ffc107] hover:bg-[#e0a806] text-[#0f2b5c] px-8 py-4 rounded-xl text-sm font-black shadow-lg transition-all duration-300 hover:-translate-y-1"
+              >
+                LIHAT PRODUK
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14m-5-5l5 5-5 5" />
+                </svg>
+              </a>
+
+              {product_setting?.catalog_pdf && (
+                <a
+                  href={`/${product_setting.catalog_pdf}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-black/40 hover:bg-black/60 text-white border border-white/40 px-8 py-4 rounded-xl text-sm font-bold backdrop-blur-xs transition-all duration-300 hover:-translate-y-1 shadow-lg"
+                >
+                  <svg className="w-5 h-5 text-[#ffc107]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  DOWNLOAD KATALOG (PDF)
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </section>
