@@ -148,40 +148,46 @@ class MediaController extends Controller
         return redirect()->back()->with('success', 'Media berhasil dihapus!');
     }
 
-    // 8. Update Hero Media (Mendukung Teks, Deskripsi, dan Gambar Latar Belakang)
+    // 8. Update Hero Media (Proses simpan title, subtitle, description & background_image)
     public function updateHero(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'description' => 'required|string',
+            'subtitle'         => 'nullable|string|max:255',
+            'title'            => 'required|string|max:255',
+            'description'      => 'required|string',
             'background_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
         ]);
 
         $hero = DB::table('media_hero')->first();
-        $bgPath = $hero ? $hero->background_image : null;
+        $imagePath = ($hero && property_exists($hero, 'background_image')) ? $hero->background_image : null;
 
+        // Proses upload gambar background hero jika ada file baru yang diunggah
         if ($request->hasFile('background_image')) {
-            if ($bgPath && file_exists(public_path($bgPath))) {
-                @unlink(public_path($bgPath));
+            if ($imagePath && file_exists(public_path($imagePath))) {
+                @unlink(public_path($imagePath));
             }
+
             $file = $request->file('background_image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $destinationPath = public_path('images/media');
-            if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+            $destinationPath = public_path('images/hero');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
             $file->move($destinationPath, $filename);
-            $bgPath = 'images/media/' . $filename;
+            $imagePath = 'images/hero/' . $filename;
         }
 
         DB::table('media_hero')->updateOrInsert(
             ['id' => 1],
             [
-                'title' => $request->title,
-                'subtitle' => $request->subtitle ?? 'MEDIA GALLERY',
-                'description' => $request->description,
-                'background_image' => $bgPath,
-                'updated_at' => now(),
-                'created_at' => $hero ? $hero->created_at : now(),
+                'subtitle'         => $request->subtitle,
+                'title'            => $request->title,
+                'description'      => $request->description,
+                'background_image' => $imagePath,
+                'updated_at'       => now(),
+                'created_at'       => ($hero && property_exists($hero, 'created_at')) ? $hero->created_at : now(),
             ]
         );
 
@@ -243,7 +249,7 @@ class MediaController extends Controller
     public function destroyDroneVideo($id)
     {
         $video = DB::table('drone_videos')->where('id', $id)->first();
-        if ($video && $video->thumbnail_path && file_exists(public_path($video->thumbnail_path))) {
+        if ($video && property_exists($video, 'thumbnail_path') && $video->thumbnail_path && file_exists(public_path($video->thumbnail_path))) {
             @unlink(public_path($video->thumbnail_path));
         }
         DB::table('drone_videos')->where('id', $id)->delete();

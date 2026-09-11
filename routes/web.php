@@ -186,7 +186,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/media', [MediaController::class, 'adminIndex'])->name('media');
     Route::post('/media', [MediaController::class, 'store']);
     Route::delete('/media/{id}', [MediaController::class, 'destroy']);
-    Route::put('/media-hero', [MediaController::class, 'updateHero']);
+    
+    // ➔ UBAH ROUTE INI DARI put() MENJADI match(['post', 'put'])
+    Route::match(['post', 'put'], '/media-hero', [MediaController::class, 'updateHero'])->name('media.hero.update');
+    
     Route::put('/media-statistics/{id}', [MediaController::class, 'updateStatistic']);
     Route::post('/drone-videos', [MediaController::class, 'storeDroneVideo'])->name('drone.store');
     Route::delete('/drone-videos/{id}', [MediaController::class, 'destroyDroneVideo'])->name('drone.destroy');
