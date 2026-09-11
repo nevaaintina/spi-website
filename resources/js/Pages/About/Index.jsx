@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { usePage } from "@inertiajs/react";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import VisionMission from "./VisionMission";
@@ -10,8 +11,8 @@ function CounterNumber({ value }) {
   const elementRef = useRef(null);
   const [hasAnimated, setHasAnimated] = useState(false);
 
-  const numericTarget = parseInt(value.replace(/[^0-9]/g, ""), 10) || 0;
-  const suffix = value.replace(/[0-9]/g, "");
+  const numericTarget = parseInt(String(value).replace(/[^0-9]/g, ""), 10) || 0;
+  const suffix = String(value).replace(/[0-9]/g, "");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -220,166 +221,99 @@ const IconArrow = (props) => (
   </svg>
 );
 
-/* ------------------------------------------------------------------ */
-/* Static content data                                                */
-/* ------------------------------------------------------------------ */
-
-const heroHighlights = [
-  { icon: IconAward, title: "Authorized XCMG Partner", desc: "Official partner of XCMG" },
-  { icon: IconEngineer, title: "Professional Engineers", desc: "Certified & experienced team" },
-  { icon: IconMap, title: "Nationwide Service", desc: "Coverage across Indonesia" },
-  { icon: IconGenuine, title: "Genuine Spare Parts", desc: "100% original & quality assured" },
-  { icon: IconClock, title: "24/7 Support", desc: "Always ready to support you" },
-];
-
-const whoWeAreStats = [
-  { icon: IconCalendar, value: "15+", label: "Years Experience" },
-  { icon: IconUsers, value: "100+", label: "Professional Engineers" },
-  { icon: IconProject, value: "500+", label: "Projects Completed" },
-  { icon: IconCheckBadge, value: "100%", label: "Customer Commitment" },
-];
-
-const companyProfile = [
-  { icon: IconBuilding, label: "Company Name", value: "PT Servistama Pro Indonesia" },
-  { icon: IconCalendar, label: "Established", value: "2022" },
-  { icon: IconIndustry, label: "Industry", value: "Heavy Equipment Support & Services" },
-  {
-    icon: IconFocus,
-    label: "Business Focus",
-    value: "Service, Maintenance, Warranty, Spare Parts, & Support",
-  },
-  { icon: IconAward, label: "Authorized Partner", value: "XCMG (Xuzhou Construction Machinery Group)" },
-  { icon: IconMap, label: "Coverage Area", value: "Nationwide - Indonesia" },
-  { icon: IconPin, label: "Head Office", value: "Tangerang, Banten, Indonesia" },
-];
-
-const historyTimeline = [
-  { year: "2022", title: "Authorized XCMG Dealer Indonesia" },
-  { year: "2023", title: "FMC Launch & Jakarta Warehouses" },
-  { year: "2024", title: "XCMG Award & Regional Expansion" },
-  { year: "2025", title: "2 Balikpapan Warehouses & Integrated Asset Management System" },
-  { year: "2026", title: "Full New ERP System for Operational Efficiency & Integration" },
-];
-
-const companyStats = [
-  { icon: IconCalendar, value: "15+", label: "Years Experience" },
-  { icon: IconProject, value: "500+", label: "Projects Completed" },
-  { icon: IconUsers, value: "100+", label: "Professional Engineers" },
-  { icon: IconCheckBadge, value: "98%", label: "Customer Satisfaction" },
-];
-
-const milestones = [
-  {
-    year: "1 jan 2025 - 31 des 2028",
-    title: "Foundation",
-    desc: "Trusted Product & Services Support for Your Mining Operation",
-    image: "/images/milestone.jpeg",
-  },
-  {
-    year: "2013",
-    title: "Expansion",
-    desc: "Expanded service coverage and customer base across Indonesia.",
-    image: "/images/certificate-2013.jpg",
-  },
-  {
-    year: "2016",
-    title: "National Scale",
-    desc: "Strengthened workshop and support facilities nationwide.",
-    image: "/images/certificate-2016.jpg",
-  },
-  {
-    year: "2022",
-    title: "Authorized XCMG",
-    desc: "Officially became Authorized Service Partner of XCMG.",
-    image: "/images/certificate-2022.jpg",
-  },
-  {
-    year: "2024",
-    title: "Digital Transformation",
-    desc: "Implementing digital systems for operational excellence.",
-    image: "/images/certificate-2024.jpg",
-  },
-  {
-    year: "2026",
-    title: "Smart Mining Ecosystem",
-    desc: "Building the foundation for Smart Mining Service Ecosystem.",
-    image: "/images/certificate-2026.jpg",
-  },
-];
-
-const orgChart = [
-  { title: "Engineering", icon: IconGear },
-  { title: "Workshop", icon: IconBuilding },
-  { title: "Marketing", icon: IconTrend },
-  { title: "Finance", icon: IconScale },
-  { title: "HR & GA", icon: IconUsers },
-  { title: "IT Department", icon: IconFocus },
-];
-
-const cultureItems = [
-  { 
-    icon: IconShieldSafety, 
-    title: "Safety First", 
-    desc: "Mengutamakan keselamatan kerja sebagai fondasi utama operasional servis pertambangan." 
-  },
-  { 
-    icon: IconCheckBadge, 
-    title: "Integrity & Honesty", 
-    desc: "Menjunjung kejujuran dan integritas sebagai bentuk tanggung jawab penuh kepada klien." 
-  },
-  { 
-    icon: IconTarget2, 
-    title: "Customer Centric", 
-    desc: "Membangun layanan berbasis konsumen yang berfokus pada kebutuhan spesifik pelanggan." 
-  },
-  { 
-    icon: IconTrend, 
-    title: "Continuous Improvement", 
-    desc: "Meningkatkan kualitas pelayanan secara berkesinambungan demi hasil terbaik di Indonesia." 
-  },
-  { 
-    icon: IconMountain, 
-    title: "Perseverance", 
-    desc: "Tekun dan tangguh menghadapi tantangan serta rintangan di medan pertambangan." 
-  },
-  { 
-    icon: IconUsers, 
-    title: "Respect & Open-Minded", 
-    desc: "Menghormati proses terarah dan terbuka menerima masukan klien demi evaluasi bersama." 
-  },
-];
-
-const governancePrinciples = [
-  { 
-    icon: IconEye, 
-    title: "Transparency", 
-    desc: "Menjamin keterbukaan informasi teknis, biaya, dan ketersediaan suku cadang secara jujur kepada klien." 
-  },
-  { 
-    icon: IconCheckBadge, 
-    title: "Accountability", 
-    desc: "Menjaga integritas dan tanggung jawab penuh atas keselamatan kerja (Safety First) serta keandalan servis di lapangan." 
-  },
-  { 
-    icon: IconMountain, 
-    title: "Responsibility", 
-    desc: "Tangguh dan konsisten menjaga standar operasional tinggi demi menjawab tantangan medan pertambangan." 
-  },
-  { 
-    icon: IconUsers, 
-    title: "Fairness", 
-    desc: "Menghormati dan memperlakukan seluruh klien, mitra, serta tenaga ahli secara adil, profesional, dan terbuka." 
-  },
-];
-
-/* ------------------------------------------------------------------ */
-/* Page                                                               */
-/* ------------------------------------------------------------------ */
-
 export default function Index() {
+  const { contents = {} } = usePage().props;
   const [isVideoOpen, setIsVideoOpen] = useState(false);
 
-  // Auto scroll ke section hash yang sesuai (#why-choose-us, #management, #vision-mission)
+  const getCleanUrl = (path, fallback) => {
+    if (!path) return fallback;
+    if (path.startsWith('http')) return path;
+    const cleaned = path.startsWith('/') ? path : `/${path}`;
+    return cleaned;
+  };
+
+  const whyHighlights = contents?.why_items ? JSON.parse(contents.why_items) : [
+    { title: 'Authorized XCMG Partner', desc: 'Official partner of XCMG.' },
+    { title: 'Professional Engineers', desc: 'Certified & experienced team.' },
+    { title: 'Nationwide Service', desc: 'Coverage across Indonesia.' },
+    { title: 'Genuine Spare Parts', desc: '100% original & quality assured.' },
+    { title: '24/7 Support', desc: 'Always ready to support you.' },
+  ];
+
+  const heroHighlights = [
+    { icon: IconAward, title: whyHighlights[0]?.title || "Authorized XCMG Partner", desc: whyHighlights[0]?.desc || "Official partner of XCMG" },
+    { icon: IconEngineer, title: whyHighlights[1]?.title || "Professional Engineers", desc: whyHighlights[1]?.desc || "Certified & experienced team" },
+    { icon: IconMap, title: whyHighlights[2]?.title || "Nationwide Service", desc: whyHighlights[2]?.desc || "Coverage across Indonesia" },
+    { icon: IconGenuine, title: whyHighlights[3]?.title || "Genuine Spare Parts", desc: whyHighlights[3]?.desc || "100% original & quality assured" },
+    { icon: IconClock, title: whyHighlights[4]?.title || "24/7 Support", desc: whyHighlights[4]?.desc || "Always ready to support you" },
+  ];
+
+  const whoWeAreStats = [
+    { icon: IconCalendar, value: contents.stat_experience || "15+", label: "Years Experience" },
+    { icon: IconUsers, value: contents.stat_engineers || "100+", label: "Professional Engineers" },
+    { icon: IconProject, value: contents.stat_projects || "500+", label: "Projects Completed" },
+    { icon: IconCheckBadge, value: contents.stat_satisfaction || "100%", label: "Customer Commitment" },
+  ];
+
+  const companyProfile = [
+    { icon: IconBuilding, label: "Company Name", value: contents.company_name || "PT Servistama Pro Indonesia" },
+    { icon: IconCalendar, label: "Established", value: contents.company_established || "2022" },
+    { icon: IconIndustry, label: "Industry", value: contents.company_industry || "Heavy Equipment Support & Services" },
+    { icon: IconFocus, label: "Business Focus", value: contents.company_focus || "Service, Maintenance, Warranty, Spare Parts, & Support" },
+    { icon: IconAward, label: "Authorized Partner", value: contents.company_partner || "XCMG (Xuzhou Construction Machinery Group)" },
+    { icon: IconMap, label: "Coverage Area", value: contents.company_coverage || "Nationwide - Indonesia" },
+    { icon: IconPin, label: "Head Office", value: contents.company_address || "Tangerang, Banten, Indonesia" },
+  ];
+
+  const historyTimeline = [
+    { year: "2022", title: contents.history_2022 || "Authorized XCMG Dealer Indonesia" },
+    { year: "2023", title: contents.history_2023 || "FMC Launch & Jakarta Warehouses" },
+    { year: "2024", title: contents.history_2024 || "XCMG Award & Regional Expansion" },
+    { year: "2025", title: contents.history_2025 || "2 Balikpapan Warehouses & Integrated Asset Management System" },
+    { year: "2026", title: contents.history_2026 || "Full New ERP System for Operational Efficiency & Integration" },
+  ];
+
+  const companyStats = [
+    { icon: IconCalendar, value: contents.stat_experience || "15+", label: "Years Experience" },
+    { icon: IconProject, value: contents.stat_projects || "500+", label: "Projects Completed" },
+    { icon: IconUsers, value: contents.stat_engineers || "100+", label: "Professional Engineers" },
+    { icon: IconCheckBadge, value: contents.stat_satisfaction || "98%", label: "Customer Satisfaction" },
+  ];
+
+  const milestones = [
+    { year: contents.m1_year || "1 jan 2025 - 31 des 2028", title: contents.m1_title || "Foundation", desc: contents.m1_desc || "Trusted Product & Services Support for Your Mining Operation", image: getCleanUrl(contents.m1_image, "/images/milestone.jpeg") },
+    { year: contents.m2_year || "2013", title: contents.m2_title || "Expansion", desc: contents.m2_desc || "Expanded service coverage and customer base across Indonesia.", image: getCleanUrl(contents.m2_image, "/images/certificate-2013.jpg") },
+    { year: contents.m3_year || "2016", title: contents.m3_title || "National Scale", desc: contents.m3_desc || "Strengthened workshop and support facilities nationwide.", image: getCleanUrl(contents.m3_image, "/images/certificate-2016.jpg") },
+    { year: contents.m4_year || "2022", title: contents.m4_title || "Authorized XCMG", desc: contents.m4_desc || "Officially became Authorized Service Partner of XCMG.", image: getCleanUrl(contents.m4_image, "/images/certificate-2022.jpg") },
+    { year: contents.m5_year || "2024", title: contents.m5_title || "Digital Transformation", desc: contents.m5_desc || "Implementing digital systems for operational excellence.", image: getCleanUrl(contents.m5_image, "/images/certificate-2024.jpg") },
+    { year: contents.m6_year || "2026", title: contents.m6_title || "Smart Mining Ecosystem", desc: contents.m6_desc || "Building the foundation for Smart Mining Service Ecosystem.", image: getCleanUrl(contents.m6_image, "/images/certificate-2026.jpg") },
+  ];
+
+  const orgChart = [
+    { title: contents.org_dept_1 || "Engineering", icon: IconGear },
+    { title: contents.org_dept_2 || "Workshop", icon: IconBuilding },
+    { title: contents.org_dept_3 || "Marketing", icon: IconTrend },
+    { title: contents.org_dept_4 || "Finance", icon: IconScale },
+    { title: contents.org_dept_5 || "HR & GA", icon: IconUsers },
+    { title: contents.org_dept_6 || "IT Department", icon: IconFocus },
+  ];
+
+  const cultureItems = [
+    { icon: IconShieldSafety, title: contents.culture_1_title || "Safety First", desc: contents.culture_1_desc || "Mengutamakan keselamatan kerja sebagai fondasi utama operasional servis pertambangan." },
+    { icon: IconCheckBadge, title: contents.culture_2_title || "Integrity & Honesty", desc: contents.culture_2_desc || "Menjunjung kejujuran dan integritas sebagai bentuk tanggung jawab penuh kepada klien." },
+    { icon: IconTarget2, title: contents.culture_3_title || "Customer Centric", desc: contents.culture_3_desc || "Membangun layanan berbasis konsumen yang berfokus pada kebutuhan spesifik pelanggan." },
+    { icon: IconTrend, title: contents.culture_4_title || "Continuous Improvement", desc: contents.culture_4_desc || "Meningkatkan kualitas pelayanan secara berkesinambungan demi hasil terbaik di Indonesia." },
+    { icon: IconMountain, title: contents.culture_5_title || "Perseverance", desc: contents.culture_5_desc || "Tekun dan tangguh menghadapi tantangan serta rintangan di medan pertambangan." },
+    { icon: IconUsers, title: contents.culture_6_title || "Respect & Open-Minded", desc: contents.culture_6_desc || "Menghormati proses terarah dan terbuka menerima masukan klien demi evaluasi bersama." },
+  ];
+
+  const governancePrinciples = [
+    { icon: IconEye, title: contents.gov_1_title || "Transparency", desc: contents.gov_1_desc || "Menjamin keterbukaan informasi teknis, biaya, dan ketersediaan suku cadang secara jujur kepada klien." },
+    { icon: IconCheckBadge, title: contents.gov_2_title || "Accountability", desc: contents.gov_2_desc || "Menjaga integritas dan tanggung jawab penuh atas keselamatan kerja (Safety First) serta keandalan servis di lapangan." },
+    { icon: IconMountain, title: contents.gov_3_title || "Responsibility", desc: contents.gov_3_desc || "Tangguh dan konsisten menjaga standar operasional tinggi demi menjawab tantangan medan pertambangan." },
+    { icon: IconUsers, title: contents.gov_4_title || "Fairness", desc: contents.gov_4_desc || "Menghormati dan memperlakukan seluruh klien, mitra, serta tenaga ahli secara adil, profesional, dan terbuka." },
+  ];
+
   useEffect(() => {
     if (window.location.hash) {
       const targetId = window.location.hash.substring(1);
@@ -400,8 +334,7 @@ export default function Index() {
       <section
         className="relative flex min-h-[750px] w-full items-center overflow-hidden md:min-h-[820px]"
         style={{  
-          backgroundImage:
-            "linear-gradient(180deg, rgba(11,18,32,0.75) 0%, rgba(15,43,92,0.55) 50%, rgba(11,18,32,0.85) 100%), url('/images/about.png')",
+          backgroundImage: `linear-gradient(180deg, rgba(11,18,32,0.75) 0%, rgba(15,43,92,0.55) 50%, rgba(11,18,32,0.85) 100%), url('${getCleanUrl(contents.hero_image, '/images/about.png')}')`,
           backgroundSize: "cover",
           backgroundPosition: "center 40%",
           backgroundRepeat: "no-repeat",
@@ -413,12 +346,10 @@ export default function Index() {
               About Us
             </span>
             <h1 className="text-3xl font-extrabold leading-[1.15] text-white sm:text-4xl md:text-5xl">
-              Building Trust Through Professional Heavy Equipment Services
+              {contents.hero_title || 'Building Trust Through Professional Heavy Equipment Services'}
             </h1>
             <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/75 md:text-base">
-              PT Servistama Pro Indonesia is committed to delivering reliable,
-              innovative, and high-quality heavy equipment services to support
-              Indonesia&apos;s industrial growth.
+              {contents.hero_desc || "PT Servistama Pro Indonesia is committed to delivering reliable, innovative, and high-quality heavy equipment services to support Indonesia's industrial growth."}
             </p> 
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -496,13 +427,10 @@ export default function Index() {
                 Who We Are
               </span>
               <h2 className="text-2xl font-extrabold leading-tight text-[#0F2B5C] sm:text-3xl md:text-4xl">
-                Trusted Heavy Equipment Service Company
+                {contents.who_we_are_title || 'Trusted Heavy Equipment Service Company'}
               </h2>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#64748B] md:text-base">
-                Founded with a strong commitment to reliability and excellence, PT
-                Servistama Pro Indonesia (SPI) provides integrated solutions in
-                heavy equipment services, maintenance, spare parts, and technical
-                support for mining, construction, and industrial sectors.
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#64748B] md:text-base whitespace-pre-line">
+                {contents.who_we_are_desc || 'Founded with a strong commitment to reliability and excellence, PT Servistama Pro Indonesia (SPI) provides integrated solutions in heavy equipment services, maintenance, spare parts, and technical support for mining, construction, and industrial sectors.'}
               </p>
 
               <div className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-4">
@@ -598,7 +526,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ============================== VISION MISSION (ID for Navbar) ============================== */}
+      {/* ============================== VISION MISSION ============================== */}
       <div id="vision-mission" className="scroll-mt-24">
         <VisionMission />
       </div>
@@ -607,8 +535,7 @@ export default function Index() {
       <section
         className="relative overflow-hidden bg-[#0B1220] py-16 md:py-20"
         style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(11,18,32,0.95), rgba(15,43,92,0.85)), url('https://placehold.co/1920x600/0B1220/0B1220?text=+')",
+          backgroundImage: "linear-gradient(to right, rgba(11,18,32,0.95), rgba(15,43,92,0.85)), url('https://placehold.co/1920x600/0B1220/0B1220?text=+')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -643,7 +570,7 @@ export default function Index() {
               Company Milestone
             </span>
             <h2 className="mt-1 text-2xl font-black text-[#0F2B5C]">
-              OUR JOURNEY & ACHIEVEMENTS
+              {contents.milestone_title || 'OUR JOURNEY & ACHIEVEMENTS'}
             </h2>
           </div>
 
@@ -685,15 +612,15 @@ export default function Index() {
             </span>
             <div className="flex flex-col items-center">
               <div className="w-full rounded-md bg-[#0F2B5C] py-2.5 text-center text-xs font-bold text-white">
-                CEO
+                {contents.org_ceo || 'CEO'}
               </div>
               <span className="my-1 h-4 w-0.5 bg-[#E2E8F0]" />
               <div className="w-full rounded-md bg-[#FFC107] py-2.5 text-center text-xs font-bold text-[#0B1220]">
-                 DIRECTOR
+                {contents.org_director || 'DIRECTOR'}
               </div>
               <span className="my-1 h-4 w-0.5 bg-[#E2E8F0]" />
               <div className="w-full rounded-md bg-[#0F2B5C] py-2.5 text-center text-xs font-bold text-white">
-                OPERATIONS DIRECTOR
+                {contents.org_op_director || 'OPERATIONS DIRECTOR'}
               </div>
               <span className="my-1 h-4 w-0.5 bg-[#E2E8F0]" />
 
@@ -718,7 +645,6 @@ export default function Index() {
             </div>
           </div>
 
-          {/* ============================== MANAGEMENT TEAM (ID for Navbar) ============================== */}
           <div id="management" className="mt-12 scroll-mt-24">
             <Management />
           </div>
@@ -733,7 +659,7 @@ export default function Index() {
           
           <div className="flex flex-col h-full">
             <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.2em] text-[#FFC107]">
-              Company Culture
+              {contents.culture_title || 'Company Culture'}
             </span>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 flex-1">
               {cultureItems.map((c, i) => {
@@ -764,7 +690,7 @@ export default function Index() {
             </span>
             <div className="flex flex-col justify-between flex-1 h-full rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#FFC107] hover:shadow-xl md:p-7">
               <p className="mb-6 text-sm leading-relaxed text-[#64748B]">
-                Kami berkomitmen menerapkan prinsip Good Corporate Governance (GCG) secara konsisten demi memberikan pelayanan servis alat berat terbaik, terpercaya, dan profesional di Indonesia.
+                {contents.governance_intro || 'Kami berkomitmen menerapkan prinsip Good Corporate Governance (GCG) secara konsisten demi memberikan pelayanan servis alat berat terbaik, terpercaya, dan profesional di Indonesia.'}
               </p>
 
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 my-auto">
@@ -801,18 +727,17 @@ export default function Index() {
         <div
           className="relative flex min-h-[280px] items-center overflow-hidden px-8 py-14 sm:px-12"
           style={{
-            backgroundImage:
-              "linear-gradient(to bottom, rgba(11,18,32,0.70), rgba(11,18,32,0.85)), url('https://img.youtube.com/vi/qIVMKITIV7o/maxresdefault.jpg')",
+            backgroundImage: "linear-gradient(to bottom, rgba(11,18,32,0.70), rgba(11,18,32,0.85)), url('https://img.youtube.com/vi/qIVMKITIV7o/maxresdefault.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
           <div>
             <h3 className="max-w-md text-xl font-extrabold uppercase leading-tight text-white sm:text-2xl md:text-3xl">
-              Building The Future Of Heavy Equipment Services
+              {contents.cta_title || 'BUILDING THE FUTURE OF HEAVY EQUIPMENT SERVICES'}
             </h3>
             <p className="mt-3 text-sm font-semibold text-[#FFC107]">
-              Menjadi fondasi menuju Smart Mining Service Ecosystem.
+              {contents.cta_subtitle || 'Menjadi fondasi menuju Smart Mining Service Ecosystem.'}
             </p>
 
             <button
@@ -829,19 +754,17 @@ export default function Index() {
         <div
           className="relative flex min-h-[280px] items-center overflow-hidden bg-[#FFC107] px-8 py-14 sm:px-12"
           style={{
-            backgroundImage:
-              "linear-gradient(to left, rgba(255,193,7,0.35), rgba(255,193,7,0.92)), url('https://placehold.co/960x480/FFC107/FFC107?text=+')",
+            backgroundImage: "linear-gradient(to left, rgba(255,193,7,0.35), rgba(255,193,7,0.92)), url('https://placehold.co/960x480/FFC107/FFC107?text=+')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
           <div>
             <h3 className="max-w-sm text-xl font-extrabold uppercase leading-tight text-[#0B1220] sm:text-2xl md:text-3xl">
-              Let&apos;s Build A Better Future Together
+              {contents.cta_right_title || "LET'S BUILD A BETTER FUTURE TOGETHER"}
             </h3>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-[#0B1220]/80">
-              We are ready to support your business with our best services and
-              solutions.
+              {contents.cta_right_desc || 'We are ready to support your business with our best services and solutions.'}
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
               <a
@@ -880,13 +803,20 @@ export default function Index() {
             </button>
 
             <div className="relative aspect-video w-full">
-              <iframe
-                className="h-full w-full"
-                src="https://www.youtube.com/embed/qIVMKITIV7o?autoplay=1"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+              {contents.promo_video ? (
+                <video className="h-full w-full object-cover" controls autoPlay>
+                  <source src={getCleanUrl(contents.promo_video, '')} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <iframe
+                  className="h-full w-full"
+                  src="https://www.youtube.com/embed/qIVMKITIV7o?autoplay=1"
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              )}
             </div>
           </div>
         </div>

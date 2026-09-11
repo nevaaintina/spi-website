@@ -1,4 +1,5 @@
 import React from "react";
+import { usePage } from "@inertiajs/react";
 
 const IconLinkedin = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -7,98 +8,111 @@ const IconLinkedin = (props) => (
 );
 
 export default function Management() {
-  // Data CEO
-  const ceoMember = {
+  const { managementTeams = [] } = usePage().props;
+
+  const getCleanUrl = (path, fallback) => {
+    if (!path) return fallback;
+    if (path.startsWith('http')) return path;
+    const cleaned = path.replace(/^storage\//, '');
+    return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
+  };
+
+  // Filter data dinamis dari database berdasarkan kategori atau posisi
+  const ceoMember = managementTeams.find(m => 
+    m.category === 'ceo' || m.position.toLowerCase().includes('ceo')
+  ) || {
     name: "Aji Witanto",
     title: "CEO",
     image: "/images/pa-aji.png",
     linkedin: "https://www.linkedin.com/in/aji-witanto-035a5020a/",
   };
 
-  // Data 3 Direktur / Anggota Manajemen Lainnya
-  const directors = [
-    {
-      name: "Sugih Hariyadi",
-      title: "HRGA and General Support Director",
-      image: "/images/pa-adie.png",
-      linkedin: "https://www.linkedin.com/in/sugih-hariyadi-b2b5b57b/",
-      customPosition: "object-[center_25%]",
-    },
-    {
-      name: "Yuda Khamal Pura",
-      title: "Operation Director",
-      image: "/images/pa-yuda.png",
-      linkedin: "https://www.linkedin.com/in/yuda-pura-8267aa19/",
-      customPosition: "object-[center_25%]",
-    },
-    {
-      name: "Dian Wijayanti",
-      title: "Chief Financial Officer",
-      image: "/images/bu-dian.jpeg",
-      linkedin: "https://www.linkedin.com/in/lucilla-dian-w/",
-      customStyle: "object-[center_10%] scale-[1.45]",
-    },
-  ];
+  const directors = managementTeams.filter(m => 
+    m.category === 'director' || 
+    m.position.toLowerCase().includes('director') || 
+    m.position.toLowerCase().includes('cfo')
+  ) && managementTeams.filter(m => m.id !== ceoMember.id && (m.category === 'director' || m.position.toLowerCase().includes('director') || m.position.toLowerCase().includes('cfo'))).length > 0
+    ? managementTeams.filter(m => m.id !== ceoMember.id && (m.category === 'director' || m.position.toLowerCase().includes('director') || m.position.toLowerCase().includes('cfo')))
+    : [
+        {
+          name: "Sugih Hariyadi",
+          title: "HRGA and General Support Director",
+          image: "/images/pa-adie.png",
+          linkedin: "https://www.linkedin.com/in/sugih-hariyadi-b2b5b57b/",
+          customPosition: "object-[center_25%]",
+        },
+        {
+          name: "Yuda Khamal Pura",
+          title: "Operation Director",
+          image: "/images/pa-yuda.png",
+          linkedin: "https://www.linkedin.com/in/yuda-pura-8267aa19/",
+          customPosition: "object-[center_25%]",
+        },
+        {
+          name: "Dian Wijayanti",
+          title: "Chief Financial Officer",
+          image: "/images/bu-dian.jpeg",
+          linkedin: "https://www.linkedin.com/in/lucilla-dian-w/",
+          customStyle: "object-[center_10%] scale-[1.45]",
+        },
+      ];
 
-  // Data tambahan 8 Manager
-  const managers = [
-    {
-      name: "Gomgom Obed Ferdinand Manurung",
-      title: "Finance Accounting & Tax Manager",
-      department: "FIN-ACC-Tax Dept.",
-      image: "/images/gomgom.png",
-      linkedin: "#",
-    },
-    {
-      name: "Paulinus Sitanggang",
-      title: "WH & Logistics Manager",
-      department: "SCM Dept.",
-      image: "/images/paulinus.png",
-      linkedin: "#",
-    },
-    {
-      name: "Rahmat Citra Anugerah",
-      title: "Part & Logistics Manager KALTIM",
-      department: "SCM Dept.",
-      image: "/images/rahmat.png",
-      linkedin: "#",
-    },
-    {
-      name: "Adi Rahmat",
-      title: "Part Manager & Key Account",
-      department: "SCM Dept.",
-      image: "/images/adi.png",
-      linkedin: "#",
-    },
-    {
-      name: "Aryan Afriandi",
-      title: "HRGA Manager",
-      department: "HRGA Dept.",
-      image: "/images/aryan.png",
-      linkedin: "#",
-    },
-    {
-      name: "Danang Yuhana Putra",
-      title: "Operational Manager",
-      department: "Service Dept.",
-      image: "/images/danang.png",
-      linkedin: "#",
-    },
-    {
-      name: "Muh Ahmadi",
-      title: "Quality Control Manager",
-      department: "Service Dept.",
-      image: "/images/ahmadi.png",
-      linkedin: "#",
-    },
-    {
-      name: "Eki Heryawan",
-      title: "Technical Service Manager",
-      department: "Service Dept.",
-      image: "/images/eki.png",
-      linkedin: "#",
-    },
-  ];
+  const managers = managementTeams.filter(m => 
+    m.id !== ceoMember.id && 
+    !directors.some(d => d.id === m.id) &&
+    (m.category === 'manager' || m.position.toLowerCase().includes('manager') || m.position.toLowerCase().includes('mgr'))
+  ).length > 0 
+    ? managementTeams.filter(m => m.id !== ceoMember.id && !directors.some(d => d.id === m.id) && (m.category === 'manager' || m.position.toLowerCase().includes('manager') || m.position.toLowerCase().includes('mgr')))
+    : [
+        {
+          name: "Gomgom Obed Ferdinand Manurung",
+          title: "Finance Accounting & Tax Manager",
+          image: "/images/gomgom.png",
+          linkedin: "#",
+        },
+        {
+          name: "Paulinus Sitanggang",
+          title: "WH & Logistics Manager",
+          image: "/images/paulinus.png",
+          linkedin: "#",
+        },
+        {
+          name: "Rahmat Citra Anugerah",
+          title: "Part & Logistics Manager KALTIM",
+          image: "/images/rahmat.png",
+          linkedin: "#",
+        },
+        {
+          name: "Adi Rahmat",
+          title: "Part Manager & Key Account",
+          image: "/images/adi.png",
+          linkedin: "#",
+        },
+        {
+          name: "Aryan Afriandi",
+          title: "HRGA Manager",
+          image: "/images/aryan.png",
+          linkedin: "#",
+        },
+        {
+          name: "Danang Yuhana Putra",
+          title: "Operational Manager",
+          image: "/images/danang.png",
+          linkedin: "#",
+        },
+        {
+          name: "Muh Ahmadi",
+          title: "Quality Control Manager",
+          image: "/images/ahmadi.png",
+          linkedin: "#",
+        },
+        {
+          name: "Eki Heryawan",
+          title: "Technical Service Manager",
+          image: "/images/eki.png",
+          linkedin: "#",
+        },
+      ];
 
   return (
     <div className="w-full pt-8">
@@ -111,7 +125,7 @@ export default function Management() {
         <div className="group relative w-full max-w-sm rounded-2xl border border-slate-200/80 bg-white p-3.5 shadow-md transition-all duration-300 hover:border-[#FFC107] hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10">
           <div className="relative h-[380px] w-full overflow-hidden rounded-xl bg-slate-100">
             <img
-              src={ceoMember.image}
+              src={getCleanUrl(ceoMember.image || ceoMember.photo, "https://via.placeholder.com/350x500?text=Photo")}
               alt={ceoMember.name}
               className="h-full w-full object-cover object-[center_25%] transition-transform duration-500 group-hover:scale-105"
               onError={(e) => {
@@ -127,19 +141,21 @@ export default function Management() {
                 {ceoMember.name}
               </h4>
               <p className="truncate text-xs font-medium text-slate-500">
-                {ceoMember.title}
+                {ceoMember.title || ceoMember.position}
               </p>
             </div>
 
-            <a
-              href={ceoMember.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400 transition-all duration-300 hover:scale-110 hover:bg-[#0077b5] hover:text-white"
-              title="LinkedIn Profile"
-            >
-              <IconLinkedin className="h-4 w-4" />
-            </a>
+            {ceoMember.linkedin && ceoMember.linkedin !== "#" && (
+              <a
+                href={ceoMember.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400 transition-all duration-300 hover:scale-110 hover:bg-[#0077b5] hover:text-white"
+                title="LinkedIn Profile"
+              >
+                <IconLinkedin className="h-4 w-4" />
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -148,14 +164,14 @@ export default function Management() {
       <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-3 md:gap-8 lg:gap-10 w-full mb-12">
         {directors.map((member, idx) => (
           <div
-            key={idx}
+            key={member.id || idx}
             className="group rounded-2xl border border-slate-200/80 bg-white p-3 shadow-md transition-all duration-300 hover:border-[#FFC107] hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10"
           >
             <div className="relative h-[360px] w-full overflow-hidden rounded-xl bg-slate-100">
               <img
-                src={member.image}
+                src={getCleanUrl(member.image || member.photo, "https://via.placeholder.com/350x500?text=Photo")}
                 alt={member.name}
-                className={`h-full w-full object-cover ${member.customPosition} transition-transform duration-500 group-hover:scale-105`}
+                className={`h-full w-full object-cover ${member.customPosition || 'object-[center_25%]'} ${member.customStyle || ''} transition-transform duration-500 group-hover:scale-105`}
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "https://via.placeholder.com/350x500?text=Photo";
@@ -169,19 +185,21 @@ export default function Management() {
                   {member.name}
                 </h4>
                 <p className="truncate text-xs font-medium text-slate-500">
-                  {member.title}
+                  {member.title || member.position}
                 </p>
               </div>
 
-              <a
-                href={member.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400 transition-all duration-300 hover:scale-110 hover:bg-[#0077b5] hover:text-white"
-                title="LinkedIn Profile"
-              >
-                <IconLinkedin className="h-4 w-4" />
-              </a>
+              {member.linkedin && member.linkedin !== "#" && (
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400 transition-all duration-300 hover:scale-110 hover:bg-[#0077b5] hover:text-white"
+                  title="LinkedIn Profile"
+                >
+                  <IconLinkedin className="h-4 w-4" />
+                </a>
+              )}
             </div>
           </div>
         ))}
@@ -191,12 +209,12 @@ export default function Management() {
       <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-2 md:grid-cols-4 md:gap-6 w-full">
         {managers.map((mgr, idx) => (
           <div
-            key={idx}
+            key={mgr.id || idx}
             className="group rounded-2xl border border-slate-200/80 bg-white p-3 shadow-md transition-all duration-300 hover:border-[#FFC107] hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10"
           >
             <div className="relative h-[280px] w-full overflow-hidden rounded-xl bg-slate-100">
               <img
-                src={mgr.image}
+                src={getCleanUrl(mgr.image || mgr.photo, "https://via.placeholder.com/350x500?text=Photo")}
                 alt={mgr.name}
                 className="h-full w-full object-cover object-[center_25%] transition-transform duration-500 group-hover:scale-105"
                 onError={(e) => {
@@ -212,7 +230,7 @@ export default function Management() {
                   {mgr.name}
                 </h4>
                 <p className="truncate text-[11px] font-medium text-slate-500">
-                  {mgr.title}
+                  {mgr.title || mgr.position}
                 </p>
               </div>
 

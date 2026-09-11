@@ -1,9 +1,25 @@
 import React from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
 
 export default function Esg() {
+    const { esgContents = {} } = usePage().props;
+
+    const getCleanUrl = (path, fallback) => {
+        if (!path) return fallback;
+        if (path.startsWith('http')) return path;
+        const cleaned = path.replace(/^storage\//, '');
+        return cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
+    };
+
+    // Parse data CSR items dinamis jika ada, atau gunakan array default
+    const csrList = esgContents?.csr_items ? JSON.parse(esgContents.csr_items) : [
+        { category: 'Edukasi', title: 'Pelatihan Teknisi Gratis', desc: 'Program pembekalan keterampilan mekanik alat berat gratis bagi pemuda lokal untuk mendorong kesiapan kerja industri.' },
+        { category: 'Infrastruktur', title: 'Bantuan Fasilitas Umum', desc: 'Perbaikan dan dukungan sarana publik bagi warga sekitar area kerja untuk mendukung kenyamanan kehidupan bermasyarakat.' },
+        { category: 'Kemanusiaan', title: 'Tanggap Bencana & Sembako', desc: 'Aksi cepat tanggap penyerahan bantuan logistik dan sembako bagi masyarakat terdampak kondisi darurat bencana.' }
+    ];
+
     return (
         <div className="min-h-screen bg-slate-50 text-[#0f2b5c] font-sans selection:bg-[#ffc107] selection:text-[#0f2b5c]">
             <Head title="Environment, Social & Governance (ESG) - PT Servistama Pro Indonesia" />
@@ -11,17 +27,20 @@ export default function Esg() {
 
             {/* HERO BANNER */}
             <section className="relative bg-[#0f2b5c] text-white pt-32 pb-24 overflow-hidden">
-                <div className="absolute inset-0 opacity-15 bg-cover bg-center" style={{ backgroundImage: "url('/images/internship.png')" }} />
+                <div 
+                    className="absolute inset-0 opacity-15 bg-cover bg-center" 
+                    style={{ backgroundImage: `url('${getCleanUrl(esgContents.esg_hero_image, '/images/internship.png')}')` }} 
+                />
                 <div className="relative max-w-7xl mx-auto px-6 md:px-10">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md mb-6">
                         <span className="w-2 h-2 rounded-full bg-[#ffc107]" />
                         <span className="text-xs font-bold text-[#ffc107] uppercase tracking-wider">Sustainability Framework</span>
                     </div>
                     <h1 className="text-4xl md:text-6xl font-black tracking-tight max-w-4xl leading-tight">
-                        Environment, Social & Governance <span className="text-[#ffc107]">(ESG)</span>
+                        {esgContents.esg_hero_title || 'Environment, Social & Governance'} <span className="text-[#ffc107]">(ESG)</span>
                     </h1>
                     <p className="mt-6 text-base md:text-lg text-slate-300 max-w-2xl font-light leading-relaxed">
-                        Membangun pertumbuhan bisnis jangka panjang yang bertanggung jawab terhadap kelestarian lingkungan, keselamatan insan kerja, dan tata kelola perusahaan yang transparan.
+                        {esgContents.esg_hero_desc || 'Membangun pertumbuhan bisnis jangka panjang yang bertanggung jawab terhadap kelestarian lingkungan, keselamatan insan kerja, dan tata kelola perusahaan yang transparan.'}
                     </p>
                 </div>
             </section>
@@ -32,10 +51,10 @@ export default function Esg() {
                     <div className="lg:col-span-6 space-y-6">
                         <span className="text-xs font-black tracking-widest text-[#0f2b5c]/60 uppercase">VISI MASA DEPAN</span>
                         <h2 className="text-3xl md:text-4xl font-black text-[#0f2b5c] leading-tight">
-                            Komitmen Keberlanjutan Dalam Setiap Operasional
+                            {esgContents.esg_vision_title || 'Komitmen Keberlanjutan Dalam Setiap Operasional'}
                         </h2>
                         <p className="text-slate-600 leading-relaxed text-sm md:text-base">
-                            Di PT Servistama Pro Indonesia, kami percaya bahwa efisiensi alat berat XCMG harus berjalan selaras dengan kepedulian lingkungan dan dampak positif bagi masyarakat.
+                            {esgContents.esg_vision_desc || 'Di PT Servistama Pro Indonesia, kami percaya bahwa efisiensi alat berat XCMG harus berjalan selaras dengan kepedulian lingkungan dan dampak positif bagi masyarakat.'}
                         </p>
                         <p className="text-slate-600 leading-relaxed text-sm md:text-base">
                             Integrasi prinsip ESG menjadi standar operasional utama kami—mulai dari manajemen workshop, keselamatan teknisi, hingga transparansi sistem layanan garansi.
@@ -44,7 +63,7 @@ export default function Esg() {
                     <div className="lg:col-span-6">
                         <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/3]">
                             <img 
-                                src="/images/internship.png" 
+                                src={getCleanUrl(esgContents.esg_vision_image, '/images/internship.png')} 
                                 alt="ESG PT Servistama Pro Indonesia" 
                                 className="w-full h-full object-cover" 
                             />
@@ -65,9 +84,9 @@ export default function Esg() {
                         <span className="text-xs font-black tracking-widest text-emerald-700 uppercase bg-emerald-100 px-3 py-1 rounded-md inline-block mb-3">
                             Pilar 01 — Environment
                         </span>
-                        <h2 className="text-3xl md:text-4xl font-black text-[#0f2b5c]">Environmental Program</h2>
+                        <h2 className="text-3xl md:text-4xl font-black text-[#0f2b5c]">{esgContents.env_title || 'Environmental Program'}</h2>
                         <p className="mt-3 text-slate-600 text-sm md:text-base leading-relaxed">
-                            Inisiatif hijau dalam menekan jejak karbon serta pengelolaan limbah operasional alat berat secara bertanggung jawab.
+                            {esgContents.env_desc || 'Inisiatif hijau dalam menekan jejak karbon serta pengelolaan limbah operasional alat berat secara bertanggung jawab.'}
                         </p>
                     </div>
 
@@ -75,39 +94,27 @@ export default function Esg() {
                         {/* CARD 01 */}
                         <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm flex flex-col justify-between">
                             <div>
-                                <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 font-black text-xl mb-6">
-                                    01
-                                </div>
-                                <h3 className="text-xl font-black text-[#0f2b5c] mb-3">Efisiensi Energi Workshop</h3>
-                                <p className="text-slate-600 text-sm leading-relaxed">
-                                    Optimalisasi energi melalui pemanfaatan pencahayaan alami, penggunaan sistem LED efisiensi tinggi, serta pengaturan daya otomatis di fasilitas workshop.
-                                </p>
+                                <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 font-black text-xl mb-6">01</div>
+                                <h3 className="text-xl font-black text-[#0f2b5c] mb-3">{esgContents.env_1_title || 'Efisiensi Energi Workshop'}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{esgContents.env_1_desc || 'Optimalisasi energi melalui pemanfaatan pencahayaan alami, penggunaan sistem LED efisiensi tinggi, serta pengaturan daya otomatis di fasilitas workshop.'}</p>
                             </div>
                         </div>
 
                         {/* CARD 02 */}
                         <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm flex flex-col justify-between">
                             <div>
-                                <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 font-black text-xl mb-6">
-                                    02
-                                </div>
-                                <h3 className="text-xl font-black text-[#0f2b5c] mb-3">Pengelolaan Limbah B3</h3>
-                                <p className="text-slate-600 text-sm leading-relaxed">
-                                    Sistem pengolahan dan penampungan berstandar ISO untuk limbah berbahaya seperti oli bekas, pelumas, dan komponen habis pakai.
-                                </p>
+                                <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 font-black text-xl mb-6">02</div>
+                                <h3 className="text-xl font-black text-[#0f2b5c] mb-3">{esgContents.env_2_title || 'Pengelolaan Limbah B3'}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{esgContents.env_2_desc || 'Sistem pengolahan dan penampungan berstandar ISO untuk limbah berbahaya seperti oli bekas, pelumas, dan komponen habis pakai.'}</p>
                             </div>
                         </div>
 
                         {/* CARD 03 */}
                         <div className="bg-white p-8 rounded-3xl border border-emerald-100 shadow-sm flex flex-col justify-between">
                             <div>
-                                <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 font-black text-xl mb-6">
-                                    03
-                                </div>
-                                <h3 className="text-xl font-black text-[#0f2b5c] mb-3">Material Ramah Lingkungan</h3>
-                                <p className="text-slate-600 text-sm leading-relaxed">
-                                    Penggunaan bahan pendukung eco-friendly serta penerapan digitalisasi dokumen administratif servis secara menyeluruh (Paperless System).
-                                </p>
+                                <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 font-black text-xl mb-6">03</div>
+                                <h3 className="text-xl font-black text-[#0f2b5c] mb-3">{esgContents.env_3_title || 'Material Ramah Lingkungan'}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{esgContents.env_3_desc || 'Penggunaan bahan pendukung eco-friendly serta penerapan digitalisasi dokumen administratif servis secara menyeluruh (Paperless System).'}</p>
                             </div>
                         </div>
                     </div>
@@ -121,35 +128,29 @@ export default function Esg() {
                         <span className="text-xs font-black tracking-widest text-sky-700 uppercase bg-sky-100 px-3 py-1 rounded-md inline-block mb-3">
                             Pilar 02 — Social
                         </span>
-                        <h2 className="text-3xl md:text-4xl font-black text-[#0f2b5c]">Social Responsibility</h2>
+                        <h2 className="text-3xl md:text-4xl font-black text-[#0f2b5c]">{esgContents.soc_title || 'Social Responsibility'}</h2>
                         <p className="mt-3 text-slate-600 text-sm md:text-base leading-relaxed">
-                            Prioritas utama kami terletak pada keselamatan kerja teknisi, pengembangan kapabilitas tim, serta iklim kerja yang inklusif.
+                            {esgContents.soc_desc || 'Prioritas utama kami terletak pada keselamatan kerja teknis, pengembangan kapabilitas tim, serta iklim kerja yang inklusif.'}
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="border-t border-slate-200 pt-6">
                             <span className="text-sky-600 text-xs font-black tracking-widest uppercase block mb-2">01. Safety & HSE</span>
-                            <h3 className="text-lg font-black text-[#0f2b5c] mb-3">Standar K3 / HSE Ketat</h3>
-                            <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
-                                Penerapan Prosedur Keselamatan Kerja tingkat tinggi bagi setiap mekanik di lapangan demi mencapai target Zero Accident.
-                            </p>
+                            <h3 className="text-lg font-black text-[#0f2b5c] mb-3">{esgContents.soc_1_title || 'Standar K3 / HSE Ketat'}</h3>
+                            <p className="text-slate-600 text-xs md:text-sm leading-relaxed">{esgContents.soc_1_desc || 'Penerapan Prosedur Keselamatan Kerja tingkat tinggi bagi setiap mekanik di lapangan demi mencapai target Zero Accident.'}</p>
                         </div>
 
                         <div className="border-t border-slate-200 pt-6">
                             <span className="text-sky-600 text-xs font-black tracking-widest uppercase block mb-2">02. Well-being</span>
-                            <h3 className="text-lg font-black text-[#0f2b5c] mb-3">Kesejahteraan & SDM</h3>
-                            <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
-                                Jaminan perlindungan kesehatan kerja komprehensif, sertifikasi kompetensi berkala, dan jenjang karir yang terukur.
-                            </p>
+                            <h3 className="text-lg font-black text-[#0f2b5c] mb-3">{esgContents.soc_2_title || 'Kesejahteraan & SDM'}</h3>
+                            <p className="text-slate-600 text-xs md:text-sm leading-relaxed">{esgContents.soc_2_desc || 'Jaminan perlindungan kesehatan kerja komprehensif, sertifikasi kompetensi berkala, dan jenjang karir yang terukur.'}</p>
                         </div>
 
                         <div className="border-t border-slate-200 pt-6">
                             <span className="text-sky-600 text-xs font-black tracking-widest uppercase block mb-2">03. Inclusivity</span>
-                            <h3 className="text-lg font-black text-[#0f2b5c] mb-3">Lingkungan Kerja Inklusif</h3>
-                            <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
-                                Membangun budaya kerja yang saling menghargai, adil tanpa diskriminasi, serta menjamin hak-hak seluruh karyawan.
-                            </p>
+                            <h3 className="text-lg font-black text-[#0f2b5c] mb-3">{esgContents.soc_3_title || 'Lingkungan Kerja Inklusif'}</h3>
+                            <p className="text-slate-600 text-xs md:text-sm leading-relaxed">{esgContents.soc_3_desc || 'Membangun budaya kerja yang saling menghargai, adil tanpa diskriminasi, serta menjamin hak-hak seluruh karyawan.'}</p>
                         </div>
                     </div>
                 </div>
@@ -162,9 +163,9 @@ export default function Esg() {
                         <span className="text-xs font-black tracking-widest text-[#ffc107] uppercase bg-white/10 px-3 py-1 rounded-md inline-block mb-3">
                             Pilar 03 — Governance
                         </span>
-                        <h2 className="text-3xl md:text-4xl font-black text-white">Good Governance</h2>
+                        <h2 className="text-3xl md:text-4xl font-black text-white">{esgContents.gov_title || 'Good Governance'}</h2>
                         <p className="mt-3 text-slate-300 text-sm md:text-base leading-relaxed font-light">
-                            Menjaga kepercayaan klien melalui tata kelola perusahaan yang berintegritas dan transparan.
+                            {esgContents.gov_desc || 'Menjaga kepercayaan klien melalui tata kelola perusahaan yang berintegritas dan transparan.'}
                         </p>
                     </div>
 
@@ -172,30 +173,30 @@ export default function Esg() {
                         <div className="py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
                             <div className="md:col-span-4 flex items-center gap-3">
                                 <span className="text-[#ffc107] font-mono text-sm">01/</span>
-                                <h3 className="text-lg font-black text-white">Kepatuhan Hukum</h3>
+                                <h3 className="text-lg font-black text-white">{esgContents.gov_1_title || 'Kepatuhan Hukum'}</h3>
                             </div>
                             <p className="md:col-span-8 text-slate-300 text-sm leading-relaxed font-light">
-                                Menjamin seluruh alur bisnis dan distribusi alat berat mematuhi regulasi hukum serta norma industri yang berlaku secara penuh tanpa kompromi.
+                                {esgContents.gov_1_desc || 'Menjamin seluruh alur bisnis dan distribusi alat berat mematuhi regulasi hukum serta norma industri yang berlaku secara penuh tanpa kompromi.'}
                             </p>
                         </div>
 
                         <div className="py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
                             <div className="md:col-span-4 flex items-center gap-3">
                                 <span className="text-[#ffc107] font-mono text-sm">02/</span>
-                                <h3 className="text-lg font-black text-white">Transparansi Garansi</h3>
+                                <h3 className="text-lg font-black text-white">{esgContents.gov_2_title || 'Transparansi Garansi'}</h3>
                             </div>
                             <p className="md:col-span-8 text-slate-300 text-sm leading-relaxed font-light">
-                                Sistem klaim garansi unit XCMG yang terbuka, terstruktur, dan dapat diawasi tahapan prosesnya secara jelas oleh setiap mitra operasional.
+                                {esgContents.gov_2_desc || 'Sistem klaim garansi unit XCMG yang terbuka, terstruktur, dan dapat diawasi tahapan prosesnya secara jelas oleh setiap mitra operasional.'}
                             </p>
                         </div>
 
                         <div className="py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
                             <div className="md:col-span-4 flex items-center gap-3">
                                 <span className="text-[#ffc107] font-mono text-sm">03/</span>
-                                <h3 className="text-lg font-black text-white">Etika Bisnis & Anti-Korupsi</h3>
+                                <h3 className="text-lg font-black text-white">{esgContents.gov_3_title || 'Etika Bisnis & Anti-Korupsi'}</h3>
                             </div>
                             <p className="md:col-span-8 text-slate-300 text-sm leading-relaxed font-light">
-                                Menjunjung tinggi asas kejujuran, integritas moral, dan profesionalisme dalam setiap hubungan kerja sama bisnis jangka panjang.
+                                {esgContents.gov_3_desc || 'Menjunjung tinggi asas kejujuran, integritas moral, dan profesionalisme dalam setiap hubungan kerja sama bisnis jangka panjang.'}
                             </p>
                         </div>
                     </div>
@@ -209,78 +210,35 @@ export default function Esg() {
                         <span className="text-xs font-black tracking-widest text-amber-700 uppercase bg-amber-100 px-3 py-1 rounded-md inline-block mb-3">
                             Inisiatif Sosial
                         </span>
-                        <h2 className="text-3xl md:text-4xl font-black text-[#0f2b5c]">CSR Activities</h2>
+                        <h2 className="text-3xl md:text-4xl font-black text-[#0f2b5c]">{esgContents.csr_section_title || 'CSR Activities'}</h2>
                         <p className="mt-3 text-slate-600 text-sm md:text-base leading-relaxed">
-                            Aksi nyata perusahaan dalam memberikan manfaat langsung bagi masyarakat di sekitar wilayah operasional.
+                            {esgContents.csr_section_desc || 'Aksi nyata perusahaan dalam memberikan manfaat langsung bagi masyarakat di sekitar wilayah operasional.'}
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {/* CARD 1 */}
-                        <div className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm flex flex-col justify-between">
-                            <div className="relative aspect-[16/10] overflow-hidden">
-                                <img 
-                                    src="/images/internship.png" 
-                                    alt="Pelatihan Teknisi Gratis" 
-                                    className="w-full h-full object-cover" 
-                                />
-                                <span className="absolute top-4 left-4 bg-[#0f2b5c] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-                                    Edukasi
-                                </span>
-                            </div>
-                            <div className="p-6 flex-1 flex flex-col justify-between">
-                                <div>
-                                    <h3 className="text-lg font-black text-[#0f2b5c] mb-2">Pelatihan Teknisi Gratis</h3>
-                                    <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
-                                        Program pembekalan keterampilan mekanik alat berat gratis bagi pemuda lokal untuk mendorong kesiapan kerja industri.
-                                    </p>
+                        {csrList.map((item, index) => (
+                            <div key={index} className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm flex flex-col justify-between">
+                                <div className="relative aspect-[16/10] overflow-hidden">
+                                    <img 
+                                        src={getCleanUrl(item.image, '/images/internship.png')} 
+                                        alt={item.title} 
+                                        className="w-full h-full object-cover" 
+                                    />
+                                    <span className="absolute top-4 left-4 bg-[#0f2b5c] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                                        {item.category}
+                                    </span>
+                                </div>
+                                <div className="p-6 flex-1 flex flex-col justify-between">
+                                    <div>
+                                        <h3 className="text-lg font-black text-[#0f2b5c] mb-2">{item.title}</h3>
+                                        <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
+                                            {item.desc}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        {/* CARD 2 */}
-                        <div className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm flex flex-col justify-between">
-                            <div className="relative aspect-[16/10] overflow-hidden">
-                                <img 
-                                    src="/images/internship.png" 
-                                    alt="Bantuan Fasilitas Umum" 
-                                    className="w-full h-full object-cover" 
-                                />
-                                <span className="absolute top-4 left-4 bg-[#0f2b5c] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-                                    Infrastruktur
-                                </span>
-                            </div>
-                            <div className="p-6 flex-1 flex flex-col justify-between">
-                                <div>
-                                    <h3 className="text-lg font-black text-[#0f2b5c] mb-2">Bantuan Fasilitas Umum</h3>
-                                    <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
-                                        Perbaikan dan dukungan sarana publik bagi warga sekitar area kerja untuk mendukung kenyamanan kehidupan bermasyarakat.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* CARD 3 */}
-                        <div className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm flex flex-col justify-between">
-                            <div className="relative aspect-[16/10] overflow-hidden">
-                                <img 
-                                    src="/images/internship.png" 
-                                    alt="Tanggap Bencana & Sembako" 
-                                    className="w-full h-full object-cover" 
-                                />
-                                <span className="absolute top-4 left-4 bg-[#0f2b5c] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-                                    Kemanusiaan
-                                </span>
-                            </div>
-                            <div className="p-6 flex-1 flex flex-col justify-between">
-                                <div>
-                                    <h3 className="text-lg font-black text-[#0f2b5c] mb-2">Tanggap Bencana & Sembako</h3>
-                                    <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
-                                        Aksi cepat tanggap penyerahan bantuan logistik dan sembako bagi masyarakat terdampak kondisi darurat bencana.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -299,7 +257,7 @@ export default function Esg() {
                             </p>
                         </div>
 
-                        <div className="md:col-span-7 bg-white/10 backdrop-blur-md p-6 md:p-8 rounded-3xl border border-white/15">
+                        <div className="md:col-span-7 bg-white/15 backdrop-blur-md p-6 md:p-8 rounded-3xl border border-white/20">
                             <p className="text-slate-200 text-sm leading-relaxed mb-6 font-light">
                                 Strategi penekanan emisi karbon diterapkan secara nyata melalui beberapa langkah utama:
                             </p>
@@ -330,7 +288,7 @@ export default function Esg() {
                 </div>
             </section>
 
-            {/* 6. SUSTAINABILITY REPORT (1 DOKUMEN TUNGGAL) */}
+            {/* 6. SUSTAINABILITY REPORT (DINAMIS DARI ADMIN CMS) */}
             <section className="py-20 bg-white border-t border-slate-200">
                 <div className="max-w-7xl mx-auto px-6 md:px-10">
                     <div className="bg-slate-50 p-8 md:p-10 rounded-3xl border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-8 hover:border-indigo-200 transition-all shadow-sm">
@@ -340,26 +298,31 @@ export default function Esg() {
                                     Laporan Resmi ESG
                                 </span>
                                 <span className="text-xs font-mono font-bold text-slate-500 bg-slate-200/70 px-3 py-1 rounded-full">
-                                    PDF • 4.5 MB
+                                    PDF Dokumen
                                 </span>
                             </div>
-                            <h2 className="text-2xl md:text-3xl font-black text-[#0f2b5c] mb-3">Sustainability Report Terbaru</h2>
+                            <h2 className="text-2xl md:text-3xl font-black text-[#0f2b5c] mb-3">{esgContents.report_title || 'Sustainability Report Terbaru'}</h2>
                             <p className="text-slate-600 text-sm md:text-base leading-relaxed">
-                                Unduh dokumen laporan resmi mengenai pencapaian efisiensi energi, keselamatan kerja, pengelolaan limbah B3, dan standar Good Governance PT Servistama Pro Indonesia.
+                                {esgContents.report_desc || 'Unduh dokumen laporan resmi mengenai pencapaian efisiensi energi, keselamatan kerja, pengelolaan limbah B3, dan standar Good Governance PT Servistama Pro Indonesia.'}
                             </p>
                         </div>
 
                         <div className="shrink-0">
-                            <a 
-                                href="/reports/sustainability-report.pdf" 
-                                download 
-                                className="inline-flex items-center justify-center gap-3 py-4 px-8 rounded-2xl bg-[#0f2b5c] text-white font-bold text-sm uppercase tracking-wider hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                            >
-                                <svg className="w-5 h-5 text-[#ffc107]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                Unduh Laporan ESG (PDF)
-                            </a>
+                            {esgContents.report_pdf ? (
+                                <a 
+                                    href={getCleanUrl(esgContents.report_pdf, '#')} 
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center gap-3 py-4 px-8 rounded-2xl bg-[#0f2b5c] text-white font-bold text-sm uppercase tracking-wider hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                                >
+                                    <svg className="w-5 h-5 text-[#ffc107]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                    Unduh Laporan ESG (PDF)
+                                </a>
+                            ) : (
+                                <span className="text-xs text-slate-400 font-semibold italic">File PDF Belum Diunggah Admin</span>
+                            )}
                         </div>
                     </div>
                 </div>

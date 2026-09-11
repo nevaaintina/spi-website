@@ -1,4 +1,5 @@
 import React from "react";
+import { usePage } from "@inertiajs/react";
 
 /* =========================================================
    INLINE SVG ICONS
@@ -58,55 +59,54 @@ const IconLightbulb = (props) => (
 );
 
 /* =========================================================
-   DATA STORES
-   ========================================================= */
-const missions = [
-  { 
-    icon: IconGear, 
-    text: "Menyediakan jasa servis dan suku cadang alat berat terbaik serta terlengkap." 
-  },
-  { 
-    icon: IconHandshake, 
-    text: "Membangun layanan berbasis konsumen dan memberikan solusi sesuai kebutuhan pelanggan." 
-  },
-  { 
-    icon: IconShieldCheck, 
-    text: "Menjaga dan meningkatkan kualitas pelayanan secara berkesinambungan." 
-  },
-];
-
-const coreValues = [
-  { 
-    icon: IconHandshake, 
-    title: "Honest", 
-    desc: "Melayani klien dengan kejujuran." 
-  },
-  { 
-    icon: IconShieldCheck, 
-    title: "Integrity", 
-    desc: "Bertanggung jawab atas setiap tindakan." 
-  },
-  { 
-    icon: IconTarget, 
-    title: "Perseverance", 
-    desc: "Tekun mencapai tujuan jangka panjang." 
-  },
-  { 
-    icon: IconClipboardCheck, 
-    title: "Respect", 
-    desc: "Menghargai klien dengan proses terarah." 
-  },
-  { 
-    icon: IconLightbulb, 
-    title: "Open-minded", 
-    desc: "Menerima masukan demi evaluasi layanan." 
-  },
-];
-
-/* =========================================================
    COMPONENT
    ========================================================= */
 export default function VisionMission() {
+  const { contents = {} } = usePage().props;
+
+  const missions = [
+    { 
+      icon: IconGear, 
+      text: contents.mission_1 || "Menyediakan jasa servis dan suku cadang alat berat terbaik serta terlengkap." 
+    },
+    { 
+      icon: IconHandshake, 
+      text: contents.mission_2 || "Membangun layanan berbasis konsumen dan memberikan solusi sesuai kebutuhan pelanggan." 
+    },
+    { 
+      icon: IconShieldCheck, 
+      text: contents.mission_3 || "Menjaga dan meningkatkan kualitas pelayanan secara berkesinambungan." 
+    },
+  ];
+
+  const coreValues = [
+    { 
+      icon: IconHandshake, 
+      title: "Honest", 
+      desc: "Melayani klien dengan kejujuran." 
+    },
+    { 
+      icon: IconShieldCheck, 
+      title: "Integrity", 
+      desc: "Bertanggung jawab atas setiap tindakan." 
+    },
+    { 
+      icon: IconTarget, 
+      title: "Perseverance", 
+      desc: "Tekun mencapai tujuan jangka panjang." 
+    },
+    { 
+      icon: IconClipboardCheck, 
+      title: "Respect", 
+      desc: "Menghargai klien dengan proses terarah." 
+    },
+    { 
+      icon: IconLightbulb, 
+      title: "Open-minded", 
+      desc: "Menerima masukan demi evaluasi layanan." 
+    },
+  ];
+
   return (
     <section className="bg-[#F8FAFC] pt-8 pb-16 md:pt-10 md:pb-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-6">
@@ -115,47 +115,48 @@ export default function VisionMission() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           
          {/* 1. VISION */}
-<div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#0F2B5C] p-7 text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107]/50 hover:shadow-2xl hover:shadow-[#0F2B5C]/30">
-  <div className="flex flex-col h-full justify-between">
-    {/* Judul di Atas */}
-    <h3 className="text-xs font-bold uppercase tracking-widest text-[#FFC107]">
-      Our Vision
-    </h3>
+         <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#0F2B5C] p-7 text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107]/50 hover:shadow-2xl hover:shadow-[#0F2B5C]/30">
+           <div className="flex flex-col h-full justify-between">
+             {/* Judul di Atas */}
+             <h3 className="text-xs font-bold uppercase tracking-widest text-[#FFC107]">
+               Our Vision
+             </h3>
 
-    {/* Isi Teks Visi Clean */}
-    <div className="my-auto py-4">
-      <p className="text-lg font-normal leading-relaxed text-white/95">
-        Menjadi perusahaan penyedia jasa servis dan suku cadang alat berat 
-        terlengkap dan terbesar dengan pelayanan terbaik di Indonesia.
-      </p>
-    </div>
-  </div>
-</div> 
-          {/* 2. MISSION */}
-          <div className="group flex flex-col justify-between rounded-2xl border border-[#E2E8F0] bg-white p-7 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107] hover:shadow-2xl hover:shadow-[#0F2B5C]/10">
-            <div>
-              <h3 className="mb-5 text-xs font-bold uppercase tracking-widest text-[#FFC107]">
-                Our Mission
-              </h3>
-              <ul className="space-y-4">
-                {missions.map((m, i) => {
-                  const Icon = m.icon;
-                  return (
-                    <li key={i} className="flex items-start gap-3.5">
-                      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#0F2B5C]/5 text-[#0F2B5C] transition-colors duration-300 group-hover:bg-[#FFC107] group-hover:text-[#0F2B5C]">
-                        <Icon className="h-4 w-4" />
-                      </span>
-                      <span className="text-sm font-medium leading-relaxed text-[#64748B] transition-colors duration-300 group-hover:text-[#0F2B5C]">
-                        {m.text}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
+             {/* Isi Teks Visi Clean */}
+             <div className="my-auto py-4">
+               <p className="text-lg font-normal leading-relaxed text-white/95">
+                 {contents.vision_text || 'Menjadi perusahaan penyedia jasa servis dan suku cadang alat berat terlengkap dan terbesar dengan pelayanan terbaik di Indonesia.'}
+               </p>
+             </div>
+           </div>
+         </div> 
+
+         {/* 2. MISSION */}
+         <div className="group flex flex-col justify-between rounded-2xl border border-[#E2E8F0] bg-white p-7 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107] hover:shadow-2xl hover:shadow-[#0F2B5C]/10">
+           <div>
+             <h3 className="mb-5 text-xs font-bold uppercase tracking-widest text-[#FFC107]">
+               Our Mission
+             </h3>
+             <ul className="space-y-4">
+               {missions.map((m, i) => {
+                 const Icon = m.icon;
+                 return (
+                   <li key={i} className="flex items-start gap-3.5">
+                     <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#0F2B5C]/5 text-[#0F2B5C] transition-colors duration-300 group-hover:bg-[#FFC107] group-hover:text-[#0F2B5C]">
+                       <Icon className="h-4 w-4" />
+                     </span>
+                     <span className="text-sm font-medium leading-relaxed text-[#64748B] transition-colors duration-300 group-hover:text-[#0F2B5C]">
+                       {m.text}
+                     </span>
+                   </li>
+                 );
+               })}
+             </ul>
+           </div>
+         </div>
 
         </div> 
+
         {/* BARIS KEDUA: CORE VALUES (MELEBAR FULL HORIZONTAL 5 KOLOM) */}
         <div className="group rounded-2xl border border-[#E2E8F0] bg-white p-7 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#FFC107] hover:shadow-2xl hover:shadow-[#0F2B5C]/10">
           <h3 className="mb-5 text-xs font-bold uppercase tracking-widest text-[#FFC107]">
@@ -193,7 +194,7 @@ export default function VisionMission() {
                 Business Philosophy
               </h3>
               <p className="text-base italic leading-relaxed text-white/90">
-                &ldquo;Delivering excellence in heavy equipment support and spare parts, grounded in honesty, integrity, and continuous service improvement.&rdquo;
+                &ldquo;{contents.philosophy_text || 'Delivering excellence in heavy equipment support and spare parts, grounded in honesty, integrity, and continuous service improvement.'}&rdquo;
               </p>
             </div>
           </div>

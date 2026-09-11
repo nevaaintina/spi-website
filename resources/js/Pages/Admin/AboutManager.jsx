@@ -3,7 +3,7 @@ import { useForm, usePage, router } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
 
 export default function AboutManager() {
-  const { managementTeams, contents, customers = [], esgContents = {} } = usePage().props;
+  const { managementTeams, contents, customers = [], esgContents = {}, hseContents = {} } = usePage().props;
   const [activeTab, setActiveTab] = useState('text');
 
   // State untuk Dynamic List "Why Choose Us" items (Dengan Mode Edit)
@@ -47,7 +47,7 @@ export default function AboutManager() {
     textForm.setData('why_items', JSON.stringify(updated));
   };
 
-  // State untuk Dynamic List "CSR Activities" (Dilengkapi Foto & Mode Edit)
+  // State untuk Dynamic List "CSR Activities"
   const [csrItems, setCsrItems] = useState(
     esgContents?.csr_items ? JSON.parse(esgContents.csr_items) : [
       { category: 'Edukasi', title: 'Pelatihan Teknisi Gratis', desc: 'Program pembekalan keterampilan mekanik alat berat gratis bagi pemuda lokal...', image: null },
@@ -90,7 +90,7 @@ export default function AboutManager() {
     esgForm.setData('csr_items', JSON.stringify(updated));
   };
 
-  // Form Edit Management Team
+  // Form Management Team
   const teamForm = useForm({
     id: null,
     name: '',
@@ -104,12 +104,12 @@ export default function AboutManager() {
   const handleTeamSubmit = (e) => {
     e.preventDefault();
     if (isEditingTeam) {
-      teamForm.post(route('admin.about.management.update', teamForm.data.id), {
+      teamForm.post(`/admin/about/management/update/${teamForm.data.id}`, {
         preserveScroll: true,
         onSuccess: () => { teamForm.reset(); setIsEditingTeam(false); alert('Tim berhasil diperbarui!'); },
       });
     } else {
-      teamForm.post(route('admin.about.management.store'), {
+      teamForm.post('/admin/about/management/store', {
         preserveScroll: true,
         onSuccess: () => { teamForm.reset(); alert('Anggota tim berhasil ditambahkan!'); },
       });
@@ -128,14 +128,18 @@ export default function AboutManager() {
     });
   };
 
-  // Form Edit Nationwide Customer
+  const deleteMember = (id) => {
+    if (confirm('Yakin ingin menghapus anggota tim ini?')) {
+      router.delete(`/admin/about/management/destroy/${id}`, { preserveScroll: true });
+    }
+  };
+
+  // Form Nationwide Customer
   const customerForm = useForm({
     id: null,
     name: '',
     region: 'Central Kalimantan',
     description: '',
-    latitude: '',
-    longitude: '',
     gmaps_link: '',
     image: null,
   });
@@ -144,14 +148,14 @@ export default function AboutManager() {
   const handleCustomerSubmit = (e) => {
     e.preventDefault();
     if (isEditingCustomer) {
-      customerForm.post(route('admin.about.customer.update', customerForm.data.id), {
+      customerForm.post(`/admin/about/customer/update/${customerForm.data.id}`, {
         preserveScroll: true,
         onSuccess: () => { customerForm.reset(); setIsEditingCustomer(false); alert('Data klien berhasil diperbarui!'); },
       });
     } else {
-      customerForm.post(route('admin.about.customer.store'), {
+      customerForm.post('/admin/about/customer/store', {
         preserveScroll: true,
-        onSuccess: () => { customerForm.reset(); alert('Klien berhasil ditambahkan!'); },
+        onSuccess: () => { customerForm.reset(); alert('Klien & Peta berhasil ditambahkan!'); },
       });
     }
   };
@@ -163,29 +167,36 @@ export default function AboutManager() {
       name: c.name,
       region: c.region,
       description: c.description || '',
-      latitude: c.latitude || '',
-      longitude: c.longitude || '',
       gmaps_link: c.gmaps_link || '',
       image: null,
     });
   };
 
-  // Form untuk Seluruh Teks & Section Halaman About Us (Lengkap 1 sampai 11)
+  const deleteCustomer = (id) => {
+    if (confirm('Yakin ingin menghapus klien ini?')) {
+      router.delete(`/admin/about/customer/destroy/${id}`, { preserveScroll: true });
+    }
+  };
+
+  const getEmbedMapUrl = (linkOrAddress) => {
+    if (!linkOrAddress) return 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.287134376517!2d106.824964!3d-6.175392!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTAnMzEuNCJTIDEwNMKwNDknMjkuOSJF!5e0!3m2!1sid!2sid!4f1625000000000!5m2!1sid!2sid';
+    if (linkOrAddress.includes('<iframe')) {
+      const match = linkOrAddress.match(/src="([^"]+)"/);
+      return match ? match[1] : linkOrAddress;
+    }
+    const encoded = encodeURIComponent(linkOrAddress);
+    return `https://maps.google.com/maps?q=${encoded}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+  };
+
+  // Form untuk Seluruh Teks & Section Halaman About Us (1-11)
   const textForm = useForm({
-    // 1. Hero Banner
     hero_title: contents?.hero_title || 'Building Trust Through Professional Heavy Equipment Services',
     hero_desc: contents?.hero_desc || "PT Servistama Pro Indonesia is committed to delivering reliable, innovative, and high-quality heavy equipment services to support Indonesia's industrial growth.",
     hero_image: null,
-    
-    // 2. Who We Are
     who_we_are_title: contents?.who_we_are_title || 'Trusted Heavy Equipment Service Company',
-    who_we_are_desc: contents?.who_we_are_desc || 'Founded with a strong commitment to reliability and excellence, PT Servistama Pro Indonesia (SPI) provides integrated solutions in heavy equipment services, maintenance, spare parts, and technical support for mining, construction, and industrial sectors.',
-
-    // Why Choose Us Section Title & Data
+    who_we_are_desc: contents?.who_we_are_desc || 'Founded with a strong commitment to reliability and excellence...',
     why_section_title: contents?.why_section_title || 'WHY CHOOSE US',
     why_items: contents?.why_items || JSON.stringify(whyItems),
-
-    // 3. Company Profile
     company_name: contents?.company_name || 'PT Servistama Pro Indonesia',
     company_established: contents?.company_established || '2022',
     company_industry: contents?.company_industry || 'Heavy Equipment Support & Services',
@@ -193,148 +204,74 @@ export default function AboutManager() {
     company_partner: contents?.company_partner || 'XCMG (Xuzhou Construction Machinery Group)',
     company_coverage: contents?.company_coverage || 'Nationwide - Indonesia',
     company_address: contents?.company_address || 'Tangerang, Banten, Indonesia',
-
-    // 4. Company History
     history_2022: contents?.history_2022 || 'Authorized XCMG Dealer Indonesia',
     history_2023: contents?.history_2023 || 'FMC Launch & Jakarta Warehouses',
     history_2024: contents?.history_2024 || 'XCMG Award & Regional Expansion',
     history_2025: contents?.history_2025 || '2 Balikpapan Warehouses & Integrated Asset Management System',
     history_2026: contents?.history_2026 || 'Full New ERP System for Operational Efficiency & Integration',
-
-    // 5. Visi, Misi & Philosophy
-    vision_text: contents?.vision_text || 'Menjadi perusahaan penyedia jasa servis dan suku cadang alat berat terlengkap dan terbesar dengan pelayanan terbaik di Indonesia.',
+    vision_text: contents?.vision_text || 'Menjadi perusahaan penyedia jasa servis dan suku cadang alat berat terlengkap dan terbesar.',
     mission_1: contents?.mission_1 || 'Menyediakan jasa servis dan suku cadang alat berat terbaik serta terlengkap.',
     mission_2: contents?.mission_2 || 'Membangun layanan berbasis konsumen dan memberikan solusi sesuai kebutuhan pelanggan.',
     mission_3: contents?.mission_3 || 'Menjaga dan meningkatkan kualitas pelayanan secara berkesinambungan.',
-    philosophy_text: contents?.philosophy_text || 'Delivering excellence in heavy equipment support and spare parts, grounded in honesty, integrity, and continuous service improvement.',
-
-    // 6. Company Statistic
+    philosophy_text: contents?.philosophy_text || 'Delivering excellence in heavy equipment support...',
     stat_experience: contents?.stat_experience || '15+',
     stat_engineers: contents?.stat_engineers || '100+',
     stat_projects: contents?.stat_projects || '500+',
     stat_satisfaction: contents?.stat_satisfaction || '98%',
-
-    // 7. Company Milestone (1 sampai 6)
     milestone_title: contents?.milestone_title || 'OUR JOURNEY & ACHIEVEMENTS',
-    m1_year: contents?.m1_year || '1 jan 2025 - 31 des 2028',
-    m1_title: contents?.m1_title || 'Foundation',
-    m1_desc: contents?.m1_desc || 'Trusted Product & Services Support for Your Mining Operation',
-    m1_image: null,
-    m2_year: contents?.m2_year || '2013',
-    m2_title: contents?.m2_title || 'Expansion',
-    m2_desc: contents?.m2_desc || 'Expanded service coverage and customer base across Indonesia.',
-    m2_image: null,
-    m3_year: contents?.m3_year || '2016',
-    m3_title: contents?.m3_title || 'National Scale',
-    m3_desc: contents?.m3_desc || 'Strengthened workshop and support facilities nationwide.',
-    m3_image: null,
-    m4_year: contents?.m4_year || '2022',
-    m4_title: contents?.m4_title || 'Authorized XCMG',
-    m4_desc: contents?.m4_desc || 'Officially became Authorized Service Partner of XCMG.',
-    m4_image: null,
-    m5_year: contents?.m5_year || '2024',
-    m5_title: contents?.m5_title || 'Digital Transformation',
-    m5_desc: contents?.m5_desc || 'Implementing digital systems for operational excellence.',
-    m5_image: null,
-    m6_year: contents?.m6_year || '2026',
-    m6_title: contents?.m6_title || 'Smart Mining Ecosystem',
-    m6_desc: contents?.m6_desc || 'Building the foundation for Smart Mining Service Ecosystem.',
-    m6_image: null,
-
-    // 8. Organization Structure
     org_ceo: contents?.org_ceo || 'CEO',
     org_director: contents?.org_director || 'DIRECTOR',
     org_op_director: contents?.org_op_director || 'OPERATIONS DIRECTOR',
-    org_dept_1: contents?.org_dept_1 || 'Engineering',
-    org_dept_2: contents?.org_dept_2 || 'Workshop',
-    org_dept_3: contents?.org_dept_3 || 'Marketing',
-    org_dept_4: contents?.org_dept_4 || 'Finance',
-    org_dept_5: contents?.org_dept_5 || 'HR & GA',
-    org_dept_6: contents?.org_dept_6 || 'IT Department',
-
-    // 9. Company Culture (6 Poin Lengkap)
     culture_title: contents?.culture_title || 'COMPANY CULTURE',
-    culture_1_title: contents?.culture_1_title || 'Safety First',
-    culture_1_desc: contents?.culture_1_desc || 'Mengutamakan keselamatan kerja sebagai fondasi utama operasional servis pertambangan.',
-    culture_2_title: contents?.culture_2_title || 'Integrity & Honesty',
-    culture_2_desc: contents?.culture_2_desc || 'Menjunjung kejujuran dan integritas sebagai bentuk tanggung jawab penuh kepada klien.',
-    culture_3_title: contents?.culture_3_title || 'Customer Centric',
-    culture_3_desc: contents?.culture_3_desc || 'Membangun layanan berbasis konsumen yang berfokus pada kebutuhan spesifik pelanggan.',
-    culture_4_title: contents?.culture_4_title || 'Continuous Improvement',
-    culture_4_desc: contents?.culture_4_desc || 'Meningkatkan kualitas pelayanan secara berkesinambungan demi hasil terbaik di Indonesia.',
-    culture_5_title: contents?.culture_5_title || 'Perseverance',
-    culture_5_desc: contents?.culture_5_desc || 'Tekun dan tangguh menghadapi tantangan serta rintangan di medan pertambangan.',
-    culture_6_title: contents?.culture_6_title || 'Respect & Open-Minded',
-    culture_6_desc: contents?.culture_6_desc || 'Menghormati proses terarah dan terbuka menerima masukan klien demi evaluasi bersama.',
-
-    // 10. Corporate Governance (4 Poin Lengkap)
-    governance_intro: contents?.governance_intro || 'Kami berkomitmen menerapkan prinsip Good Corporate Governance (GCG) secara konsisten demi memberikan pelayanan servis alat berat terbaik, terpercaya, dan profesional di Indonesia.',
-    gov_1_title: contents?.gov_1_title || 'Transparency',
-    gov_1_desc: contents?.gov_1_desc || 'Menjamin keterbukaan informasi teknis, biaya, dan ketersediaan suku cadang secara jujur kepada klien.',
-    gov_2_title: contents?.gov_2_title || 'Accountability',
-    gov_2_desc: contents?.gov_2_desc || 'Menjaga integritas dan tanggung jawab penuh atas keselamatan kerja (Safety First) serta keandalan servis di lapangan.',
-    gov_3_title: contents?.gov_3_title || 'Responsibility',
-    gov_3_desc: contents?.gov_3_desc || 'Tangguh dan konsisten menjaga standar operasional tinggi demi menjawab tantangan medan pertambangan.',
-    gov_4_title: contents?.gov_4_title || 'Fairness',
-    gov_4_desc: contents?.gov_4_desc || 'Menghormati dan memperlakukan seluruh klien, mitra, serta tenaga ahli secara adil, profesional, dan terbuka.',
-
-    // 11. Bottom CTA & Video Section
-    cta_title: contents?.cta_title || 'BUILDING THE FUTURE OF HEAVY EQUIPMENT SERVICES',
-    cta_subtitle: contents?.cta_subtitle || 'Menjadi fondasi menuju Smart Mining Service Ecosystem.',
-    cta_right_title: contents?.cta_right_title || "LET'S BUILD A BETTER FUTURE TOGETHER",
-    cta_right_desc: contents?.cta_right_desc || 'We are ready to support your business with our best services and solutions.',
-    promo_video: null,
+    governance_intro: contents?.governance_intro || 'Kami berkomitmen menerapkan prinsip Good Corporate Governance (GCG)...',
   });
 
-  // Form khusus untuk Halaman ESG & CSR (Lengkap 1 sampai 7)
+  // Form khusus Halaman ESG & CSR
   const esgForm = useForm({
     esg_hero_title: esgContents?.esg_hero_title || 'Environment, Social & Governance (ESG)',
-    esg_hero_desc: esgContents?.esg_hero_desc || 'Membangun pertumbuhan bisnis jangka panjang yang bertanggung jawab terhadap kelestarian lingkungan...',
+    esg_hero_desc: esgContents?.esg_hero_desc || 'Membangun pertumbuhan bisnis jangka panjang...',
     esg_hero_image: null,
-    
     esg_vision_title: esgContents?.esg_vision_title || 'Komitmen Keberlanjutan Dalam Setiap Operasional',
-    esg_vision_desc: esgContents?.esg_vision_desc || 'Di PT Servistama Pro Indonesia, kami percaya bahwa efisiensi alat berat XCMG harus berjalan selaras dengan kepedulian lingkungan.',
+    esg_vision_desc: esgContents?.esg_vision_desc || 'Di PT Servistama Pro Indonesia...',
     esg_vision_image: null,
-
     env_title: esgContents?.env_title || 'Environmental Program',
-    env_desc: esgContents?.env_desc || 'Inisiatif hijau dalam menekan jejak karbon serta pengelolaan limbah operasional alat berat secara bertanggung jawab.',
-    env_1_title: esgContents?.env_1_title || 'Efisiensi Energi Workshop',
-    env_1_desc: esgContents?.env_1_desc || 'Optimalisasi energi melalui pemanfaatan pencahayaan alami, penggunaan sistem LED...',
-    env_2_title: esgContents?.env_2_title || 'Pengelolaan Limbah B3',
-    env_2_desc: esgContents?.env_2_desc || 'Sistem pengolahan dan penampungan berstandar ISO untuk limbah berbahaya seperti oli bekas...',
-    env_3_title: esgContents?.env_3_title || 'Material Ramah Lingkungan',
-    env_3_desc: esgContents?.env_3_desc || 'Penggunaan bahan pendukung eco-friendly serta penerapan digitalisasi dokumen administratif...',
-
+    env_desc: esgContents?.env_desc || 'Inisiatif hijau dalam menekan jejak karbon...',
     soc_title: esgContents?.soc_title || 'Social Responsibility',
-    soc_desc: esgContents?.soc_desc || 'Prioritas utama kami terletak pada keselamatan kerja teknis, pengembangan kapabilitas tim, serta iklim kerja yang inklusif.',
-    soc_1_title: esgContents?.soc_1_title || 'Standar K3 / HSE Ketat',
-    soc_1_desc: esgContents?.soc_1_desc || 'Penerapan Prosedur Keselamatan Kerja tingkat tinggi bagi setiap mekanik di lapangan...',
-    soc_2_title: esgContents?.soc_2_title || 'Kesejahteraan & SDM',
-    soc_2_desc: esgContents?.soc_2_desc || 'Jaminan perlindungan kesehatan kerja komprehensif, sertifikasi kompetensi berkala...',
-    soc_3_title: esgContents?.soc_3_title || 'Lingkungan Kerja Inklusif',
-    soc_3_desc: esgContents?.soc_3_desc || 'Membangun budaya kerja yang saling menghargai, adil tanpa diskriminasi...',
-
+    soc_desc: esgContents?.soc_desc || 'Prioritas utama kami terletak pada keselamatan kerja...',
     gov_title: esgContents?.gov_title || 'Good Governance',
-    gov_desc: esgContents?.gov_desc || 'Menjaga kepercayaan klien melalui tata kelola perusahaan yang berintegritas dan transparan.',
-    gov_1_title: esgContents?.gov_1_title || 'Kepatuhan Hukum',
-    gov_1_desc: esgContents?.gov_1_desc || 'Menjamin seluruh alur bisnis dan distribusi alat berat mematuhi regulasi hukum...',
-    gov_2_title: esgContents?.gov_2_title || 'Transparansi Garansi',
-    gov_2_desc: esgContents?.gov_2_desc || 'Sistem klaim garansi unit XCMG yang terbuka, terstruktur, dan dapat diawasi...',
-    gov_3_title: esgContents?.gov_3_title || 'Etika Bisnis & Anti-Korupsi',
-    gov_3_desc: esgContents?.gov_3_desc || 'Menjunjung tinggi asas kejujuran, integritas moral, dan profesionalisme...',
-
+    gov_desc: esgContents?.gov_desc || 'Menjaga kepercayaan klien melalui tata kelola perusahaan...',
     csr_section_title: esgContents?.csr_section_title || 'CSR Activities',
-    csr_section_desc: esgContents?.csr_section_desc || 'Aksi nyata perusahaan dalam memberikan manfaat langsung bagi masyarakat di sekitar wilayah operasional.',
+    csr_section_desc: esgContents?.csr_section_desc || 'Aksi nyata perusahaan dalam memberikan manfaat langsung...',
     csr_items: esgContents?.csr_items || JSON.stringify(csrItems),
-
     report_title: esgContents?.report_title || 'Sustainability Report Terbaru',
-    report_desc: esgContents?.report_desc || 'Unduh dokumen laporan resmi mengenai pencapaian efisiensi energi...',
+    report_desc: esgContents?.report_desc || 'Unduh dokumen laporan resmi mengenai pencapaian...',
     report_pdf: null,
+  });
+
+  // Form khusus Halaman HSE
+  const hseForm = useForm({
+    hse_hero_title: hseContents?.hse_hero_title || 'Health, Safety & Environment (HSE)',
+    hse_hero_desc: hseContents?.hse_hero_desc || 'Prioritas utama kami adalah keselamatan setiap pekerja...',
+    hse_hero_image: null,
+    standar_title: hseContents?.standar_title || 'Standar Keselamatan Tanpa Kompromi',
+    standar_desc: hseContents?.standar_desc || 'Operasional pemeliharaan alat berat...',
+    standar_image: null,
+    pilar_1_title: hseContents?.pilar_1_title || 'Zero Accident Culture',
+    pilar_1_desc: hseContents?.pilar_1_desc || 'Menerapkan standar prosedur...',
+    pilar_2_title: hseContents?.pilar_2_title || 'Environmental Protection',
+    pilar_2_desc: hseContents?.pilar_2_desc || 'Pengelolaan limbah B3...',
+    pilar_3_title: hseContents?.pilar_3_title || 'Health & Safety Compliance',
+    pilar_3_desc: hseContents?.pilar_3_desc || 'Mematuhi seluruh regulasi K3...',
+    campaign_title: hseContents?.campaign_title || 'Safety Campaign (Kampanye K3)',
+    campaign_desc: hseContents?.campaign_desc || 'Inisiatif harian...',
+    lti_hours: hseContents?.lti_hours || '1.250.000+',
+    lti_rate: hseContents?.lti_rate || '0.00',
+    lti_compliance: hseContents?.lti_compliance || '100%',
   });
 
   const handleTextSubmit = (e) => {
     e.preventDefault();
-    textForm.post(route('admin.about.text.update'), {
+    textForm.post('/admin/about/text/update', {
       preserveScroll: true,
       onSuccess: () => alert('Seluruh Konten Halaman About Us berhasil diperbarui!'),
     });
@@ -342,22 +279,18 @@ export default function AboutManager() {
 
   const handleEsgSubmit = (e) => {
     e.preventDefault();
-    esgForm.post(route('admin.about.esg.update'), {
+    esgForm.post('/admin/about/esg/update', {
       preserveScroll: true,
       onSuccess: () => alert('Seluruh Konten Halaman ESG berhasil diperbarui!'),
     });
   };
 
-  const deleteMember = (id) => {
-    if (confirm('Yakin ingin menghapus anggota tim ini?')) {
-      router.delete(route('admin.about.management.destroy', id), { preserveScroll: true });
-    }
-  };
-
-  const deleteCustomer = (id) => {
-    if (confirm('Yakin ingin menghapus klien ini dari peta?')) {
-      router.delete(route('admin.about.customer.destroy', id), { preserveScroll: true });
-    }
+  const handleHseSubmit = (e) => {
+    e.preventDefault();
+    hseForm.post('/admin/about/hse/update', {
+      preserveScroll: true,
+      onSuccess: () => alert('Seluruh Konten Halaman HSE berhasil diperbarui!'),
+    });
   };
 
   return (
@@ -368,12 +301,13 @@ export default function AboutManager() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-2xl font-black text-[#0f2b5c]">CMS Management: Halaman Perusahaan</h1>
-            <p className="text-xs text-slate-500 mt-0.5">Kelola teks About Us, ESG, CSR Activities, Why Choose Us, Management Team, hingga Nationwide Customers.</p>
+            <p className="text-xs text-slate-500 mt-0.5">Kelola teks About Us, ESG, CSR Activities, HSE, Why Choose Us, Management Team, hingga Nationwide Customers.</p>
           </div>
           
           <div className="flex bg-slate-200 p-1 rounded-xl gap-1 overflow-x-auto">
             <button onClick={() => setActiveTab('text')} className={`px-4 py-2 text-xs font-bold rounded-lg transition shrink-0 ${activeTab === 'text' ? 'bg-[#0f2b5c] text-white shadow' : 'text-slate-600 hover:text-[#0f2b5c]'}`}>Kelola About Us</button>
             <button onClick={() => setActiveTab('esg')} className={`px-4 py-2 text-xs font-bold rounded-lg transition shrink-0 ${activeTab === 'esg' ? 'bg-[#0f2b5c] text-white shadow' : 'text-slate-600 hover:text-[#0f2b5c]'}`}>Kelola Halaman ESG & CSR</button>
+            <button onClick={() => setActiveTab('hse')} className={`px-4 py-2 text-xs font-bold rounded-lg transition shrink-0 ${activeTab === 'hse' ? 'bg-[#0f2b5c] text-white shadow' : 'text-slate-600 hover:text-[#0f2b5c]'}`}>Kelola Halaman HSE</button>
             <button onClick={() => setActiveTab('why')} className={`px-4 py-2 text-xs font-bold rounded-lg transition shrink-0 ${activeTab === 'why' ? 'bg-[#0f2b5c] text-white shadow' : 'text-slate-600 hover:text-[#0f2b5c]'}`}>Why Choose Us</button>
             <button onClick={() => setActiveTab('team')} className={`px-4 py-2 text-xs font-bold rounded-lg transition shrink-0 ${activeTab === 'team' ? 'bg-[#0f2b5c] text-white shadow' : 'text-slate-600 hover:text-[#0f2b5c]'}`}>Management Team</button>
             <button onClick={() => setActiveTab('customers')} className={`px-4 py-2 text-xs font-bold rounded-lg transition shrink-0 ${activeTab === 'customers' ? 'bg-[#0f2b5c] text-white shadow' : 'text-slate-600 hover:text-[#0f2b5c]'}`}>Nationwide Customers & Map</button>
@@ -383,8 +317,6 @@ export default function AboutManager() {
         {/* TAB 1: KELOLA ABOUT US */}
         {activeTab === 'text' && (
           <form onSubmit={handleTextSubmit} className="space-y-6">
-            
-            {/* 1. HERO BANNER */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">1. Hero Banner Section</h2>
               <div className="space-y-4">
@@ -394,7 +326,6 @@ export default function AboutManager() {
               </div>
             </div>
 
-            {/* 2. WHO WE ARE */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">2. Who We Are Section</h2>
               <div className="space-y-4">
@@ -403,7 +334,6 @@ export default function AboutManager() {
               </div>
             </div>
 
-            {/* 3. COMPANY PROFILE */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">3. Company Profile Data</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -417,7 +347,6 @@ export default function AboutManager() {
               </div>
             </div>
 
-            {/* 4. COMPANY HISTORY */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">4. Company History</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -429,7 +358,6 @@ export default function AboutManager() {
               </div>
             </div>
 
-            {/* 5. VISI, MISI & PHILOSOPHY */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">5. Visi, Misi & Philosophy</h2>
               <div className="space-y-4">
@@ -443,7 +371,6 @@ export default function AboutManager() {
               </div>
             </div>
 
-            {/* 6. STATISTICS */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">6. Statistics</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -454,7 +381,6 @@ export default function AboutManager() {
               </div>
             </div>
 
-            {/* 7. MILESTONES */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">7. Company Milestones</h2>
               <div className="space-y-6">
@@ -470,7 +396,6 @@ export default function AboutManager() {
               </div>
             </div>
 
-            {/* 8. ORGANIZATION STRUCTURE */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">8. Organization Structure</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -483,7 +408,6 @@ export default function AboutManager() {
               </div>
             </div>
 
-            {/* 9. COMPANY CULTURE */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">9. Company Culture (6 Poin)</h2>
               <div className="space-y-4">
@@ -497,7 +421,6 @@ export default function AboutManager() {
               </div>
             </div>
 
-            {/* 10. CORPORATE GOVERNANCE */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">10. Corporate Governance (4 Poin)</h2>
               <div className="space-y-4">
@@ -511,7 +434,6 @@ export default function AboutManager() {
               </div>
             </div>
 
-            {/* 11. BOTTOM CTA & VIDEO SECTION */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">11. Bottom CTA & Promo Video Section</h2>
               <div className="space-y-4">
@@ -534,7 +456,6 @@ export default function AboutManager() {
         {/* TAB 2: KELOLA HALAMAN ESG & CSR */}
         {activeTab === 'esg' && (
           <form onSubmit={handleEsgSubmit} className="space-y-6">
-            
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
               <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">1. ESG Hero Banner & Foto</h2>
               <div className="space-y-4">
@@ -669,7 +590,74 @@ export default function AboutManager() {
           </form>
         )}
 
-        {/* TAB 3: WHY CHOOSE US */}
+        {/* TAB 3: KELOLA HALAMAN HSE */}
+        {activeTab === 'hse' && (
+          <form onSubmit={handleHseSubmit} className="space-y-6">
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+              <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">1. HSE Hero Banner Section</h2>
+              <div className="space-y-4">
+                <div><label className="block text-xs font-bold text-slate-700 mb-1">HSE Hero Title</label><input type="text" value={hseForm.data.hse_hero_title} onChange={e => hseForm.setData('hse_hero_title', e.target.value)} className="w-full border rounded-xl p-3 text-sm" /></div>
+                <div><label className="block text-xs font-bold text-slate-700 mb-1">HSE Hero Description</label><textarea rows="2" value={hseForm.data.hse_hero_desc} onChange={e => hseForm.setData('hse_hero_desc', e.target.value)} className="w-full border rounded-xl p-3 text-sm" /></div>
+                <div><label className="block text-xs font-bold text-slate-700 mb-1">Foto Background HSE Hero</label><input type="file" onChange={e => hseForm.setData('hse_hero_image', e.target.files[0])} className="w-full border rounded-xl p-2 text-xs" /></div>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+              <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">2. Standar Keselamatan Tanpa Kompromi</h2>
+              <div className="space-y-4">
+                <div><label className="block text-xs font-bold text-slate-700 mb-1">Judul Utama</label><input type="text" value={hseForm.data.standar_title} onChange={e => hseForm.setData('standar_title', e.target.value)} className="w-full border rounded-xl p-3 text-sm" /></div>
+                <div><label className="block text-xs font-bold text-slate-700 mb-1">Deskripsi Standar</label><textarea rows="3" value={hseForm.data.standar_desc} onChange={e => hseForm.setData('standar_desc', e.target.value)} className="w-full border rounded-xl p-3 text-sm" /></div>
+                <div><label className="block text-xs font-bold text-slate-700 mb-1">Foto Ilustrasi Samping</label><input type="file" onChange={e => hseForm.setData('standar_image', e.target.files[0])} className="w-full border rounded-xl p-2 text-xs" /></div>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+              <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">3. Safety Policy & Komitmen K3 (3 Pilar)</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-3 bg-slate-50 rounded-xl border space-y-2">
+                  <label className="text-xs font-bold text-slate-700">Pilar K3 #1</label>
+                  <input type="text" value={hseForm.data.pilar_1_title} onChange={e => hseForm.setData('pilar_1_title', e.target.value)} className="w-full border rounded-lg p-2 text-xs font-bold" />
+                  <textarea rows="3" value={hseForm.data.pilar_1_desc} onChange={e => hseForm.setData('pilar_1_desc', e.target.value)} className="w-full border rounded-lg p-2 text-xs" />
+                </div>
+                <div className="p-3 bg-slate-50 rounded-xl border space-y-2">
+                  <label className="text-xs font-bold text-slate-700">Pilar K3 #2</label>
+                  <input type="text" value={hseForm.data.pilar_2_title} onChange={e => hseForm.setData('pilar_2_title', e.target.value)} className="w-full border rounded-lg p-2 text-xs font-bold" />
+                  <textarea rows="3" value={hseForm.data.pilar_2_desc} onChange={e => hseForm.setData('pilar_2_desc', e.target.value)} className="w-full border rounded-lg p-2 text-xs" />
+                </div>
+                <div className="p-3 bg-slate-50 rounded-xl border space-y-2">
+                  <label className="text-xs font-bold text-slate-700">Pilar K3 #3</label>
+                  <input type="text" value={hseForm.data.pilar_3_title} onChange={e => hseForm.setData('pilar_3_title', e.target.value)} className="w-full border rounded-lg p-2 text-xs font-bold" />
+                  <textarea rows="3" value={hseForm.data.pilar_3_desc} onChange={e => hseForm.setData('pilar_3_desc', e.target.value)} className="w-full border rounded-lg p-2 text-xs" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+              <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">4. Safety Campaign</h2>
+              <div className="space-y-4">
+                <div><label className="block text-xs font-bold text-slate-700 mb-1">Campaign Title</label><input type="text" value={hseForm.data.campaign_title} onChange={e => hseForm.setData('campaign_title', e.target.value)} className="w-full border rounded-xl p-3 text-sm" /></div>
+                <div><label className="block text-xs font-bold text-slate-700 mb-1">Campaign Description</label><textarea rows="2" value={hseForm.data.campaign_desc} onChange={e => hseForm.setData('campaign_desc', e.target.value)} className="w-full border rounded-xl p-3 text-sm" /></div>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+              <h2 className="text-sm font-black uppercase tracking-wider text-[#FFC107] mb-4 pb-2 border-b">5. Safety Metrics & LTI</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div><label className="block text-xs font-bold text-slate-700 mb-1">Safe Working Hours</label><input type="text" value={hseForm.data.lti_hours} onChange={e => hseForm.setData('lti_hours', e.target.value)} className="w-full border rounded-xl p-2.5 text-sm" /></div>
+                <div><label className="block text-xs font-bold text-slate-700 mb-1">LTIFR Rate</label><input type="text" value={hseForm.data.lti_rate} onChange={e => hseForm.setData('lti_rate', e.target.value)} className="w-full border rounded-xl p-2.5 text-sm" /></div>
+                <div><label className="block text-xs font-bold text-slate-700 mb-1">Kepatuhan SMK3 (%)</label><input type="text" value={hseForm.data.lti_compliance} onChange={e => hseForm.setData('lti_compliance', e.target.value)} className="w-full border rounded-xl p-2.5 text-sm" /></div>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <button type="submit" disabled={hseForm.processing} className="bg-[#ffc107] text-[#0f2b5c] font-black px-8 py-3 rounded-xl shadow text-sm">
+                Simpan Perubahan Halaman HSE
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* TAB 4: WHY CHOOSE US */}
         {activeTab === 'why' && (
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
@@ -709,7 +697,7 @@ export default function AboutManager() {
           </div>
         )}
 
-        {/* TAB 4: MANAGEMENT TEAM */}
+        {/* TAB 5: MANAGEMENT TEAM */}
         {activeTab === 'team' && (
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
@@ -749,29 +737,64 @@ export default function AboutManager() {
           </div>
         )}
 
-        {/* TAB 5: NATIONWIDE CUSTOMERS */}
+        {/* TAB 6: NATIONWIDE CUSTOMERS */}
         {activeTab === 'customers' && (
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
-              <h2 className="text-base font-extrabold text-[#0f2b5c] mb-1">{isEditingCustomer ? '✏️ Edit Data Klien' : 'Tambah Klien Wilayah & Titik Peta Leaflet'}</h2>
-              <form onSubmit={handleCustomerSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                <input type="text" placeholder="Nama Perusahaan Klien" value={customerForm.data.name} onChange={e => customerForm.setData('name', e.target.value)} className="border rounded-xl p-2.5 text-sm" required />
-                <select value={customerForm.data.region} onChange={e => customerForm.setData('region', e.target.value)} className="border rounded-xl p-2.5 text-sm bg-white">
-                  <option value="Central Kalimantan">Central Kalimantan</option>
-                  <option value="East & North Kalimantan">East & North Kalimantan</option>
-                  <option value="South Sulawesi">South Sulawesi</option>
-                  <option value="South-East Sulawesi">South-East Sulawesi</option>
-                  <option value="South Kalimantan">South Kalimantan</option>
-                  <option value="South Sumatera">South Sumatera</option>
-                </select>
-                <input type="text" placeholder="Link Google Maps / Alamat" value={customerForm.data.gmaps_link} onChange={e => customerForm.setData('gmaps_link', e.target.value)} className="border rounded-xl p-2.5 text-sm" />
-                <input type="text" placeholder="Latitude" value={customerForm.data.latitude} onChange={e => customerForm.setData('latitude', e.target.value)} className="border rounded-xl p-2.5 text-sm" />
-                <input type="text" placeholder="Longitude" value={customerForm.data.longitude} onChange={e => customerForm.setData('longitude', e.target.value)} className="border rounded-xl p-2.5 text-sm" />
-                <input type="file" onChange={e => customerForm.setData('image', e.target.files[0])} className="border rounded-xl p-2 text-xs" />
-                <textarea rows="2" placeholder="Deskripsi Klien..." value={customerForm.data.description} onChange={e => customerForm.setData('description', e.target.value)} className="md:col-span-2 lg:col-span-3 border rounded-xl p-3 text-sm" />
-                <div className="md:col-span-2 lg:col-span-3 flex gap-2 justify-end">
+              <h2 className="text-base font-extrabold text-[#0f2b5c] mb-1">
+                {isEditingCustomer ? '✏️ Edit Data Klien' : 'Tambah Klien Wilayah & Preview Peta Otomatis'}
+              </h2>
+              <form onSubmit={handleCustomerSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Nama Perusahaan Klien</label>
+                  <input type="text" placeholder="Nama Klien" value={customerForm.data.name} onChange={e => customerForm.setData('name', e.target.value)} className="w-full border rounded-xl p-2.5 text-sm" required />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Wilayah</label>
+                  <select value={customerForm.data.region} onChange={e => customerForm.setData('region', e.target.value)} className="w-full border rounded-xl p-2.5 text-sm bg-white">
+                    <option value="Central Kalimantan">Central Kalimantan</option>
+                    <option value="East & North Kalimantan">East & North Kalimantan</option>
+                    <option value="South Sulawesi">South Sulawesi</option>
+                    <option value="South-East Sulawesi">South-East Sulawesi</option>
+                    <option value="South Kalimantan">South Kalimantan</option>
+                    <option value="South Sumatera">South Sumatera</option>
+                  </select>
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Alamat Lengkap / Link Google Maps</label>
+                  <input type="text" placeholder="Contoh: Jl. Jend. Sudirman No.123, Jakarta atau Link Google Maps" value={customerForm.data.gmaps_link} onChange={e => customerForm.setData('gmaps_link', e.target.value)} className="w-full border rounded-xl p-2.5 text-sm" required />
+                  <p className="text-[11px] text-slate-400 mt-1">Peta akan otomatis mendeteksi lokasi berdasarkan alamat atau link yang Anda masukkan di atas.</p>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Foto / Logo Klien</label>
+                  <input type="file" onChange={e => customerForm.setData('image', e.target.files[0])} className="w-full border rounded-xl p-2 text-xs" />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Deskripsi Klien</label>
+                  <textarea rows="2" placeholder="Deskripsi Klien..." value={customerForm.data.description} onChange={e => customerForm.setData('description', e.target.value)} className="w-full border rounded-xl p-3 text-sm" />
+                </div>
+
+                {/* PREVIEW GAMBARAN MAPS OTOMATIS */}
+                <div className="md:col-span-2 bg-slate-50 p-4 rounded-xl border">
+                  <label className="block text-xs font-bold text-[#0f2b5c] mb-2">Preview Gambaran Peta Otomatis:</label>
+                  <div className="w-full h-48 rounded-lg overflow-hidden border bg-slate-200">
+                    <iframe
+                      title="Map Preview"
+                      width="100%"
+                      height="100%"
+                      frameBorder="0"
+                      style={{ border: 0 }}
+                      src={getEmbedMapUrl(customerForm.data.gmaps_link)}
+                      allowFullScreen=""
+                    ></iframe>
+                  </div>
+                </div>
+
+                <div className="md:col-span-2 flex gap-2 justify-end">
                   {isEditingCustomer && <button type="button" onClick={() => { setIsEditingCustomer(false); customerForm.reset(); }} className="bg-slate-300 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-bold">Batal</button>}
-                  <button type="submit" className="bg-[#ffc107] text-[#0f2b5c] font-black px-6 py-2.5 rounded-xl text-sm shadow">{isEditingCustomer ? 'Simpan Perubahan Klien' : '+ Simpan Klien & Titik Peta'}</button>
+                  <button type="submit" className="bg-[#ffc107] text-[#0f2b5c] font-black px-6 py-2.5 rounded-xl text-sm shadow">
+                    {isEditingCustomer ? 'Simpan Perubahan Klien' : '+ Simpan Klien & Peta'}
+                  </button>
                 </div>
               </form>
             </div>
@@ -780,15 +803,29 @@ export default function AboutManager() {
               <h2 className="text-base font-extrabold text-[#0f2b5c] mb-4">Daftar Klien Wilayah Nasional ({customers.length})</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {customers.map((c) => (
-                  <div key={c.id} className="border p-4 rounded-xl relative bg-slate-50 flex items-center gap-4 group">
-                    <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition">
+                  <div key={c.id} className="border p-4 rounded-xl relative bg-slate-50 space-y-3 group">
+                    <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition z-10">
                       <button onClick={() => editCustomerItem(c)} className="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]" title="Edit">✎</button>
                       <button onClick={() => deleteCustomer(c.id)} className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]" title="Hapus">✕</button>
                     </div>
-                    <img src={c.image || "https://via.placeholder.com/150"} alt={c.name} className="w-14 h-14 object-cover rounded-lg border shrink-0" />
-                    <div className="overflow-hidden">
-                      <p className="font-extrabold text-xs text-[#0f2b5c] truncate">{c.name}</p>
-                      <span className="mt-1 inline-block px-2 py-0.5 text-[10px] font-extrabold uppercase rounded bg-amber-100 text-amber-800">{c.region}</span>
+                    <div className="flex items-center gap-3">
+                      <img src={c.image || "https://via.placeholder.com/150"} alt={c.name} className="w-12 h-12 object-cover rounded-lg border shrink-0" />
+                      <div className="overflow-hidden">
+                        <p className="font-extrabold text-xs text-[#0f2b5c] truncate">{c.name}</p>
+                        <span className="mt-0.5 inline-block px-2 py-0.5 text-[10px] font-extrabold uppercase rounded bg-amber-100 text-amber-800">{c.region}</span>
+                      </div>
+                    </div>
+                    {/* Preview Mini Maps Klien */}
+                    <div className="w-full h-28 rounded-lg overflow-hidden border">
+                      <iframe
+                        title={c.name}
+                        width="100%"
+                        height="100%"
+                        frameBorder="0"
+                        style={{ border: 0 }}
+                        src={getEmbedMapUrl(c.gmaps_link)}
+                        allowFullScreen=""
+                      ></iframe>
                     </div>
                   </div>
                 ))}

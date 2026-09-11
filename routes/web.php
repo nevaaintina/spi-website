@@ -21,9 +21,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/featured-services/{slug}', [HomeController::class, 'showFeaturedService'])->name('featured.service.show');
 
 Route::prefix('about')->group(function () {
-    Route::get('/', function () { 
-        return Inertia::render('About/Index'); 
-    })->name('about.index');
+    Route::get('/', [AboutAdminController::class, 'publicIndex'])->name('about.index');
     
     Route::get('/vision-mission', function () { 
         return Inertia::render('About/VisionMission'); 
@@ -38,13 +36,8 @@ Route::get('/why-choose-us', function () {
     return Inertia::render('WhyChooseUs');
 })->name('why-choose-us');
 
-Route::get('/esg', function () {
-    return Inertia::render('About/Esg');
-})->name('about.esg');
-
-Route::get('/hse', function () {
-    return Inertia::render('About/Hse');
-})->name('about.hse');
+Route::get('/esg', [AboutAdminController::class, 'publicEsg'])->name('about.esg');
+Route::get('/hse', [AboutAdminController::class, 'publicHse'])->name('about.hse');
 
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('products.index');
@@ -82,11 +75,20 @@ Route::post('/contact/submit', [ContactController::class, 'storeMessage'])->name
 // ==========================================
 Route::prefix('admin')->name('admin.')->group(function () {
     
-    // ➔ RUTE ABOUT MANAGER DILETAKKAN DI PALING ATAS BLOK ADMIN AGAR TIDAK 404
+    // ABOUT MANAGER & CMS SUB-SECTIONS (About, ESG, HSE, Management, Customer)
     Route::get('/about-manager', [AboutAdminController::class, 'index'])->name('about.manager');
-    Route::post('/about/text', [AboutAdminController::class, 'updateText'])->name('about.text.update');
-    Route::post('/about/management', [AboutAdminController::class, 'storeManagement'])->name('about.management.store');
-    Route::delete('/about/management/{id}', [AboutAdminController::class, 'destroyManagement'])->name('about.management.destroy');
+    
+    Route::post('/about/text/update', [AboutAdminController::class, 'updateText'])->name('about.text.update');
+    Route::post('/about/esg/update', [AboutAdminController::class, 'updateEsg'])->name('about.esg.update');
+    Route::post('/about/hse/update', [AboutAdminController::class, 'updateHse'])->name('about.hse.update');
+
+    Route::post('/about/management/store', [AboutAdminController::class, 'storeManagement'])->name('about.management.store');
+    Route::post('/about/management/update/{id}', [AboutAdminController::class, 'updateManagement'])->name('about.management.update');
+    Route::delete('/about/management/destroy/{id}', [AboutAdminController::class, 'destroyManagement'])->name('about.management.destroy');
+
+    Route::post('/about/customer/store', [AboutAdminController::class, 'storeCustomer'])->name('about.customer.store');
+    Route::post('/about/customer/update/{id}', [AboutAdminController::class, 'updateCustomer'])->name('about.customer.update');
+    Route::delete('/about/customer/destroy/{id}', [AboutAdminController::class, 'destroyCustomer'])->name('about.customer.destroy');
 
     // Dashboard Utama Admin
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
@@ -187,7 +189,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/media', [MediaController::class, 'store']);
     Route::delete('/media/{id}', [MediaController::class, 'destroy']);
     
-    // ➔ UBAH ROUTE INI DARI put() MENJADI match(['post', 'put'])
     Route::match(['post', 'put'], '/media-hero', [MediaController::class, 'updateHero'])->name('media.hero.update');
     
     Route::put('/media-statistics/{id}', [MediaController::class, 'updateStatistic']);
